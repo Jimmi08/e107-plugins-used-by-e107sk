@@ -57,5 +57,10 @@ The very simple plugin for adding ads to e107 site
 
 
 
+## Birthday plugin for e107
+
+This is updated version of Birthday menu plugin by Father Barry for e107 v2 version
+
+
 
 

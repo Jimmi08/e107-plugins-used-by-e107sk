@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Birthday" lan="Birthday" version="2.1.2" date="2019-07-09" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com/" />
+	<summary lan="BDAY_P04">Birthday Menu by Father Barry. Display members birthdays and send them a greeting on the day</summary>
+	<description lan="BDAY_P05">A simple configurable birthday menu by Father Barry. It uses e107 extended field for birthday. It can also send an email or PM to users on their birthday.</description>
+	<keywords>
+		<word>information</word>
+		<word>birthday</word>
+		<word>menu</word>
+	</keywords>
+	<category>content</category>
+	<copyright>https://www.e107sk.com/</copyright>
+	<adminLinks>
+		<link url="admin/admin_config.php" description="" icon="/images/bday_32.png" iconSmall="images/bday_16.png" icon128="/images/bday_32.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='bday_numdue'>3</pref>
+		<pref name='bday_dformat'>1</pref>
+		<pref name='bday_sendemail'>0</pref>
+		<pref name='bday_demographic'>0</pref>
+		<pref name='bday_showage'>1</pref>
+		<pref name='bday_showdate'>0</pref>		
+		<pref name='bday_subject'>Happy Birthday</pref>
+		<pref name='bday_emailfrom'>sysop</pref>
+		<pref name='bday_emailaddr'></pref>
+		<pref name='bday_greeting'></pref>
+		<pref name='bday_lastemail'>0</pref>
+		<pref name='bday_pmfrom'>1</pref>
+		<pref name='bday_usecss'>0</pref>
+		<pref name='bday_avatar'>0</pref>
+		<pref name='bday_avwidth'>25</pref>
+		<pref name='bday_showclass'>253</pref>
+		<pref name='bday_exclude'>255</pref>
+	</pluginPrefs>
+</e107Plugin>
