@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="JM Redirection" lan="JM Redirection" version="1.0.0" date="2019-10-19" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com" />
+	<summary lan="">Very simple redirection plugin</summary>
+	<description lan="">Very simple redirection plugin</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>seo</word>
+		<word>redirection</word>
+	</keywords>
+	<category>content</category>
+	<copyright>e107sk.com</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="images/plugin_64.png" iconSmall="images/plugin_32.png"  icon128="images/plugin_128.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+</e107Plugin>
