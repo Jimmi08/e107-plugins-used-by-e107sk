@@ -1,0 +1,108 @@
+/* event calendar plugin   */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
+table.table {
+    width: 100%;
+}
+
+table.bigcalendar {
+  background-color:#DDDDDD;
+	width:100%;
+}
+
+table.bigcalendar.lite {
+  background-color:#DDDDDD;
+}
+
+table.bigcalendar.dark {
+  background-color:#111111;
+}
+
+div.respcalendar {
+  width: 100%;
+  padding: 20px 0;
+  overflow: hidden;
+  clear: both;
+}
+button.calendar_nav   {
+border: 0px;
+}
+
+div.respcalendar .weekdays,
+div.respcalendar .footer-weekdays {
+  display: none;
+}
+div.respcalendar ul {
+  margin: 0;
+  padding: 0;
+  list-style-image: none;
+}
+div.respcalendar li {
+  height: auto;
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #fff;
+  background-color: #c3eaf6;
+}
+
+li.non-calendar-day {
+ display:hidden;
+}
+li.non-calendar-day {
+ background-color: #fff;;
+}
+
+div.respcalendar li .day,
+div.respcalendar li .month {
+  display: inline;
+}
+div.respcalendar li .day {
+  display: inline;
+}
+@media (min-width: 628px) {
+  div.respcalendar li .day {
+    display: none;
+  }
+}
+div.respcalendar li.out_of_range {
+  display: none;
+}
+
+/*Small Devices Style*/
+@media (min-width: 768px) {
+  div.respcalendar .weekdays,
+  div.respcalendar .footer-weekdays {
+    display: block;
+  }
+  div.respcalendar .weekdays li,
+  div.respcalendar .footer-weekdays li {
+    background-color: #21b0dc;
+    height: 40px;
+    text-align: center;
+    color: #fff;
+  }
+  div.respcalendar .footer-weekdays li {
+    height: 20px;
+  }
+  div.respcalendar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    clear: both;
+    width: 100%;
+  }
+  div.respcalendar ul li {
+    display: block;
+    float: left;
+    height: auto;
+    max-height: 150px;
+    width: 14.2857142857%;
+    padding: 10px;
+  }
+  div.respcalendar ul li.out_of_range {
+    display: block;
+     background-color: #fff;
+  }
+}

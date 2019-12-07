@@ -18,7 +18,7 @@
 		$links['supportforum']    =  "https://www.e107sk.com/forum/";
 		$links['documentation']   =  "";	
     $links['demo']            =  "";	
-    $links['github']          =  "https://github.com/Jimmi08/aacgc_dltracker-e107-plugin";	    
+    $links['github']          =  "https://github.com/Jimmi08/e107-free-plugins-by-e107sk/tree/master/aacgc_dltracker";	    
     $links['download']        =  "https://www.e107sk.com/download/49/aacgc-download-tracker-plugin";    
     
     
