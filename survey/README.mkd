@@ -1,0 +1,61 @@
+*Notice:  THIS IS REWRITTEN VERSION FOR CUSTOM USING. UNDER ACTIVE DEVELOPMENT. NOT NEW MAINTANCE OF THIS PLUGIN.
+
+**Notice: This plugin is no longer maintained. If you would like to take it over, just fork it and notify me so I can include your repo URL in this README file. Issues will not be commented on and nothing will be fixed from this point forward. I am leaving this repo up for anyone wanting to reference the code.**
+
+# NOTE
+
+**If you are upgrading from 0.47 or earlier you *need* to remove your existing files before you upload the new version's files.**
+
+You don't need to worry about your database tables or any previously created surveys, they will remain intact and unharmed!
+
+**If you are attempting to use this plugin with the 2.0 branch of e107 you will need to grab the following files directly from the repo until a new version is released:**
+
+* [admin_config.php](https://raw.github.com/septor/survey/master/admin_cofig.php)
+* [e_meta.php](https://raw.github.com/septor/survey/master/e_meta.php)
+* [survey.js](https://raw.github.com/septor/survey/master/survey.js)
+* [survey.php](https://raw.github.com/septor/survey/master/survey.php)
+* [survey.inc.php](https://raw.github.com/septor/survey/master/survey.inc.php)
+
+Also, this plugin is due for a gigantic overhaul in order to utilize some 2.0 functionality. If you have a suggestion, request, or annoyance that you'd like changed now is the time to get it in by [creating a new issue](https://github.com/septor/survey/issues/new) and bringing it to my attention.
+
+Finally, the language structure for the 2.0 branch has changed. I'll be updating the English lan file and attempting to copy over what I can from the other lan files. If you can assist with this feel free to send me a [PM](http://e107.org/e107_plugins/pm/pm.php?send.37).
+
+# Survey
+
+The survey plugin allows the site admin to produce any sort of form for their e107 system.
+
+The results of these surveys can be placed in any or all of three places:
+
+* email    - It will be emailed to the entered email address(es).
+* database - The results will all be stored in the database so that you can view statistical data later.
+* forum    - The results can be entered as a new thread in a selected forum topic.
+
+If the survey is restricted to a userclass or members only, you can then prevent the users from entering results into the survey more than once.  The tracking of users that have filled out the survey is stored independently of the results.  This means that the admin can not know exactly what users fill out specific data.  Also, the email that is sent does not reflect any user data.
+
+## Templating
+
+When designing a form, the config screen will now show you what each field number is.  These field numbers are very important when creating your template.  The template will be your "Survey message" on the config screen.  The system will automatically detect whether that is a simple message or a template.
+
+You simply enter straight HTML code into the survey message field.  When you would like the field question to appear, you would enter the code `{Q=#)` #=field number.  To show the form options for the question, enter the code `{F=#}`.
+
+The `{x=#}` code must appear on a line by itself.
+
+Example:
+
+	<table>
+	<tr><td colspan='2' style='color:blue;'>Please fill out my survey</td></tr>
+	<tr><td>
+	{Q=1}
+	</td><td>
+	{F=1}
+	</td></tr>
+	</table>
+
+## Credits
+
+This plugin was originally authored by McFly. A few fixes were added by congkai.
+Due to an open exploit -- I have taken over this until one of the previous two authors wish to take it back over.
+
+# Translations
+
+If you would like to translate this plugin, post the translations on [paste2.org](http://paste2.org/) and [PM](http://e107.org/e107_plugins/pm/pm.php?send.37) me the URL generated.

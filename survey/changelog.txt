@@ -1,0 +1,37 @@
+## Version 2.0.0  
+
+Database:
+- ADDED survey_url as SEF URL field 
+- ADDED survey_template for future templating
+- ADDED* survey_message1 for future templating and possibility to use global shorcode
+- ADDED* survey_message2 for future templating and possibility to use global shorcode
+*not want to mess with survey_message field and change something because unique parsing that this field have
+
+
+~~ PLANNED  boolean field for using google forms NOT NEEDED ~~
+~~ PLANNED  textarea field for insert google forms code NOT NEEDED ~~
+- PLANNED  boolean field if survey can be used withou additional params in url
+
+Functionality:
+- ADDED using SEF-URL
+~~ ADDED/REMOVED possibility next 2 params in URL /par1/par2/ NOT NEEDED REMOVED FROM PUBLIC PLUGIN ~~
+- ADDED separate menu for new and old config
+- UPDATED text description with radio buttons to have possibility use html tags (images in choises)
+- ADDED support for Google forms - survey message texts (all 3) are able to manage the embed code for Google Form
+- ADDED info about url, query and params into mail about survey
+- ADDED checkbox inline option
+- PLANNED a lot of things 
+- FIXED link to forum topic
+
+
+Other:
+- UPDATED  removed e_meta.php, replaced e_header.php, correct call js and css
+- FIXED    loading lang files (something has to be changed during time in core) 
+- UPDATED  plugin.php to plugin.xml
+- ADDED    survey_sql.php file
+- UPDATED view.php (added template, added bootstrap classes to tables)
+
+
+NOTES:
+add define("ADLAN_SURTYPE_13","inline radio");  to English_admin.php 
+calculation field works only with number field <=9 

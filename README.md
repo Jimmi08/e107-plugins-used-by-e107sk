@@ -75,6 +75,10 @@ This is updated version of AACGC Download Tracker plugin by M@CH!N3 for e107 v2 
 Full credit for this plugin belongs to e107 core developers.
 
  
+## Survey plugin for e107
+
+Full credit for this plugin belongs to septor.
+
 
 
 
