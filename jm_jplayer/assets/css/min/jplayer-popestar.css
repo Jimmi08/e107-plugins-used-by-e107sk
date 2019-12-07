@@ -1,0 +1,45 @@
+/* Icons */
+/**
+Thanks to ICOMOON 
+http://icomoon.io
+ */
+@font-face {
+  font-family: 'WolfjPlayer';
+  src: url("../../fonts/icomoon.eot");
+  src: url("../../fonts/icomoon.eot?#iefix") format("embedded-opentype"), url("../../fonts/icomoon.svg#icomoon") format("svg"), url("../../fonts/icomoon.woff") format("woff"), url("../../fonts/icomoon.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.wolf-jplayer-icons, .wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-facebook-button, .wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-twitter-button, .wolf-jplayer-playlist .wolf-jp-song-url .itunes, .wolf-jplayer-playlist .wolf-jp-song-url .amazon, .wolf-jplayer-playlist .wolf-jp-song-url .buy, .wolf-jplayer-playlist .wolf-jp-song-url .free-dl {
+  font-family: 'WolfjPlayer';
+  speak: none;
+  font-style: normal;
+  text-decoration: none !important;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+ 
+.wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-facebook-button {
+  font-size: 24px;
+  color: #3b5997;
+  margin: 0 2px;
+}
+.wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-facebook-button:before {
+  content: "\e019";
+}
+.wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-twitter-button {
+  font-size: 24px;
+  color: #41b7d8;
+  margin: 0 2px;
+}
+.wolf-jplayer-playlist .wolf-jp-share-overlay #wolf-jplayer-twitter-button:before {
+  content: "\e01a";
+}
+ 
+ 
+ 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Wolf jPlayer" lan="LAN_JPLAYER_TITLE_01" version="1.0.3" date="2016-11-10" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="http://e107.sk" />
+	<summary lan="LAN_PLUGIN_SUMMARY">e107 version of a WordPress Wolf plugin based on the jPlayer jQuery. </summary>
+	<description lan="LAN_JPLAYER_TITLE_03"></description>
+	<keywords>
+		<word>multimedia</word>
+    <word>files</word>
+	</keywords>
+	<category>content</category>
+	<copyright>GPL+WTFPL</copyright>
+	<adminLinks>
+		<link url="admin_config.php" icon="assets/images/icon_32.png" iconSmall="assets/images/icon_16.png" icon128="assets/images/icon_128.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='bg_color'>#353535</pref>
+		<pref name='bg_opacity'>100</pref>
+		<pref name='font_color'>#ffffff</pref>
+		<pref name='social_meta'>1</pref>
+		<pref name='scrollbar'>0</pref>
+		<pref name='song_count_before_scroll'>6</pref>
+		<pref name='skin'>1</pref>
+	</pluginPrefs>	
+</e107Plugin>

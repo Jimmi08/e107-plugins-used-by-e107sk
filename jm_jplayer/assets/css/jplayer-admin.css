@@ -1,0 +1,174 @@
+form#jp-form p label {
+  display: inline-block !important;
+  width: 250px !important;
+}
+
+form#jp-form p input[type=text] {
+  width: 250px;
+}
+
+.wolf_jplayer_img_preview {
+  border: 1px solid #ccc;
+  max-width: 200px;
+  display: block;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+/*-----------------------------------------------------------------------------------*/
+/*  Custom Table
+/*-----------------------------------------------------------------------------------*/
+table.wpw-custom-table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+table.wpw-custom-table {
+  width: 98%;
+  margin: 40px 0;
+  border: 1px solid #b3b3b3;
+  border-bottom: none;
+}
+
+table.wpw-custom-table th, table.wpw-custom-table tr {
+  min-height: 40px;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.wpw-custom-table thead {
+  border: 2px solid #222;
+}
+
+table.wpw-custom-table thead th {
+  border-bottom: 4px solid #4d4d4d;
+  background: #222222;
+  color: white;
+  line-height: 50px;
+  height: 35px;
+  font-size: 15px;
+}
+
+table.wpw-custom-table tbody tr {
+  vertical-align: middle;
+  border: 1px solid #DADADA;
+}
+
+table.wpw-custom-table tbody tr:nth-child(2n+1) td {
+  background-color: #f7f7f7;
+}
+
+#sortable tr {
+  height: 40px;
+  width: 100%;
+}
+
+.state-highlight {
+  background-color: #ff0;
+}
+
+img.hastip, .action-icon {
+  display: inline-block;
+  margin: 10px 10px 0 0;
+}
+
+.move {
+  cursor: move;
+}
+
+/* Tooltip
+-------------------------*/
+/* Tipsy */
+.tipsy {
+  padding: 5px;
+  font-size: 12px;
+  position: absolute;
+  z-index: 100000;
+  font-family: arial;
+  text-shadow: none !important;
+}
+
+.tipsy-inner {
+  padding: 5px 8px 4px 8px;
+  background-color: black;
+  color: white;
+  max-width: 350px;
+  text-align: left;
+}
+
+.tipsy-inner {
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+}
+
+.tipsy-arrow {
+  position: absolute;
+  background: url("../../images/admin/tipsy.gif") no-repeat top left;
+  width: 9px;
+  height: 5px;
+}
+
+.tipsy-n .tipsy-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -4px;
+}
+
+.tipsy-nw .tipsy-arrow {
+  top: 0;
+  left: 10px;
+}
+
+.tipsy-ne .tipsy-arrow {
+  top: 0;
+  right: 10px;
+}
+
+.tipsy-s .tipsy-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -4px;
+  background-position: bottom left;
+}
+
+.tipsy-sw .tipsy-arrow {
+  bottom: 0;
+  left: 10px;
+  background-position: bottom left;
+}
+
+.tipsy-se .tipsy-arrow {
+  bottom: 0;
+  right: 10px;
+  background-position: bottom left;
+}
+
+.tipsy-e .tipsy-arrow {
+  top: 50%;
+  margin-top: -4px;
+  right: 0;
+  width: 5px;
+  height: 9px;
+  background-position: top right;
+}
+
+.tipsy-w .tipsy-arrow {
+  top: 50%;
+  margin-top: -4px;
+  left: 0;
+  width: 5px;
+  height: 9px;
+}
+
+* html .clearfix {
+  zoom: 1;
+}
+
+/* IE6 */
+*:first-child + html .clearfix {
+  zoom: 1;
+}
+
+/* IE7 */
