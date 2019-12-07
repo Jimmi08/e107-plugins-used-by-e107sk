@@ -43,4 +43,14 @@ This plugin is not a replacement of core plugin; no core changes are needed.
 ![img](https://www.e107sk.com/media/img/0x0/2019-08/jmgsitemap_01.jpg)
 
 
+## Smartsuup plugin for e107
+
+Smartsupp Live Chat integration plugin for e107 v2 Boostrap CMS
+
+## Google Adsense Ads for CMS e107
+
+The very simple plugin for adding ads to e107 site
+
+
+
 
