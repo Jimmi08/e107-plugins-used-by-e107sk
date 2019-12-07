@@ -61,6 +61,14 @@ The very simple plugin for adding ads to e107 site
 
 This is updated version of Birthday menu plugin by Father Barry for e107 v2 version
 
+Full credit for this plugin belongs to Father Barry.
+
+
+
+## AACGC Download Tracker plugin
+
+This is updated version of AACGC Download Tracker plugin by M@CH!N3 for e107 v2 version
+
 
 
 
