@@ -25,3 +25,9 @@ With this Plugin you defend you website from spam bots which join your site auto
 The plugin generates a liddle calculation which has to be figured out by the user. It is a powerfull defender!!!
 
 ![img](https://www.e107sk.com/img/redirection_for_e107.jpg)
+
+## Links Page plugin for e107
+
+Full credit for this plugin belongs to Oyabun.
+
+
