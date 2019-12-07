@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="JM Google Sitemap" lan="LAN_JM_GSITEMAP_LAN_01" version="1.0.1" date="2019-10-19" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com" />
+	<summary lan="LAN_JM_GSITEMAP_LAN_02">Extended Core GSitemap plugin</summary>
+	<description lan="LAN_JM_GSITEMAP_LAN_02">Extended Core GSitemap plugin</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>seo</word>
+		<word>gsitemap</word>
+	</keywords>
+	<category>content</category>
+	<copyright>https://www.e107sk.com/</copyright>
+	<adminLinks>
+		<link url="admin/admin_gsitemap.php" description="" icon="images/icon_64.png" iconSmall="images/icon_32.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='categories_list'>Site Links,News,Forum,Downloads</pref>
+	</pluginPrefs>	
+</e107Plugin>

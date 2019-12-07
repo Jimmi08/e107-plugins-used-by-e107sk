@@ -16,6 +16,7 @@ The plugin for simple redirection, functionality moved from Canonical plugin.
 
 ![img](https://www.e107sk.com/img/redirection_for_e107.jpg)
 
+
 ## Signup secure plugin for e107
 
 Full credit for this plugin belongs to Oyabun.
@@ -26,8 +27,20 @@ The plugin generates a liddle calculation which has to be figured out by the use
 
 ![img](https://www.e107sk.com/img/redirection_for_e107.jpg)
 
+
 ## Links Page plugin for e107
 
-Full credit for this plugin belongs to Oyabun.
+Full credit for this plugin belongs to e107 core developers.
+
+![img](https://www.e107sk.com/img/linkspage_for_e107.png)
+
+
+
+## JM Gsitemap plugin for e107
+
+This plugin is not a replacement of core plugin; no core changes are needed.
+
+![img](https://www.e107sk.com/media/img/0x0/2019-08/jmgsitemap_01.jpg)
+
 
 
