@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Yandex Metrica" lan="LAN_001" version="1.0.1" date="2018-08-03" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107.sk/" />
+	<summary lan="">Yandex metrica plugin for e107</summary>
+	<description lan="">Plugin for the using Yandex Metrica in your e107 site </description>
+	<keywords>
+		<word>enhancement</word>
+		<word>content</word>
+		<word>menus</word>
+	</keywords>
+	<category>tools</category>
+	<copyright>https://www.e107.sk/</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="images/icon.png" iconSmall="images/icon.png" icon128="images/icon.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+	  <pref name='yandex_metrika_active'>0</pref>
+		<pref name='yandex_metrika_script'></pref>
+		<pref name='yandex_metrika_id'></pref>
+		<pref name='yandex_metrika_footer'>1</pref>		
+		<pref name='yandex_metrika_clickmap'>0</pref>
+		<pref name='yandex_metrika_trackLinks'>1</pref>	
+		<pref name='yandex_metrika_accurateTrackBounce'>1</pref>
+		<pref name='yandex_metrika_webvisor'>0</pref>	
+	</pluginPrefs>
+</e107Plugin>
