@@ -133,6 +133,14 @@ Note: revision latest changes in download plugin to decide what to do with short
 Note: move one page functionality to separate plugin, speed 
 Note: wait for 2.3 release
 
+In progress.
+
+## Testimonials plugin for e107
+
+Full credit for this plugin belongs to lonalore. But his version is focused on users, I needed something for clients. 
+
+In progress.
+
 
 
 
