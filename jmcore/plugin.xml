@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="JM Core" lan="" version="1.5.1" date="2019-09-12" compatibility="2.2.1" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com/" />
+	<summary lan="">Some little things not worthy to create separate plugin </summary>
+	<description lan="">Some little things not worthy to create a separate plugin</description>
+	<keywords>
+		<word>admin</word>
+		<word>seo</word>
+	</keywords>
+	<category>tools</category>
+	<copyright></copyright>
+	<adminLinks>
+		<link url="admin/admin_config.php" description="" icon="images/icon_64.png" iconSmall="images/icon_32.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name="onepage_active">0</pref>
+		<pref name="onepage_exclude">contact*</pref>
+	</pluginPrefs>	
+</e107Plugin>

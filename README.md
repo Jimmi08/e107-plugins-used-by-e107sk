@@ -122,9 +122,14 @@ Note: next extending was done in jmcore plugin. Need to be revised.
 
 Plugin for adding missing menu manager function.  Just backup.
 
-Note: This plugin is not supported any way. Functionality was separated to JM Theme plugin and Advanced bbcodes.
+Note: This plugin is not supported any way. Functionality was separated to JM Theme plugin, JM Core and Advanced bbcodes.
 Note: Saved here only because it is still activated and I haven't time to replace menus.
 
+## JM Core plugin for e107
+
+Plugin for adding core functionality. Only for personal use. 
+
+ 
 
 
 
