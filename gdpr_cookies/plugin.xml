@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="EU GDPR cookies" lan="LAN_PLUGIN_EU_GDPR_NAME" version="1.0" date="2018-03-16" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://github.com/Jimmi08" />
+	<summary lan="">EU Cookie with settings that are compatible with GDPR</summary>
+	<description lan="">EU Cookie with settings that are compatible with GDPR using Cookie Contest solution by Insites.</description>
+	<keywords>
+		<word>generic</word>
+		<word>cookies</word>
+		<word>law</word>
+	</keywords>
+	<category>tools</category>
+	<copyright>https://www.jmsupport.sk/</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="" iconSmall="" icon128="" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='gdpr_cookie_active'>0</pref>
+		<pref name='gdpr_cookie_position'>bottom-left</pref>
+		<pref name='gdpr_cookie_theme'>edgeless</pref>
+		<pref name='gdpr_cookie_palette_popup_background'>#000</pref>
+		<pref name='gdpr_cookie_palette_popup_text'>#FFF</pref>
+		<pref name='gdpr_cookie_palette_button_background'>#f1d600</pref>
+		<pref name='gdpr_cookie_palette_button_text'>#000</pref>
+		<pref name='gdpr_cookie_type'>opt-out</pref>
+		<pref name='gdpr_cookie_showLink'>0</pref>
+		<pref name='gdpr_cookie_content_href'></pref>
+		<pref name='gdpr_cookie_content_message'>This website uses cookies to ensure you get the best experience on our website.</pref>
+		<pref name='gdpr_cookie_content_dismiss'>Got it</pref>
+		<pref name='gdpr_cookie_content_link'>Learn more</pref>		
+		<pref name='gdpr_cookie_content_deny'>Refuse cookies</pref>		
+		<pref name='gdpr_cookie_content_allow'>Allow cookies</pref>			
+	</pluginPrefs>
+</e107Plugin>

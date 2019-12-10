@@ -1,0 +1,7 @@
+Cookie status name: 
+cookieconsent_status
+
+enabled
+hasAnswered
+dismiss
+allow

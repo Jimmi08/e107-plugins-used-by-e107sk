@@ -100,6 +100,14 @@ Full credit for this plugin belongs to Father Barry.
 It is used for coloured badges of selected userclasses on e107sk.com and for display users by selected userclass.
 
 
+## GDPR cookies plugin for e107
+
+No idea how this plugin was created. Probably inspired by Oxigen cookie plugin, but maybe just lang strings was used. 
+
+Don't use it, but it still works.
+
+
+
 
 
 
