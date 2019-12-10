@@ -141,6 +141,19 @@ Full credit for this plugin belongs to lonalore. But his version is focused on u
 
 In progress.
 
+Original source: https://github.com/lonalore/testimonials
+
+## Metatag plugin for e107
+
+Full credit for this plugin belongs to lonalore.  
+
+This plugin is a particular version planned for replacing some output of JM Canonical plugin. More oriented on not advanced users.
+
+In progress.
+
+Original source: https://github.com/lonalore/metatag
+
+
 
 
 
