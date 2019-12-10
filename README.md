@@ -3,6 +3,9 @@ Our free themes are supported on our forum [https://www.e107sk.com/forum](url)
 
 But this doesn't mean that they are actively developed.
 
+Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins with name jm are stable (no underscore).
+
+
 ## Yandex metrica plugin for e107
 
 The plugin for the using Yandex Metrica on your e107 site
@@ -105,6 +108,16 @@ It is used for coloured badges of selected userclasses on e107sk.com and for dis
 No idea how this plugin was created. Probably inspired by Oxigen cookie plugin, but maybe just lang strings was used. 
 
 Don't use it, but it still works.
+
+
+## JM Download plugin for e107
+
+Plugin for extending core Download plugin.  Just backup.
+
+Note: there was really improvement in core in this area.  Not sure if this is needed anymore. 
+Note: next extending was done in jmcore plugin. Need to be revised.
+
+
 
 
 
