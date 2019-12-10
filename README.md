@@ -93,4 +93,14 @@ This is only backup or prelease for inspiration.
 ![img](https://user-images.githubusercontent.com/5429548/69802901-ecb44000-11da-11ea-8842-53c35274c5d4.png)
 
 
+## Class Membership plugin for e107
+
+Full credit for this plugin belongs to Father Barry.
+
+It is used for coloured badges of selected userclasses on e107sk.com and for display users by selected userclass.
+
+
+
+
+
 
