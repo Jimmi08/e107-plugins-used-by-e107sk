@@ -35,10 +35,14 @@ Many thanks to e107 for great CMS.
 - 1.4  Menus overview moved from JMTheme plugin. The way how to clean menus without the need to use PHPMyAdmin. This way it can be used for simple themes (not variable headers and footers).
 - 1.5  Menus overview removed in favour of JM Theme 2.1 (it's able now to work with both theme versions). Version number chanched to 1.3 
 - 1.5.1 ADDED back theme prefs export, core version didn't work with theme installation, only with manual import
+- 1.5.2 ADDED new downloaded shortcodes
 
 ## What is removed because it was implemented in core?
 
 - TEMP REMOVED workaround for theme preferencies export
 - workaround for variable header and footer, now there are magic shortcodes {---HEADER---} and {---FOOTER---}
 - {MENUAREA} shortcode, it's now in core. {DEFAULT_MENUAREA} is available in JM Theme
+
+
+
 

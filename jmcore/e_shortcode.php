@@ -211,11 +211,17 @@ class jmcore_shortcodes extends e_shortcode
 		if (empty($parm)) return '';
 
 		$key = array_keys($parm);
+    
 		if ($key) $key = strtolower($key[0]);
       
       	$sc = e107::getScBatch('download',true);
-      	$data = $sc->dlsubsubrow;
- 
+      	if($parm['type'] == "parent")  {
+				   $data = $sc->parent; 
+				}
+				else {
+				  $data = $sc->dlsubsubrow;
+				}
+     
    	  switch($key)
   		{
   			case 'download_category_name':
@@ -227,7 +233,9 @@ class jmcore_shortcodes extends e_shortcode
   			case 'download_category_description':
  
           	$text =  e107::getParser()->toHTML($data['download_category_description'], TRUE, 'DESCRIPTION');
- 
+          $texts = explode("<p><!-- pagebreak --></p>", $text);
+          /* there is summary */
+          $text =  $texts[0]; 
           	if($parm['class']) {
             $text =  str_replace(array("<p>"), "<p class='".$parm['class']."'>", $text);
           	}       
@@ -252,7 +260,7 @@ class jmcore_shortcodes extends e_shortcode
     // {JMCORE_DOWNLOAD: download_url}
     function sc_jmcore_download($parm = null)
     {
-
+      
 		if (empty($parm)) return '';
 
 		$key = array_keys($parm);
@@ -263,7 +271,11 @@ class jmcore_shortcodes extends e_shortcode
  
    	  	switch($key)
   		{
-  			case 'download_name':
+  			case 'download_category_name':
+  				$text = $datapar['download_category_name'];
+  				break;
+				
+				case 'download_name':
   				$text = $data['download_name'];
   				break;
   			case 'download_id':

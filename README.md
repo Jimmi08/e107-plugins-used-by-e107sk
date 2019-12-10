@@ -129,7 +129,11 @@ Note: Saved here only because it is still activated and I haven't time to replac
 
 Plugin for adding core functionality. Only for personal use. 
 
- 
+Note: revision latest changes in download plugin to decide what to do with shortcodes vs plugin
+Note: move one page functionality to separate plugin, speed 
+Note: wait for 2.3 release
+
+
 
 
 
