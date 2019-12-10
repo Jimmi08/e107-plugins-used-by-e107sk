@@ -80,6 +80,17 @@ Full credit for this plugin belongs to e107 core developers.
 Full credit for this plugin belongs to septor.
 
 
+## Team Members plugin for e107
+
+The plugin for company team members. Originally for real estate agents. 
+
+Warning! Plugin is fully templated but you should create your own template. This template was for Revel theme.
+
+This is only backup or prelease for inspiration.
+
+![img](https://user-images.githubusercontent.com/5429548/69795526-a657e480-11cc-11ea-89ff-46c4ad01cc57.png)
+
+![img](https://user-images.githubusercontent.com/5429548/69802901-ecb44000-11da-11ea-8842-53c35274c5d4.png)
 
 
 

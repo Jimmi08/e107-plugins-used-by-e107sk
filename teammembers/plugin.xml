@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Team Members" lan="LP_TEAMMEMBERS_NAME" version="1.0" date="2019-11-24" compatibility="2.0" installRequired="true" >
+	<author name="Jimako " url="https://www.e107sk.com/" />
+	<summary lan="">Company Team Members</summary>
+	<description lan="">Company Team Members</description>
+	<keywords>
+		<word>information</word>
+		<word>news</word>
+		<word>company</word>
+	</keywords>
+	<category>content</category>
+	<copyright>https://www.e107sk.com/</copyright>               
+	<adminLinks>
+		<link url="admin/admin_team_members.php" description="" icon="images/teammembers_32.png" iconSmall="images/teammembers_16.png" 
+        icon128="images/teammembers.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<siteLinks>
+		<link url="{e_PLUGIN}teammembers/team.php" perm="everyone">LP_TEAMMEMBERS_LINK</link>		
+	</siteLinks>	
+</e107Plugin>
