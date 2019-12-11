@@ -13,10 +13,9 @@ class jm_downloads_adminArea extends e_admin_dispatcher
             
 	protected $adminMenu = array(
   
-    'main/prefs' 		=> array('caption'=> 'Latest Menu Settings', 'perm' => 'P', 'url'=>'admin_config.php'),
-
-    'admin_download/list'			=> array('caption'=> 'Download Overview', 'perm' => 'P', 'uri'=>"admin_download.php?mode=main&action=list"), 
- 
+    'main/prefs' 		=> array('caption'=> 'Additional Prefs', 'perm' => 'P', 'url'=>'admin_config.php'),
+    'admin_download/list' 	=> array('caption'=> 'Download Overview', 'perm' => 'P', 'uri'=>"admin_download.php?mode=main&action=list"), 
+    'admin_downloadmenu/prefs' 		=> array('caption'=> 'Latest Menu Settings', 'perm' => 'P', 'url'=>'admin_downloadmenu.php'),
 	);      
 	
 	protected $adminMenuAliases = array(

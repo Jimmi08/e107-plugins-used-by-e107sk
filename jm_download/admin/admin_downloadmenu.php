@@ -2,7 +2,7 @@
 
 // Generated e107 Plugin Admin Area 
 
-require_once('../../class2.php');
+require_once('../../../class2.php');
 if (!getperms('P')) 
 {
 	e107::redirect('admin');
@@ -11,13 +11,14 @@ if (!getperms('P'))
 
 // e107::lan('jm_download',true);
 
+require_once("admin_menu.php");
 
-class jm_download_adminArea extends e_admin_dispatcher
+class jm_download_adminArea extends jm_downloads_adminArea
 {
 
 	protected $modes = array(	
 	
-		'main'	=> array(
+		'admin_downloadmenu'	=> array(
 			'controller' 	=> 'jm_download_ui',
 			'path' 			=> null,
 			'ui' 			=> 'jm_download_form_ui',
@@ -26,34 +27,19 @@ class jm_download_adminArea extends e_admin_dispatcher
 		
 
 	);	
-	
-	
-	protected $adminMenu = array(
-			
-		'main/prefs' 		=> array('caption'=> LAN_PREFS, 'perm' => 'P'),	
-
-		// 'main/div0'      => array('divider'=> true),
-		// 'main/custom'		=> array('caption'=> 'Custom Page', 'perm' => 'P'),
-		
-	);
-
-	protected $adminMenuAliases = array(
-		'main/edit'	=> 'main/list'				
-	);	
+ 
 	
 	protected $menuTitle = 'JM Downloads';
 }
 
-
-
-
+ 
 				
 class jm_download_ui extends e_admin_ui
 {
 			
 		protected $pluginTitle		= 'JM Downloads';
 		protected $pluginName		= 'jm_download';
-	  protected $eventName		= 'jm_download-'; // remove comment to enable event triggers in admin. 		
+	//	protected $eventName		= 'jm_download-'; // remove comment to enable event triggers in admin. 		
 		protected $table			= '';
 		protected $pid				= '';
 		protected $perPage			= 10; 
@@ -78,7 +64,19 @@ class jm_download_ui extends e_admin_ui
 
 	//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
-			'xxx'		=> array('title'=> 'Xxx', 'tab'=>0, 'type'=>'text', 'data' => 'str', 'help'=>''),
+			'latestmenu_amount'		=> array('title'=> 'Latest menu display items', 'tab'=>0, 'type'=>'number', 'data' => 'int', 'help'=>''),
+			'latestmenu_author'		=> array('title'=> 'Display author', 'tab'=>0, 'type'=>'boolean', 'data' => 'str', 'help'=>'',
+			'writeParms' => array(
+					'post' => "<br /><div class='label bg-info'> If set ON,  download author will be displayed in Latest menu</div> "
+				)), 
+			'latestmenu_category'		=> array('title'=> 'Display category', 'tab'=>0, 'type'=>'boolean', 'data' => 'str', 'help'=>'',
+				'writeParms' => array(
+					'post' => "<br /><div class='label bg-info'> If set ON,  download category will be displayed in Latest menu</div> "
+				)), 
+			'latestmenu_adminlink'		=> array('title'=> 'Display Admin link', 'tab'=>0, 'type'=>'boolean', 'data' => 'str', 'help'=>'',
+				'writeParms' => array(
+					'post' => "<br /><div class='label bg-info'> If set ON, direct link to edit download will be displayed. Set it off it breaks layout for admins. </div> "
+				)),
 		); 
 
 	
@@ -133,21 +131,7 @@ class jm_download_ui extends e_admin_ui
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
-			
-	/*	
-		// optional - a custom page.  
-		public function customPage()
-		{
-			$text = 'Hello World!';
-			$otherField  = $this->getController()->getFieldVar('other_field_name');
-			return $text;
-			
-		}
-		
-	
-		
-		
-	*/
+ 
 			
 }
 				
