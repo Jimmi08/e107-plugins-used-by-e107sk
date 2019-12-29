@@ -5,7 +5,7 @@ $links = array();
 $links['supportforum']    =  "https://www.e107sk.com/forum/";
 $links['documentation']   =  "";	
 $links['demo']            =  "";	
-$links['github']          =  "https://github.com/Jimmi08/jmcore-e107-plugin/";	    
+$links['github']          =  "https://github.com/Jimmi08/e107-free-plugins-by-e107sk/tree/master/jmcore";	    
 $links['download']        =  "https://www.e107sk.com/download/category/10/e107-plugins/";    
 
 $content .= '<h2 class="text-center">' . LAN_JM_ADMIN_HELP_01 . '</h2>';
