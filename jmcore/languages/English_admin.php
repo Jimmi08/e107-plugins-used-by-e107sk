@@ -20,6 +20,9 @@ if (!defined(("LAN_JM_ADMIN_HELP_10"))) { define("LAN_JM_ADMIN_HELP_10", "Downlo
 if (!defined(("LAN_JM_ADMIN_HELP_11"))) { define("LAN_JM_ADMIN_HELP_11", "Download"); } 
 
 
+define("LAN_JM_CORE_LAN_01", "JM Core");
+define("LAN_JM_CORE_LAN_02", "JM Core Plugin");
+
 define("LAN_JM_CORE_ONEPAGE_LAN_01", "One Page Site");
 define("LAN_JM_CORE_ONEPAGE_LAN_02", "Rules for excluding pages"); 
 define("LAN_JM_CORE_ONEPAGE_LAN_03", "All links will be redirect to Frontpage. Except excluded links. Each link on new line. "); 
@@ -30,11 +33,22 @@ define("LAN_JM_CORE_ONEPAGE_LAN_05", "You can exclude full or partial URLs using
 define("LAN_JM_CORE_ONEPAGE_LAN_06", "Your SITEURL value:" );
 define("LAN_JM_CORE_ONEPAGE_LAN_07", "With contact form contact.php should be always excluded! "); 
 
+
+define("LAN_JM_CORE_ADMINLOOK_LAN_01", "Switch from tooltips to small labels" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_02", "It displays help tooltip on new line, not as tooltip only on hover. Good for testing your help strings ." );
+define("LAN_JM_CORE_ADMINLOOK_LAN_03", "Display colored headers" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_04", "Use colors for admin menu headers - to have them visual different than normal menu items" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_05", "Background color" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_06", "Text color" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_07", "Recommnended: #eee" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_08", "Recommnended for Dark Admin #222, for KA Admin: #dc6767" );
+
 define("LAN_JM_CORE_MENU_LAN_01", "Site Settings");
 define("LAN_JM_CORE_MENU_LAN_02", "One page Version");
 define("LAN_JM_CORE_MENU_LAN_03", "Main Admin Tools");
 define("LAN_JM_CORE_MENU_LAN_04", "Export Theme Prefs");
 define("LAN_JM_CORE_MENU_LAN_05", "Menus Overview");
+define("LAN_JM_CORE_MENU_LAN_06", "Admin Look");
 
 define("LAN_JM_CORE_MENUS_LAN_01", "Delete All Not Used Menus");
 

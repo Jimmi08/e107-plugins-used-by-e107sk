@@ -38,12 +38,49 @@ if (e_PAGE == "fpw.php") {
 /******************************************************************************/
 
 if (ADMIN_AREA) {   
-    //coloured navigation submenu header
-    $css = ' li.nav-header { 
+
+    //colored navigation submenu header
+    $adminlook_navheaders  = e107::pref('jmcore','adminlook_navheaders', true);
+
+    if($adminlook_navheaders)  {
+    
+     $navheader_bg      = e107::pref('jmcore','adminlook_navheader_bg', "#EEE");
+     $navheader_color   = e107::pref('jmcore','adminlook_navheader_color', "#222");     
+     
+     /* not standard solution for KA Admin
+     .admin-left-panel li.nav-header {
+        color: white;
+     }
+     */
+
+        $css = " li.nav-header { 
         text-transform: uppercase;
-        background: #eee;
-        color: #222; } ';
-    e107::css('inline', $css); 
+        background: {$navheader_bg};
+        color: {$navheader_color}; 
+        } 
+       .admin-left-panel li.nav-header {
+           color: {$navheader_color};
+       }        
+        
+        ";
+        
+        
+        e107::css('inline', $css); 
+    }
+
+ 
+     /* not needed after changing class, left here as example how to do it without it 
+     $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
+     if($removetooltips) {
+     $css .= ' div.field-help,
+               span.field-help     
+               {
+                  font-size: 11px;
+                  display: block!important;
+               } 
+    '; */
+    
+
 
 }
 
@@ -63,5 +100,22 @@ if (ADMIN_AREA) {
 		});		
 	";
     e107::js('footer-inline', $js); 
+    
+  $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
+ 
+  if($removetooltips) { 
+    $js2 = "
+  	$(document).ready(function() {
+      $('td').find('div.field-help').each(function() {
+       $(this).removeClass('field-help').addClass('smalltext') ;
+    	} ); 
+      $('span').find('.field-help').each(function() {
+       $(this).removeClass('field-help').addClass('smalltext') ;
+    	} );     
+      
+  		});		
+  	";    
+    e107::js('inline', $js2); 
+    }
 
 }
