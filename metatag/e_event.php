@@ -248,7 +248,8 @@ class metatag_event
  
 			// Finally, apply new meta tags.
 			$meta->addMetaTags($new_tags);
-      $this->renderDebugInfo($new_tags);
+            //add prefs for this
+            // $this->renderDebugInfo($new_tags);
 		}
 	}
   
@@ -256,10 +257,10 @@ class metatag_event
 		    $mes = e107::getMessage();
 				if (getperms('0') && true)
 				{
-					$debugtext   = print_a($new_tags);
+				//	$debugtext   = print_a($new_tags);
  
 					
-					$mes->addInfo($debugtext);
+				 	$mes->addInfo($debugtext);
 					
 				}
 		}
