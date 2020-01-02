@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="JM Canonical" lan="" version="1.5.0" date="2019-02-22" compatibility="2.1.9" installRequired="true" >
+	<author name="Jimako" url="https://www.e107.sk/" />
+	<summary lan="">Adds support for syndicating content from other websites using rel=canonical tags. Idea from e107Inc</summary>
+	<description lan="">The Canonical plugin adds possibility to use canonical urls for your site.</description>
+	<keywords>
+		<word>canonical</word>
+		<word>syndicate</word>
+	</keywords>
+	<category>content</category>
+	<copyright></copyright>
+	<adminLinks>
+		<link url="admin/admin_config.php" description="" icon="images/canonical_64.png" iconSmall="images/canonical_32.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='active'>1</pref>
+		<pref name='run_check'>0</pref>
+		<pref name='debug_frontend'>0</pref>
+		<pref name='forum_thread_auto'>none</pref>    
+		<pref name='page_auto'>none</pref> 
+		<pref name='news_auto'>none</pref> 
+		<pref name='download_auto'>none</pref>
+		<pref name='backslash'>0</pref>
+	</pluginPrefs>
+</e107Plugin>
