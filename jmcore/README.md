@@ -40,6 +40,7 @@ Many thanks to e107 for great CMS.
 - 1.5.2 ADDED new downloaded shortcodes
 - 1.6.0 ADDED prefs for styling admin submenu navigation header 
         ADDED prefs for replacing help tooltips with standard line help (to be able copy it and easier check all helps)
+- 1.6.1 ADDED prefs for displaying main navigation titles  
 
 ## What is removed because it was implemented in core?
 

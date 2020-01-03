@@ -65,7 +65,13 @@ class adminlook_ui extends e_admin_ui
 				'data'		=> 'str',
 				'help'		=>LAN_JM_CORE_ADMINLOOK_LAN_08
 				),                
-                
+ 			'adminlook_maintitles'		=> 
+				array('title'=>  LAN_JM_CORE_ADMINLOOK_LAN_09 ,
+				'tab'		=>	0,
+				'type'		=>'boolean',
+				'data'		=> 'str',
+				'help'		=>LAN_JM_CORE_ADMINLOOK_LAN_10
+				),                 
                 
 		); 
 

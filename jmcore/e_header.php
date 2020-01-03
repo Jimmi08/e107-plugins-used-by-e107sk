@@ -36,24 +36,27 @@ if (e_PAGE == "fpw.php") {
 /*  CSS FIX for admin area with bootstrap3 theme                              */
 /*                                */
 /******************************************************************************/
-
+      
 if (ADMIN_AREA) {   
-
+    $css = '';
     //colored navigation submenu header
     $adminlook_navheaders  = e107::pref('jmcore','adminlook_navheaders', true);
 
     if($adminlook_navheaders)  {
-    
-     $navheader_bg      = e107::pref('jmcore','adminlook_navheader_bg', "#EEE");
-     $navheader_color   = e107::pref('jmcore','adminlook_navheader_color', "#222");     
+                                
+     $navheader_bg      = trim(e107::pref('jmcore','adminlook_navheader_bg', "#EEE"));
+     
+      
+     $navheader_bg      = varset($navheader_bg, "#EEE"); 
+     $navheader_color   = trim(e107::pref('jmcore','adminlook_navheader_color', "#222"));     
      
      /* not standard solution for KA Admin
      .admin-left-panel li.nav-header {
         color: white;
      }
      */
-
-        $css = " li.nav-header { 
+ 
+        $css .= " li.nav-header { 
         text-transform: uppercase;
         background: {$navheader_bg};
         color: {$navheader_color}; 
@@ -63,12 +66,32 @@ if (ADMIN_AREA) {
        }        
         
         ";
-        
-        
-        e107::css('inline', $css); 
-    }
-
+     }
+     
+     $adminlook_navheaders  = e107::pref('jmcore','adminlook_maintitles', true);
+     if($adminlook_navheaders) { 
+        $css .=  "ul.nav-admin a.navbar-admin-button:after { 
+            content: attr(title);
+        }";
+        /* fix for non standard size, custom breakpoint was changed for admin theme to 1100px */
+        /* Medium devices Desktops (>1100px)  .col-lg */
+        $css .=  "
+        @media all and (min-width: 1101px) and (max-width: 1320px)  {
+                       	.nav-admin.navbar-left li a {
+                            padding-left: 10px;
+                            padding-right: 10px;
+                        }
+        }
+        @media all and (min-width: 1101px) and (max-width: 1150px)  {
+                       	.nav-admin.navbar-left li a {
+                            font-size: 11px;
+                        }
+        }        
+        "; 
+     }
  
+     e107::css('inline', $css); 
+     
      /* not needed after changing class, left here as example how to do it without it 
      $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
      if($removetooltips) {
@@ -91,8 +114,9 @@ if (ADMIN_AREA) {
 /******************************************************************************/
 
 if (ADMIN_AREA) {   
-    //coloured navigation submenu header
-    $js = "
+
+    //coloured navigation submenu header     original fix before #4020
+   /* $js = "
 		$(document).ready(function() {
     $('ul.nav-admin').find('span.hidden-lg').each(function() {
   	 $(this).removeClass('hidden-lg');
@@ -100,7 +124,7 @@ if (ADMIN_AREA) {
 		});		
 	";
     e107::js('footer-inline', $js); 
-    
+   */  
   $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
  
   if($removetooltips) { 

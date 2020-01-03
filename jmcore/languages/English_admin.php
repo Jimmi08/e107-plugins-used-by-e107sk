@@ -42,6 +42,8 @@ define("LAN_JM_CORE_ADMINLOOK_LAN_05", "Background color" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_06", "Text color" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_07", "Recommnended: #eee" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_08", "Recommnended for Dark Admin #222, for KA Admin: #dc6767" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_09", "Display Main Menu titles" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_10", "Main navigation titles are displayed with icons" );
 
 define("LAN_JM_CORE_MENU_LAN_01", "Site Settings");
 define("LAN_JM_CORE_MENU_LAN_02", "One page Version");
