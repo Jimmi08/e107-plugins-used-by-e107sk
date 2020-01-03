@@ -37,23 +37,23 @@ if (!e_REQUEST_URL)
 {
 	return;
 }
-  
+              
 if (!e_ADMIN_AREA)
 {
  
 	$canonicalPlugin->runFixConstants();
  
   $request_url = $tp->toDB(e_REQUEST_URL);
-
-	// manual canonical urls
-	$result = $canonicalPlugin->getManualCanonicalUrl($request_url);
  
+	// manual canonical urls MOVED TO METATAG PLUGIN
+  /*	$result = $canonicalPlugin->getManualCanonicalUrl($request_url);
+     
 	if($result === true) { 
 	  return;
 	}
- 
-	// return from short way
-	if(e_QUERY == '') {
+  */
+	// return from short way, so gallery is managed by METATAG
+	if(e_QUERY == '') {   
 	   return;
 	}
 	

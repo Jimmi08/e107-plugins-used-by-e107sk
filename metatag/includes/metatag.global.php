@@ -4,6 +4,8 @@
  * @file
  * Contains callback functions for global tokens.
  */
+ 
+ 
 
 /**
  * Returns with Site Name.
@@ -166,4 +168,51 @@ function metatag_global_token_site_current_page_title()
 function metatag_global_token_site_current_page_url()
 {
 	return defset('e_SELF', '');
+}
+
+
+/**
+ * Returns with Canonical URL.
+ * news -  e_CURRENT_PLUGIN is not definded
+ * download - "download" defined for category
+ * forum - e_CURRENT_PLUGIN is not defined forum_viewforum.php here, only later
+ * forum - "forum" defined forum_viewtopic.php
+ * gsitemap - "gsitemap" defined gsitemap
+ * gsitemap - "links_page" defined links_page  not supported yet 
+ * gallery -  e_CURRENT_PLUGIN, e_PAGE is not definded
+ */
+function metatag_global_token_manual_canonical_url()
+{   
+    if(defined("e_CURRENT_PLUGIN")) { 
+      return ''; 
+    }
+    if(e_PAGE == "forum_viewforum.php") {
+      return '';
+    }        
+    if(e_PAGE == "user.php") {
+      return '';
+    }
+    if(e_PAGE == "userposts.php") {
+      return '';
+    }
+    
+    e107_require_once(e_PLUGIN . 'jm_canonical/canonical.class.php');
+    $canonicalPlugin = new Canonical;  
+
+	$request_url = e107::getParser()->toDB(e_REQUEST_URL);
+    $result = $canonicalPlugin->getManualCanonicalUrl($request_url, true);
+    if($result) 
+    {
+      return $result;
+    }
+    else return $request_url; 
+}
+
+
+/**
+ * Returns nothing.
+ */
+function metatag_global_token_nothing()
+{
+    return '';
 }

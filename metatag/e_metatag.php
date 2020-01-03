@@ -159,15 +159,23 @@ class metatag_metatag
 					'handler' => 'metatag_global_token_site_current_page_url',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.global.php',
 				),
-        
-        
+				'site:manual-canonical:url'   => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_14,
+					'handler' => 'metatag_global_token_manual_canonical_url',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.global.php',
+				),
+				'site:nothing'   => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_14,
+					'handler' => 'metatag_global_token_nothing',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.global.php',
+				),        
 				// TODO - more tokens.
 			),
 			'default' => array(
 				'title'        => '{site:current-page:title} | {site:name}',
 				'description'  => '{site:description}',
 				'generator'    => 'e107 v2 (http://e107.org)',
-				'canonical'    => '{site:current-page:url}',
+				'canonical'    => '{site:manual-canonical:url}',
 				'fb:app_id'    => '{site:fb-app-id}',
 				'og:site_name' => '{site:name}',
 				'og:url'       => '{site:current-page:url}',
@@ -183,6 +191,7 @@ class metatag_metatag
 			'file'    => '{e_PLUGIN}metatag/includes/metatag.front.php',
 			'default' => array(
 				'title' => '{site:name}',
+                'canonical'    => '{site:manual-canonical:url}',
 			),
 		);
 
@@ -227,7 +236,10 @@ class metatag_metatag
 					'help'    => LAN_PLUGIN_METATAG_TOKEN_18,
 					'handler' => 'metatag_entity_news_token_category_keywords',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
-				),
+				),  
+			),
+			'default' => array(
+                'canonical'    => '{site:nothing}',
 			),
 			'dependencies' => array(
 				'plugin'  => 'news',
@@ -249,6 +261,9 @@ class metatag_metatag
 			),
 			'dependencies' => array(
 				'plugin'  => 'news',
+			),
+			'default' => array(
+                'canonical'    => '{site:nothing}',
 			),
 		);
 
@@ -358,6 +373,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                  => '{news:title}',
 				'description'            => '{news:summary}',
+                'canonical'              => '{site:nothing}',
 				'image_src'              => '{news:thumbnail:first}',
 				'og:title'               => '{news:title}',
 				'og:type'                => 'article',
@@ -380,6 +396,9 @@ class metatag_metatag
 			'file'   => '{e_PLUGIN}metatag/includes/metatag.page.php',
 			'dependencies' => array(
 				'plugin'  => 'page',
+			),
+			'default' => array(
+                'canonical'    => '{site:nothing}',
 			),
 		);
 
@@ -414,6 +433,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{page:book:name}',
 				'description'          => '{page:book:description:truncated}',
+                'canonical'            => '{site:nothing}',
 				'og:title'             => '{page:book:name}',
 				'og:description'       => '{page:book:description:truncated}',
 				'itemprop:name'        => '{page:book:name}',
@@ -455,6 +475,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{page:chapter:name}',
 				'description'          => '{page:chapter:description:truncated}',
+                'canonical'            => '{site:nothing}',
 				'og:title'             => '{page:chapter:name}',
 				'og:description'       => '{page:chapter:description:truncated}',
 				'itemprop:name'        => '{page:chapter:name}',
@@ -561,6 +582,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                  => '{page:title}',
 				'description'            => '{page:description:truncated}',
+                'canonical'            => '{site:nothing}',
 				'og:title'               => '{page:title}',
 				'og:type'                => 'article',
 				'og:description'         => '{page:description:truncated}',
@@ -615,6 +637,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{download:category:name}',
 				'description'          => '{download:category:description:truncated}',
+                'canonical'            => '{site:nothing}',
 				'og:title'             => '{download:category:name}',
 				'og:description'       => '{download:category:description:truncated}',
 				'itemprop:name'        => '{download:category:name}',
@@ -677,6 +700,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{download:item:name}',
 				'description'          => '{download:item:description:truncated}',
+                'canonical'            => '{site:nothing}',
 				'og:title'             => '{download:item:name}',
 				'og:description'       => '{download:item:description:truncated}',
 				'itemprop:name'        => '{download:item:name}',
