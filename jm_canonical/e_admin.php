@@ -26,51 +26,51 @@ class jm_canonical_admin
 		$id = $ui->getId();
 		$sql = e107::getDb();
 		$config = array();
-    //print_a($type);
-    if($type = "jm-canonical") {
-      $type = $this->singletype($ui, $type);
-    }
-    //print_a($type);
-    /***  cleaning queries - preparing for addon ***/
-    switch ($type)
-		{
-		case "forum_thread" :    
-		case "news_category" :
-		case "download_category" :
-    case "page" :
-    case "news" :
-    case "pcontent" :
-    case "download" :
-    $table = $type;     
-    break;  
+		//print_a($type);
+		if($type = "jm-canonical") {
+		$type = $this->singletype($ui, $type);
+		}
+		//print_a($type);
+		/***  cleaning queries - preparing for addon ***/
+		switch ($type)
+			{
+			case "forum_thread" :    
+			case "news_category" :
+			case "download_category" :
+		case "page" :
+		case "news" :
+		case "pcontent" :
+		case "download" :
+		$table = $type;     
+		break;  
 
-    default: 
-      return $config;
-    break;
-    }
+		default: 
+		return $config;
+		break;
+		}
  
-    /* its the same for all plugin now */
-    $where = "can_table='{$table}' AND can_pid=" . $id;
- 
-  
-    /*** Common for all plugins ***/
+		/* its the same for all plugin now */
+		$where = "can_table='{$table}' AND can_pid=" . $id;
+	
+	
+		/*** Common for all plugins ***/
 		$config['tabs'] = array('jm_canonical'=>'Canonical - e_admin');
  
 		if ($this->active == true)
 		{
-				if (($action == 'edit') && !empty($id) && ($canonical = $sql->retrieve("canonical", "can_url, can_title", $where)))
-				{
-					$url   = $canonical['can_url'];
-          $title = $canonical['can_title'];
-				}
-				else
-				{
-					$url = '';
-          $title = '';
-				}
+			if (($action == 'edit') && !empty($id) && ($canonical = $sql->retrieve("canonical", "can_url, can_title", $where)))
+			{
+				$url   = $canonical['can_url'];
+          		$title = $canonical['can_title'];
+			}
+			else
+			{
+				$url = '';
+          		$title = '';
+			}
 
  
-				$config['fields']['url'] = array(
+			$config['fields']['url'] = array(
 					'title' =>  "Canonical URL",
 					'type' => 'url',
 					'tab' => 'jm_canonical',
@@ -84,10 +84,10 @@ class jm_canonical_admin
 					'readParms' => '',
 					'class' => 'left',
 					'thclass' => 'left',
-				);
+			);
  
     
-				$config['fields']['title'] = array(
+			$config['fields']['title'] = array(
 					'title' => 'Title',
 					'type' => 'text',
 					'tab' => 'jm_canonical',
@@ -101,74 +101,73 @@ class jm_canonical_admin
 					'readParms' => '',
 					'class' => 'left',
 					'thclass' => 'left',
-				);
+			);
         
-			}
+		}
 
 		// Note: 'urls' will be returned as $_POST['x_jm_canonical_url']. ie. x_{PLUGIN_FOLDER}_{YOURKEY}
 
 		return $config;
 	}
 
-  function singletype($ui, $type = '') {
-       if($type = 'jm_canonical')   {
-        $mode = $ui->getRequest()->getMode();
+  	function singletype($ui, $type = '') 
+  	{
+		if($type = 'jm_canonical')   
+		{
+        	$mode = $ui->getRequest()->getMode();
     
-        switch ($mode)
-    		{
-    		case "pcontent" :
-        case "download" :
-        case "news" :
-        case "page" :
-        return $mode;
-        break;        
+			switch ($mode)
+			{
+				case "pcontent" :
+				case "download" :
+				case "news" :
+				case "page" :
+				return $mode;
+				break;        
 
-        case "jm_download" :
-        $type = "download";
-        return $type;
-        break;
-				        
-        case "downloadcategory" :
-        $type = "download_category";
-        return $type;
-        break;
+				case "jm_download" :
+				$type = "download";
+				return $type;
+				break;
+							
+				case "downloadcategory" :
+				$type = "download_category";
+				return $type;
+				break;
+			
+				case "forumthread" :
+				$type = "forum_thread";
+				break; 
+	
+				case "newscategory" :
+				$type = "news_category";
+				return $type;
+				break;
+			
+				default: 
+				break;
+			}
         
-    		case "forumthread" :
-        $type = "forum_thread";
-        break; 
- 
-     		case "newscategory" :
-        $type = "news_category";
-        return $type;
-        break;
-         
-        default: 
-   
-        break;
-        }
-        
-        return $type;
-      }
-  }
+        	return $type;
+      	}
+  	}
 
 	/**
 	 * Process Posted Data.
 	 * @param $ui admin-ui object
 	 */
-	public
-
-	function process($ui, $id = 0)
+	public function process($ui, $id = 0)
 	{
 		$data = $ui->getPosted();
 		$type = $ui->getEventName();
 		$action = $ui->getAction(); // current mode: create, edit, list
 		$sql = e107::getDb();
 		
-    if($type = "jm-canonical") {
-      $type = $this->singletype($ui, $type);
-    }
+    	if($type = "jm-canonical") {
+      		$type = $this->singletype($ui, $type);
+    	}
     
-    $table = $type;
+    	$table = $type;
     
   
 		//	e107::getMessage()->addDebug("Object: ".print_a($ui,true));
@@ -191,38 +190,39 @@ class jm_canonical_admin
 			if (!empty($data['x_jm_canonical_url']))
 			{
 				$title = $data['x_jm_canonical_title'];
-        if($title == '') {
-				if ($table == "news")
+				if($title == '') 
 				{
-					$title = $data['news_title'];
-				}
+					if ($table == "news")
+					{
+						$title = $data['news_title'];
+					}
 
-				if ($table == "page")
-				{
-					$title = $data['page_title'];
-				}
-				
-				if ($table == "forum_thread")
-				{
-					$title = $data['thread_name'];
-				}				
-				if ($table == "pcontent")
-				{
-					$title = $data['content_heading'];
-				}	        
-				if ($table == "news_category")
-				{
-					$title = $data['category_name'];
-				}
-				if ($table == "download")
-				{
-					$title = $data['download_name'];
-				}
-				if ($table == "download_category")
-				{
-					$title = $data['download_category_name'];
-				}    
-        }    
+					if ($table == "page")
+					{
+						$title = $data['page_title'];
+					}
+					
+					if ($table == "forum_thread")
+					{
+						$title = $data['thread_name'];
+					}				
+					if ($table == "pcontent")
+					{
+						$title = $data['content_heading'];
+					}	        
+					if ($table == "news_category")
+					{
+						$title = $data['category_name'];
+					}
+					if ($table == "download")
+					{
+						$title = $data['download_name'];
+					}
+					if ($table == "download_category")
+					{
+						$title = $data['download_category_name'];
+					}    
+        		}    
   
 				$query = "SELECT can_id FROM #canonical WHERE can_table = '" . $table . "' AND can_pid= " . $id . ";";
 				$result = $sql->gen($query);

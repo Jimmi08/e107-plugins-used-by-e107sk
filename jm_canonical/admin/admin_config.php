@@ -300,33 +300,36 @@ class canonical_ui extends e_admin_ui
 		public function renderHelp()
 		{   
 			$caption = LAN_HELP;
-      $canonicalPlugin = new Canonical; 
-      if($canonicalPlugin->getCanonicalRunCheck() )  {
-       $text = "<span class='alert-danger '>Online Check is Active, it takes some time. Set it OFF</span><br>";
-      }
-      if($this->getAction() == "prefs") {
-			$text .= 'You can find more info about this plugin on <a href="https://www.e107.sk/50/jm-canonical-plugin" target="_blank">e107.sk</a> 
-			<br> You can support next development by visiting this site with AdBlock Off. Thank you.
-			<br> We don\'t need your money, we need your feedback and activity. ';
-      } 
-      if($this->getAction() == "list") {
-			$text .= 'Related URLs are combination of table and record ID. Canonical URL is always the same for the same record. Just news for now';
-      }
+      		$canonicalPlugin = new Canonical; 
+			if($canonicalPlugin->getCanonicalRunCheck() )  
+			{
+				$text = "<span class='alert-danger '>Online Check is Active, it takes some time. Set it OFF</span><br>";
+			}
+			if($this->getAction() == "prefs") 
+			{
+				$text .= 'You can find more info about this plugin on <a href="https://www.e107sk.com/50/jm-canonical-plugin" target="_blank">e107.sk</a> 
+					<br> You can support next development by visiting this site with AdBlock Off. Thank you.
+					<br> We don\'t need your money, we need your feedback and activity. ';
+			} 
+			if($this->getAction() == "list") 
+			{
+					$text .= 'Related URLs are combination of table and record ID. Canonical URL is always the same for the same record. Just news for now';
+			}
       
       
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
 		function AddButton()
-	  {
-      $text .= "</fieldset></form><div class='e-container'>
-      <table id='.$pid.' style='".ADMIN_WIDTH."' class='table adminlist table-striped'>";
-      $text .=  
-      '<a href="admin_config.php?mode=main&action=create"  
-      class="btn batch e-hide-if-js btn-primary"><span>Add Canonical URL for Related URL</span></a>';
-      $text .= "</td></tr></table></div><form><fieldset>";
-      return $text;
-    }				
+	  	{
+			$text .= "</fieldset></form><div class='e-container'>
+			<table id='.$pid.' style='".ADMIN_WIDTH."' class='table adminlist table-striped'>";
+			$text .=  
+			'<a href="admin_config.php?mode=main&action=create"  
+			class="btn batch e-hide-if-js btn-primary"><span>Add Canonical URL for Related URL</span></a>';
+			$text .= "</td></tr></table></div><form><fieldset>";
+			return $text;
+    	}				
 }
 				
 

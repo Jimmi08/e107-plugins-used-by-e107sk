@@ -21,8 +21,6 @@ class jm_canonical_gsitemap // plugin-folder + '_rss'
 
 		$sql = e107::getDb();
 
-
-
 		/* public, quests */
 		$userclass_list =  "0,252";
 		$_t = time();
@@ -43,7 +41,7 @@ class jm_canonical_gsitemap // plugin-folder + '_rss'
 		 */
 		$data = $sql->retrieve("news", "*", "news_class IN (".$userclass_list.") AND news_start < ".$_t."   ORDER BY news_datestamp ASC", true);
 
-    $iscanonicalinstalled = e107::isInstalled('jm_canonical');
+    	$iscanonicalinstalled = e107::isInstalled('jm_canonical');
     
 		foreach($data as $row)
 		{
@@ -71,16 +69,11 @@ class jm_canonical_gsitemap // plugin-folder + '_rss'
   			);
         }		 
 			} 
-      /* otherwise core news are used */
+      	/* otherwise core news are used */
  
-			
-
-
 		}
 
 		return $import;
 	}
-
-
-
+ 
 }
