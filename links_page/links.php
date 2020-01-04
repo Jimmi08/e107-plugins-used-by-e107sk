@@ -239,7 +239,7 @@ function displayTopRated(){
 		);
  		$error = $tp->simpleParse($template['LINK_ERROR_MESSAGE'],$var);
 		$text = $navigator.$error; 
-		e107::getRender()->tablerender(LAN_LINKS_11, $text);
+		e107::getRender()->tablerender(LAN_LINKS_11, $text, 'links_page');
 	}else{
 		$link_rated_table_string = "";
 		$list = $db -> rows();
@@ -263,7 +263,7 @@ function displayTopRated(){
     $navigator = displayNavigator(); 
     $pagination = $lc->ShowNextPrev($from, $number, $linktotalrated);
     $text = $navigator.$text.$pagination; 
-		e107::getRender()->tablerender($caption, $text);
+		e107::getRender()->tablerender($caption, $text, 'links_page');
 	 
 	}      
 }
@@ -313,7 +313,7 @@ function displayTopRefer(){
     $navigator = displayNavigator();  
     $pagination = $lc->ShowNextPrev($from, $number, $link_total);
     $text = $navigator.$text.$pagination;     
-		e107::getRender()->tablerender($caption, $text);
+		e107::getRender()->tablerender($caption, $text, 'links_page');
 	}
 }
 
@@ -390,7 +390,7 @@ function displayPersonalManager()
     $navigator = displayNavigator();  
     $text = $navigator.$text; 
     
-		e107::getRender()->tablerender(LAN_LINKS_35, $text);
+		e107::getRender()->tablerender(LAN_LINKS_35, $text, 'links_page');
 
 		//show link create
 		$lc->show_link_create();
@@ -433,7 +433,7 @@ function displayLinkComment(){
 			$text .= $tp -> parseTemplate($template['LINK_TABLE_END'], FALSE, $link_shortcodes);
       $navigator = displayNavigator();  
       $text = $navigator.$text; 
-      e107::getRender()->tablerender(LAN_LINKS_36, $text);
+      e107::getRender()->tablerender(LAN_LINKS_36, $text, 'links_page');
 			$cobj->compose_comment("links_page", "comment", $qs[1], $width, $subject, $showrate=FALSE);
 		}
 	}
@@ -449,7 +449,7 @@ function displayLinkSubmit(){
 	$text = $tp -> parseTemplate($template['LINK_SUBMIT_TABLE'], FALSE, $link_shortcodes);
   $navigator = displayNavigator();  
   $text = $navigator.$text; 
-	e107::getRender()->tablerender(LAN_LINKS_31, $text);
+	e107::getRender()->tablerender(LAN_LINKS_31, $text, 'links_page');
 	return;
 }
 
@@ -493,7 +493,7 @@ function displayCategory($mode=''){
     $navigator .= displaySortOrder('cat');     
     $text = $navigator.$text;
 		$caption = LAN_LINKS_30;
-		e107::getRender()->tablerender($caption, $text);
+		e107::getRender()->tablerender($caption, $text, 'links_page');
 	}
 	return;
 }
@@ -584,7 +584,7 @@ function displayCategoryLinks($mode=''){
 		);
  		$error = $tp->simpleParse($template['LINK_ERROR_MESSAGE'],$var);
 		$text = $navigator.$error; 
-		e107::getRender()->tablerender(LAN_LINKS_39, $text);
+		e107::getRender()->tablerender(LAN_LINKS_39, $text, 'links_page');
 	} else{              
 		$linkbutton_count = 0;
 		$list = $db2 -> rows();
@@ -617,7 +617,7 @@ function displayCategoryLinks($mode=''){
 				$pagination = $lc->ShowNextPrev($from, $number, $link_total);
         $text = $text.$pagination;
 			} 
-      e107::getRender()->tablerender($caption, $text); 
+      e107::getRender()->tablerender($caption, $text, 'links_page'); 
 		}
 		else
 		{        
@@ -648,7 +648,7 @@ function displayCategoryLinks($mode=''){
       $navigator  = displayNavigator(); 
       $navigator .= displaySortOrder(); 
       $text = $navigator.$text;       
-		  e107::getRender()->tablerender($link_table_caption, $text);
+		  e107::getRender()->tablerender($link_table_caption, $text, 'links_page');
 		}
 	}  
 	return;

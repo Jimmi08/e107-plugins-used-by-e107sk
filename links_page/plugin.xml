@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="Links" lan="LCLAN_PLUGIN_LAN_1" version="2.3.3" date="2019-07-29" compatibility="2.0" installRequired="true" >
+<e107Plugin name="Links" lan="LCLAN_PLUGIN_LAN_1" version="2.3.4" date="2020-04-01" compatibility="2.0" installRequired="true" >
 	<author name="Jimako" />
 	<summary lan="LCLAN_PLUGIN_LAN_2">Links Page For Displaying External Web Links by e107 Inc.</summary>
 	<description lan="LCLAN_PLUGIN_LAN_2">Links Page For Displaying External Web Links by e107 Inc.</description>

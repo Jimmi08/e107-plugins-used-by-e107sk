@@ -577,7 +577,7 @@ class linkclass
         }
         $text .= $frm -> close()."</div>";
 
-        e107::getRender()->tablerender(LCLAN_ITEM_24, $text);
+        e107::getRender()->tablerender(LCLAN_ITEM_24, $text, 'links_page_class');
     }
 
                                                
@@ -703,7 +703,7 @@ class linkclass
             </table></div>
             ".$rs->form_close();
         }
-      e107::getRender()->tablerender($caption, $text);
+      e107::getRender()->tablerender($caption, $text, 'links_page_class');
 		  $this->ShowNextPrev($from, $number, $link_total);
     }
 }

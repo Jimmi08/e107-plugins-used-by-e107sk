@@ -173,7 +173,7 @@ if(isset($linkspage_pref["link_menu_recent"]) && $linkspage_pref["link_menu_rece
 }
 
 $caption = (isset($linkspage_pref['link_menu_caption']) && $linkspage_pref['link_menu_caption'] ? $linkspage_pref['link_menu_caption'] : LCLAN_OPT_86);
-$ns -> tablerender($caption, $text);
+$ns -> tablerender($caption, $text, 'links_page_menu');
 
 
 ?>
