@@ -191,10 +191,74 @@ class metatag_metatag
 			'file'    => '{e_PLUGIN}metatag/includes/metatag.front.php',
 			'default' => array(
 				'title' => '{site:name}',
-                'canonical'    => '{site:manual-canonical:url}',
+				'canonical'    => '{site:manual-canonical:url}',
 			),
 		);
 
+		// Contact page.
+		$config['contact'] = array(
+			'name'    => LAN_PLUGIN_METATAG_TYPE_14,
+			'detect'  => 'metatag_entity_single_contact_detect',
+			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+			'custom'  => 'metatag_entity_single_detect',
+			'token'   => array(
+				'single:contact:url'               => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_74,
+					'handler' => 'metatag_single_token_contact_url',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+				),
+			),
+			'default' => array(
+				'title' => '{site:name}',
+				'canonical'    => '{single:contact:url}',
+				'og:url'       => '{single:contact:url}',
+				"robots"       =>  ["follow","index"] ,
+			),
+		);
+			
+		// Login page.
+		$config['login'] = array(
+			'name'    => LAN_PLUGIN_METATAG_TYPE_15,
+			'detect'  => 'metatag_entity_single_login_detect',
+			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+			'custom'   => 'metatag_entity_single_detect',
+			'token'   => array(
+				'single:contact:url'               => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_75,
+					'handler' => 'metatag_single_token_login_url',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+				),
+			),
+			'default' => array(
+				'title' => '{site:name}',
+				'canonical'    => '{single:login:url}',
+				'og:url'       => '{single:login:url}',
+				"robots"       =>  ["noarchive","noindex", "nofollow"] ,
+			),
+		);    
+			
+		// Login page.
+		$config['signup'] = array(
+			'name'    => LAN_PLUGIN_METATAG_TYPE_16,
+			'detect'  => 'metatag_entity_single_signup_detect',
+			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+			'custom'   => 'metatag_entity_single_detect',
+			'token'   => array(
+				'single:contact:url'               => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_76,
+					'handler' => 'metatag_single_token_signup_url',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+				),
+			),
+			'default' => array(
+				'title' => '{site:name}',
+				'canonical'    => '{single:login:url}',
+				'og:url'       => '{single:login:url}',
+				"robots"       =>  ["noarchive","noindex", "nofollow"] ,
+			),
+		); 
+			
+			
 		// News - List page.
 		$config['news_list'] = array(
 			'name'   => LAN_PLUGIN_METATAG_TYPE_05,
@@ -212,7 +276,7 @@ class metatag_metatag
 			'load'   => 'metatag_entity_news_category_load',
 			'file'   => '{e_PLUGIN}metatag/includes/metatag.news.php',
 			'token'  => array(
-				'news:category:id'                    => array(
+				'news:category:id'				    => array(
 					'help'    => LAN_PLUGIN_METATAG_TOKEN_15,
 					'handler' => 'metatag_entity_news_token_category_id',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
@@ -239,7 +303,7 @@ class metatag_metatag
 				),  
 			),
 			'default' => array(
-                'canonical'    => '{site:nothing}',
+				'canonical'    => '{site:nothing}',
 			),
 			'dependencies' => array(
 				'plugin'  => 'news',
@@ -263,7 +327,7 @@ class metatag_metatag
 				'plugin'  => 'news',
 			),
 			'default' => array(
-                'canonical'    => '{site:nothing}',
+				'canonical'    => '{site:nothing}',
 			),
 		);
 
@@ -373,7 +437,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                  => '{news:title}',
 				'description'            => '{news:summary}',
-                'canonical'              => '{site:nothing}',
+				'canonical'              => '{site:nothing}',
 				'image_src'              => '{news:thumbnail:first}',
 				'og:title'               => '{news:title}',
 				'og:type'                => 'article',
@@ -398,7 +462,7 @@ class metatag_metatag
 				'plugin'  => 'page',
 			),
 			'default' => array(
-                'canonical'    => '{site:nothing}',
+				'canonical'    => '{site:nothing}',
 			),
 		);
 
@@ -433,7 +497,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{page:book:name}',
 				'description'          => '{page:book:description:truncated}',
-                'canonical'            => '{site:nothing}',
+				'canonical'            => '{site:nothing}',
 				'og:title'             => '{page:book:name}',
 				'og:description'       => '{page:book:description:truncated}',
 				'itemprop:name'        => '{page:book:name}',
@@ -473,9 +537,9 @@ class metatag_metatag
 				),
 			),
 			'default' => array(
-				'title'                => '{page:chapter:name}',
+				'title'				=> '{page:chapter:name}',
 				'description'          => '{page:chapter:description:truncated}',
-                'canonical'            => '{site:nothing}',
+				'canonical'            => '{site:nothing}',
 				'og:title'             => '{page:chapter:name}',
 				'og:description'       => '{page:chapter:description:truncated}',
 				'itemprop:name'        => '{page:chapter:name}',
@@ -582,7 +646,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                  => '{page:title}',
 				'description'            => '{page:description:truncated}',
-                'canonical'            => '{site:nothing}',
+				'canonical'            => '{site:nothing}',
 				'og:title'               => '{page:title}',
 				'og:type'                => 'article',
 				'og:description'         => '{page:description:truncated}',
@@ -637,7 +701,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{download:category:name}',
 				'description'          => '{download:category:description:truncated}',
-                'canonical'            => '{site:nothing}',
+				'canonical'            => '{site:nothing}',
 				'og:title'             => '{download:category:name}',
 				'og:description'       => '{download:category:description:truncated}',
 				'itemprop:name'        => '{download:category:name}',
@@ -700,7 +764,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                => '{download:item:name}',
 				'description'          => '{download:item:description:truncated}',
-                'canonical'            => '{site:nothing}',
+				'canonical'            => '{site:nothing}',
 				'og:title'             => '{download:item:name}',
 				'og:description'       => '{download:item:description:truncated}',
 				'itemprop:name'        => '{download:item:name}',

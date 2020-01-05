@@ -26,8 +26,8 @@ class metatag
 	 * @var array|mixed
 	 */
 	private $plugPrefs = array();
-  private $jmcorePrefs = array();
-  private $widgetTokens = array();  //orig only used in javascript
+  	private $jmcorePrefs = array();
+  	private $widgetTokens = array();  //orig only used in javascript
 	/**
 	 * Contains a list about plugins, which has e_metatag.php addon file.
 	 *
@@ -277,6 +277,7 @@ class metatag
 		$config = array();
 
 		$types = $this->getAllowedTypes();
+
 		if(in_array($type, $types))
 		{
 			$config = $this->getWidgetConfigData($type, $id);
@@ -2371,7 +2372,7 @@ class metatag
 			{
 				$data = $config['metatag_default']['default'];
 			}
-
+    
 			$insert = array(
 				'name'   => $config['metatag_default']['name'],
 				'type'   => 'metatag_default',
@@ -2392,7 +2393,7 @@ class metatag
 				{
 					$data = $config[$type]['default'];
 				}
-
+             
 				$insert = array(
 					'name'   => $config[$type]['name'],
 					'type'   => $type,
@@ -2435,13 +2436,13 @@ class metatag
 		{
 			// Try to detect entity.
 			$entity = $this->detectEntity();
-
+             
 			$entity_type = $entity['entity_type'];
 			$entity_id = $entity['entity_id'];
-
+             
 			// Get meta tags by entity_id and/or entity_type.
 			$metatags = $this->getMetaTags($entity_id, $entity_type);
-
+            
 			if(!empty($metatags))
 			{
 				// Replace constants and tokens.
@@ -2597,17 +2598,23 @@ class metatag
 
 		foreach($config as $type => $handler)
 		{
+
 			if($entity_id !== false)
 			{
-				continue;
+				break;   //first detect is enough, saving iterations
 			}
-
+			if($entity_type !== false)
+			{
+				break;
+			}
+            
+ 
 			if(!isset($handler['detect']) || !isset($handler['file']) || !isset($handler['plugin']))
 			{
 				continue;
 			}
 
-			$file = e_PLUGIN . $handler['plugin'] . '/' . $handler['file'];
+			$file = e_PLUGIN . $handler['plugin'] . '/' . $handler['file'];      
 			if(!is_readable($file))
 			{
 				$tp = e107::getParser();
@@ -2635,8 +2642,9 @@ class metatag
 			{
 				$entity_type = $type;
 			}
+             
 		}
-
+         
 		return array(
 			'entity_type' => $entity_type,
 			'entity_id'   => $entity_id,
@@ -2661,26 +2669,36 @@ class metatag
 		$tp = e107::getParser();
 
 		$config = $this->getAddonConfig();
-
+        
 		foreach($data as $key => $value)
-		{
+		{   
 			// Replace constants. Use full URLs, and replace {USERID} too.
 			$value = $tp->replaceConstants($value, 'full', true);
 
 			// Replace global tokens.
 			$tokens = $config['metatag_default']['token'];
+                
 			$value = $this->replaceTokens($tokens, $value);
 
 			// Replace entity type specific tokens.
+            // for anything custom is default $entity_id = 1 , front, contact
 			if(!empty($entity_id) && !empty($entity_type))
 			{
+                
 				// If 'token' and 'load' is set.
 				if(isset($config[$entity_type]['token']) && isset($config[$entity_type]['load']))
 				{
 					$entity = $this->loadEntity($config[$entity_type], $entity_id, $entity_type);
-					$tokens = $config[$entity_type]['token'];
+					$tokens = $config[$entity_type]['token'];        
 					$value = $this->replaceTokens($tokens, $value, $entity);
 				}
+                
+				// If 'token' and 'custom' is set.  No database query is needed, just replacing tokens
+				if(isset($config[$entity_type]['token']) && isset($config[$entity_type]['custom']))
+				{ 
+					$tokens = $config[$entity_type]['token'];        
+					$value = $this->replaceTokens($tokens, $value, $entity);
+				}                
 			}
 
 			$data[$key] = $value;
@@ -2917,7 +2935,7 @@ class metatag
 	 * @return mixed $data
 	 */
 	public function replaceTokens($tokens, $data, $entity = array())
-	{
+	{    
 		if(empty($tokens) || empty($data))
 		{
 			return $data;
@@ -2925,6 +2943,7 @@ class metatag
 
 		foreach($tokens as $token => $info)
 		{
+ 
 			// Try to load handler file.
 			$file = e_PLUGIN . $info['plugin'] . '/' . $info['file'];
 			if(!is_readable($file))
@@ -2977,10 +2996,29 @@ class metatag
 	 */
 	public function getMetaTags($entity_id, $entity_type)
 	{
-		$global = $this->getGlobalMetaTags();
+		/* JM changes:   only temp!!!
+          if $entity_type is not filled, then don't return global, at least for now, until solving double content and exceptions */
+        $tags = array();
+        $global = array();
+        $default = array();
+        $custom = array();
+        
+        if(empty($entity_type)) 
+        {
+         return $tags;
+        }
+        $global = $this->getGlobalMetaTags();
+         
+        /* JM note:  
+        if you want override (remove) global tag by defalt use new token  {site:nothing} */ 
 		$default = $this->getDefaultMetaTagsByType($entity_type);
-		$custom = $this->getCustomMetaTagsByEntity($entity_id, $entity_type);
-
+        
+        /* JM changes:  
+        run this only if you have ID, double check is inside that method too */       
+        if($entity_id > 0 )  {
+		  $custom = $this->getCustomMetaTagsByEntity($entity_id, $entity_type);
+        }
+        
 		$tags = $global;
 
 		// Override meta tags with the default ones.

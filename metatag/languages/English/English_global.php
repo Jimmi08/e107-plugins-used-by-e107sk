@@ -20,7 +20,7 @@ define("LAN_PLUGIN_METATAG_HELP_05", "Entity specific tokens");
 define("LAN_PLUGIN_METATAG_HELP_06", "Configure the meta tags below");
 
 define("LAN_PLUGIN_METATAG_TYPE_01", "Global (default) meta tags");
-define("LAN_PLUGIN_METATAG_TYPE_02", "A. Front page");
+define("LAN_PLUGIN_METATAG_TYPE_02", "0. Front page");
 define("LAN_PLUGIN_METATAG_TYPE_03", "B.4 News - Extended page (News item)");
 define("LAN_PLUGIN_METATAG_TYPE_04", "C.4 Page - Page item");
 define("LAN_PLUGIN_METATAG_TYPE_05", "B.1 News - List page [Front]");
@@ -32,6 +32,9 @@ define("LAN_PLUGIN_METATAG_TYPE_10", "C.3 Page - List Pages within a specific Ch
 define("LAN_PLUGIN_METATAG_TYPE_11", "D.1 Download - Category list");
 define("LAN_PLUGIN_METATAG_TYPE_12", "D.2 Download - Category page");
 define("LAN_PLUGIN_METATAG_TYPE_13", "D.3 Download - Download item");
+define("LAN_PLUGIN_METATAG_TYPE_14", "A.1 Single Page - Contact");
+define("LAN_PLUGIN_METATAG_TYPE_15", "A.2 Single Page - Login");
+define("LAN_PLUGIN_METATAG_TYPE_16", "A.3 Single Page - Signup");
 
 define("LAN_PLUGIN_METATAG_TOKEN_01", "The name of the site.");
 define("LAN_PLUGIN_METATAG_TOKEN_02", "The description of the site.");
@@ -106,3 +109,6 @@ define("LAN_PLUGIN_METATAG_TOKEN_70", "Description for the page (Truncated)");
 define("LAN_PLUGIN_METATAG_TOKEN_71", "Description for the Chapter (Truncated)");
 define("LAN_PLUGIN_METATAG_TOKEN_72", "News Category Description (Truncated)");
 define("LAN_PLUGIN_METATAG_TOKEN_73", "The Keywords of the site.");
+define("LAN_PLUGIN_METATAG_TOKEN_74", "Contact page URL.");
+define("LAN_PLUGIN_METATAG_TOKEN_75", "Login page URL.");
+define("LAN_PLUGIN_METATAG_TOKEN_76", "Signup page URL.");
