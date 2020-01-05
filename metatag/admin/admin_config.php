@@ -86,7 +86,7 @@ class metatag_admin_ajax_ui extends e_admin_ui
 	{
 		// Construct action string.
 		$action = varset($_GET['mode']) . '/' . varset($_GET['action']);
-
+         
 		switch($action)
 		{
 			case 'ajax/revert':
@@ -178,7 +178,7 @@ class metatag_admin_ajax_ui extends e_admin_ui
 		$ajax->response($commands);
 		exit;
 	}
-
+    
 }
 
 
@@ -224,7 +224,7 @@ class metatag_admin_ui extends e_admin_ui
 	/**
 	 * @var boolean
 	 */
-	protected $batchDelete = false;
+	protected $batchDelete = true;
 
 	/**
 	 * @var string SQL order, false to disable order, null is default order
@@ -243,6 +243,9 @@ class metatag_admin_ui extends e_admin_ui
 	 * @var array UI field data
 	 */
 	protected $fields = array(
+    'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 
+    'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect'  ),
+    
 		'name'    => array(
 			'title'    => LAN_METATAG_ADMIN_UI_03,
 			'type'     => 'method',
@@ -334,8 +337,10 @@ class metatag_admin_ui extends e_admin_ui
 	{
 		e107::css('metatag', 'css/metatag.css');
 		e107::js('metatag', 'js/metatag.js');
+         
 	}
-
+ 
+    
 	/**
 	 * User defined pre-create logic, return false to prevent DB query execution.
 	 *
@@ -433,11 +438,11 @@ class metatag_admin_ui extends e_admin_ui
 			$meta->clearCacheByType($new_data['type']);
 		}
 	}
-
+                 
 	/**
 	 * User defined pre-delete logic.
 	 */
-	public function beforeDelete($data, $id)
+/*	public function beforeDelete($data, $id)
 	{
 		// Cancel deletion.
 		return false;
@@ -446,12 +451,12 @@ class metatag_admin_ui extends e_admin_ui
 	/**
 	 * User defined after-delete logic.
 	 */
-	public function afterDelete($deleted_data, $id, $deleted_check)
+/*	public function afterDelete($deleted_data, $id, $deleted_check)
 	{
 		// If this doesn't return with TRUE, "admin_metatag_default_deleted" event won't be fired.
 		return false;
 	}
-
+             */
 }
 
 
