@@ -35,6 +35,7 @@ define("LAN_PLUGIN_METATAG_TYPE_13", "D.3 Download - Download item");
 define("LAN_PLUGIN_METATAG_TYPE_14", "A.1 Single Page - Contact");
 define("LAN_PLUGIN_METATAG_TYPE_15", "A.2 Single Page - Login");
 define("LAN_PLUGIN_METATAG_TYPE_16", "A.3 Single Page - Signup");
+define("LAN_PLUGIN_METATAG_TYPE_17", "A.4 Single Page - Forgotten password");
 
 define("LAN_PLUGIN_METATAG_TOKEN_01", "The name of the site.");
 define("LAN_PLUGIN_METATAG_TOKEN_02", "The description of the site.");
@@ -112,3 +113,4 @@ define("LAN_PLUGIN_METATAG_TOKEN_73", "The Keywords of the site.");
 define("LAN_PLUGIN_METATAG_TOKEN_74", "Contact page URL.");
 define("LAN_PLUGIN_METATAG_TOKEN_75", "Login page URL.");
 define("LAN_PLUGIN_METATAG_TOKEN_76", "Signup page URL.");
+define("LAN_PLUGIN_METATAG_TOKEN_77", "FPW page URL.");

@@ -237,7 +237,7 @@ class metatag_metatag
 			),
 		);    
 			
-		// Login page.
+		// Signup page.
 		$config['signup'] = array(
 			'name'    => LAN_PLUGIN_METATAG_TYPE_16,
 			'detect'  => 'metatag_entity_single_signup_detect',
@@ -257,8 +257,29 @@ class metatag_metatag
 				"robots"       =>  ["noarchive","noindex", "nofollow"] ,
 			),
 		); 
-			
-			
+
+
+		// FPW page.
+		$config['fpw'] = array(
+			'name'    => LAN_PLUGIN_METATAG_TYPE_17,
+			'detect'  => 'metatag_entity_single_fpw_detect',
+			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+			'custom'   => 'metatag_entity_single_detect',
+			'token'   => array(
+				'single:contact:url'               => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_77,
+					'handler' => 'metatag_single_token_fpw_url',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
+				),
+			),
+			'default' => array(
+				'title' => '{site:name}',
+				'canonical'    => '{single:login:url}',
+				'og:url'       => '{single:login:url}',
+				"robots"       =>  ["noarchive","noindex", "nofollow"] ,
+			),
+		);
+        			
 		// News - List page.
 		$config['news_list'] = array(
 			'name'   => LAN_PLUGIN_METATAG_TYPE_05,

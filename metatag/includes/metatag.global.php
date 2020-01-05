@@ -179,7 +179,7 @@ function metatag_global_token_site_current_page_url()
  * forum - "forum" defined forum_viewtopic.php
  * gsitemap - "gsitemap" defined gsitemap
  * gsitemap - "links_page" defined links_page  not supported yet 
- * gallery -  e_CURRENT_PLUGIN, e_PAGE is not definded
+ * gallery -  e_CURRENT_PLUGIN, e_PAGE are not definded
  */
 function metatag_global_token_manual_canonical_url()
 {   

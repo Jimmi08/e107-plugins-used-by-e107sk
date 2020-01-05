@@ -57,6 +57,18 @@ function metatag_entity_single_signup_detect()
     return false;
 }
 
+
+function metatag_entity_single_fpw_detect()
+{
+    
+    if(e_PAGE ==  'fpw.php')  
+    {                    
+    return true;
+    }
+
+    return false;
+}
+
 /**
  * Returns with Contact page URL.
  * double content and custom url solved
