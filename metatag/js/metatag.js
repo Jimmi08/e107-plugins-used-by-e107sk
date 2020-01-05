@@ -49,7 +49,7 @@ var e107 = e107 || {'settings': {}, 'behaviors': {}};
 	e107.behaviors.metatagActionButton = {
 		attach: function (context, settings)
 		{
-			$(context).find('.action.revert, .action.cache, .action.deleteall').once('metatag-action-button').each(function ()
+			$(context).find('.action.revert, .action.cache').once('metatag-action-button').each(function ()
 			{
 				$(this).click(function ()
 				{

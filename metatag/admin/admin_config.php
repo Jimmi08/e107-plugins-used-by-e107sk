@@ -86,7 +86,7 @@ class metatag_admin_ajax_ui extends e_admin_ui
 	{
 		// Construct action string.
 		$action = varset($_GET['mode']) . '/' . varset($_GET['action']);
-         
+
 		switch($action)
 		{
 			case 'ajax/revert':
@@ -188,9 +188,10 @@ class metatag_admin_ajax_ui extends e_admin_ui
 	 */
 	public function ajaxDeleteAll()
 	{
+        
         $db = e107::getDb();
-        $db->delete("metatag_default");  
-     
+        $db->delete("metatag_default");
+              
 		$ajax = e107::getAjax();
 		$commands = array();
 		$commands[] = $ajax->commandInvoke('#uiModal', 'modal', array('hide'));
@@ -367,7 +368,7 @@ class metatag_admin_ui extends e_admin_ui
 			$query = http_build_query($query);
 			$link = array(
 				'href'                 => '#',
-				'class'                => 'btn btn-danger action deleteall',
+				'class'                => 'btn btn-danger action revert',
 				'title'                => LAN_METATAG_ADMIN_UI_04,
 				'data-toggle'          => 'tooltip',
 				'data-placement'       => 'top',
