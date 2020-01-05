@@ -96,6 +96,10 @@ class metatag_admin_ajax_ui extends e_admin_ui
 			case 'ajax/cache':
 				$this->ajaxCache();
 				break;
+
+			case 'ajax/deleteall':
+				$this->ajaxDeleteAll();
+				break;
 		}
 	}
 
@@ -172,6 +176,22 @@ class metatag_admin_ajax_ui extends e_admin_ui
 			}
 		}
 
+		$ajax = e107::getAjax();
+		$commands = array();
+		$commands[] = $ajax->commandInvoke('#uiModal', 'modal', array('hide'));
+		$ajax->response($commands);
+		exit;
+	}
+    
+	/**
+	 * Ajax Request handler.
+	 */
+	public function ajaxDeleteAll()
+	{
+        
+        $db = e107::getDb();
+        $db->delete("metatag_default");
+              
 		$ajax = e107::getAjax();
 		$commands = array();
 		$commands[] = $ajax->commandInvoke('#uiModal', 'modal', array('hide'));
@@ -334,8 +354,45 @@ class metatag_admin_ui extends e_admin_ui
 	{
 		e107::css('metatag', 'css/metatag.css');
 		e107::js('metatag', 'js/metatag.js');
+        
+        $this->postFiliterMarkup =  $this->DeleteAllButton(); 
 	}
 
+
+	function DeleteAllButton()
+	  {
+			// Revert button.
+			parse_str(str_replace('&amp;', '&', e_QUERY), $query);
+			$query['mode'] = 'ajax';
+			$query['action'] = 'deleteall';
+			$query = http_build_query($query);
+			$link = array(
+				'href'                 => '#',
+				'class'                => 'btn btn-danger action revert',
+				'title'                => LAN_METATAG_ADMIN_UI_04,
+				'data-toggle'          => 'tooltip',
+				'data-placement'       => 'top',
+				'data-animation'       => 'false',
+				'data-confirm-title'   => LAN_METATAG_ADMIN_UI_25,
+				'data-confirm-message' => LAN_METATAG_ADMIN_UI_24,
+				'data-confirm-yes'     => LAN_METATAG_ADMIN_UI_19,
+				'data-confirm-no'      => LAN_METATAG_ADMIN_UI_18,
+				'data-confirm-url'     => e_SELF . '?' . $query,
+			);
+			$link_attributes = '';
+			foreach($link as $name => $val)
+			{
+				$link_attributes .= ' ' . $name . '="' . $val . '"';
+			}
+			$html .= '<a' . $link_attributes . '>' . e107::getParser()->toGlyph('fa-undo') .  'Delete Defaults </a>';
+            
+      $text .= "</fieldset></form><div class='e-container'>
+      <table  style='".ADMIN_WIDTH."' class='table adminlist table-striped'>";
+      $text .=  $html;        
+      $text .= "</td></tr></table></div><form><fieldset>";
+      return $text;
+    }
+    
 	/**
 	 * User defined pre-create logic, return false to prevent DB query execution.
 	 *
