@@ -100,7 +100,7 @@ class metatag_admin_ajax_ui extends e_admin_ui
 	}
 
 	/**
-	 * Ajax Request handler.
+	 * Ajax Request handler.    it doesn't work if you adds new configs 
 	 */
 	public function ajaxRevert()
 	{
@@ -451,12 +451,20 @@ class metatag_admin_ui extends e_admin_ui
 	/**
 	 * User defined after-delete logic.
 	 */
-/*	public function afterDelete($deleted_data, $id, $deleted_check)
+ 	public function afterDelete($deleted_data, $id, $deleted_check)
 	{
 		// If this doesn't return with TRUE, "admin_metatag_default_deleted" event won't be fired.
-		return false;
+		//return false;
+ 
+       	if(!empty($id)  )
+		{
+			$tp = e107::getParser();
+			$db = e107::getDb();
+			$db->delete('metatag', 'entity_id = "' . (int) $id . '" AND entity_type = "metatag_default"');
+		}
+ 
 	}
-             */
+            
 }
 
 
