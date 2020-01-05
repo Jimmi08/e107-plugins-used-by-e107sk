@@ -114,3 +114,5 @@ define("LAN_PLUGIN_METATAG_TOKEN_74", "Contact page URL.");
 define("LAN_PLUGIN_METATAG_TOKEN_75", "Login page URL.");
 define("LAN_PLUGIN_METATAG_TOKEN_76", "Signup page URL.");
 define("LAN_PLUGIN_METATAG_TOKEN_77", "FPW page URL.");
+define("LAN_PLUGIN_METATAG_TOKEN_78", "News Category Canonical Url.");
+define("LAN_PLUGIN_METATAG_TOKEN_79", "News Canonical Url.");

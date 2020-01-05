@@ -2460,7 +2460,7 @@ class metatag
 						'entity_id'   => $entity_id,
 						'data'        => $this->serialize($data),
 					);
-
+                    
 					// Set cache.
 					$this->setCache($cacheData);
 				}
@@ -2535,11 +2535,12 @@ class metatag
 				'data' => $details,
 			);
 
-			if($details['entity_type'] != 'metatag_default' && $details['entity_id'] > 0)
+			if($details['entity_type'] != 'metatag_default' && $details['entity_id'] > 0  )
 			{
-				$this->clearCacheByTypeAndId($details['entity_type'], $details['entity_id']);
+				/* JM this breaks pagination caching  TODO: find why this is here */
+				//$this->clearCacheByTypeAndId($details['entity_type'], $details['entity_id'], );
 			}
-
+ 
 			$db = e107::getDb();
 			$db->insert('metatag_cache', $insert, false);
 		}

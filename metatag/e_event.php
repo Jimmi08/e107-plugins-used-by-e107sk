@@ -249,7 +249,7 @@ class metatag_event
 			// Finally, apply new meta tags.
 			$meta->addMetaTags($new_tags);
             //add prefs for this
-            $this->renderDebugInfo($new_tags);
+           // $this->renderDebugInfo($new_tags);
 		}
 	}
   
@@ -259,10 +259,10 @@ class metatag_event
 				{
                 
 			   	$debugtext   = print_a($new_tags);
-                $debugtext.= print_a("<br /> e_CURRENT_PLUGIN " . e_CURRENT_PLUGIN);
-                 $debugtext.= print_a("<br /> e_PAGE " . e_PAGE);
-                $debugtext.= print_a("<br /> e_SELF " . e_SELF); 
-                
+                $debugtext.= print_a("e_CURRENT_PLUGIN " . e_CURRENT_PLUGIN);
+                 $debugtext.= print_a("e_PAGE " . e_PAGE);
+                $debugtext.= print_a(" e_SELF " . e_SELF); 
+                $debugtext.= print_a("e_SELF " . e_URL_LEGACY); 
 				 	$mes->addInfo($debugtext);
 					
 				}

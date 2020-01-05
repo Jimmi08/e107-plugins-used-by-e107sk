@@ -35,17 +35,15 @@ class canonical_adminArea extends e_admin_dispatcher
 	function init() {
 
 		$pluginPrefs = e107::getPlugPref('jm_canonical');
- 
 
-		if($pluginPrefs['news_auto']== "none")  {
-			$this->adminMenu['page/list'] = 
-			array('caption'=> 'News ', 'perm' => 'P', 'uri'=>'admin_canonical.php?mode=news&action=list');
-			$this->adminMenu['newscategory/list'] = 
-			array('caption'=> 'News Categories ', 'perm' => 'P', 'uri'=>'admin_canonical.php?mode=newscategory&action=list');
-		}
+        // autogeneration is used as callback (not defalt way) so this can be displayed now 
+		$this->adminMenu['news/list'] = 
+		array('caption'=> 'News ', 'perm' => 'P', 'uri'=>'admin_canonical.php?mode=news&action=list');
+		$this->adminMenu['newscategory/list'] = 
+		array('caption'=> 'News Categories ', 'perm' => 'P', 'uri'=>'admin_canonical.php?mode=newscategory&action=list');	 
 
 		if($pluginPrefs['page_auto']== "none")  {
-			$this->adminMenu['news/list'] = 
+			$this->adminMenu['page/list'] = 
 			array('caption'=> 'Pages ', 'perm' => 'P', 'uri'=>'admin_canonical.php?mode=page&action=list');
 		}		
 

@@ -322,9 +322,17 @@ class metatag_metatag
 					'handler' => 'metatag_entity_news_token_category_keywords',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
 				),  
+				'news:category:canurl'              => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_78,
+					'handler' => 'metatag_entity_news_token_category_canurl',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
+				), 
 			),
 			'default' => array(
-				'canonical'    => '{site:nothing}',
+				'title' => '{news:category:name} | {site:name}',
+				'canonical'    => '{news:category:canurl}',
+				'og:url'    => '{news:category:canurl}',
+				"robots"       =>  ["follow","index"] ,
 			),
 			'dependencies' => array(
 				'plugin'  => 'news',
@@ -348,7 +356,7 @@ class metatag_metatag
 				'plugin'  => 'news',
 			),
 			'default' => array(
-				'canonical'    => '{site:nothing}',
+				'canonical'    => '{site:current-page:url}',
 			),
 		);
 
@@ -424,6 +432,11 @@ class metatag_metatag
 					'handler' => 'metatag_entity_news_token_created_forum',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
 				),
+				'news:canurl' => array(
+					'help'    => LAN_PLUGIN_METATAG_TOKEN_79,
+					'handler' => 'metatag_entity_news_token_canurl',
+					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
+				),
 				'news:created:utc'                    => array(
 					'help'    => LAN_PLUGIN_METATAG_TOKEN_33,
 					'handler' => 'metatag_entity_news_token_created_utc',
@@ -454,20 +467,22 @@ class metatag_metatag
 					'handler' => 'metatag_entity_news_token_category_keywords',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.news.php',
 				),
+
 			),
 			'default' => array(
 				'title'                  => '{news:title}',
 				'description'            => '{news:summary}',
-				'canonical'              => '{site:nothing}',
+				'canonical'              => '{news:canurl}',
 				'image_src'              => '{news:thumbnail:first}',
 				'og:title'               => '{news:title}',
 				'og:type'                => 'article',
 				'og:description'         => '{news:summary}',
 				'og:image'               => '{news:thumbnail:og}',
+				'og:url'                 => '{news:canurl}',
 				'article:published_time' => '{news:created:utc}',
 				'itemprop:name'          => '{news:title}',
 				'itemprop:description'   => '{news:summary}',
-				'itemprop:image'         => '{news:thumbnail:first}',
+				'itemprop:image'         => '{news:thumbnail:first}', 
 			),
 			'dependencies' => array(
 				'plugin'  => 'news',
@@ -667,7 +682,7 @@ class metatag_metatag
 			'default' => array(
 				'title'                  => '{page:title}',
 				'description'            => '{page:description:truncated}',
-				'canonical'            => '{site:nothing}',
+				'canonical'              => '{site:nothing}',
 				'og:title'               => '{page:title}',
 				'og:type'                => 'article',
 				'og:description'         => '{page:description:truncated}',
