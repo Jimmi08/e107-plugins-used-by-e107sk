@@ -749,11 +749,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-    
-    if($this->jmcorePrefs['metatag_advanced']) {
-		// Advanced meta tags.
-		$advanced = array();
- 
+        
+        
     if($this->jmcorePrefs['robots']) {  
     		$robots = varset($values['data']['robots'], array());
     
@@ -844,12 +841,19 @@ class metatag
     		$checkboxes .= '</div>';
     
          
-    		$advanced[$field . '[robots]'] = array(
+    		$basic[$field . '[robots]'] = array(
     			'label' => LAN_METATAG_ADMIN_10,
     			'help'  => $form->help(LAN_METATAG_ADMIN_11),
     			'field' => $checkboxes,
     		);
     }
+    
+    
+    if($this->jmcorePrefs['metatag_advanced']) {
+		// Advanced meta tags.
+		$advanced = array();
+ 
+
  
     if($this->jmcorePrefs['google_news']) {
 		$help = $tp->lanVars(LAN_METATAG_ADMIN_13, array(

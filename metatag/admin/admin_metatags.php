@@ -86,6 +86,14 @@ class jmmetatag_ui extends e_admin_ui
 					'type'=>'boolean',
 					'data' => 'int',
 					'help'=>LAN_METATAG_ADMIN_27),
+                    
+                    'robots'		=> array('title'=> LAN_METATAG_ADMIN_PANEL_01 .": ". LAN_METATAG_ADMIN_10,
+					'tab'=>0,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=>LAN_METATAG_ADMIN_11),
+                    
+                    
 					'metatag_advanced'		=> array('title'=> 'Panel: '.LAN_METATAG_ADMIN_PANEL_02,
 					'tab'=>0,
 					'type'=>'boolean',
@@ -119,11 +127,7 @@ class jmmetatag_ui extends e_admin_ui
 					'data' => 'int',
 					'help'=>''),          
                     
-					'robots'		=> array('title'=> LAN_METATAG_ADMIN_10,
-					'tab'=>1,
-					'type'=>'boolean',
-					'data' => 'int',
-					'help'=>LAN_METATAG_ADMIN_11),
+
           
 					'google_news'		=> array('title'=> LAN_METATAG_ADMIN_12,
 					'tab'=>1,

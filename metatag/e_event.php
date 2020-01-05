@@ -232,7 +232,7 @@ class metatag_event
 
 			// Remove all previously added meta tags we want to override.
 			foreach($data as $m)
-			{
+			{      
 				if(isset($m['name']) && in_array($m['name'], $new_tags_keys))
 				{
 					$response->removeMeta($m['name']);
@@ -249,7 +249,7 @@ class metatag_event
 			// Finally, apply new meta tags.
 			$meta->addMetaTags($new_tags);
             //add prefs for this
-            // $this->renderDebugInfo($new_tags);
+            $this->renderDebugInfo($new_tags);
 		}
 	}
   
@@ -257,9 +257,12 @@ class metatag_event
 		    $mes = e107::getMessage();
 				if (getperms('0') && true)
 				{
-				//	$debugtext   = print_a($new_tags);
- 
-					
+                
+			   	$debugtext   = print_a($new_tags);
+                $debugtext.= print_a("<br /> e_CURRENT_PLUGIN " . e_CURRENT_PLUGIN);
+                 $debugtext.= print_a("<br /> e_PAGE " . e_PAGE);
+                $debugtext.= print_a("<br /> e_SELF " . e_SELF); 
+                
 				 	$mes->addInfo($debugtext);
 					
 				}
