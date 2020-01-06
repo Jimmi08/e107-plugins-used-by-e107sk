@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /*
 *************************************
 *        Signup Secure				*
@@ -8,10 +8,10 @@
 *        info@oyabunstyle.de		*
 *************************************
 */
-define("SS_FAIL", "Your result was not correct. Please try again.");
-define("SS_BACK", "Back");
-define("SS_REQUEST", "To prove that you are an human beeing figure out the following small calculation.");
-define("SS_SEND", "Send my result");
+define("SS_FAIL", "Váš výsledok nie je správny. Skúste to znova.");
+define("SS_BACK", "Späť");
+define("SS_REQUEST", "Dokážte, že ste reálna osoba, vypočítaním tohto ľahkého príkladu.");
+define("SS_SEND", "Odoslať výsledok");
  
 define("SS_README", "
 <p>With this Plugin you defend your website from spam bots which join your site automaticly and post dozens of links to other sites.</p>
