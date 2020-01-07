@@ -149,7 +149,7 @@ Full credit for this plugin belongs to lonalore.
 
 This plugin is a particular version planned for replacing some output of JM Canonical plugin. More oriented on not advanced users.
 
-In progress.
+In progress. Highly experimental. At first, I need to test if those changes are correct. Then clean JM Canonical plugin. There is a high possibility that those changes will be applied back to JMC standard way of overriding original Metatag config. But direct replacements now can help to point where the problem is. 
 
 Original source: https://github.com/lonalore/metatag
 
