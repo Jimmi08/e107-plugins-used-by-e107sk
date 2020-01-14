@@ -223,7 +223,7 @@ class metatag_metatag
 			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
 			'custom'   => 'metatag_entity_single_detect',
 			'token'   => array(
-				'single:contact:url'               => array(
+				'single:login:url'               => array(
 					'help'    => LAN_PLUGIN_METATAG_TOKEN_75,
 					'handler' => 'metatag_single_token_login_url',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
@@ -244,7 +244,7 @@ class metatag_metatag
 			'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
 			'custom'   => 'metatag_entity_single_detect',
 			'token'   => array(
-				'single:contact:url'               => array(
+				'single:signup:url'               => array(
 					'help'    => LAN_PLUGIN_METATAG_TOKEN_76,
 					'handler' => 'metatag_single_token_signup_url',
 					'file'    => '{e_PLUGIN}metatag/includes/metatag.single.php',
