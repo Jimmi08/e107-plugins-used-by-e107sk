@@ -196,16 +196,18 @@ function metatag_global_token_manual_canonical_url()
       return '';
     }
     
-    e107_require_once(e_PLUGIN . 'jm_canonical/canonical.class.php');
-    $canonicalPlugin = new Canonical;  
-
-	$request_url = e107::getParser()->toDB(e_REQUEST_URL);
-    $result = $canonicalPlugin->getManualCanonicalUrl($request_url, true);
-    if($result) 
-    {
-      return $result;
-    }
-    else return $request_url; 
+    if(e107::isInstalled('jm_canonical')) {
+	    e107_require_once(e_PLUGIN . 'jm_canonical/canonical.class.php');
+	    $canonicalPlugin = new Canonical;  
+	
+		  $request_url = e107::getParser()->toDB(e_REQUEST_URL);
+	    $result = $canonicalPlugin->getManualCanonicalUrl($request_url, true);
+	    if($result) 
+	    {
+	      return $result;
+	    }
+	    else return $request_url;
+		} 
 }
 
 
