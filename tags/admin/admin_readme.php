@@ -41,13 +41,13 @@ new currentplugin_adminArea();
    <li>Enter default number of tags to be shown in the tag cloud, this can be overwritten when placing the tagcloud shortcode
    eg {TAGCLOUD=50} to show 50 tags.  This default option will determine how many tags are seen in the side menu if used.
    <li>Tag cloud menu title will be displayed at the top of your tag cloud if you use the included menu.  For example 'Quick Links' etc
-   <li>Fix the length of item preview here, this is the number of caracters that will be shown on the <a href='".e_PLUGIN."tagcloud/tagcloud.php'>tagcloud.php</a> tags link/preview page
+   <li>Fix the length of item preview here, this is the number of caracters that will be shown on the <a href='".e_PLUGIN."tags/tagcloud.php'>tagcloud.php</a> tags link/preview page
    <li>Check the show admin tag edit link to add an option for Admins to manually edit the tags on the tags link/preview page.
    Select the appropriate class
    <li>Check the user class to allow users to edit rags on their content, eg to add tags to a forum post they made.
    <li>Template override attempts to insert the {TAGS} shordcode into your theme.  This should work on standard themes, with the exception of tags on news
    items where the theme uses a newsstyle function.  If auto insertion fails, please manually insert the {TAGS} shortcode into your theme templates.
-   <li>Number of tags to show on the big page of tags page, eg  <a href='".e_PLUGIN."tagcloud/tagcloud.php'>here</a>
+   <li>Number of tags to show on the big page of tags page, eg  <a href='".e_PLUGIN."tags/tagcloud.php'>here</a>
    <LI>The order of the tags shown in the tagcloud can be set.  This can be useful for ensuring the links in the cloud do not change so often and
    will allow Google to iterate over the links.
    <p>
@@ -61,7 +61,7 @@ new currentplugin_adminArea();
    If you don't know what this is, then you will need to understand it before going further.
    <p>
    For example: <p>
-   RewriteRule    ^tags-(.*).html$ e107_plugins/tagcloud/tagcloud.php?\$1 [L]
+   RewriteRule    ^tags-(.*).html$ e107_plugins/tags/tagcloud.php?\$1 [L]
    <p>
    This will match any URL beginning with 'tags-' and ending in '.html'
    <p>

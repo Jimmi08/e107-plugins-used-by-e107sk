@@ -107,7 +107,7 @@ if (!class_exists('e107tagcloud')) {
 			}	
 			else
 			{
-				$link = e_PLUGIN_ABS."tagcloud/tagcloud.php?".$tag_db;
+				$link = e_PLUGIN_ABS."tags/tagcloud.php?".$tag_db;
 			}
 			//echo "T:$link<p>";
 			return $link;

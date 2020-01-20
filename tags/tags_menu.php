@@ -9,7 +9,7 @@
 
    include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
  $text = "{TAGCLOUD=15}
-         <div style='text-align:center;'><a href='".e_PLUGIN_ABS."tagcloud/tagcloud.php'>".LAN_TG6."</a></div>
+         <div style='text-align:center;'><a href='".e_PLUGIN_ABS."tags/tagcloud.php'>".LAN_TG6."</a></div>
          " ;
          
  //: number=$number&type=news&order=&template='menu'

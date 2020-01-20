@@ -25,7 +25,7 @@ tags_tagspace  _
 TODO: replace prefs 
 */
 		
-class tagcloud_url
+class tags_url
 {
 	var $seolink = '';
 
@@ -49,14 +49,14 @@ class tagcloud_url
 		'regex'    => '^'.$this->seolink.'(.*)'.$this->fileext.'$',
 //		'sef'      => '{alias}{tagcloud_key}'.$this->fileext ,
     'sef'      =>  $this->seolink.'{tagcloud_key}'.$this->fileext ,
-		'redirect' => '{e_PLUGIN}tagcloud/tagcloud.php?$1' 
+		'redirect' => '{e_PLUGIN}tags/tagcloud.php?$1' 
 	 );   
  
     $config['tagcloud'] = array(
     'alias'         => 'tagcloud',
 		'regex'    => '^{alias}\/?$',
 		'sef'      => '{alias}',
-		'redirect' => '{e_PLUGIN}tagcloud/tagcloud.php'
+		'redirect' => '{e_PLUGIN}tags/tagcloud.php'
 	 ); 
    
   return $config;
