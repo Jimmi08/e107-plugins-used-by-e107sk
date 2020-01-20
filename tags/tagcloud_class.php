@@ -103,7 +103,7 @@ if (!class_exists('e107tagcloud')) {
 								e_HTTP.$plugPrefs['tags_seolink'].preg_replace("#_#", $plugPrefs['tags_tagspace'], substr($tag_db,0,100)).$plugPrefs['tags_fileext']	;*/
 						
 				$data = array('tagcloud_key'=> preg_replace("#_#", $plugPrefs['tags_tagspace'], substr($tag_db,0,100)));																 
-				$link = e107::url('tagcloud', 'tag', $data);																			
+				$link = e107::url('tags', 'tag', $data);																			
 			}	
 			else
 			{

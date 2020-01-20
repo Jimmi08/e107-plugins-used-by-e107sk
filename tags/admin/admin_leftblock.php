@@ -13,7 +13,7 @@ if (!getperms('P'))
 	exit;
 }
 
-e107::lan('tagcloud', true );
+e107::lan('tags', true );
  
  
 class leftblock_adminArea extends e_admin_dispatcher

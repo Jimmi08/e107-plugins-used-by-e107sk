@@ -56,7 +56,7 @@ class tags_shortcodes extends e_shortcode
         $step = ($max_size - $min_size)/($spread);
         $htmlout = "<div class='".$plugPrefs['tags_style_cloud']."'>";
         $var['tags_style_cloud'] = $plugPrefs['tags_style_cloud'];
-        $var['tag_main_page'] = e107::url('tagcloud', 'tagcloud');
+        $var['tag_main_page'] = e107::url('tags', 'tagcloud');
         
         $htmlout = e107::getParser()->simpleParse($tagcloud->tagsTemplates[$templatekey]['header'], $var);
  

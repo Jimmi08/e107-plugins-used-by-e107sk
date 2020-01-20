@@ -55,7 +55,7 @@ if(!class_exists("tagcloud_setup"))
 				'tags_cumspeed'    => 100
 			);
 			
-			$tags_prefs = e107::getPlugConfig('tagcloud', '', false);
+			$tags_prefs = e107::getPlugConfig('tags', '', false);
 			$tags_prefs -> setPref($eplug_prefs) -> save(false, true);
 		 
 
