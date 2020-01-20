@@ -15,8 +15,8 @@ if(!defined('e107_INIT'))
  */
  
 /*
-/e107_plugins/tagcloud/tagcloud.php
-/e107_plugins/tagcloud/tagcloud.php?welcome
+/e107_plugins/tags/tagcloud.php
+/e107_plugins/tags/tagcloud.php?welcome
 Prefs:
 tags_seolink   = alias   tags-
 tags_fileext   .html

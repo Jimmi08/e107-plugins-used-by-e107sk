@@ -31,9 +31,9 @@ else {
    include_lan(e_LANGUAGEDIR.e_LANGUAGE.'/lan_search.php');
    require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
-   //require_once(e_PLUGIN."tagcloud/tagcloud_shortcodes.php");
+   //require_once(e_PLUGIN."tags/tagcloud_shortcodes.php");
    $tagcloud_shortcodes = e107::getScBatch('tags', 'tags');    
-   //include_once(e_PLUGIN."tagcloud/tagcloud_template.php");
+   //include_once(e_PLUGIN."tags/tagcloud_template.php");
    $template   = e107::getTemplate('tags'); 
  
    require_once(e_HANDLER."ren_help.php");
@@ -78,7 +78,7 @@ else {
              WHERE
               B.Tag_Config_CloudFlag = 1     and
               Tag_Name               = '".$tag_db."' ORDER BY Tag_Rank LIMIT ".$from.",".$view;
-	
+	 
    if ($resulttags = e107::getDb()->retrieve($query, true)) //validates $tag_db
 {           
       //tag exists, start building the output
@@ -89,7 +89,7 @@ else {
             while ($row = $sql->fetch())
                   {
                   $tag_type =$row['Tag_Config_Type'];
-                  include_once(e_PLUGIN."tagcloud/config/".$tag_type.".php");
+                  include_once(e_PLUGIN."tags/config/".$tag_type.".php");
                   $config[$tag_type] = array (
                   "id_field"      => $id_field     ,
                   "return_fields" => $return_fields,
