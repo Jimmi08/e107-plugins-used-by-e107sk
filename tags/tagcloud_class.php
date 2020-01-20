@@ -14,7 +14,7 @@ if (!class_exists('e107tagcloud')) {
 	  
 		function __construct() {
 		  $this->tagsTemplates 	= e107::getTemplate('tags');  
-		  $this->tagsShortcodes = e107::getScBatch('tags', 'tagcloud');
+		  $this->tagsShortcodes = e107::getScBatch('tags', 'tags');
 		  $this->tagsPrefs 			= e107::getPlugConfig('tags')->getPref(); 
 		}
 		

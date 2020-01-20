@@ -21,7 +21,7 @@
 
  
  
-class plugin_tagcloud_tagcloud_shortcodes extends e_shortcode
+class plugin_tags_tags_shortcodes extends e_shortcode
 {
  
 		/* SC_BEGIN CURRENTTAG

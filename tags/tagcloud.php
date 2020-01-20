@@ -32,7 +32,7 @@ else {
    require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
    //require_once(e_PLUGIN."tagcloud/tagcloud_shortcodes.php");
-   $tagcloud_shortcodes = e107::getScBatch('tags', 'tagcloud');    
+   $tagcloud_shortcodes = e107::getScBatch('tags', 'tags');    
    //include_once(e_PLUGIN."tagcloud/tagcloud_template.php");
    $template   = e107::getTemplate('tags'); 
  
