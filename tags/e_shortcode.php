@@ -16,13 +16,71 @@ class tags_shortcodes extends e_shortcode
  
 	function sc_tags($parm = '')
 	{   
-    require_once('tags_sc.php');
-    return $text; 
+        $plugPrefs = e107::getPlugConfig('tags')->getPref();   
+        include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
+        require_once(e_PLUGIN.'tags/tagcloud_class.php');
+        $tagcloud = new e107tagcloud;
+        
+        if (check_class($plugPrefs['tags_adminmod']))
+        {
+            $TAGMOD=TRUE;
+        }
+        else
+        {
+            $TAGMOD=FALSE;
+        }
+        
+        //detect where you are
+        require_once('tags_sc.php');
+
+        //render edit form on frontend
+        $posturl = e_REQUEST_URL;
+
+        //-----------------------------------
+        //-- update tags
+
+        if ($TAGMOD){                
+            $upd = 'tagupdate'.$Tag_Item_ID;
+            $tgs = 'tags'.$Tag_Item_ID;
+                                                        
+            if (isset($_POST[$upd])) {         
+            $tagcloud->tags_to_db($_POST[$tgs],$Tag_Type,$Tag_Item_ID);
+            }
+        }
+
+        //-----------------------------------
+        // get tag list
+        require_once('tags_sc_build.php');
+
+        //-----------------------------------
+        // build output
+        $string .= "<table>".$TAGS;
+
+        if ($TAGMOD) 
+        {  $string .=   "<tr><td>
+                        <div style='cursor:pointer' onclick=\"expandit('exp_tags_{$Tag_Item_ID}')\">
+                        ".LAN_TG4."
+                        </div>
+                        <div id='exp_tags_{$Tag_Item_ID}' style='display:none'>
+                        <form method='post' action='".$posturl."' id='tageditform'>
+                        <textarea class='fborder' name='tags".$Tag_Item_ID."' cols='30' rows='2'>".$EDITLIST."</textarea>
+                        <input class='button' type='submit' name='tagupdate".$Tag_Item_ID."' value='".LAN_TG5."' />
+                        </div></div> </tr></td>
+                        ";
+        }
+
+        $string .= "</table>";
+
+        //-------------------------------------
+        //$string = $TAGS.$form;
+        $text = $tp->parseTemplate($string)."\n";
+
+        return $text; 
 	}
 	
 	function sc_tagcloud($parm = '')
 	{ 		
-		require_once(e_PLUGIN.'tags/tagcloud_class.php');
+				require_once(e_PLUGIN.'tags/tagcloud_class.php');
         $tagcloud = new e107tagcloud;
         $plugPrefs = e107::getPlugConfig('tags')->getPref();
 
