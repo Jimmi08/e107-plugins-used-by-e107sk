@@ -5,7 +5,7 @@
 if (!defined('e107_INIT')) { exit; }
 
 $id_field = 'n.news_id';
-$return_fields = 'n.news_id, n.news_title, n.news_body, n.news_extended, n.news_allow_comments, n.news_datestamp, n.news_category, c.category_name';
+$return_fields = 'n.news_id, n.news_title, n.news_body, n.news_extended, n.news_allow_comments, n.news_datestamp, n.news_sef, n.news_category, c.category_name';
 $search_fields = array('news_title', 'news_body', 'news_extended');
 $time=time();
 
