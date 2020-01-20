@@ -2,10 +2,10 @@
    parse_str($parm);
 
    global $tp,$sql,$post_info,$forum,$meta ;
-   $plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
-   include_lan(e_PLUGIN.'tagcloud/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
+   $plugPrefs = e107::getPlugConfig('tags')->getPref();
+   include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
    //$TAGS ="";
-   require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+   require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
    if (check_class($plugPrefs['tags_adminmod']))
                    {$TAGMOD=TRUE;}  else {$TAGMOD=FALSE;}

@@ -14,7 +14,7 @@ class currentplugin_adminArea extends leftblock_adminArea
   
 new currentplugin_adminArea();
 
-   require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+   require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
 
    if (!getperms("P")) {
@@ -45,8 +45,8 @@ if (isset($_POST['updatesettings'])) {
         $plugPrefs['tags_max_size'] = ($_POST['tags_max_size'] ? $_POST['tags_max_size'] : 250 );
 
 	//savex_prefs();
-	e107::getPlugConfig('tagcloud')->setPref($plugPrefs) -> save(false, true); 
-	$e107cache->clear("tagcloud");
+	e107::getPlugConfig('tags')->setPref($plugPrefs) -> save(false, true); 
+	$e107cache->clear("tags");
 	$message = 'Settings Saved!';
 }
 
@@ -64,62 +64,62 @@ $tags_max_size    = $plugPrefs['tags_max_size'];
 $tags_max_colour  = $plugPrefs['tags_max_colour'];
 $tags_min_colour  = $plugPrefs['tags_min_colour'];
 
-$text = "<div style='text-align:center'>
+$text = "<div style='text-align:center' class='adminform'>
 	<form method='post' action='".e_SELF."' id='cfgform'>
 	<table style='".ADMIN_WIDTH."' class='fborder'>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Cloud CSS class:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_style_cloud' value = '".$tags_style_cloud."' SIZE='20' MAXLENGTH='20'/>
+	<input  class='tbox form-control' type='text' name='tags_style_cloud' value = '".$tags_style_cloud."' SIZE='20' MAXLENGTH='20'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Item Tags CSS class:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_style_item' value = '".$tags_style_item."' SIZE='20' MAXLENGTH='20'/>
+	<input  class='tbox form-control' type='text' name='tags_style_item' value = '".$tags_style_item."' SIZE='20' MAXLENGTH='20'/>
 	</td>
 	</tr>
 	
 	<tr>
 	<td class='forumheader3' style='width:40%'>Tag link page CSS class:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_style_link' value = '".$tags_style_link."' SIZE='20' MAXLENGTH='20'/>
+	<input  class='tbox form-control' type='text' name='tags_style_link' value = '".$tags_style_link."' SIZE='20' MAXLENGTH='20'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Min Tag Size:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_min_size' value = '".$tags_min_size."' SIZE='3' MAXLENGTH='3'/>
+	<input  class='tbox form-control' type='text' name='tags_min_size' value = '".$tags_min_size."' SIZE='3' MAXLENGTH='3'/>
 	</td>
 	</tr>
 
         <tr>
 	<td class='forumheader3' style='width:40%'>Max Tag Size:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_max_size' value = '".$tags_max_size."' SIZE='3' MAXLENGTH='3'/>
+	<input  class='tbox form-control' type='text' name='tags_max_size' value = '".$tags_max_size."' SIZE='3' MAXLENGTH='3'/>
 	</td>
 	</tr>
 	
 	<tr>
 	<td class='forumheader3' style='width:40%'>Tag Colour Gradient Start:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_min_colour' value = '".$tags_min_colour."' SIZE='20' MAXLENGTH='20'/>
+	<input  class='tbox form-control' type='text' name='tags_min_colour' value = '".$tags_min_colour."' SIZE='20' MAXLENGTH='20'/>
 	</td>
 	</tr>
 	
 	<tr>
 	<td class='forumheader3' style='width:40%'>Tag Colour Gradient End:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_max_colour' value = '".$tags_max_colour."' SIZE='20' MAXLENGTH='20'/>
+	<input  class='tbox form-control' type='text' name='tags_max_colour' value = '".$tags_max_colour."' SIZE='20' MAXLENGTH='20'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td  class='forumheader' colspan='2' style='text-align:center'>
-	<input class='button' type='submit' name='updatesettings' value='Save Settings' />
+	<input class='button btn update btn-success' type='submit' name='updatesettings' value='Save Settings' />
 	</td>
 	</tr>
 	</table>

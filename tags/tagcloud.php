@@ -29,16 +29,16 @@ else {
    $tp = e107::getParser();
    if (!defined("USER_WIDTH")){ define("USER_WIDTH","width:95%"); }
    include_lan(e_LANGUAGEDIR.e_LANGUAGE.'/lan_search.php');
-   require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+   require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
    //require_once(e_PLUGIN."tagcloud/tagcloud_shortcodes.php");
-   $tagcloud_shortcodes = e107::getScBatch('tagcloud', 'tagcloud');    
+   $tagcloud_shortcodes = e107::getScBatch('tags', 'tagcloud');    
    //include_once(e_PLUGIN."tagcloud/tagcloud_template.php");
-   $template   = e107::getTemplate('tagcloud'); 
+   $template   = e107::getTemplate('tags'); 
  
    require_once(e_HANDLER."ren_help.php");
  
-   include_lan(e_PLUGIN.'tagcloud/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
+   include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
 
 //ECHO "<P>DECODE:".URLDECODE(e_QUERY)."<P>" ;
 //a tag -> a_tag ->  a+tag  -> a_tag -> a tag

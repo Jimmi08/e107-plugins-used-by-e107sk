@@ -18,7 +18,7 @@
  $text = "{TAGCLOUD: ".$param."&template=menu}" ;        
  $text = e107::getParser()->parseTemplate($text);
  
- $caption = e107::getPlugConfig('tagcloud')->getPref('tags_menuname');
+ $caption = e107::getPlugConfig('tags')->getPref('tags_menuname');
 
  e107::getRender() -> tablerender($caption, $text);
 

@@ -14,11 +14,11 @@ class currentplugin_adminArea extends leftblock_adminArea
   
 new currentplugin_adminArea();
 
-require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+require_once(e_PLUGIN.'tags/tagcloud_class.php');
 $tagcloud = new e107tagcloud;
 
 
-$plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
+$plugPrefs = e107::getPlugConfig('tags')->getPref();
  
 require_once(e_ADMIN."auth.php");
 require_once(e_HANDLER."userclass_class.php");
@@ -70,7 +70,7 @@ if (isset($_POST['minlen'])) {
 
 
 
-$text = "<div style='text-align:center'>
+$text = "<div style='text-align:center' class='panel'>
 	<form method='post' action='".e_SELF."' id='cfgform'>
 	<table style='".ADMIN_WIDTH."' class='fborder'>
 
@@ -78,20 +78,20 @@ $text = "<div style='text-align:center'>
 	<tr>
 	<td class='forumheader3' style='width:40%'>Remove Orphan tags:</td>
         <td class='forumheader3' style='width:60%'>
-	<input class='button' type='submit' name='orphan' value='Delete' />
+	<input class='button btn update btn-danger' type='submit' name='orphan' value='Delete' />
 	</td>
 	</tr>
 	
 	<tr>
 	<td class='forumheader3' style='width:40%'>Remove tags less than min pref:<br>(Currently set at:".$plugPrefs['tags_minlen'].")</td>
         <td class='forumheader3' style='width:60%'>
-	<input class='button' type='submit' name='minlen' value='Delete' />
+	<input class='button btn update btn-danger' type='submit' name='minlen' value='Delete' />
 	</td>
 	</tr>
 	<tr>
 	<td class='forumheader3' style='width:40%'>Delete tags associated with custom menu pages (ie <a href='".e_ADMIN."cpage.php'>here</a>)</td>
         <td class='forumheader3' style='width:60%'>
-	<input class='button' type='submit' name='menu' value='Delete' />
+	<input class='button btn update btn-danger' type='submit' name='menu' value='Delete' />
 	</td>
 	</tr>
 

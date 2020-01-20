@@ -14,7 +14,7 @@
 
 if(!class_exists("tagcloud_setup"))
 {
-	class tagcloud_setup
+	class tags_setup
 	{
 	
 			/**

@@ -4,7 +4,7 @@
    require_once(HEADERF);
    $tp = e107::getParser();
  
-   include_lan(e_PLUGIN.'tagcloud/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
+   include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
 
 
 //allows the edit of a set of tags from the front end

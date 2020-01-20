@@ -108,6 +108,7 @@ new currentplugin_adminArea();
    www.jezza101.co.uk
    ";
 
+   $text = "<div class='panel'><div class='panel-body'>".$text."</div></div>";
    // The usual, tell e107 what to include on the page
    $ns->tablerender("MyPlugin Read Me", $text);
 

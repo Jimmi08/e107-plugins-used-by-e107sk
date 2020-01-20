@@ -14,11 +14,11 @@ class currentplugin_adminArea extends leftblock_adminArea
 
 new currentplugin_adminArea();
  
-require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+require_once(e_PLUGIN.'tags/tagcloud_class.php');
 $tagcloud = new e107tagcloud;
 
 
-$plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
+$plugPrefs = e107::getPlugConfig('tags')->getPref();
  
 require_once(e_ADMIN."auth.php");
 require_once(e_HANDLER."userclass_class.php");
@@ -33,7 +33,7 @@ if (isset($_POST['updateseosettings'])) {
         $plugPrefs['tags_seolink']    = ($_POST['tags_seolink']    ? $_POST['tags_seolink']    : '');
         $plugPrefs['tags_fileext']    = ($_POST['tags_fileext']    ? $_POST['tags_fileext']    : '');
 	//savex_prefs();
-	e107::getPlugConfig('tagcloud')->setPref($plugPrefs) -> save(false, true); 
+	e107::getPlugConfig('tags')->setPref($plugPrefs) -> save(false, true); 
 	$e107cache->clear("tagcloud");
 	$message = 'Settings Saved!';
 }
@@ -50,41 +50,41 @@ $tags_fileext  = $plugPrefs['tags_fileext'];
 if ($plugPrefs['tags_useseo']) {$tags_useseo ='checked';}
 
 //---------------------------------------------
-   $text=" <div style='text-align:center'>
+   $text=" <div style='text-align:center' class='adminform'>
 	<form method='post' action='".e_SELF."' id='cfgform'>
 	<table style='".ADMIN_WIDTH."' class='fborder'>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Use SEO Links:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input class='tbox' type='checkbox' name='tags_useseo' ".$tags_useseo." />
+	<input class='tbox form-control' type='checkbox' name='tags_useseo' ".$tags_useseo." />
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>SEO Link structure: <div style='text-align:right'>".SITEURLBASE.e_HTTP."</div></td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_seolink' value = '".$tags_seolink."' SIZE='50' MAXLENGTH='50'/>
+	<input  class='tbox form-control' type='text' name='tags_seolink' value = '".$tags_seolink."' SIZE='50' MAXLENGTH='50'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>File extension:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_fileext' value = '".$tags_fileext."' SIZE='6' MAXLENGTH='6'/>
+	<input  class='tbox form-control' type='text' name='tags_fileext' value = '".$tags_fileext."' SIZE='6' MAXLENGTH='6'/>
 	</td>
 	</tr>
 	
 	<tr>
 	<td class='forumheader3' style='width:40%'>Replace space with:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_tagspace' value = '".$tags_tagspace."' SIZE='1' MAXLENGTH='1'/>
+	<input  class='tbox form-control' type='text' name='tags_tagspace' value = '".$tags_tagspace."' SIZE='1' MAXLENGTH='1'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td  class='forumheader' colspan='2' style='text-align:center'>
-	<input class='button' type='submit' name='updateseosettings' value='Save Settings' />
+	<input class='button btn update btn-success' type='submit' name='updateseosettings' value='Save Settings' />
 	</td>
 	</tr>
 	

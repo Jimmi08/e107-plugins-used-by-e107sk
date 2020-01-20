@@ -11,7 +11,7 @@ if(!defined('e107_INIT'))
 	exit;
 }
 
-class tagcloud_shortcodes extends e_shortcode
+class tags_shortcodes extends e_shortcode
 {
  
 	function sc_tags($parm = '')
@@ -22,9 +22,9 @@ class tagcloud_shortcodes extends e_shortcode
 	
 	function sc_tagcloud($parm = '')
 	{ 		
-		require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+		require_once(e_PLUGIN.'tags/tagcloud_class.php');
         $tagcloud = new e107tagcloud;
-        $plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
+        $plugPrefs = e107::getPlugConfig('tags')->getPref();
 
         $tmp    = explode("|",$parm);       
  

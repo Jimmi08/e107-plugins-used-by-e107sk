@@ -14,11 +14,11 @@ class currentplugin_adminArea extends leftblock_adminArea
 
 new currentplugin_adminArea();
  
-require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+require_once(e_PLUGIN.'tags/tagcloud_class.php');
 $tagcloud = new e107tagcloud;
 
 
-$plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
+$plugPrefs = e107::getPlugConfig('tags')->getPref();
  
 require_once(e_ADMIN."auth.php");
 require_once(e_HANDLER."userclass_class.php");
@@ -67,11 +67,11 @@ if ($plugPrefs['tags_order']=='date')       {$tags_orderdate      ='checked';}
 if($sql->select("tag_config","*"))
           { $cnt = 0;
             $cnt++;
-$text = "<div style='text-align:center'>
+$text = "<div style='text-align:center' class='adminform'>
 	<form method='post' action='".e_SELF."' id='cfgform'>
 	<table style='".ADMIN_WIDTH."' class='fborder'>
 	<tr>
-	  <td></td>
+	  <td class='forumheader3'></td>
 	  <td class='forumheader3'>Include in Cloud</td>
 	  <td class='forumheader3'>Global on/off (will also switch off in cloud)</td>
 	</tr>
@@ -85,10 +85,10 @@ $text = "<div style='text-align:center'>
                        	<tr>
 	                <td class='forumheader3' style='width:40%'>".$config['Tag_Config_Type']."</td>
 	                <td class='forumheader3' style='width:30%'>
-	                <input class='tbox' type='checkbox' name='tags_cloud".$config['Tag_Config_ID']."' ".$check1." />
+	                <input class='tbox form-control' type='checkbox' name='tags_cloud".$config['Tag_Config_ID']."' ".$check1." />
 	                </td>
 	                <td class='forumheader3' style='width:30%'>
-	                <input class='tbox' type='checkbox' name='tags_onoff".$config['Tag_Config_ID']."' ".$check2." />
+	                <input class='tbox form-control' type='checkbox' name='tags_onoff".$config['Tag_Config_ID']."' ".$check2." />
 	                </td>
 	                </tr>
                         ";
@@ -96,7 +96,7 @@ $text = "<div style='text-align:center'>
 $text .= "
 	<tr>
 	<td  class='forumheader' colspan='3' style='text-align:center'>
-	<input class='button' type='submit' name='updateonoff' value='Save Settings' />
+	<input class='button btn update btn-success' type='submit' name='updateonoff' value='Save Settings' />
 	</td>
 	</tr>
           </table>

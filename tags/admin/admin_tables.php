@@ -15,7 +15,7 @@ class currentplugin_adminArea extends leftblock_adminArea
 new currentplugin_adminArea();
 
 
-   require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+   require_once(e_PLUGIN.'tags/tagcloud_class.php');
    $tagcloud = new e107tagcloud;
 
    if (!getperms("P")) {
@@ -80,11 +80,11 @@ if($sql->select("tag_config","*"))
                  $text .= "
                  <tr>
                  <td class='fcaption' style='width:15%'>".$config['Tag_Config_Field_Table']."</td>
-               	 <td class='forumheader3' style='width:15%'><input  class='tbox' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Table']."'     SIZE='15' MAXLENGTH='20'/></td>
-               	 <td class='forumheader3' style='width:15%'><input  class='tbox' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_ID']."'        SIZE='15' MAXLENGTH='20'/></td>
-               	 <td class='forumheader3' style='width:15%'><input  class='tbox' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Title']."'     SIZE='15' MAXLENGTH='20'/></td>
-               	 <td class='forumheader3' style='width:15%'><input  class='tbox' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Body']."'      SIZE='15' MAXLENGTH='20'/></td>
-               	 <td class='forumheader3' style='width:15%'><input  class='tbox' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Datestamp']."' SIZE='15' MAXLENGTH='20'/></td>
+               	 <td class='forumheader3' style='width:15%'><input  class='tbox form-control' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Table']."'     SIZE='15' MAXLENGTH='20'/></td>
+               	 <td class='forumheader3' style='width:15%'><input  class='tbox form-control' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_ID']."'        SIZE='15' MAXLENGTH='20'/></td>
+               	 <td class='forumheader3' style='width:15%'><input  class='tbox form-control' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Title']."'     SIZE='15' MAXLENGTH='20'/></td>
+               	 <td class='forumheader3' style='width:15%'><input  class='tbox form-control' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Body']."'      SIZE='15' MAXLENGTH='20'/></td>
+               	 <td class='forumheader3' style='width:15%'><input  class='tbox form-control' type='text' name='".$config['Tag_Config_ID']."' value = '".$config['Tag_Config_Field_Datestamp']."' SIZE='15' MAXLENGTH='20'/></td>
                	 <td class='forumheader3' style='width:10%'><input type='checkbox' /></td>
 	         </tr>
                  <tr>

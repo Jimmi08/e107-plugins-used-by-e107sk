@@ -14,11 +14,11 @@ class currentplugin_adminArea extends leftblock_adminArea
 
 new currentplugin_adminArea();
  
-require_once(e_PLUGIN.'tagcloud/tagcloud_class.php');
+require_once(e_PLUGIN.'tags/tagcloud_class.php');
 $tagcloud = new e107tagcloud;
 
 
-$plugPrefs = e107::getPlugConfig('tagcloud')->getPref();
+$plugPrefs = e107::getPlugConfig('tags')->getPref();
  
 require_once(e_ADMIN."auth.php");
 require_once(e_HANDLER."userclass_class.php");
@@ -47,7 +47,7 @@ if (isset($_POST['updatesettings'])) {
         else   {$plugPrefs['tags_order']   = 'random';}
         //echo "<p>pref:".$plugPrefs['tags_order'];
 	//savex_prefs();
-	e107::getPlugConfig('tagcloud')->setPref($plugPrefs) -> save(false, true); 
+	e107::getPlugConfig('tags')->setPref($plugPrefs) -> save(false, true); 
 	$e107cache->clear("tagcloud");
 	$message = 'Settings Saved!';
 }
@@ -73,28 +73,28 @@ if ($plugPrefs['tags_order']=='date')       {$tags_orderdate      ='checked';}
 
 
 
-$text = "<div style='text-align:center'>
+$text = "<div style='text-align:center' class='adminform'>
 	<form method='post' action='".e_SELF."' id='cfgform'>
 	<table style='".ADMIN_WIDTH."' class='fborder'>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Default no. Tags shown in cloud:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_number' value = '".$tags_number."' SIZE='2' MAXLENGTH='2'/>
+	<input  class='tbox form-control' type='text' name='tags_number' value = '".$tags_number."' SIZE='2' MAXLENGTH='2'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Tag cloud menu title:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_menuname' value = '".$tags_menuname."' SIZE='40' MAXLENGTH='40'/>
+	<input  class='tbox form-control' type='text' name='tags_menuname' value = '".$tags_menuname."' SIZE='40' MAXLENGTH='40'/>
 	</td>
 	</tr>
 
 	<tr>
 	<td class='forumheader3' style='width:40%'>Length of item preview:</td>
 	<td class='forumheader3' style='width:60%'>
-	<input  class='tbox' type='text' name='tags_preview' value = '".$tags_preview."' SIZE='4' MAXLENGTH='4'/>
+	<input  class='tbox form-control' type='text' name='tags_preview' value = '".$tags_preview."' SIZE='4' MAXLENGTH='4'/>
 	</td>
 	</tr>
 
@@ -115,14 +115,14 @@ $text = "<div style='text-align:center'>
       	<tr>
 	<td class='forumheader3' style='width:40%'>Auto generate tags when none are found for content being displayed (news only atm)</td>
 	<td class='forumheader3' style='width:60%'>
-	<input class='tbox' type='checkbox' name='tags_autogen' ".$tags_autogen." />
+	<input class='tbox form-control' type='checkbox' name='tags_autogen' ".$tags_autogen." />
 	</td>
 	</tr>
 
       	<tr>
 	<td class='forumheader3' style='width:40%'>Number of tags to show on the tagcloud page.  This is shown if no tags are found!</td>
 	<td class='forumheader3' style='width:60%'>
-        <input  class='tbox' type='text' name='tags_errortag' value = '".$tags_errortag."' SIZE='4' MAXLENGTH='4'/>
+        <input  class='tbox form-control' type='text' name='tags_errortag' value = '".$tags_errortag."' SIZE='4' MAXLENGTH='4'/>
 	</td>
 	</tr>
 
@@ -141,7 +141,7 @@ $text = "<div style='text-align:center'>
 $text .= "
 	<tr>
 	<td  class='forumheader' colspan='2' style='text-align:center'>
-	<input class='button' type='submit' name='updatesettings' value='Save Settings' />
+	<input class='button btn update btn-success' type='submit' name='updatesettings' value='Save Settings' />
 	</td>
 	</tr>
           </table>
