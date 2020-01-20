@@ -2,7 +2,8 @@
 
 require_once("admin_leftblock.php");
 
-if (!getperms("P")) {
+if (!getperms("P")) 
+{
 	header("location:".e_HTTP."index.php");
 	exit;
 }
@@ -14,35 +15,30 @@ class currentplugin_adminArea extends leftblock_adminArea
   
 new currentplugin_adminArea();
 
-   require_once(e_PLUGIN.'tags/tagcloud_class.php');
-   $tagcloud = new e107tagcloud;
+require_once(e_PLUGIN.'tags/tagcloud_class.php');
+$tagcloud = new e107tagcloud;
 
-   if (!getperms("P")) {
-      header("location:".e_HTTP."index.php");
-      exit;
-   }
+if (!getperms("P")) 
+{
+  header("location:".e_HTTP."index.php");
+  exit;
+}
 
+$plugPrefs = e107::getPlugConfig('tags')->getPref();
 
-   require_once(e_ADMIN."auth.php");
-
-
+require_once(e_ADMIN."auth.php");
 
 //-------------------------------------------------------
 //----------------  Handle form posting
-
-
-
-
-if (isset($_POST['updatesettings'])) {
-
-
-        $plugPrefs['tags_style_cloud'] = ($_POST['tags_style_cloud'] ? $_POST['tags_style_cloud'] : '' );
-        $plugPrefs['tags_style_item'] = ($_POST['tags_style_item'] ? $_POST['tags_style_item'] : '' );
-        $plugPrefs['tags_style_link'] = ($_POST['tags_style_link'] ? $_POST['tags_style_link'] : '' );
-        $plugPrefs['tags_max_colour'] = ($_POST['tags_max_colour'] ? $_POST['tags_max_colour'] : '' );
-        $plugPrefs['tags_min_colour'] = ($_POST['tags_min_colour'] ? $_POST['tags_min_colour'] : '' );
-        $plugPrefs['tags_min_size'] = ($_POST['tags_min_size'] ? $_POST['tags_min_size'] : 100 );
-        $plugPrefs['tags_max_size'] = ($_POST['tags_max_size'] ? $_POST['tags_max_size'] : 250 );
+if (isset($_POST['updatesettings'])) 
+{
+	$plugPrefs['tags_style_cloud'] = ($_POST['tags_style_cloud'] ? $_POST['tags_style_cloud'] : '' );
+	$plugPrefs['tags_style_item'] = ($_POST['tags_style_item'] ? $_POST['tags_style_item'] : '' );
+	$plugPrefs['tags_style_link'] = ($_POST['tags_style_link'] ? $_POST['tags_style_link'] : '' );
+	$plugPrefs['tags_max_colour'] = ($_POST['tags_max_colour'] ? $_POST['tags_max_colour'] : '' );
+	$plugPrefs['tags_min_colour'] = ($_POST['tags_min_colour'] ? $_POST['tags_min_colour'] : '' );
+	$plugPrefs['tags_min_size'] = ($_POST['tags_min_size'] ? $_POST['tags_min_size'] : 100 );
+	$plugPrefs['tags_max_size'] = ($_POST['tags_max_size'] ? $_POST['tags_max_size'] : 250 );
 
 	//savex_prefs();
 	e107::getPlugConfig('tags')->setPref($plugPrefs) -> save(false, true); 
@@ -50,9 +46,9 @@ if (isset($_POST['updatesettings'])) {
 	$message = 'Settings Saved!';
 }
 
-
-   // Display
-   if (isset($message)) {
+// Display
+if (isset($message)) 
+{
 	$ns->tablerender("", "<div style='text-align:center'><b>".$message."</b></div>");
 }
 
@@ -126,13 +122,10 @@ $text = "<div style='text-align:center' class='adminform'>
 	</form>
 	</div>";
 
+// The usual, tell e107 what to include on the page
+$ns->tablerender("Prefs", $text);
 
+require_once(e_ADMIN."footer.php");
 
-
-
-   // The usual, tell e107 what to include on the page
-   $ns->tablerender("Prefs", $text);
-
-   require_once(e_ADMIN."footer.php");
 ?>
 
