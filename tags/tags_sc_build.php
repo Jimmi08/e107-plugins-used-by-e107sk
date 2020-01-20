@@ -17,9 +17,9 @@
                  ORDER BY
                   Tag_Rank";
 
-       if ($sql->gen("$query"))
+       if (e107::getDb()->gen("$query"))
        {
-         while ($othertags = $sql->fetch())
+         while ($othertags = e107::getDb()->fetch())
          {
              $link = $tagcloud->MakeSEOLink($othertags['Tag_Name']);
              $TAGS     .= "<a ".$class." href='".$link."'>".preg_replace("#_#"," ",$othertags['Tag_Name'])."</a>   &nbsp;&nbsp;";
@@ -38,7 +38,7 @@
 									 $sc = e107::getScBatch('news');    
 									 $news_item = $sc->getScVar('news_item');          
                    //$param     = getcachedvars('current_news_param'); why?
-                   $ystring    = $tp -> toHTML($news_item['news_body'], TRUE, 'parse_sc, fromadmin', $news_item['news_author']);
+                   $ystring    = e107::getParser() -> toHTML($news_item['news_body'], TRUE, 'parse_sc, fromadmin', $news_item['news_author']);
                    $keywords = explode(",",$news_item["news_meta_keywords"]); 
                  }
                  elseif (e_PAGE=='page.php' AND  $_GET['id'] > 0 ) {   
@@ -79,15 +79,15 @@
                        $pos       = strpos($haystack,$needle);
                        if ($pos===false){
                           $limit++; $cnt++;
-                          $sql->db_insert("tag_main","null,".$Tag_Item_ID.",'".$Tag_Type."','".$word."',$limit,$time");}            //`Tag_ID`  `Tag_Item_ID`  `Tag_Type`  `Tag_Tags`
+                          e107::getDb()->db_insert("tag_main","null,".$Tag_Item_ID.",'".$Tag_Type."','".$word."',$limit,$time");}            //`Tag_ID`  `Tag_Item_ID`  `Tag_Type`  `Tag_Tags`
                           }
                      }
 
 
                    //---now tags are there get them again
-                   if ($sql->select("tag_main","*","WHERE Tag_Item_ID = ".$Tag_Item_ID." and Tag_Type ='".$Tag_Type."' ORDER BY Tag_Rank" ,  TRUE))
+                   if (e107::getDb()->select("tag_main","*","WHERE Tag_Item_ID = ".$Tag_Item_ID." and Tag_Type ='".$Tag_Type."' ORDER BY Tag_Rank" ,  TRUE))
                          {
-                             while ($othertags = $sql->fetch())
+                             while ($othertags = e107::getDb()->fetch())
                              {
                                  $link = $tagcloud->MakeSEOLink($othertags['Tag_Name']);
                                  $TAGS     .= "<a ".$class." href='".$link."'>".preg_replace("#_#"," ",$othertags['Tag_Name'])."</a>   &nbsp;&nbsp;";

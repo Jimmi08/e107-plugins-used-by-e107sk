@@ -9,39 +9,10 @@
 
 
 //--- NEED TO MAKE THIS GENERIC
-	  
-   //detect news page:
-   if(e_PAGE == "news.php")  
-   {
-	  $sc = e107::getScBatch('news');    
-		$news_item = $sc->getScVar('news_item'); 
-		$Tag_Item_ID = $news_item['news_id'];
-    $Tag_Type    = 'news';}
-
-   //detect page
-   elseif (e_PAGE=='page.php' AND  $_GET['id'] > 0 ) {   
-      //$tmp          = explode(".", e_QUERY);
-      $sc   = e107::getScBatch('page', null, 'cpage');
-      $page_item = $sc->getVars('cpage');        
-      //$Tag_Item_ID  = intval($tmp[0]);
-      $Tag_Item_ID  = $page_item["page_id"];
-      $Tag_Type     = 'page';
-         }
-
-   //detect download view
-   //if(e_PAGE=='download.php'){
-   elseif (e_CURRENT_PLUGIN =='download' AND $_GET['action'] == 'view' AND  $_GET['id'] > 0 ) {        //this works only after constants fix
-     // $tmp          = explode(".", e_QUERY);
-     // $Tag_Item_ID  = intval($tmp[1]);
-     $sc   = e107::getScBatch('download',true);        
-	   $download_item = $sc->getVars('view'); 
-	   $Tag_Item_ID  = $download_item['download_id'];     
-      $Tag_Type     = 'download';
-         }
-
+ 
    //detect forum                             //TODO
    //if(e_PAGE=='forum_viewtopic.php'){ 
-	  elseif (e_CURRENT_PLUGIN =='forum') {     
+	  if (e_CURRENT_PLUGIN =='forum') {     
 	    
 			$sc = e107::getScBatch('view', 'forum');
       $post_info = $sc->getScVar('postInfo');

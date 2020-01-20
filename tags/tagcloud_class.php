@@ -42,9 +42,9 @@ if (!class_exists('e107tagcloud')) {
 			}
 			$query = "SELECT
 						Tag_Name, count(*) as quant
-					FROM ".MPREFIX."tag_main A
+					FROM #tag_main A
 					JOIN
-						".MPREFIX."tag_config B on A.Tag_Type = B.Tag_Config_Type
+						#tag_config B on A.Tag_Type = B.Tag_Config_Type
 					WHERE
 						B.Tag_Config_CloudFlag = 1 AND
 						B.Tag_Config_OnOffFlag = 1
@@ -191,6 +191,52 @@ if (!class_exists('e107tagcloud')) {
 			return $text;
 		}
 
+
+		// get Tag_Config_Type 
+		function get_tag_config_data() {
+			$page = array();
+			$page = e107::getRegistry('core/page/request');
+			if($page) 
+			{   
+				if($page['action'] == "showPage") {
+					$config_type['tag_config_type'] = 'page';	
+					$config_type['tag_config_id'] = $page['id'];
+					return $config_type;
+				}
+				else {
+					//books and chapters are not supported, shortcut
+					return $config_type;
+				}
+			}		 
+			// it's not custom page
+			// $config_type['tags_usermod'] = false;  prepared for forum tags
+			// detect news page:
+			if(e_PAGE == "news.php")  
+			{
+				$sc = e107::getScBatch('news');    
+				$news_item = $sc->getScVar('news_item'); 
+				$config_type['tag_config_type'] = 'news';	
+				$config_type['tag_config_id'] = $news_item['news_id'];
+				$config_type['tags_usermod'] = false;
+				return $config_type;
+			}
+			//detect download view
+			//if(e_PAGE=='download.php'){
+			elseif (e_CURRENT_PLUGIN =='download' AND $_GET['action'] == 'view' AND  $_GET['id'] > 0 ) 
+			{        
+				//this works only after constants fix
+				// $tmp          = explode(".", e_QUERY);
+				// $Tag_Item_ID  = intval($tmp[1]);
+				$sc   = e107::getScBatch('download',true);        
+				$download_item = $sc->getVars('view'); 
+				$config_type['tag_config_type'] = 'download';	
+				$config_type['tag_config_id'] = $download_item['download_id'];
+				$config_type['tags_usermod'] = false;
+				return $config_type;
+			}
+
+			return $config_type;
+		} 
 	}
 }
 ?>

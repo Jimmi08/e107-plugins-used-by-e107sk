@@ -31,8 +31,17 @@ class tags_shortcodes extends e_shortcode
         }
         
         //detect where you are
-        require_once('tags_sc.php');
-
+        $tag_config_type = $tagcloud->get_tag_config_data(); 
+        if($tag_config_type['tag_config_type']) 
+        {
+            $Tag_Item_ID  = $tag_config_type['tag_config_id'];
+            $Tag_Type     = $tag_config_type['tag_config_type'];
+        } 
+        else {
+            //still messed up
+            require_once('tags_sc.php');
+        }
+ 
         //render edit form on frontend
         $posturl = e_REQUEST_URL;
 
@@ -73,14 +82,14 @@ class tags_shortcodes extends e_shortcode
 
         //-------------------------------------
         //$string = $TAGS.$form;
-        $text = $tp->parseTemplate($string)."\n";
+        $text = e107::getParser()->parseTemplate($string)."\n";
 
         return $text; 
 	}
 	
 	function sc_tagcloud($parm = '')
 	{ 		
-				require_once(e_PLUGIN.'tags/tagcloud_class.php');
+		require_once(e_PLUGIN.'tags/tagcloud_class.php');
         $tagcloud = new e107tagcloud;
         $plugPrefs = e107::getPlugConfig('tags')->getPref();
 
