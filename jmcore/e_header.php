@@ -46,26 +46,181 @@ if (ADMIN_AREA) {
                                 
      $navheader_bg      = trim(e107::pref('jmcore','adminlook_navheader_bg', "#EEE"));
      
-      
-     $navheader_bg      = varset($navheader_bg, "#EEE"); 
-     $navheader_color   = trim(e107::pref('jmcore','adminlook_navheader_color', "#222"));     
+     /* $custom_bg_primary      = varset($navheader_bg, "#EEE"); 
+     $custom_bg_primary_color  = trim(e107::pref('jmcore','adminlook_navheader_color', "#dc6767"));  */   
      
-     /* not standard solution for KA Admin
-     .admin-left-panel li.nav-header {
-        color: white;
-     }
-     */
+		 $custom_bg_primary = "#dc6767";     
+		 $custom_bg_primary_color = "#fff";
+		   
+	   $custom_bg_white = "#FFF";   
+	   $custom_bg_light = "#e5e5e5";    
+		 $custom_bg_light_color = "#222";	     
+	   $custom_bg_dark = "#3C3C3C"; 
+		 $custom_bg_dark_hover = "#303030";    
+		 $custom_bg_dark_color = "#d9d9d9";
  
-        $css .= " li.nav-header { 
-        text-transform: uppercase;
-        background: {$navheader_bg};
-        color: {$navheader_color}; 
-        } 
-       .admin-left-panel li.nav-header {
-           color: {$navheader_color};
-       }        
-        
+	
+
+       //if KA Admin
+      if(e107::getPref('admincss') == "css/kadmin.css") {  
+					 
+        $css .= "
+				   li.nav-header { 
+				        text-transform: uppercase;
+				        background: {$custom_bg_light};
+				        color: {$custom_bg_light_color}; 
+		        } 
+		       .admin-left-panel li.nav-header {
+		           color: {$custom_bg_light_color};
+		       }  
+					 
+            #admin-ui-list-batch, .adminlist > thead > tr {
+                background-color: {$custom_bg_primary};
+                color: {$custom_bg_primary_color}; 
+            }
+            .table .nav-tabs a, .table th a  {
+                background-color: {$custom_bg_primary};
+                color: {$custom_bg_primary_color}; 
+            }
+            
+						.admin-left-panel {
+						  background: {$custom_bg_dark};
+						  color: {$custom_bg_dark_color}; 
+						}
+						
+						.admin-container .admin-left-panel .panel  {
+						  background: {$custom_bg_dark};
+						  color: {$custom_bg_dark_color}; 
+						}
+							 				
+						.plugin-navigation li a,
+						.admin-left-panel li a,
+						.admin-container .panel li a
+						  {
+						    color: {$custom_bg_dark_color};
+						    padding: 15px;
+						}
+
+						.plugin-navigation li a:hover,
+						.plugin-navigation li a:focus {
+							background: {$custom_bg_dark_hover}; 
+						  transition: 0.2s all ease-in-out;
+						  outline: none;
+						  color:#FFF;
+						}
+					
+						#admin-ui-nav-menu li.divider {
+						     padding-top:  0px;  
+						     border-bottom: 0px; 
+						     margin-bottom: 0px;
+						}
+ 
+ 						/* flexpanel */
+            #menu-area-07 .panel-heading,
+						#core-infopanel-mye107 .panel-heading,
+						#core-infopanel-news .panel-heading,
+						#plug-infopanel-user-0  .panel-heading  {
+						    background-color: {$custom_bg_primary};
+						    color: {$custom_bg_primary_color}; 
+						}
+						
+						/* infopanel */
+						.admin-main-content .panel-heading  {
+						    background-color: {$custom_bg_primary};
+						    color: {$custom_bg_primary_color}; 
+						} 
+						.admin-main-content .panel  {
+						    background-color: {$custom_bg_light};
+						    color: {$custom_bg_light_color}; 
+						} 	
+						
+						/* tabs */
+            #menu-area-07 ,
+						#core-infopanel-mye107 .panel-body,
+						#core-infopanel-news .panel-body,
+						#plug-infopanel-user-0  .panel-body  {
+						    background-color: {$custom_bg_light}; 
+						    color: {$custom_bg_light_color}; 
+						}	
+						
+							ul.nav.nav-tabs {
+							    border-bottom: 0 !important;
+							    background: transparent; 
+							    color: {$custom_bg_light_color}; 
+							}
+							
+							ul.nav.nav-tabs li {
+								    margin-bottom: 0px;
+								    border-right: 1px solid {$custom_bg_light_color};
+								    border-top: 1px solid {$custom_bg_light_color};
+						  }
+						  
+				      ul.nav.nav-tabs > li > a {
+						      margin-right: 0px;  
+						      color: $custom_bg_light_color;
+						 }
+						.core-mainpanel-block .btn-default {
+						   background: {$custom_bg_white};
+						   background-color: {$custom_bg_white};
+						}
+            
+            #admin-ui-list-db-language span.default {
+              color: {$custom_bg_light_color}; 
+            }
+            
+						 table.adminlist {
+						  background-color: {$custom_bg_white};
+						 }
+						
+						.e-container {
+						  color: {$custom_bg_light_color}; 
+						}
+						.e-container a {
+						  color: {$custom_bg_light_color}; 
+						}
+						
+						.admin-main-content {
+						  color: {$custom_bg_light_color};
+						}
+            
+            li.after-submit input[type='radio']  {
+              margin-left: 0;
+            }
+            
+             li.after-submit   span {
+              margin-left: 20px;
+            }           
+            
+            .btn {
+             padding: 10px;
+            }
+            .btn-default {
+                background: {$custom_bg_light};
+                border-radius: 0px !important;
+            }		
+						
+						.alert-warning pre {
+						  color: #222;
+						}
+						
+						.block-text .panel {
+						    background: #FFF;
+						    color: #222;
+						    border: 0;
+						}
+						
+						.fborder .forumheader3    {
+						      border: 1px solid {$custom_bg_light};
+						}
+			      .adminform {
+						   background-color: {$custom_bg_white};
+						}
+			      .adminform .form-control {
+						 background-color: {$custom_bg_light};
+						}
         ";
+ 
+      }
      }
      
      $adminlook_navheaders  = e107::pref('jmcore','adminlook_maintitles', true);

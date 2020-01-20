@@ -41,6 +41,8 @@ Many thanks to e107 for great CMS.
 - 1.6.0 ADDED prefs for styling admin submenu navigation header 
         ADDED prefs for replacing help tooltips with standard line help (to be able copy it and easier check all helps)
 - 1.6.1 ADDED prefs for displaying main navigation titles  
+- 1.7.0 CHANGED functionality of admin styling prefs - focused on KAdmin style and ignored everything else. Fixed contrast, visibility, old plugins menus. 
+
 
 ## What is removed because it was implemented in core?
 

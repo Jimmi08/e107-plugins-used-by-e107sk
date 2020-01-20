@@ -36,12 +36,12 @@ define("LAN_JM_CORE_ONEPAGE_LAN_07", "With contact form contact.php should be al
 
 define("LAN_JM_CORE_ADMINLOOK_LAN_01", "Switch from tooltips to small labels" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_02", "It displays help tooltip on new line, not as tooltip only on hover. Good for testing your help strings ." );
-define("LAN_JM_CORE_ADMINLOOK_LAN_03", "Display colored headers" );
-define("LAN_JM_CORE_ADMINLOOK_LAN_04", "Use colors for admin menu headers - to have them visual different than normal menu items" );
-define("LAN_JM_CORE_ADMINLOOK_LAN_05", "Background color" );
-define("LAN_JM_CORE_ADMINLOOK_LAN_06", "Text color" );
-define("LAN_JM_CORE_ADMINLOOK_LAN_07", "Recommnended: #eee" );
-define("LAN_JM_CORE_ADMINLOOK_LAN_08", "Recommnended for Dark Admin #222, for KA Admin: #dc6767" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_03", "Customized Admin Look for KAdmin version" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_04", "Attempt to overrride default look of KAdmin version, more contrast, more colors..." );
+define("LAN_JM_CORE_ADMINLOOK_LAN_05", "Primary color" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_06", "Text color on primary color" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_08", "Recommnended for KA Admin: #eee" );
+define("LAN_JM_CORE_ADMINLOOK_LAN_07", "Recommnended for KA Admin: #dc6767" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_09", "Display Main Menu titles" );
 define("LAN_JM_CORE_ADMINLOOK_LAN_10", "Main navigation titles are displayed with icons" );
 
