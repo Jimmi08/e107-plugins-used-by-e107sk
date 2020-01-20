@@ -7,7 +7,7 @@
 //we can contruct the cloud from relevant tags
 //then cache this
 
-   include_lan(e_PLUGIN.'tagcloud/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
+   include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
  $text = "{TAGCLOUD=15}
          <div style='text-align:center;'><a href='".e_PLUGIN_ABS."tagcloud/tagcloud.php'>".LAN_TG6."</a></div>
          " ;
