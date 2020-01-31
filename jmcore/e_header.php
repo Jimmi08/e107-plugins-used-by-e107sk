@@ -65,6 +65,16 @@ if (ADMIN_AREA) {
       if(e107::getPref('admincss') == "css/kadmin.css") {  
 					 
         $css .= "
+        
+                .e-container td,
+                .e-container td i  {
+                    color: {$custom_bg_light_color}!important;
+                }
+                
+                .e-container td a {
+                      color: {$custom_bg_primary}!important;
+                }
+        
 				   li.nav-header { 
 				        text-transform: uppercase;
 				        background: {$custom_bg_light};
@@ -72,7 +82,12 @@ if (ADMIN_AREA) {
 		        } 
 		       .admin-left-panel li.nav-header {
 		           color: {$custom_bg_light_color};
-		       }  
+		       } 
+             .list-group .list-group-item {
+ 
+                  color: {$custom_bg_light_color};
+              }
+ 
 					 
             #admin-ui-list-batch, .adminlist > thead > tr {
                 background-color: {$custom_bg_primary};
@@ -83,7 +98,17 @@ if (ADMIN_AREA) {
                 color: {$custom_bg_primary_color}; 
             }
             
-						.admin-left-panel {
+           .table th  ul.col-selection > li a  {
+                background-color: {$custom_bg_white};
+                color: {$custom_bg_light_color}; 
+            } 
+            ul.col-selection > li a:hover {
+                color: #FFF;
+                background-image: linear-gradient(to bottom, {$custom_bg_primary}, {$custom_bg_primary}); 
+                background-color: $custom_bg_primary;
+            }
+
+            						.admin-left-panel {
 						  background: {$custom_bg_dark};
 						  color: {$custom_bg_dark_color}; 
 						}
