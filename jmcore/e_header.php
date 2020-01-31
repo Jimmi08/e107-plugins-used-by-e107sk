@@ -71,10 +71,13 @@ if (ADMIN_AREA) {
                     color: {$custom_bg_light_color}!important;
                 }
                 
-                .e-container td a {
+                .e-container td a.editable-click {
                       color: {$custom_bg_primary}!important;
                 }
-        
+                .e-container td a:not([class]) {
+                      color: {$custom_bg_primary}!important;
+                }
+                        
 				   li.nav-header { 
 				        text-transform: uppercase;
 				        background: {$custom_bg_light};
