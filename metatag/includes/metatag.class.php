@@ -2435,7 +2435,7 @@ class metatag
 	{
 		// Try to load cached data by e_REQUEST_URI.
 		$data = $this->getCacheByUri(e_REQUEST_URI);
-
+  
 		if(empty($data))
 		{
 			// Try to detect entity.
@@ -2451,7 +2451,7 @@ class metatag
 			{
 				// Replace constants and tokens.
 				$data = $this->preProcessMetaTags($metatags, $entity_id, $entity_type);
-
+                
 				if(!empty($data))
 				{
 					$cacheData = array(
@@ -2481,24 +2481,25 @@ class metatag
 	public function getCacheByUri($uri = '')
 	{
 		$data = array();
-
+ 
 		if($this->disable_caching)
 		{
 			return $data;
 		}
-
+  
 		if(!empty($uri))
 		{
 			$tp = e107::getParser();
 			$db = e107::getDb();
-			$db->select('metatag_cache', '*', 'cid = "' . $tp->toDB($uri) . '"');
-
+			$db->select('metatag_cache', '*', 'cid = "' . $tp->toDB($uri) . ' LIMIT 1"');
+            
 			while($row = $db->fetch())
 			{
-				$data = $this->unserialize($row['data']);
+ 
+                $data = $this->unserialize($row['data']);
 			}
 		}
-
+ 
 		return $data;
 	}
 
@@ -2533,6 +2534,7 @@ class metatag
 
 			$insert = array(
 				'data' => $details,
+                '_DUPLICATE_KEY_UPDATE' => 1
 			);
 
 			if($details['entity_type'] != 'metatag_default' && $details['entity_id'] > 0  )
