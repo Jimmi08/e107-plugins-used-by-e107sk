@@ -23,7 +23,7 @@ define('LAN_JMD_TOPDOWNLOADS_NO_DOWNLOADS',	'No downloads yet.');
 define('LAN_JMD_TOPDOWNLOADS_MONTH',		'month');
 define('LAN_JMD_TOPDOWNLOADS_WEEK',			'week');
 define('LAN_JMD_TOPDOWNLOADS_ALL',			'All');
-define('LAN_JMD_TOPDOWNLOADS_CATEGORY',		'Category');
+define('LAN_JMD_DOWNLOADS_CATEGORY',		'Category');
 define('LAN_JMD_TOPDOWNLOADS_PERIOD',		'Period');
 define('LAN_JMD_TOPDOWNLOADS_COUNT',		'Count/Limit');
 define('LAN_JMD_TOPDOWNLOADS_ALL_TIME',		'All Time');

@@ -33,12 +33,7 @@ class latest_downloads_list
 	{                            
         $qry = " AND find_in_set(download_visible,'" . USERCLASS_LIST . "')  ";
 
-		$qry = "SELECT d.download_name, 
-            d.download_id,
-            d.download_category,
-            d.download_description, d.download_author, 
-			d.download_filesize, d.download_requested, d.download_sef,
-            d.download_datestamp,d.download_class,d.download_mirror_type,
+		$qry = "SELECT d.*,
             dc.download_category_name, dc.download_category_id, dc.download_category_sef 
 			FROM #download AS d
 			LEFT JOIN #download_category AS dc ON d.download_category=dc.download_category_id

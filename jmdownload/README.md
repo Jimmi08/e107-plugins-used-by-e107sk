@@ -23,8 +23,6 @@ e107 stuff is released under GPL licence.
 ## Credits
 
 Many thanks to e107 for great CMS.
-Many thanks to Father Barry for Latest Releases Menu Plugin
-Many thanks to SecretR Top Downloads Menu Plugin 
 
 ## What is inside?
  

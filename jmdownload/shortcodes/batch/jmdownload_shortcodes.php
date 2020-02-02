@@ -126,5 +126,83 @@ class plugin_jmdownload_jmdownload_shortcodes extends e_shortcode
 		}
 		return (7 == $this->var['period'] ? LAN_JMD_TOPDOWNLOADS_WEEK : LAN_JMD_TOPDOWNLOADS_MONTH);
 	}
+ 
+		// Custom download shortcode
+		// {JMDOWNLOAD_DOWNLOAD: download_datetime}
+        // {JMDOWNLOAD_DOWNLOAD: download_image}
+        
+        // replaced custom time solution
+        // missing core shortcodes
+    	// {DOWNLOAD_VIEW_DATE=%Y-%m-%d %H:%M:%S} returs span tags
+    	// {DOWNLOAD_VIEW_DATE=short} returs span tags
+        
+        
+        public function sc_jmdownload_download($parm = null)
+        {
+            if (empty($parm)) {
+                return '';
+            }
+ 
+            $key = array_keys($parm);
+            if ($key) {
+                $key = strtolower($key[0]);
+            }
+            
+ 
+            $data = $this->var;
+         
+            switch ($key) {
+             
+				case 'download_datetime':
+					$value = $data['download_datestamp'];
+					$text =  e107::getDate()->convert_date($value, "%Y-%m-%d %H:%M:%S");
+				break;				
 	
+				case 'download_date_short':
+					$value = $data['download_datestamp'];
+					$text =  e107::getDate()->convert_date($value, "short");
+				break;
+				
+				case 'download_date_relative':
+					$value = $data['download_datestamp'];
+					$text =  e107::getDate()->convert_date($value, "relative");
+				break;
+				
+				case 'download_name':
+					$text = $data['download_name'];
+				break;
+				case 'download_id':
+					$text = $data['download_id'];
+				break;
+				case 'download_description':
+
+					$text =  e107::getParser()->toHTML($data['download_description'], true, 'BODY');
+
+					$texts = explode("<p><!-- pagebreak --></p>", $text);
+					if ($texts[1]) {
+						$text =  $texts[0];
+					} else {
+						return "";
+					}
+					if ($parm['class']) {
+						$text =  str_replace(array("<p>"), "<p class='".$parm['class']."'>", $text);
+					}
+				break;
+				case 'download_image':
+					$imagepath = $data['download_image'];
+					if ($imagepath) {
+						$text = e107::getParser()->thumbUrl($imagepath, array('w'=>0, 'h'=>0));
+					} else {
+						$logopref = e107::getConfig('core')->get('sitelogo');
+						$logop = e107::getParser()->replaceConstants($logopref, "full");
+						$text = $logop;
+					}
+				break;
+				case 'download_url':
+					$text = e107::url('download', 'item', $data);
+				break;
+			}
+			
+            return $text;
+        }
 }

@@ -5,8 +5,8 @@ if (!defined('e107_INIT'))
     exit;
 }
  
-
-define('LAN_JMD_DOWNLOADS_IN_CATEGORY',	'in: ');
+define('LAN_JMD_LATEST_DOWNLOADS', "Latest Downloads");
+define('LAN_JMD_DOWNLOADS_IN_CATEGORY',	'in Category: ');
 define('LAN_JMD_DOWNLOADS_FILESIZE',	'Filesize: ');
 define('LAN_JMD_DOWNLOADS_AUTHOR',	'Author: ');
 

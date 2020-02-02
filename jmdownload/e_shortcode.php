@@ -124,7 +124,7 @@ if (!class_exists(jmdownload_shortcodes, false))
         // Custom download shortcode
         // {JMCORE_DOWNLOAD: download_id}
         // {JMCORE_DOWNLOAD: download_name}
-        // {JMCORE_DOWNLOAD: download_icon_path}
+        // {JMCORE_DOWNLOAD: download_image}
         // {JMCORE_DOWNLOAD: download_url}
         public function sc_jmcore_download($parm = null)
         {

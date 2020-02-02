@@ -14,6 +14,9 @@
 if (!defined('e107_INIT')) { exit; }
 
 $text = "";
+e107::lan("jmdownload" , "lan_front");
+
+$template = e107::getTemplate('jmdownload', 'latest_menu'); 
 
 
 /* CAPTION FROM MENU SETTINGS */
@@ -27,8 +30,7 @@ else $menu_caption = $parm['menuCaption'];
 $vars = array('{MENU_CAPTION}' => $menu_caption);
 
 $caption  = str_replace(array_keys($vars), $vars, $template['caption']);    
-
-
+ 
 /* ITEM LIMIT FROM MENU SETTINGS */
 $menu_limit = 0;
 if(isset($parm['menuLimit']))
@@ -45,10 +47,6 @@ if(isset($parm['menuTableStyle']))
 	$menu_tablestyle = $parm['menuTableStyle'];
 }
 else $menu_tablestyle = $parm['menuTableStyle']; 
-
-
-$template = e107::getTemplate('jmdownload', 'latest_menu'); 
-$item = $template['item'];
  
 require_once(e_PLUGIN."/jmdownload/classes/latest_downloads_class.php");
 
@@ -72,26 +70,11 @@ $items ='';
 
 foreach ($listArray as  $v)
 {			
-
-	// missing core shortcodes
-	// {DOWNLOAD_VIEW_DATE=%Y-%m-%d %H:%M:%S} returs span tags
-	// {DOWNLOAD_VIEW_DATE=short} returs span tags
- 
-	$vars = array( 
-		'{JM_DOWNLOAD_VIEW_DATETIME}' => e107::getDate()->convert_date($v['download_datestamp'], "%Y-%m-%d %H:%M:%S"),
-		'{JM_DOWNLOAD_VIEW_DATE_SHORT}' => e107::getDate()->convert_date($v['download_datestamp'], "short"),
-		'{JM_DOWNLOAD_VIEW_DATE_RELATIVE}' => e107::getDate()->convert_date($v['download_datestamp'], "relative"),
-		'{JM_DOWNLOAD_VIEW_THUMB}' => $tp->toImage($v['download_thumb'])
-	);   	 
 	$sc->setVars($v);   
- 
-	$template['item'] = str_replace(array_keys($vars), $vars, $item);    
-
-    $items    .=  $tp->parseTemplate($template['item']['item'], true, $sc);
-         
+    $items    .=  $tp->parseTemplate($template['item']['item'], true, $sc);       
 }
 
-e107::getRender()->tablerender($caption, $start.$items.$end, $tablestyle);
+e107::getRender()->tablerender($caption, $start.$items.$end, $menu_tablestyle);
 
 
 
