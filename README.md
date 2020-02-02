@@ -6,6 +6,17 @@ But this doesn't mean that they are actively developed.
 Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins with name jm are stable (no underscore).
 
 
+## JM Download plugin for e107  
+
+Plugin for extending core Download plugin.   
+
+This is for now replacement for:
+- JM_Download plugin by me (Experimental version with underscore in name)
+- partially for Latest Releases Menu by Father Barry
+- partially for Top Downloads Menu by SecretR
+- partially for download part of JM Core Plugin by me
+
+
 ## Yandex metrica plugin for e107
 
 The plugin for the using Yandex Metrica on your e107 site
@@ -109,13 +120,6 @@ No idea how this plugin was created. Probably inspired by Oxigen cookie plugin, 
 
 Don't use it, but it still works.
 
-
-## JM Download plugin for e107
-
-Plugin for extending core Download plugin.  Just backup.
-
-Note: there was really improvement in core in this area.  Not sure if this is needed anymore. 
-Note: next extending was done in jmcore plugin. Need to be revised.
 
 
 ## JM Shortcode plugin for e107

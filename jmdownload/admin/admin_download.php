@@ -11,36 +11,17 @@ if (!getperms('P'))
 
 // e107::lan('jm_download',true);
 
-require_once("admin_menu.php");
+require_once("admin_leftmenu.php");
 e107::lan('download','download'); // e_PLUGIN.'download/languages/'.e_LANGUAGE.'/download.php'
 e107::lan('download', 'admin', true); // e_PLUGIN.'download/languages/'.e_LANGUAGE.'/admin_download.php'
 
-class jm_download_adminArea extends jm_downloads_adminArea
+
+class jmdownload_adminArea extends leftmenu_adminArea
 {
 
-	protected $modes = array(	
-	
-		'main'	=> array(
-			'controller' 	=> 'download_ui',
-			'path' 			=> null,
-			'ui' 			=> 'download_form_ui',
-			'uipath' 		=> null
-		),
-		
-
-	);	
- 
-	protected $adminMenuAliases = array(
-		'main/edit'	=> 'main/list'				
-	);	
-	
 	protected $menuTitle = 'JM Downloads';
 }
-
-
-
-
-				
+			
 class download_ui extends e_admin_ui
 {
 			
@@ -206,26 +187,11 @@ class download_ui extends e_admin_ui
 		public function renderHelp()
 		{
 			$caption = LAN_HELP;
-			$text = 'Some help text';
+			$text = '<b>Warning!</b> <br>Not upload files here. Use core Download plugin. This is just overview for checking saved data. ';
 
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
-			
-	/*	
-		// optional - a custom page.  
-		public function customPage()
-		{
-			$text = 'Hello World!';
-			$otherField  = $this->getController()->getFieldVar('other_field_name');
-			return $text;
-			
-		}
-		
-	
-		
-		
-	*/
 			
 }
 				
@@ -260,7 +226,7 @@ class download_form_ui extends e_admin_form_ui
 }		
 		
 		
-new jm_download_adminArea();
+new leftmenu_adminArea();
 
 require_once(e_ADMIN."auth.php");
 e107::getAdminUI()->runPage();
