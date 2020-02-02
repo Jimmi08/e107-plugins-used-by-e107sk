@@ -76,7 +76,7 @@ $start    =  $tp->parseTemplate($template[$sectiontemplate]['start'] );
 
 $sc = e107::getScBatch('jmdownload', 'jmdownload');
  
-$sc->wrapper('jmdownload/top_downloads_menu');
+$sc->wrapper('top_menu/item');;
  
 $start    =  $tp->parseTemplate($template['start'], true, $sc);
 $end      =  $tp->parseTemplate($template['end'], true, $sc);

@@ -16,9 +16,9 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-$TOP_MENU_WRAPPER['JM_DOWNLOAD_CATEGORY'] 			= "<p>{---}</p>";
-$TOP_MENU_WRAPPER['JMDOWNLOAD_SIZE'] 			= "<span>{---}</span>";
-$TOP_MENU_WRAPPER['JMDOWNLOAD_AUTHOR'] 			= "<div class='author'>{---}</div>";
+$TOP_MENU_WRAPPER['item']['JMDOWNLOAD_CATEGORY'] 		= LAN_JMD_DOWNLOADS_IN_CATEGORY."<span>{---}</span><br />";
+$TOP_MENU_WRAPPER['item']['JMDOWNLOAD_SIZE'] 			= LAN_JMD_DOWNLOADS_FILESIZE."<span>{---}</span><br />";
+$TOP_MENU_WRAPPER['item']['JMDOWNLOAD_AUTHOR'] 			= LAN_JMD_DOWNLOADS_AUTHOR."<span>{---}</span><br />";
 
 $TOP_MENU_TEMPLATE['caption'] = '
 <h2 class="section-title">{MENU_CAPTION}</h2>';
@@ -29,11 +29,13 @@ $TOP_MENU_TEMPLATE['end'] = '</div></div>  ';
 $TOP_MENU_TEMPLATE['item']['item'] = '
 <div class="col-md-4 col-sm-6  ">	 
 		<div id="top-download-{DOWNLOAD_POSITION}">
-			<h3>{JMDOWNLOAD_NAME}</h3>
-			'.LAN_JMD_TOPDOWNLOADS_IN_CATEGORY.'{JMDOWNLOAD_CATEGORY} <br />
+			<h3>{JMDOWNLOAD_NAME}</h3> {JMDOWNLOAD_ADMIN_EDIT}
+			{JMDOWNLOAD_CATEGORY}
+            {JMDOWNLOAD_AUTHOR}           
 			'.LAN_JMD_TOPDOWNLOADS_IN_PERIOD.'{DOWNLOAD_PERIOD}: {JMDOWNLOAD_LAST_PERIOD_COUNT} <br />
-			'.LAN_JMD_TOPDOWNLOADS_FILESIZE.'{JMDOWNLOAD_SIZE}<br />
-			'.LAN_JMD_TOPDOWNLOADS_GETIT.'<a href="{JMDOWNLOAD_VIEW_LINK}">{JMDOWNLOAD_NAME}</a>
+			{JMDOWNLOAD_SIZE}
+			'.LAN_JMD_TOPDOWNLOADS_GETIT.'<a href="{JMDOWNLOAD_VIEW_LINK}">{JMDOWNLOAD_NAME}</a><br />
+            {JMDOWNLOAD_DESCRIPTION}
 		</div> 
   
  </div> 

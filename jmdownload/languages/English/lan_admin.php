@@ -5,7 +5,7 @@ if (!defined('e107_INIT'))
     exit;
 }
 
-
+define(LAN_JMD_LATEST_DOWNLOADS_02, "Download Overview");
 define(LAN_JMD_LATEST_DOWNLOADS_03, "Latest Downloads");
 define(LAN_JMD_LATEST_DOWNLOADS_04, "Display Admin link");
 define(LAN_JMD_LATEST_DOWNLOADS_05, "For admins direct edit button will be displayed");
@@ -18,7 +18,7 @@ define(LAN_JMD_LATEST_DOWNLOADS_19, "Show download count");
 
 define(LAN_JMD_LATEST_DOWNLOADS_21, "Number of characters to display in download description: ");
 define(LAN_JMD_LATEST_DOWNLOADS_22, "Number of latest downloads to display: ");
-define(LAN_JMD_LATEST_DOWNLOADS_23, "Configure Latest Downloads");
+define(LAN_JMD_LATEST_DOWNLOADS_23, "Configure Download Menus");
 
 define(LAN_JMD_LATEST_DOWNLOADS_26, "Show download size");
 define(LAN_JMD_LATEST_DOWNLOADS_27, "Show author");

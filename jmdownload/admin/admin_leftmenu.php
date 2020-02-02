@@ -33,7 +33,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 
 	protected $adminMenu = array(
    		// 'main/prefs' 		=> array('caption'=> 'Additional Prefs', 'perm' => 'P', 'url'=>'admin_config.php'),
-    	'admin_download/list' 			=> array('caption'=> 'Download Overview', 'perm' => 'P', 'url'=>"admin_download.php"), 
+    	'admin_download/list' 			=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_02, 'perm' => 'P', 'url'=>"admin_download.php"), 
     	'admin_downloadmenu/prefs' 		=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_23, 'perm' => 'P', 'url'=>'admin_download_menus.php'),
 	);      
 	

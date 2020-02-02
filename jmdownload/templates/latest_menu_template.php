@@ -16,30 +16,24 @@
 
 if (!defined('e107_INIT')) { exit; }
 
-$LATEST_MENU_WRAPPER['JM_DOWNLOAD_CATEGORY'] 			= "<p>{---}</p>";
-$LATEST_MENU_WRAPPER['JMDOWNLOAD_SIZE'] 			= "<span>{---}</span>";
-$LATEST_MENU_WRAPPER['JMDOWNLOAD_AUTHOR'] 			= "<div class='author'>{---}</div>";
+$LATEST_MENU_WRAPPER['item']['JMDOWNLOAD_CATEGORY'] 		= LAN_JMD_DOWNLOADS_IN_CATEGORY."<span>{---}</span><br />";
+$LATEST_MENU_WRAPPER['item']['JMDOWNLOAD_SIZE'] 			= LAN_JMD_DOWNLOADS_FILESIZE."<span>{---}</span><br />";
+$LATEST_MENU_WRAPPER['item']['JMDOWNLOAD_AUTHOR'] 			= LAN_JMD_DOWNLOADS_AUTHOR."<span>{---}</span><br />";
 
 $LATEST_MENU_TEMPLATE['caption'] = '<h2 class="section-title">{MENU_CAPTION}</h2>';
 $LATEST_MENU_TEMPLATE['start'] = '<div class="row">';
  
  
 $LATEST_MENU_TEMPLATE['item']['item'] = '
-<div class="col-md-4 col-sm-6  ">	 
-	 <div class="icon-box icon-box-info" style="width: 95%;"> 
-   <i class="fa fa-cloud-download"></i> 
-    <div class="icon-box-content"> 
-      <div >
-			  <a href="{JMDOWNLOAD_VIEW_LINK}"><h3 class="contenttitle">{JMDOWNLOAD_NAME}</h3></a> </div>
-				{JMDOWNLOAD_CATEGORY} 
-			  <time class="icon-time" datetime="{JMDOWNLOAD_VIEW_DATETIME}">
-		    {JMDOWNLOAD_VIEW_DATE}
-			  </time>			
-			  
-			  {JMDOWNLOAD_AUTHOR} {JM_DOWNLOAD_ADMIN_EDIT}   
-			  {JMDOWNLOAD_DESCRIPTION}
-			  {JMDOWNLOAD_SIZE}
-    </div>
+<div class="col-md-4 col-sm-6  ">
+    <div id="top-download-{DOWNLOAD_POSITION}">
+			<a href="{JMDOWNLOAD_VIEW_LINK}"><h3 class="contenttitle">{JMDOWNLOAD_NAME}</h3></a> 
+			{JMDOWNLOAD_CATEGORY} 
+			{JMDOWNLOAD_SIZE}
+            {JMDOWNLOAD_DESCRIPTION}
+            {JMDOWNLOAD_AUTHOR}
+            {JMDOWNLOAD_ADMIN_EDIT}
+            {JMDOWNLOAD_VIEW_DATE_SHORT}
     </div>
  </div> 
  ';

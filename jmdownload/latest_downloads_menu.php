@@ -58,8 +58,11 @@ $listArray = $class->getListData($menu_limit);
 $start    =  $tp->parseTemplate($template[$sectiontemplate]['start'] );
 
 $sc = e107::getScBatch('jmdownload', 'jmdownload');
- 
-$sc->wrapper('jmdownload/latest_menu');
+
+/*	 * Example e107::getScBatch('contact')->wrapper('contact/form');
+	 * which results in using the $CONTACT_WRAPPER['form'] wrapper in the parsing phase   */
+	 
+$sc->wrapper('latest_menu/item');
  
 $start    =  $tp->parseTemplate($template['start'], true, $sc);
 $end      =  $tp->parseTemplate($template['end'], true, $sc);

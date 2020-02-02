@@ -11,10 +11,11 @@ Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins w
 Plugin for extending core Download plugin.   
 
 This is for now replacement for:
-- JM_Download plugin by me (Experimental version with underscore in name)
-- partially for Latest Releases Menu by Father Barry
-- partially for Top Downloads Menu by SecretR
-- partially for download part of JM Core Plugin by me
+- adding global shortcodes for extending download template 
+- adding full Admin UI overview for downloads without legacy stuff
+- adding Latest Downloads menu (inspired and LANs used from old Latest Releases Menu Plugin by Father Barry)
+- adding Top Downloads menu (inspired and LANs used from old Top Downloads Menu Plugin by SecretR - not working any more )
+
 
 
 ## Yandex metrica plugin for e107
@@ -132,8 +133,7 @@ Note: Saved here only because it is still activated and I haven't time to replac
 ## JM Core plugin for e107
 
 Plugin for adding core functionality. Only for personal use. 
-
-Note: revision latest changes in download plugin to decide what to do with shortcodes vs plugin
+ 
 Note: move one page functionality to separate plugin, speed 
 Note: wait for 2.3 release
 
