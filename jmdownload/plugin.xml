@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="JM Downloads" lan="LAN_001" version="1.0.1" date="2019-01-02" compatibility="2.3" installRequired="true" >
-	<author name="Jimako" url="https://www.e107.sk/" />
+<e107Plugin name="JM Downloads" lan="LAN_001" version="1.0.1" date="2019-02-02" compatibility="2.3" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com/" />
 	<summary lan="">Some missing features for download plugin</summary>
 	<description lan="">Way how to extend download plugin without changing core files </description>
 	<keywords>

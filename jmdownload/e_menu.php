@@ -63,7 +63,7 @@ class jmdownload_menu
 
 				$fields['menuLimit']        	 = array('title'=> LAN_JMD_TOPDOWNLOADS_COUNT, 'type'=>'text', 'writeParms'=>array('size'=>'xxlarge', 'default'=>5 ));
 				
-				$fields['top_downloads_cat']     = array('title'=> LAN_JMD_TOPDOWNLOADS_CATEGORY, 'type'=>'dropdown',
+				$fields['top_downloads_cat']     = array('title'=> LAN_JMD_DOWNLOADS_CATEGORY, 'type'=>'dropdown',
 				 'writeParms'=>array('size'=>'xxlarge', 'optArray'=> $cats ));
 
 				$fields['top_downloads_period']  = array('title'=> LAN_JMD_TOPDOWNLOADS_PERIOD, 'type'=>'dropdown', 'writeParms'=>array('size'=>'xxlarge', 

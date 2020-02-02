@@ -104,7 +104,7 @@ class plugin_jmdownload_jmdownload_shortcodes extends e_shortcode
             $icon = "<img src='".e_IMAGE_ABS."generic/edit.png' alt='*' style='padding:0px;border:0px' />";
             $url = e_PLUGIN_ABS."download/admin_download.php?action=edit&id=".$this->var['download_id'];
             // 6 - Access to Media Manager
-            return (ADMIN && getperms('6')) ? "<a class='hidden-print' href='".$url."' title='".LAN_EDIT."'>".$icon."</a>" : "";
+            return (ADMIN && getperms('6')) ? "<a target='_blank' class='hidden-print' href='".$url."' title='".LAN_EDIT."'>".$icon."</a>" : "";
         } else {
             return '';
         }
