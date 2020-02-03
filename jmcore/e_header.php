@@ -44,208 +44,299 @@ if (ADMIN_AREA) {
 
     if($adminlook_navheaders)  {
                                 
-     $navheader_bg      = trim(e107::pref('jmcore','adminlook_navheader_bg', "#EEE"));
+    	 $custom_bg      = trim(e107::pref('jmcore','adminlook_navheader_bg', "#dc6767"));
+         $custom_color      = trim(e107::pref('jmcore','adminlook_navheader_color', "#EEE"));
+         
+     	/* $custom_bg_primary      = varset($navheader_bg, "#EEE"); 
+		 $custom_bg_primary_color  = trim(e107::pref('jmcore','adminlook_navheader_color', "#dc6767"));  
+		
+		 naming for colors: custom + style + type 
+		 $custom_bg_primary - background for primary background
+		 $custom_bg_primary_color - text color on primary backgrounf
+		 $custom_color_primary - text primary color 
+		 
+		 Doubles are intention for easily reading code and preparation for sass version
+
+		*/   
      
-     /* $custom_bg_primary      = varset($navheader_bg, "#EEE"); 
-     $custom_bg_primary_color  = trim(e107::pref('jmcore','adminlook_navheader_color', "#dc6767"));  */   
-     
-		 $custom_bg_primary = "#dc6767";     
-		 $custom_bg_primary_color = "#fff";
+	   	$custom_color_primary = $custom_bg_primary = $custom_bg;     
+	   	$custom_bg_primary_color = $custom_color;
 		   
-	   $custom_bg_white = "#FFF";   
-	   $custom_bg_light = "#e5e5e5";    
-		 $custom_bg_light_color = "#222";	     
-	   $custom_bg_dark = "#3C3C3C"; 
-		 $custom_bg_dark_hover = "#303030";    
-		 $custom_bg_dark_color = "#d9d9d9";
+	   	$custom_bg_white = "#fefefe";   
+	   	$custom_bg_light = "#e5e5e5";    
+	   	$custom_color_dark = $custom_bg_light_color = "#222";   
+	   	$custom_bg_dark = "#3C3C3C"; 
+		$custom_bg_dark_hover = "#303030";    
+		$custom_bg_dark_color = "#d9d9d9";
  
 	
+		$css .= "
+			table textarea.form-control {
+			width: 100%;  
+		  }
+		";
 
-       //if KA Admin
-      if(e107::getPref('admincss') == "css/kadmin.css") {  
+
+       	//if KA Admin
+      	if(e107::getPref('admincss') == "css/kadmin.css") {  
 					 
-        $css .= "
-        
-                .e-container td,
-                .e-container td i  {
-                    color: {$custom_bg_light_color}!important;
-                }
-                
-                .e-container td a.editable-click {
-                      color: {$custom_bg_primary}!important;
-                }
-                .e-container td a:not([class]) {
-                      color: {$custom_bg_primary}!important;
-                }
-                        
-				   li.nav-header { 
+        	$css .= "
+                 body {
+                    color: {$custom_color_dark};
+				}
+
+
+				/* Left menu */
+				
+				.admin-left-panel {
+					background: {$custom_bg_dark};
+					color: {$custom_bg_dark_color}; 
+				}
+
+				.admin-right-panel {
+					background: #DDD;
+				/*	color: {$custom_bg_dark_color};  */
+				}
+			 
+				  
+				.admin-container .admin-left-panel .panel  {  
+					background: {$custom_bg_dark};
+					color: {$custom_bg_dark_color}; 
+				}
+
+				li.nav-header { 
 				        text-transform: uppercase;
 				        background: {$custom_bg_light};
 				        color: {$custom_bg_light_color}; 
-		        } 
-		       .admin-left-panel li.nav-header {
+				} 
+				
+		       	.admin-left-panel li.nav-header {
 		           color: {$custom_bg_light_color};
-		       } 
-             .list-group .list-group-item {
- 
-                  color: {$custom_bg_light_color};
-              }
- 
-					 
-            #admin-ui-list-batch, .adminlist > thead > tr {
-                background-color: {$custom_bg_primary};
-                color: {$custom_bg_primary_color}; 
-            }
-            .table .nav-tabs a, .table th a  {
-                background-color: {$custom_bg_primary};
-                color: {$custom_bg_primary_color}; 
-            }
-            
-           .table th  ul.col-selection > li a  {
-                background-color: {$custom_bg_white};
-                color: {$custom_bg_light_color}; 
-            } 
-            ul.col-selection > li a:hover {
-                color: #FFF;
-                background-image: linear-gradient(to bottom, {$custom_bg_primary}, {$custom_bg_primary}); 
-                background-color: $custom_bg_primary;
-            }
+		       	} 
+             	.list-group .list-group-item {
+ 					color: {$custom_bg_light_color};
+				}
+				  
+				.nav-pills li.active a {
+					background: {$custom_bg_primary};
+				}
 
-            						.admin-left-panel {
-						  background: {$custom_bg_dark};
-						  color: {$custom_bg_dark_color}; 
-						}
-						
-						.admin-container .admin-left-panel .panel  {
-						  background: {$custom_bg_dark};
-						  color: {$custom_bg_dark_color}; 
-						}
+				.nav-pills li.active a:hover, .nav-pills li.active a:focus {
+					background: {$custom_bg_primary};
+				}
+
+				/* main navigation */	
+				.navbar-default .navbar-nav > .active > a, 
+				.navbar-default .navbar-nav > .active > a:focus, 
+				.navbar-default .navbar-nav > .active > a:hover {
+					color: {$custom_bg_primary_color};
+					background: {$custom_bg_primary};
+				}
+				
+				/* forms */
+				.form-control,
+				.table select {
+					height: 42px;
+				}
+
+				/* buttons */
+				.btn-primary {
+					color: {$custom_bg_primary_color};
+					background-color: {$custom_bg_primary};
+				}
+
+
+				/* Exceptions: */
+				.btn.batch.btn-primary,
+				.e-modal.btn-primary,
+				.e-sef-generate.btn.btn-default {
+					background-color: #d75252 !important;
+					color: white;
+				}
+
+				/* Admin UI tables */
+                .e-container td,
+                .e-container td i  {
+                    color: {$custom_bg_light_color};
+                }
+                .e-container td a.editable-click {
+                      color: {$custom_bg_primary};
+                }
+                .e-container td a:not([class]) {
+                      color: {$custom_bg_primary};
+                }
+							 
+            	#admin-ui-list-batch, .adminlist > thead > tr {
+                	background-color: {$custom_bg_primary};
+                	color: {$custom_bg_primary_color}; 
+            	}
+				
+				.table .nav-tabs a, .table th a  {
+                	background-color: {$custom_bg_primary};
+                	color: {$custom_bg_primary_color}; 
+				}
+				ul.nav.nav-tabs li.active a {
+                	background-color: {$custom_bg_primary};
+                	color: {$custom_bg_primary_color}; 
+				}
+            
+           		.table th  ul.col-selection > li a  {
+                	background-color: {$custom_bg_white};
+                	color: {$custom_bg_light_color}; 
+				}
+
+				/* menu.php Menu manager */            
+            	.admin-left-panel .menu-selector {    		  
+    		  		color: {$custom_color_dark};   
+              		overflow-wrap: break-word;                    
+            	}  
+            
+            	.menu-selector input:checked + span {
+                	color: {$custom_color_primary};
+				}
+				
+				
+				/* dashboard */
+            	ul.col-selection > li a:hover {
+                	color: #FFF;
+                	background-image: linear-gradient(to bottom, {$custom_bg_primary}, {$custom_bg_primary}); 
+                	background-color: $custom_bg_primary;
+            	}        
 							 				
-						.plugin-navigation li a,
-						.admin-left-panel li a,
-						.admin-container .panel li a
-						  {
-						    color: {$custom_bg_dark_color};
-						    padding: 15px;
-						}
+				.plugin-navigation li a,
+				.admin-left-panel li a,
+				.admin-container .panel li a
+			  	{
+			    	color: {$custom_bg_dark_color};
+			    	padding: 15px;
+				}
 
-						.plugin-navigation li a:hover,
-						.plugin-navigation li a:focus {
-							background: {$custom_bg_dark_hover}; 
-						  transition: 0.2s all ease-in-out;
-						  outline: none;
-						  color:#FFF;
-						}
-					
-						#admin-ui-nav-menu li.divider {
-						     padding-top:  0px;  
-						     border-bottom: 0px; 
-						     margin-bottom: 0px;
-						}
+				.plugin-navigation li a:hover,
+				.plugin-navigation li a:focus {
+					background: {$custom_bg_dark_hover}; 
+			  		transition: 0.2s all ease-in-out;
+			  		outline: none;
+			  		color:#FFF;
+				}
+
+				.plugin-navigation li a.link-active,
+				.admin-left-panel li a.link-active,
+				.admin-container .panel li a.link-active
+			  	{
+			    	color: {$custom_bg_primary_color};
+				}				
+		
+				#admin-ui-nav-menu li.divider {
+					padding-top:  0px;  
+					border-bottom: 0px; 
+					margin-bottom: 0px;
+				}
  
- 						/* flexpanel */
-            #menu-area-07 .panel-heading,
-						#core-infopanel-mye107 .panel-heading,
-						#core-infopanel-news .panel-heading,
-						#plug-infopanel-user-0  .panel-heading  {
-						    background-color: {$custom_bg_primary};
-						    color: {$custom_bg_primary_color}; 
-						}
+ 				/* flexpanel */
+           		#menu-area-07 .panel-heading,
+				#core-infopanel-mye107 .panel-heading,
+				#core-infopanel-news .panel-heading,
+				#plug-infopanel-user-0  .panel-heading  {
+					 background-color: {$custom_bg_primary};
+					color: {$custom_bg_primary_color}; 
+				}
 						
-						/* infopanel */
-						.admin-main-content .panel-heading  {
-						    background-color: {$custom_bg_primary};
-						    color: {$custom_bg_primary_color}; 
-						} 
-						.admin-main-content .panel  {
-						    background-color: {$custom_bg_light};
-						    color: {$custom_bg_light_color}; 
-						} 	
+				/* infopanel */
+				.admin-main-content .panel-heading  {
+					background-color: {$custom_bg_primary};
+					color: {$custom_bg_primary_color}; 
+				} 
+				.admin-main-content .panel  {
+					background-color: {$custom_bg_light};
+					color: {$custom_bg_light_color}; 
+				} 	
 						
-						/* tabs */
-            #menu-area-07 ,
-						#core-infopanel-mye107 .panel-body,
-						#core-infopanel-news .panel-body,
-						#plug-infopanel-user-0  .panel-body  {
-						    background-color: {$custom_bg_light}; 
-						    color: {$custom_bg_light_color}; 
-						}	
+				/* tabs */
+            	#menu-area-07 ,
+				#core-infopanel-mye107 .panel-body,
+				#core-infopanel-news .panel-body,
+				#plug-infopanel-user-0  .panel-body  {
+					background-color: {$custom_bg_light}; 
+						color: {$custom_bg_light_color}; 
+				}	
 						
-							ul.nav.nav-tabs {
-							    border-bottom: 0 !important;
-							    background: transparent; 
-							    color: {$custom_bg_light_color}; 
-							}
+				ul.nav.nav-tabs {
+					border-bottom: 0 !important;
+					background: transparent; 
+					color: {$custom_bg_light_color}; 
+				}
 							
-							ul.nav.nav-tabs li {
-								    margin-bottom: 0px;
-								    border-right: 1px solid {$custom_bg_light_color};
-								    border-top: 1px solid {$custom_bg_light_color};
-						  }
+				ul.nav.nav-tabs li {
+					margin-bottom: 0px;
+					border-right: 1px solid {$custom_bg_light_color};
+					border-top: 1px solid {$custom_bg_light_color};
+				}
 						  
-				      ul.nav.nav-tabs > li > a {
-						      margin-right: 0px;  
-						      color: $custom_bg_light_color;
-						 }
-						.core-mainpanel-block .btn-default {
-						   background: {$custom_bg_white};
-						   background-color: {$custom_bg_white};
-						}
+				ul.nav.nav-tabs > li > a {
+					margin-right: 0px;  
+					color: $custom_bg_light_color;
+				}
+				.core-mainpanel-block .btn-default {
+					background: {$custom_bg_white};
+					background-color: {$custom_bg_white};
+				}
             
-            #admin-ui-list-db-language span.default {
-              color: {$custom_bg_light_color}; 
-            }
+				#admin-ui-list-db-language span.default {
+				color: {$custom_bg_light_color}; 
+				}
             
-						 table.adminlist {
-						  background-color: {$custom_bg_white};
-						 }
+				table.adminlist {
+					background-color: {$custom_bg_white};
+				}
 						
-						.e-container {
-						  color: {$custom_bg_light_color}; 
-						}
-						.e-container a {
-						  color: {$custom_bg_light_color}; 
-						}
+				.e-container {
+					color: {$custom_bg_light_color}; 
+				}
+				.e-container a {
+					color: {$custom_bg_light_color}; 
+				}
 						
-						.admin-main-content {
-						  color: {$custom_bg_light_color};
-						}
+				.admin-main-content {
+					color: {$custom_bg_light_color};
+				}
             
-            li.after-submit input[type='radio']  {
-              margin-left: 0;
-            }
+				li.after-submit input[type='radio']  {
+				margin-left: 0;
+				}
             
-             li.after-submit   span {
-              margin-left: 20px;
-            }           
+             	li.after-submit   span {
+              	margin-left: 20px;
+            	}           
             
-            .btn {
-             padding: 10px;
-            }
-            .btn-default {
-                background: {$custom_bg_light};
-                border-radius: 0px !important;
-            }		
+				.btn {
+				padding: 10px;
+				}
+				.btn-default {
+					background: {$custom_bg_light};
+					border-radius: 0px !important;
+				}		
 						
-						.alert-warning pre {
-						  color: #222;
-						}
+				.alert-warning pre {
+					color: #222;
+				}
 						
-						.block-text .panel {
-						    background: #FFF;
-						    color: #222;
-						    border: 0;
-						}
+				.block-text .panel {
+					background: #FFF;
+					color: #222;
+					border: 0;
+				}
 						
-						.fborder .forumheader3    {
-						      border: 1px solid {$custom_bg_light};
-						}
-			      .adminform {
-						   background-color: {$custom_bg_white};
-						}
-			      .adminform .form-control {
-						 background-color: {$custom_bg_light};
-						}
+				.fborder .forumheader3    {
+					border: 1px solid {$custom_bg_light};
+				}
+
+				.adminform {
+					background-color: {$custom_bg_white};
+				}
+
+			    .adminform .form-control {
+					background-color: {$custom_bg_light};
+				}
         ";
  
       }
@@ -285,8 +376,6 @@ if (ADMIN_AREA) {
                   display: block!important;
                } 
     '; */
-    
-
 
 }
 
