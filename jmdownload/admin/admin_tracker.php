@@ -11,23 +11,23 @@ if (!getperms('P'))
 }
 
 // e107::lan('aacgc_dltracker',true);
-require_once("admin_menu.php");
+require_once("admin_leftmenu.php");
  
 				
-class download_requests_ui extends e_admin_ui
+class download_ui extends e_admin_ui
 {
 			
-		protected $pluginTitle		= 'AACGC Download Tracker';
-		protected $pluginName		= 'aacgc_dltracker';
+		protected $pluginTitle		= LAN_JMD_LATEST_DOWNLOADS_03;
+		protected $pluginName		= 'jmdownload';
 	//	protected $eventName		= 'aacgc_dltracker-download_requests'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'download_requests';
 		protected $pid				= 'download_request_id';
 		protected $perPage			= 40; 
-		protected $batchDelete		= true;
-		protected $batchExport     = true;
-		protected $batchCopy		= true;
+		protected $batchDelete		= false;
+		protected $batchExport     = false;
+		protected $batchCopy		= false;
 
-	//	protected $sortField		= 'somefield_order';
+	 	protected $sortField		= 'download_request_datestamp';
 	//	protected $sortParent      = 'somefield_parent';
 	//	protected $treePrefix      = 'somefield_title';
 
@@ -39,22 +39,39 @@ class download_requests_ui extends e_admin_ui
 	
 		protected $fields 		= array (
 			'checkboxes'              => array (  'title' => '',  'type' => null,  'data' => null,  'width' => '5%',  'thclass' => 'center',  'forced' => true,  'class' => 'center',  'toggle' => 'e-multiselect',  'readParms' =>  array (),  'writeParms' =>  array (),),
-			'download_request_id'     => array (  'title' => LAN_ID,  'data' => 'int',  'width' => '5%',  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',),
+			'download_request_id'     => array (  'title' => LAN_ID,  'data' => 'int',  'width' => '5%',  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left', ),
 			'download_request_userid' => array (  'title' => 'Downloaded by',  'type' => 'user',  'data' => 'int',  'width' => 'auto',  'help' => '',  'filter' => true, 'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',),
 			'download_request_ip'     => array (  'title' => LAN_IP,  'type' => 'ip',  'data' => 'int',  'width' => 'auto',  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',),
-			'download_request_download_id'=> array (  'title' => LAN_DOWNLOAD,  'type' => 'dropdown',  'data' => 'int',  'width' => 'auto',  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',  'filter' => false,  'batch' => false,),
+			'download_request_download_id'=> array (  'title' => LAN_DOWNLOAD,  'type' => 'dropdown',  'data' => 'int',  'width' => 'auto',  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',  'filter' => true,  'batch' => false,),
 			'download_request_datestamp'=> array (  'title' => LAN_DATESTAMP,  'type' => 'datestamp',  'data' => 'int',  'width' => 'auto',  'filter' => true,  'help' => '',  'readParms' =>  array (),  'writeParms' =>  array (),  'class' => 'left',  'thclass' => 'left',),
 			'options'                 => array (  'title' => LAN_OPTIONS,  'type' => null,  'data' => null,  'width' => '10%',  'thclass' => 'center last',  'class' => 'center last',  'forced' => true,  'readParms' =>  array (),  'writeParms' =>  array (),),
 		);		
 		
-		protected $fieldpref = array('download_request_datestamp');
+		protected $fieldpref = array('download_request_id', 'download_request_userid', 'download_request_download_id', 'download_request_ip', 'download_request_datestamp');
 		
 
 	//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
+			'dltracker_rendperpage'		=> array('title'=> 'Downloads Per Page', 'tab'=>0, 'type'=>'number', 'data' => 'str', 'help'=>'', 'writeParms' => array()),
+			'dltracker_pagetitle'		=> array('title'=> 'Download Tracker Page Title', 
+			'tab'=>0, 'type'=>'text', 'data' => 'str', 'help'=>'', 
+			'writeParms' => array('size'=>'block-level', 'default'=>'Download Tracker Page',
+			'help'=>'Download Tracker Page Title')),
+			'dltracker_order'		=> array('title'=> 'Order Downloads By', 'tab'=>0, 
+				'type'=>'dropdown', 'data' => 'str', 'help'=> 'Not important anymore for admin area' , 
+            'writeParms' => array(
+				'optArray'=> array('Name/ASC'=>'Name/ASC', 'Name/DESC'=>'Name/DESC', 
+			'Times Downloaded/ASC'=>'Times Downloaded/ASC', 
+			'Times Downloaded/DESC'=>'Times Downloaded/DESC'),
+		    )),
 		); 
 
-	
+		public function __construct($request, $response, $params = array()) {
+			$this->pluginPrefs = e107::getPlugPref('jmdownload');
+			$this->pluginTitle = $this->pluginPrefs['dltracker_pagetitle'] ; 
+			parent::__construct($request, $response, $params = array());
+		}
+		
 		public function init()
 		{
 			$sql = e107::getDb();
@@ -107,17 +124,27 @@ class download_requests_ui extends e_admin_ui
 			// do something		
 		}		
 	
+		public function renderHelp()
+		{
+			$caption = LAN_HELP;
+			$text = 'Shows all recorded downloads as they are. ';
+
+			return array('caption'=>$caption,'text'=> $text);
+
+		}
+
+		
 }
 				
 
 
-class download_requests_form_ui extends e_admin_form_ui
+class download_form_ui extends e_admin_form_ui
 {
 
 }		
 		
 		
-new aacgc_dltrackermenu_adminArea();
+new leftmenu_adminArea();
 
 require_once(e_ADMIN."auth.php");
 e107::getAdminUI()->runPage();

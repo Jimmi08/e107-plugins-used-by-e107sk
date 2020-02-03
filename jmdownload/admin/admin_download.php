@@ -14,20 +14,12 @@ if (!getperms('P'))
 require_once("admin_leftmenu.php");
 e107::lan('download','download'); // e_PLUGIN.'download/languages/'.e_LANGUAGE.'/download.php'
 e107::lan('download', 'admin', true); // e_PLUGIN.'download/languages/'.e_LANGUAGE.'/admin_download.php'
-
-
-class jmdownload_adminArea extends leftmenu_adminArea
-{
-
-	protected $menuTitle = 'JM Downloads';
-}
-			
+ 		
 class download_ui extends e_admin_ui
-{
-			
+{		
 		protected $pluginTitle		= 'JM Downloads';
 		protected $pluginName		= 'jm_download';
-	  protected $eventName		= 'jm_download-download'; // remove comment to enable event triggers in admin. 		
+	  	protected $eventName		= 'jm_download-download'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'download';
 		protected $pid				= 'download_id';
 		protected $perPage			= 10; 
@@ -67,7 +59,8 @@ class download_ui extends e_admin_ui
 		  'download_sef' =>   array ( 'title' => 'Sef', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_author' =>   array ( 'title' => LAN_AUTHOR, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' =>  array ( ),
+		  'download_author' =>   array ( 'title' => LAN_AUTHOR, 'type' => 'text', 'data' => 'str', 
+		  'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		 'class' => 'left', 'thclass' => 'left',  ),
 		  'download_author_email' =>   array ( 'title' => LAN_EMAIL, 'type' => 'email', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
@@ -78,7 +71,7 @@ class download_ui extends e_admin_ui
 		 'class' => 'left', 'thclass' => 'left',  ),
 		  'download_description' =>   array ( 'title' => LAN_DESCRIPTION, 'type' => 'bbarea', 'data' => 'str', 'width' => '40%', 'help' => '',
 			 'readParms' =>  array ( ),
-'writeParms' => array(
+			 'writeParms' => array(
             'size' => 'block-level',
          ),
 		 'class' => 'left', 'thclass' => 'left',  ),

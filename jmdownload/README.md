@@ -24,6 +24,12 @@ e107 stuff is released under GPL licence.
 
 Many thanks to e107 for great CMS.
 
+Latest Release Menus by Father Barry
+
+Top Downloads plugin by SecretR
+
+AACGC Download Tracker plugin by M@CH!N3
+
 ## What is inside?
  
 JM Downloads plugin with Latest Downloads Menu.

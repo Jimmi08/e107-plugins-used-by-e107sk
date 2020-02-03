@@ -12,20 +12,12 @@ if (!getperms('P'))
 // e107::lan('jm_download',true);
 
 require_once("admin_leftmenu.php");
-
-class jm_download_adminArea extends leftmenu_adminArea
-{
- 	
-	protected $menuTitle = 'JM Downloads';
-}
  
-
 class download_ui extends e_admin_ui
-{
-			
+{			
 		protected $pluginTitle		= LAN_JMD_LATEST_DOWNLOADS_03;
 		protected $pluginName		= 'jmdownload';
-	//	protected $eventName		= 'jm_download-'; // remove comment to enable event triggers in admin. 		
+		//	protected $eventName		= 'jm_download-'; // remove comment to enable event triggers in admin.	
 		protected $table			= '';
 		protected $pid				= '';
 		protected $perPage			= 10; 
@@ -33,13 +25,13 @@ class download_ui extends e_admin_ui
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
 
-	//	protected $sortField		= 'somefield_order';
-	//	protected $sortParent      = 'somefield_parent';
-	//	protected $treePrefix      = 'somefield_title';
+		//	protected $sortField		= 'somefield_order';
+		//	protected $sortParent      = 'somefield_parent';
+		//	protected $treePrefix      = 'somefield_title';
 
-	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
-		
-	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
+		//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
+			
+		//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
 	
 		protected $listOrder		= ' DESC';
 	
@@ -48,7 +40,7 @@ class download_ui extends e_admin_ui
 		protected $fieldpref = array();
 		
 
-	//	protected $preftabs        = array('General', 'Other' );
+		//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
 			'menus_amount'		=> array('title'=> LAN_JMD_LATEST_DOWNLOADS_22, 
 							'tab'=>0, 
@@ -130,6 +122,8 @@ class download_ui extends e_admin_ui
 			$text .= "Available menus: <br>";
 			$text .= "Latest Downloads Menu <br>";
 			$text .= "Top Downloads Menu <br>";
+			$text .= "<hr>";
+			$text .= "All settings could be replaced by used template <br>";
 
 			return array('caption'=>$caption,'text'=> $text);
 

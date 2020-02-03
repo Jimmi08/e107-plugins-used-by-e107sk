@@ -15,7 +15,7 @@ This is for now replacement for:
 - adding full Admin UI overview for downloads without legacy stuff
 - adding Latest Downloads menu (inspired and LANs used from old Latest Releases Menu Plugin by Father Barry)
 - adding Top Downloads menu (inspired and LANs used from old Top Downloads Menu Plugin by SecretR - not working any more )
-
+- adding Download Tracker (inspired by updated AACGC Download Tracker plugin by M@CH!N3 - not supported any more )
 
 
 ## Yandex metrica plugin for e107
@@ -77,12 +77,6 @@ The very simple plugin for adding ads to e107 site
 This is updated version of Birthday menu plugin by Father Barry for e107 v2 version
 
 Full credit for this plugin belongs to Father Barry.
-
-
-
-## AACGC Download Tracker plugin
-
-This is updated version of AACGC Download Tracker plugin by M@CH!N3 for e107 v2 version
 
 
 ## Calendar menu plugin for e107

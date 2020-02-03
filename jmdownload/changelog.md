@@ -18,5 +18,10 @@ PATCH version when you make backwards-compatible bug fixes.
 
 First testing release 
  
+# [1.0.1] - 2020-02-02
 
- 
+Missing lan fixed
+
+# [1.1.0] - 2020-02-03 
+
+Added download tracker (inspired by AACGC Download Tracker plugin)

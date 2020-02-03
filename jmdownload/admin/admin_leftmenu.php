@@ -27,14 +27,38 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'ui' 			=> 'download_form_ui',
 			'uipath' 		=> null
 		),
-		
+	
+		'admin_tracker'	=> array(
+			'controller' 	=> 'download_ui',
+			'path' 			=> null,
+			'ui' 			=> 'download_form_ui',
+			'uipath' 		=> null
+		),
+
+		'trackerstats'	=> array(
+			'controller' 	=> 'download_ui',
+			'path' 			=> null,
+			'ui' 			=> 'download_form_ui',
+			'uipath' 		=> null
+		),		
 
 	);
 
 	protected $adminMenu = array(
-   		// 'main/prefs' 		=> array('caption'=> 'Additional Prefs', 'perm' => 'P', 'url'=>'admin_config.php'),
-    	'admin_download/list' 			=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_02, 'perm' => 'P', 'url'=>"admin_download.php"), 
-    	'admin_downloadmenu/prefs' 		=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_23, 'perm' => 'P', 'url'=>'admin_download_menus.php'),
+ 
+		'admin_download/list' 			=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_02, 'perm' => 'P', 'url'=>"admin_download.php"), 
+
+		'admin_downloadmenu/prefs' 		=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_23, 'perm' => 'P', 'url'=>'admin_download_menus.php'),
+
+		//'divider1'            => array('divider'=>true),
+		'admin_tracker/opt1' 		=> array('header' =>  LAN_JMD_LATEST_DOWNLOADS_01),
+
+		'admin_tracker/list' 		=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_08, 'perm' => 'P', 'url'=>'admin_tracker.php'),
+
+		'trackerstats/list' 		=> array('caption'=> LAN_JMD_LATEST_DOWNLOADS_09, 'perm' => 'P', 
+		'url'=>'admin_tracker_stats.php'),
+
+		'admin_tracker/prefs' 		=> array('caption'=> 'LAN_JMD_LATEST_DOWNLOADS_10', 'perm' => 'P', 'url'=>'admin_tracker.php'),
 	);      
 	
 	protected $adminMenuAliases = array(
