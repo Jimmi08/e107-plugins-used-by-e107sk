@@ -2248,6 +2248,7 @@ class metatag
 		  $html .= $this->getWidgetPanel(LAN_METATAG_ADMIN_PANEL_07, $google, $help);
     }
     
+    
 		return '<div class="metatag-widget-container">' . $html . '</div>';
 	}
 
@@ -2488,6 +2489,23 @@ class metatag
 
 		return $data;
 	}
+    
+    function getSnippet($curval) {
+    
+      $entity_type = $curval['entity_type'];
+	  $entity_id = $curval['entity_id'];
+            
+      $metatags = $this->getMetaTags($entity_id, $entity_type);
+      $new_tags = $this->preProcessMetaTags($metatags, $entity_id, $entity_type);
+ 
+      $html = "<table class='tab-content table adminform'>";
+      foreach($new_tags AS $key=>$value) {
+         $html .="<tr><td>".$key."</td><td>".$value."</td></tr>";
+         
+      }
+      $html .= "</table>";
+      return $html;
+    }
 
 	/**
 	 * Try to load cached data by e_REQUEST_URI.

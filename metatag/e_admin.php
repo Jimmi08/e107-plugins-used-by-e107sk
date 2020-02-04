@@ -51,7 +51,7 @@ class metatag_admin extends metatag
 				}
 			}
 		}
-
+ 
 		// TODO check if Admin UI has tabs and create "General" tabs if not, then append "Metatag" tab.
 
 //		if(varset($addonConfig[$type]['tab'], true) === false)
@@ -115,7 +115,11 @@ class metatag_admin_form extends e_form
 	function x_metatag_metatags($curval, $mode, $att)
 	{
 		$meta = new metatag();
-		return $meta->getWidget($curval);
+		$html = $meta->getWidget($curval);
+        $html .= 'Snippet';
+        $html .= $meta->getSnippet($curval);
+     
+        return $html;
 	}
 
 }
