@@ -165,6 +165,14 @@ if (ADMIN_AREA) {
                 .e-container td a:not([class]) {
                       color: {$custom_bg_primary};
                 }
+                
+                .e-container td .panel-heading a:not([class]) {
+                    color: {$custom_bg_primary_color};  
+                }
+                
+                .e-container a {
+                    color: {$custom_bg_primary_color};  
+                }
 							 
             	#admin-ui-list-batch, .adminlist > thead > tr {
                 	background-color: {$custom_bg_primary};
@@ -288,13 +296,7 @@ if (ADMIN_AREA) {
 				table.adminlist {
 					background-color: {$custom_bg_white};
 				}
-						
-				.e-container {
-					color: {$custom_bg_light_color}; 
-				}
-				.e-container a {
-					color: {$custom_bg_light_color}; 
-				}
+					
 						
 				.admin-main-content {
 					color: {$custom_bg_light_color};

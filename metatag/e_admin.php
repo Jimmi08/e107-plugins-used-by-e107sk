@@ -116,9 +116,12 @@ class metatag_admin_form extends e_form
 	{
 		$meta = new metatag();
 		$html = $meta->getWidget($curval);
-        $html .= 'Snippet';
+        
+        $html .= '<div class="panel panel-default">';
+        $html .= '<div class="panel-heading"><div class="panel-title">Actual Values (Ignore cached values):</div> </div>';
+        $html .= '<div class="panel panel-body">';
         $html .= $meta->getSnippet($curval);
-     
+        $html .= '</div></div>';
         return $html;
 	}
 

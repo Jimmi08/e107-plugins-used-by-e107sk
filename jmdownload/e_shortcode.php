@@ -10,7 +10,7 @@ exit;
 }
 
 
-if (!class_exists(jmdownload_shortcodes, false)) 
+if (!class_exists('jmdownload_shortcodes', false)) 
 {
     class jmdownload_shortcodes extends e_shortcode
     {

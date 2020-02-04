@@ -2498,12 +2498,26 @@ class metatag
       $metatags = $this->getMetaTags($entity_id, $entity_type);
       $new_tags = $this->preProcessMetaTags($metatags, $entity_id, $entity_type);
  
-      $html = "<table class='tab-content table adminform'>";
+      $html = "
+
+      <table class='table table-striped adminlist'><tbody>";
       foreach($new_tags AS $key=>$value) {
+         switch($key)
+		 {
+            case "robots":
+            $value = implode(', ', $value);
+            break;
+            // Restrict to one item.
+			case "image_src":
+				$values = explode('|', $value);
+				$value = $values[0];
+				break;
+         }
+         
          $html .="<tr><td>".$key."</td><td>".$value."</td></tr>";
          
       }
-      $html .= "</table>";
+      $html .= "</tbody></table>";
       return $html;
     }
 
