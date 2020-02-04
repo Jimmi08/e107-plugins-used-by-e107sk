@@ -2208,9 +2208,11 @@ class metatag
     $html .= $this->getWidgetPanel(LAN_METATAG_ADMIN_PANEL_02, $advanced);
 
     }
-    
-    if($this->jmcorePrefs['metatag_twitter']) {
+ 
+    if($this->jmcorePrefs['metatag_facebook']) {
 		$html .= $this->getWidgetPanel(LAN_METATAG_ADMIN_PANEL_04, $facebook, LAN_METATAG_ADMIN_PANEL_HELP_02);
+    }
+    if($this->jmcorePrefs['metatag_twitter']) {
 		$help = $tp->lanVars(LAN_METATAG_ADMIN_PANEL_HELP_03, array(
 			'x' => '<a href="https://twitter.com/" target="_blank">' . LAN_METATAG_ADMIN_PANEL_HELP_03_X . '</a>',
 		));
