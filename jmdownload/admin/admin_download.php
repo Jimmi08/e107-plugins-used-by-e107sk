@@ -19,7 +19,7 @@ class download_ui extends e_admin_ui
 {		
 		protected $pluginTitle		= 'JM Downloads';
 		protected $pluginName		= 'jm_download';
-	  	protected $eventName		= 'jm_download-download'; // remove comment to enable event triggers in admin. 		
+	  	protected $eventName		= 'download'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'download';
 		protected $pid				= 'download_id';
 		protected $perPage			= 10; 
@@ -37,76 +37,206 @@ class download_ui extends e_admin_ui
 	
 		protected $listOrder		= 'download_id DESC';
 	
-		protected $fields 		= array (  'checkboxes' =>   array ( 'title' => '', 'type' => null, 'data' => null, 'width' => '5%', 'thclass' => 'center', 'forced' => '1', 'class' => 'center', 'toggle' => 'e-multiselect', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
+		protected $fields 		= array (  
+			'checkboxes' =>   array ( 
+				'title' => '', 
+				'type' => null, 
+				'data' => null, 
+				'width' => '5%', 
+				'thclass' => 'center', 
+				'forced' => '1', 
+				'class' => 'center', 
+				'toggle' => 'e-multiselect', 
+				'readParms' =>  array ( ),
+		 		'writeParms' =>  array ( ),
 		  ),
-		  'download_id' =>   array ( 'title' => LAN_ID, 'data' => 'int', 'width' => '5%', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-          'download_name' =>   array ( 'title' => LAN_TITLE, 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'validate' => true, 'help' => '', 'readParms' =>  array ( ),
-          'writeParms' => array(
-            'size' => 'block-level',
-            'post' => "<div class='label bg-info'>Unique name, there is unique index for it, so no copy </div>"
-         ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-          'download_url' =>   array ( 'title' => DOWLAN_13, 'type' => 'url', 'data' => 'str', 'width' => 'auto', 
-          'help' => '', 'readParms' =>  array ( ),
-          'writeParms' => array(
-            'size' => 'block-level',
-            'post' => "<div class='label bg-info'>Internal or external URL </div>"
-         ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_sef' =>   array ( 'title' => 'Sef', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'inline' => true, 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_author' =>   array ( 'title' => LAN_AUTHOR, 'type' => 'text', 'data' => 'str', 
-		  'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_author_email' =>   array ( 'title' => LAN_EMAIL, 'type' => 'email', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_author_website' =>   array ( 'title' => LAN_URL, 'type' => 'url', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_description' =>   array ( 'title' => LAN_DESCRIPTION, 'type' => 'bbarea', 'data' => 'str', 'width' => '40%', 'help' => '',
-			 'readParms' =>  array ( ),
-			 'writeParms' => array(
-            'size' => 'block-level',
-         ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_keywords' =>   array ( 'title' => 'Keywords', 'type' => 'tags', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_filesize' =>   array ( 'title' => 'Filesize', 'type' => 'text', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_requested' =>   array ( 'title' => 'Requested', 'type' => 'number', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_category' =>   array ( 'title' => LAN_CATEGORY, 'type' => 'dropdown', 'data' => 'int', 'width' => 'auto', 'batch' => true, 'filter' => true, 'inline' => true, 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_active' =>   array ( 'title' => 'Active', 'type' => 'boolean', 'data' => 'int', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_datestamp' =>   array ( 'title' => LAN_DATESTAMP, 'type' => 'datestamp', 'data' => 'int', 'width' => 'auto', 'filter' => true, 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_thumb' =>   array ( 'title' => 'Thumb image', 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_image' =>   array ( 'title' => 'Download image' , 'type' => 'image', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' => 'thumb=80x80', 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_comment' =>   array ( 'title' => 'Comment', 'type' => 'boolean', 'data' => 'int', 'width' => '40%', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_class' =>   array ( 'title' => LAN_USERCLASS, 'type' => 'userclass', 'data' => 'str', 'width' => 'auto', 'batch' => true, 'filter' => true, 'inline' => true, 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'download_visible' =>   array ( 'title' => 'Visible', 'type' => 'userclass', 'data' => 'str', 'width' => 'auto', 'help' => '', 'readParms' =>  array ( ),
-		 'writeParms' =>  array ( ),
-		 'class' => 'left', 'thclass' => 'left',  ),
-		  'options' =>   array ( 'title' => LAN_OPTIONS, 'type' => null, 'data' => null, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center last', 'forced' => '1', 'readParms' =>  array ( ),
+		  'download_id' =>   array ( 
+				'title' => LAN_ID, 
+				'data' => 'int', 
+				'width' => '5%',
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( ) 
+			),
+          	'download_name' =>   array ( 
+				'title' => LAN_TITLE,
+				'type' => 'text', 
+				'data' => 'str', 
+				'inline' => true, 
+				'validate' => true, 
+				'help' => 'Unique name, there is unique index for it, so no copy', 
+				'readParms' =>  array ( ),
+          		'writeParms' => array(
+					'size' => 'block-level')
+				), 
+          	'download_url' =>   array ( 
+				'title' => DOWLAN_13, 
+				'type' => 'url', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => 'Internal or external URL', 
+				'readParms' =>  array ( ),
+          		'writeParms' => array(
+				'size' => 'block-level') 
+			),
+		  	'download_sef' =>   array ( 
+				'title' => 'Sef', 
+				'type' => 'text', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'inline' => true, 
+				'help' => ''),
+		  	'download_author' =>   array ( 
+				'title' => LAN_AUTHOR, 
+				'type' => 'text', 
+				'data' => 'str', 
+				'filter' => true, 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( )
+			),
+		  	'download_author_email' =>   array ( 
+				'title' => LAN_EMAIL, 
+				'type' => 'email', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+		 		'writeParms' =>  array ( )
+		   	),
+		  	'download_author_website' =>   array ( 
+				'title' => LAN_URL, 
+				'type' => 'url', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+		 		'writeParms' =>  array ( )
+		   	),
+		  	'download_description' =>   array ( 
+				'title' => LAN_DESCRIPTION, 
+				'type' => 'bbarea', 
+				'data' => 'str', 
+				'width' => '40%', 
+				'help' => '',
+			 	'readParms' =>  array ( ),
+			 	'writeParms' => array(
+            		'size' => 'block-level',
+				 )  
+			),
+		  	'download_keywords' =>   array ( 
+				'title' => 'Keywords', 
+				'type' => 'tags', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( ) 
+			),
+		  	'download_filesize' =>   array ( 
+				'title' => 'Filesize', 
+				'type' => 'text', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( )
+			),
+		  	'download_requested' =>   array ( 
+				'title' => 'Requested', 
+				'type' => 'number', 
+				'data' => 'int', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( ) 
+			),
+		  	'download_category' =>   array ( 
+				'title' => LAN_CATEGORY, 
+				'type' => 'dropdown', 
+				'data' => 'int', 
+				'width' => 'auto', 
+				'batch' => true, 
+				'filter' => true, 
+				'inline' => true, 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( )
+			),
+		  	'download_active' =>   array ( 
+				'title' => 'Active', 
+				'type' => 'boolean', 
+				'data' => 'int', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				 'writeParms' =>  array ( )
+			),
+		  	'download_datestamp' =>   array ( 
+				'title' => LAN_DATESTAMP, 
+				'type' => 'datestamp', 
+				'data' => 'int', 
+				'width' => 'auto', 
+				'filter' => true, 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				'writeParms' =>  array ( ),
+			),
+		  	'download_thumb' =>   array ( 
+				'title' => 'Thumb image', 
+				'type' => 'image', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' => 'thumb=80x80', 
+				'writeParms' =>  array ( ),
+				'class' => 'left', 
+				'thclass' => 'left',  ),
+		  	'download_image' =>   array ( 
+				'title' => 'Download image' , 
+				'type' => 'image', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' => 'thumb=80x80', 
+				'writeParms' =>  array ( )
+			),
+		  	'download_comment' =>   array ( 
+				'title' => 'Comment', 
+				'type' => 'boolean', 
+				'data' => 'int', 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				'writeParms' =>  array ( )
+			),
+		  	'download_class' =>   array ( 
+				'title' => LAN_USERCLASS, 
+				'type' => 'userclass', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'batch' => true, 
+				'filter' => true, 
+				'inline' => true, 
+				'help' => '', 
+				'readParms' =>  array ( ),
+				'writeParms' =>  array ( ) 
+			),
+ 		  	'download_visible' => array ( 
+				'title' => 'Visible', 
+				'type' => 'userclass', 
+				'data' => 'str', 
+				'width' => 'auto', 
+				'help' => '', 
+				'readParms' =>  array(),
+				'writeParms' =>  array()
+			),
+		  'options' =>   array ( 
+			  'title' => LAN_OPTIONS, 
+			  'type' => null, 
+			  'data' => null, 
+			  'width' => '10%', 
+			  'thclass' => 'center last',
+          	'noselector'=>false, 'class' => 'center last', 'forced' => '1', 'readParms' =>  array ( ),
 		 'writeParms' =>  array ( ),
 		  ),
 		);		
