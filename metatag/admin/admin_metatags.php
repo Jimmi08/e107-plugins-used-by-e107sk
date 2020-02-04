@@ -145,14 +145,120 @@ class jmmetatag_ui extends e_admin_ui
 					'tab'=>1,
 					'type'=>'boolean',
 					'data' => 'int',
-					'help'=> LAN_METATAG_ADMIN_19),           
+					'help'=> LAN_METATAG_ADMIN_19),   
+                    
+					'opengraph_type'		=> array('title'=> LAN_METATAG_ADMIN_162,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_163),                           
  
+					'opengraph_url'		=> array('title'=> LAN_METATAG_ADMIN_164,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_165,
+                    ), 					 
 
+					'opengraph_title'		=> array('title'=> LAN_METATAG_ADMIN_166,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_167,
+                    ), 
+
+					'opengraph_determiner'		=> array('title'=> LAN_METATAG_ADMIN_168,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_169),  
+                    
+					'opengraph_description'		=> array('title'=> LAN_METATAG_ADMIN_170,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_171,
+                    ),    
+                    
+					'opengraph_updated_time'		=> array('title'=> LAN_METATAG_ADMIN_172,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> ''),                     
+                                     
+					'opengraph_see_also'		=> array('title'=> LAN_METATAG_ADMIN_174,
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_175), 
+                    
+					'opengraph_image'		=> array('title'=> LAN_METATAG_ADMIN_176,
+  					'tab'=>2,
+  					'type'=>'boolean',
+  					'data' => 'int',
+  					'help'=> LAN_METATAG_ADMIN_177,
+
+                    ),           
+                    
 					 
-
-
-
-					  		
+					'opengraph_location'	=> array('title'=> "Location info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_188.', '.LAN_METATAG_ADMIN_190.', '. LAN_METATAG_ADMIN_192.', '.LAN_METATAG_ADMIN_194.', '
+                    .LAN_METATAG_ADMIN_196.', '.LAN_METATAG_ADMIN_198.' '.LAN_METATAG_ADMIN_200,
+                    ),  
+                    
+					'opengraph_contact'		=> array('title'=> "Contact Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_202.', '. LAN_METATAG_ADMIN_204 . ', '.  LAN_METATAG_ADMIN_206     ,
+                    ),  
+                                   
+					'opengraph_locale'		=> array('title'=> "Locale Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_208.', '. LAN_METATAG_ADMIN_210     ,
+                    ),                  
+                                                   
+					'opengraph_article'		=> array('title'=> "Article Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_212.', '. LAN_METATAG_ADMIN_214.', '. LAN_METATAG_ADMIN_216.', '.LAN_METATAG_ADMIN_218.', '.LAN_METATAG_ADMIN_220  
+                    .', '.LAN_METATAG_ADMIN_222.', '.LAN_METATAG_ADMIN_224,
+                    ),   
+                    
+                   	'opengraph_profile'		=> array('title'=> "Profile Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_226.', '. LAN_METATAG_ADMIN_228.', '. LAN_METATAG_ADMIN_230.', '.LAN_METATAG_ADMIN_232 ,
+                    ),      
+                   	'opengraph_audio'		=> array('title'=> "Audio Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_234.', '. LAN_METATAG_ADMIN_236.', '. LAN_METATAG_ADMIN_238  ,
+                    ),  
+                    'opengraph_book'		=> array('title'=> "Book Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_240.', '. LAN_METATAG_ADMIN_242.', '. LAN_METATAG_ADMIN_244.', '.LAN_METATAG_ADMIN_246 ,
+                    ),  
+                    'opengraph_video'		=> array('title'=> "Video Info",
+					'tab'=>2,
+					'type'=>'boolean',
+					'data' => 'int',
+					'help'=> LAN_METATAG_ADMIN_248.', '. LAN_METATAG_ADMIN_250.', '. LAN_METATAG_ADMIN_252.', '.LAN_METATAG_ADMIN_254
+                    .', '.LAN_METATAG_ADMIN_256.', '.LAN_METATAG_ADMIN_258.', '.LAN_METATAG_ADMIN_260.', '.LAN_METATAG_ADMIN_262
+                    .', '.LAN_METATAG_ADMIN_264.', '.LAN_METATAG_ADMIN_266.', '.LAN_METATAG_ADMIN_268.', '.LAN_METATAG_ADMIN_270
+                    .', '.LAN_METATAG_ADMIN_272   ,
+                    ), 
+                                                       					  		
 		); 		
 		
 		protected $fieldpref = array();

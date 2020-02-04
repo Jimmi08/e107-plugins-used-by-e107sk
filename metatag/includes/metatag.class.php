@@ -1066,7 +1066,7 @@ class metatag
 		$opengraph = array();
 
 
-
+        if($this->jmcorePrefs['opengraph_type']) { 
 		$opengraph[$field . '[og:type]'] = array(
 			'label' => LAN_METATAG_ADMIN_162,
 			'help'  => $form->help(LAN_METATAG_ADMIN_163),
@@ -1132,7 +1132,8 @@ class metatag
 				'class' => 'input-block-level',
 			), true),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_url']) { 
 		$opengraph[$field . '[og:url]'] = array(
 			'label' => LAN_METATAG_ADMIN_164,
 			'help'  => $form->help(LAN_METATAG_ADMIN_165),
@@ -1141,7 +1142,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+         }
+        if($this->jmcorePrefs['opengraph_title']) { 
 		$opengraph[$field . '[og:title]'] = array(
 			'label' => LAN_METATAG_ADMIN_166,
 			'help'  => $form->help(LAN_METATAG_ADMIN_167),
@@ -1150,7 +1152,9 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+         }
+        if($this->jmcorePrefs['opengraph_determiner']) { 
+        //label is displayed instead value
 		$opengraph[$field . '[og:determiner]'] = array(
 			'label' => LAN_METATAG_ADMIN_168,
 			'help'  => $form->help(LAN_METATAG_ADMIN_169),
@@ -1160,11 +1164,12 @@ class metatag
 				'an'   => LAN_METATAG_ADMIN_168_03,
 				'the'  => LAN_METATAG_ADMIN_168_04,
 			), varset($values['data']['og:determiner'], false), array(
-				'label' => LAN_METATAG_ADMIN_168,
 				'class' => 'input-block-level',
 			), true),
 		);
-
+ 
+        }
+        if($this->jmcorePrefs['opengraph_description']) { 
 		$opengraph[$field . '[og:description]'] = array(
 			'label' => LAN_METATAG_ADMIN_170,
 			'help'  => $form->help(LAN_METATAG_ADMIN_171),
@@ -1173,7 +1178,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_updated_time']) { 
 		$help = $tp->lanVars(LAN_METATAG_ADMIN_173, array(
 			'x' => '<a href="http://en.wikipedia.org/wiki/ISO_8601" target="_blank">' . LAN_METATAG_ADMIN_173_X . '</a>',
 		));
@@ -1186,7 +1192,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_see_also']) { 
 		$opengraph[$field . '[og:see_also]'] = array(
 			'label' => LAN_METATAG_ADMIN_174,
 			'help'  => $form->help(LAN_METATAG_ADMIN_175),
@@ -1195,7 +1202,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_image']) { 
 		$opengraph[$field . '[og:image]'] = array(
 			'label' => LAN_METATAG_ADMIN_176,
 			'help'  => $form->help(LAN_METATAG_ADMIN_177),
@@ -1249,7 +1257,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_location']) { 
 		$opengraph[$field . '[og:latitude]'] = array(
 			'label' => LAN_METATAG_ADMIN_188,
 			'help'  => $form->help(LAN_METATAG_ADMIN_189),
@@ -1312,7 +1321,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_contact']) { 
 		$opengraph[$field . '[og:email]'] = array(
 			'label' => LAN_METATAG_ADMIN_202,
 			'help'  => $form->help(LAN_METATAG_ADMIN_203),
@@ -1339,7 +1349,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_locale']) {
 		$opengraph[$field . '[og:locale]'] = array(
 			'label' => LAN_METATAG_ADMIN_208,
 			'help'  => $form->help(LAN_METATAG_ADMIN_209),
@@ -1357,7 +1368,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_article']) {        
 		$opengraph[$field . '[article:author]'] = array(
 			'label' => LAN_METATAG_ADMIN_212,
 			'help'  => $form->help(LAN_METATAG_ADMIN_213),
@@ -1433,7 +1445,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_profile']) { 
 		$opengraph[$field . '[profile:first_name]'] = array(
 			'label' => LAN_METATAG_ADMIN_226,
 			'help'  => $form->help(LAN_METATAG_ADMIN_227),
@@ -1469,7 +1482,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_audio']) { 
 		$opengraph[$field . '[og:audio]'] = array(
 			'label' => LAN_METATAG_ADMIN_234,
 			'help'  => $form->help(LAN_METATAG_ADMIN_235),
@@ -1496,7 +1510,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_book']) { 
 		$opengraph[$field . '[book:author]'] = array(
 			'label' => LAN_METATAG_ADMIN_240,
 			'help'  => $form->help(LAN_METATAG_ADMIN_241),
@@ -1541,7 +1556,8 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
-
+        }
+        if($this->jmcorePrefs['opengraph_video']) { 
 		$opengraph[$field . '[og:video:url]'] = array(
 			'label' => LAN_METATAG_ADMIN_248,
 			'help'  => $form->help(LAN_METATAG_ADMIN_249),
@@ -1659,6 +1675,7 @@ class metatag
 				'class' => 'input-block-level',
 			)),
 		);
+    }
    }
    if($this->jmcorePrefs['metatag_facebook']) {
 		// Facebook meta tags.
