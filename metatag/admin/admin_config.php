@@ -22,45 +22,9 @@ require_once("admin_menu.php");
 /**
  * Class metatag_admin.
  */
-class metatag_admin_config extends jmcoremenu_adminArea
+class metatag_admin_config extends jmmetatag_adminArea
 {
-
-	/**
-	 * Required (set by child class).
-	 *
-	 * Controller map array in format.
-	 * @code
-	 *  'MODE' => array(
-	 *      'controller' =>'CONTROLLER_CLASS_NAME',
-	 *      'path' => 'CONTROLLER SCRIPT PATH',
-	 *      'ui' => 'UI_CLASS', // extend of 'comments_admin_form_ui'
-	 *      'uipath' => 'path/to/ui/',
-	 *  );
-	 * @endcode
-	 *
-	 * @var array
-	 */
-	protected $modes = array(
-		'ajax' => array(
-			'controller' => 'metatag_admin_ajax_ui',
-		),
-		'main' => array(
-			'controller' => 'metatag_admin_ui',
-			'path'       => null,
-			'ui'         => 'metatag_admin_form_ui',
-			'uipath'     => null
-		),
-	);
-
- 
-
-	/**
-	 * Optional (set by child class).
-	 *
-	 * @var string
-	 */
-	protected $menuTitle = LAN_PLUGIN_METATAG_NAME;
-
+  
 	/**
 	 * User defined constructor - called before _initController() method.
 	 */

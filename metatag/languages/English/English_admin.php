@@ -40,11 +40,13 @@ define("LAN_METATAG_ADMIN_HELP_06", "Support on Beerpay");
 
 define("LAN_METATAG_ADMIN_PANEL_01", "Basic tags");
 define("LAN_METATAG_ADMIN_PANEL_02", "Advanced tags");
-define("LAN_METATAG_ADMIN_PANEL_03", "Open Graph");
+define("LAN_METATAG_ADMIN_PANEL_03", "Open Graph Basic");
 define("LAN_METATAG_ADMIN_PANEL_04", "Facebook");
 define("LAN_METATAG_ADMIN_PANEL_05", "Twitter card");
 define("LAN_METATAG_ADMIN_PANEL_06", "Dublin Core Basic Tags");
 define("LAN_METATAG_ADMIN_PANEL_07", "Google+");
+define("LAN_METATAG_ADMIN_PANEL_08", "Open Graph Optional");
+define("LAN_METATAG_ADMIN_PANEL_09", "Open Graph Other");
 
 define("LAN_METATAG_ADMIN_PANEL_HELP_01", "The [x] are used control how Facebook, Pinterest, LinkedIn and other social networking sites interpret the site's content.");
 define("LAN_METATAG_ADMIN_PANEL_HELP_01_X", "Open Graph meta tags");
@@ -54,7 +56,7 @@ define("LAN_METATAG_ADMIN_PANEL_HELP_03_X", "Twitter");
 define("LAN_METATAG_ADMIN_PANEL_HELP_04", "The Dublin Core Metadata Element Set, aka \"Dublin Core meta tags\", are a set of internationally standardized metadata tags used to describe content to make identification and classification of content easier; the standards are controlled by the [x].");
 define("LAN_METATAG_ADMIN_PANEL_HELP_04_X", "Dublin Core Metadata Initiative (DCMI)");
 define("LAN_METATAG_ADMIN_PANEL_HELP_05", "A set of meta tags specially for controlling the summaries displayed when content is shared on [x].");
-define("LAN_METATAG_ADMIN_PANEL_HELP_05_X", "Google+");
+define("LAN_METATAG_ADMIN_PANEL_HELP_05_X", "Google+");    
 
 define("LAN_METATAG_ADMIN_01", "Settings");
 
@@ -344,10 +346,10 @@ define("LAN_METATAG_ADMIN_157", "This field expects a string, and you can specif
 define("LAN_METATAG_ADMIN_158", "Data 2");
 define("LAN_METATAG_ADMIN_159", "This field expects a string, and allows you to specify the types of data you want to offer (price, country, etc.).");
 
-define("LAN_METATAG_ADMIN_160", "Site name");
+define("LAN_METATAG_ADMIN_160", "Site name [og:site_name]");
 define("LAN_METATAG_ADMIN_161", "A human-readable name for the site, e.g., IMDb.");
-
-define("LAN_METATAG_ADMIN_162", "Content type");
+                  
+define("LAN_METATAG_ADMIN_162", "Content type [og:type]");
 define("LAN_METATAG_ADMIN_162_01", "Activities");
 define("LAN_METATAG_ADMIN_162_02", "Activity");
 define("LAN_METATAG_ADMIN_162_03", "Sport");
@@ -398,20 +400,20 @@ define("LAN_METATAG_ADMIN_162_47", "Website");
 define("LAN_METATAG_ADMIN_162_48", "Article (inc blog)");
 define("LAN_METATAG_ADMIN_163", "The type of the content, e.g., movie.");
 
-define("LAN_METATAG_ADMIN_164", "Page URL");
+define("LAN_METATAG_ADMIN_164", "Page URL [og:url]");
 define("LAN_METATAG_ADMIN_165", "Preferred page location or URL to help eliminate duplicate content for search engines, e.g., http://www.imdb.com/title/tt0117500/.");
 
-define("LAN_METATAG_ADMIN_166", "Content title");
+define("LAN_METATAG_ADMIN_166", "Content title [og:title] ");
 define("LAN_METATAG_ADMIN_167", "The title of the content, e.g., The Rock.");
 
-define("LAN_METATAG_ADMIN_168", "Content title determiner");
+define("LAN_METATAG_ADMIN_168", "Content title determiner [og:determiner]");
 define("LAN_METATAG_ADMIN_168_01", "Automatic");
 define("LAN_METATAG_ADMIN_168_02", "A");
 define("LAN_METATAG_ADMIN_168_03", "An");
 define("LAN_METATAG_ADMIN_168_04", "The");
 define("LAN_METATAG_ADMIN_169", "The word that appears before the content's title in a sentence. The default ignores this value, the 'Automatic' value should be sufficient if this is actually needed.");
 
-define("LAN_METATAG_ADMIN_170", "Content description");
+define("LAN_METATAG_ADMIN_170", "Content description [og:description]");
 define("LAN_METATAG_ADMIN_171", "A one to two sentence description of the content.");
 
 define("LAN_METATAG_ADMIN_172", "Content modification date & time");
@@ -421,22 +423,22 @@ define("LAN_METATAG_ADMIN_173_X", "ISO 8601");
 define("LAN_METATAG_ADMIN_174", "See also");
 define("LAN_METATAG_ADMIN_175", "URLs to related content.");
 
-define("LAN_METATAG_ADMIN_176", "Image");
+define("LAN_METATAG_ADMIN_176", "Image [og:image]");
 define("LAN_METATAG_ADMIN_177", "The URL of an image which should represent the content. For best results use an image that is at least 1200 x 630 pixels in size, but at least 600 x 316 pixels is a recommended minimum. Supports PNG, JPEG and GIF formats. Should not be used if og:image:url is used. Note: if multiple images are added many services (e.g. Facebook) will default to the largest image, not the first one.");
 
-define("LAN_METATAG_ADMIN_178", "Image URL");
+define("LAN_METATAG_ADMIN_178", "Image URL [og:image:url]");
 define("LAN_METATAG_ADMIN_179", "A alternative version of og:image and has exactly the same requirements; only one needs to be used. Note: some services do not accept this tag and will only accept the \"image\" tag above.");
 
-define("LAN_METATAG_ADMIN_180", "Secure image URL");
+define("LAN_METATAG_ADMIN_180", "Secure image URL [og:image:secure_url]");
 define("LAN_METATAG_ADMIN_181", "The secure URL (HTTPS) of an image which should represent the content. The image must be at least 50px by 50px and have a maximum aspect ratio of 3:1. Supports PNG, JPEG and GIF formats. All \"http://\" URLs will automatically be converted to \"https://\". Note: if multiple images are added many services (e.g. Facebook) will default to the largest image, not the first one.");
 
-define("LAN_METATAG_ADMIN_182", "Image type");
+define("LAN_METATAG_ADMIN_182", "Image type [og:image:type]");
 define("LAN_METATAG_ADMIN_183", "The type of image referenced above. Should be either \"image/gif\" for a GIF image, \"image/jpeg\" for a JPG/JPEG image, or \"image/png\" for a PNG image. Note: there should be one value for each image, and having more than there are images may cause problems.");
 
-define("LAN_METATAG_ADMIN_184", "Image width");
+define("LAN_METATAG_ADMIN_184", "Image width [og:image:width]");
 define("LAN_METATAG_ADMIN_185", "The width of the above image(s). Note: if both the unsecured and secured images are provided, they should both be the same size.");
 
-define("LAN_METATAG_ADMIN_186", "Image height");
+define("LAN_METATAG_ADMIN_186", "Image height [og:image:height]");
 define("LAN_METATAG_ADMIN_187", "The height of the above image(s). Note: if both the unsecured and secured images are provided, they should both be the same size.");
 
 define("LAN_METATAG_ADMIN_188", "Latitude");
@@ -469,84 +471,84 @@ define("LAN_METATAG_ADMIN_205", "");
 define("LAN_METATAG_ADMIN_206", "Fax number");
 define("LAN_METATAG_ADMIN_207", "");
 
-define("LAN_METATAG_ADMIN_208", "Locale");
+define("LAN_METATAG_ADMIN_208", "Locale [og:locale]");
 define("LAN_METATAG_ADMIN_209", "The locale these tags are marked up in, must be in the format language_TERRITORY. Default is en_US.");
 
-define("LAN_METATAG_ADMIN_210", "Alternative locales");
+define("LAN_METATAG_ADMIN_210", "Alternative locales [og:locale:alternate]");
 define("LAN_METATAG_ADMIN_211", "Other locales this content is available in, must be in the format language_TERRITORY, e.g. \"fr_FR\".");
 
-define("LAN_METATAG_ADMIN_212", "Article - Author");
+define("LAN_METATAG_ADMIN_212", "Article - Author [article:author]");
 define("LAN_METATAG_ADMIN_213", "Links an article to an author's Facebook profile, should be either URLs to the author's profile page or their Facebook profile IDs.");
 
 define("LAN_METATAG_ADMIN_214", "Article - Publisher");
 define("LAN_METATAG_ADMIN_215", "Links an article to a publisher's Facebook page.");
 
-define("LAN_METATAG_ADMIN_216", "Article - Section");
+define("LAN_METATAG_ADMIN_216", "Article - Section [article:section]");
 define("LAN_METATAG_ADMIN_217", "The primary section of this website the content belongs to.");
 
-define("LAN_METATAG_ADMIN_218", "Article - Tag(s)");
+define("LAN_METATAG_ADMIN_218", "Article - Tag(s) [article:tag]");
 define("LAN_METATAG_ADMIN_219", "Appropriate keywords for this content.");
 
-define("LAN_METATAG_ADMIN_220", "Article - Publication date & time");
+define("LAN_METATAG_ADMIN_220", "Article - Publication date & time [article:published_time]");
 define("LAN_METATAG_ADMIN_221", "The date this content was published on, with an optional time value. Needs to be in [x] format.");
 define("LAN_METATAG_ADMIN_221_X", "ISO 8601");
 
-define("LAN_METATAG_ADMIN_222", "Article - Modification date & time");
+define("LAN_METATAG_ADMIN_222", "Article - Modification date & time [article:modified_time]");
 define("LAN_METATAG_ADMIN_223", "The date this content was last modified, with an optional time value. Needs to be in [x] format.");
 define("LAN_METATAG_ADMIN_223_X", "ISO 8601");
 
-define("LAN_METATAG_ADMIN_224", "Article - Expiration date & time");
+define("LAN_METATAG_ADMIN_224", "Article - Expiration date & time [article:expiration_time]");
 define("LAN_METATAG_ADMIN_225", "The date this content will expire, with an optional time value. Needs to be in [x] format.");
 define("LAN_METATAG_ADMIN_225_X", "ISO 8601");
 
-define("LAN_METATAG_ADMIN_226", "Profile - First name");
+define("LAN_METATAG_ADMIN_226", "Profile - First name [profile:first_name]");
 define("LAN_METATAG_ADMIN_227", "The first name of the person who's Profile page this is.");
 
-define("LAN_METATAG_ADMIN_228", "Profile - Last name");
+define("LAN_METATAG_ADMIN_228", "Profile - Last name [profile:last_name]");
 define("LAN_METATAG_ADMIN_229", "The person's last name.");
 
-define("LAN_METATAG_ADMIN_230", "Profile - Username");
+define("LAN_METATAG_ADMIN_230", "Profile - Username [profile:username]");
 define("LAN_METATAG_ADMIN_231", "A pseudonym / alias of this person.");
 
-define("LAN_METATAG_ADMIN_232", "Profile - Gender");
+define("LAN_METATAG_ADMIN_232", "Profile - Gender [profile:gender]");
 define("LAN_METATAG_ADMIN_233", "Any of Facebook's gender values should be allowed, the initial two being 'male' and 'female'.");
 
-define("LAN_METATAG_ADMIN_234", "Audio - URL");
-define("LAN_METATAG_ADMIN_235", "The URL to an audio file that complements this object.");
+define("LAN_METATAG_ADMIN_234", "Audio [og:audio]");
+define("LAN_METATAG_ADMIN_235", " A URL to an audio file to accompany this object.");
 
-define("LAN_METATAG_ADMIN_236", "Audio - Secure URL");
+define("LAN_METATAG_ADMIN_236", "Audio - Secure URL [og:audio:secure_url]");
 define("LAN_METATAG_ADMIN_237", "The secure URL to an audio file that complements this object. All \"http://\" URLs will automatically be converted to \"https://\".");
 
-define("LAN_METATAG_ADMIN_238", "Audio - Type");
+define("LAN_METATAG_ADMIN_238", "Audio - Type [og:audio:type]");
 define("LAN_METATAG_ADMIN_239", "The MIME type of the audio file. Examples include \"application/mp3\" for an MP3 file.");
 
-define("LAN_METATAG_ADMIN_240", "Book - Author");
+define("LAN_METATAG_ADMIN_240", "Book - Author [book:author]");
 define("LAN_METATAG_ADMIN_241", "Links to the book's author's Facebook profile, should be either URLs to the author's profile page or their Facebook profile IDs.");
 
-define("LAN_METATAG_ADMIN_242", "Book - ISBN");
+define("LAN_METATAG_ADMIN_242", "Book - ISBN [book:isbn]");
 define("LAN_METATAG_ADMIN_243", "The book's [x], which may be in one of several formats.");
 define("LAN_METATAG_ADMIN_243_X", "International Standard Book Number");
 
-define("LAN_METATAG_ADMIN_244", "Book - Release date");
+define("LAN_METATAG_ADMIN_244", "Book - Release date [book:release_date]");
 define("LAN_METATAG_ADMIN_245", "The date this content will expire, with an optional time value. Needs to be in [x] format.");
 define("LAN_METATAG_ADMIN_245_X", "ISO 8601");
 
-define("LAN_METATAG_ADMIN_246", "Book - Tags");
+define("LAN_METATAG_ADMIN_246", "Book - Tags [book:tag]");
 define("LAN_METATAG_ADMIN_247", "Appropriate keywords for this book.");
 
-define("LAN_METATAG_ADMIN_248", "Video - URL");
+define("LAN_METATAG_ADMIN_248", "Video [og:video]");
 define("LAN_METATAG_ADMIN_249", "The URL to a video file that complements this object.");
 
-define("LAN_METATAG_ADMIN_250", "Video - Secure URL");
+define("LAN_METATAG_ADMIN_250", "Video - Secure URL [og:video:secure_url]");
 define("LAN_METATAG_ADMIN_251", "A URL to a video file that complements this object using the HTTPS protocol. All \"http://\" URLs will automatically be converted to \"https://\".");
 
-define("LAN_METATAG_ADMIN_252", "Video - Width");
+define("LAN_METATAG_ADMIN_252", "Video - Width [og:video:width]");
 define("LAN_METATAG_ADMIN_253", "The width of the video.");
 
-define("LAN_METATAG_ADMIN_254", "Video - Height");
+define("LAN_METATAG_ADMIN_254", "Video - Height [og:video:height]");
 define("LAN_METATAG_ADMIN_255", "The height of the video.");
 
-define("LAN_METATAG_ADMIN_256", "Video - Type");
+define("LAN_METATAG_ADMIN_256", "Video - Type [og:video:type]");
 define("LAN_METATAG_ADMIN_257", "The MIME type of the video file. Examples include \"application/x-shockwave-flash\" for a Flash video, or \"text/html\" if this is a standalone web page containing a video.");
 
 define("LAN_METATAG_ADMIN_258", "Video - Actor(s)");
@@ -573,12 +575,11 @@ define("LAN_METATAG_ADMIN_271", "Tag words associated with this video.");
 define("LAN_METATAG_ADMIN_272", "Video - Series");
 define("LAN_METATAG_ADMIN_273", "The TV show this series belongs to.");
 
-define("LAN_METATAG_ADMIN_274", "");
-define("LAN_METATAG_ADMIN_275", "");
+define("LAN_METATAG_ADMIN_275", "The four required properties for every page");
+define("LAN_METATAG_ADMIN_276", "The following properties are optional for any object and are generally recommended");
 
-define("LAN_METATAG_ADMIN_276", "");
-define("LAN_METATAG_ADMIN_277", "");
+define("LAN_METATAG_ADMIN_277", "Structured properties for the og:image property");
 
-define("LAN_METATAG_ADMIN_278", "");
-define("LAN_METATAG_ADMIN_279", "");
+define("LAN_METATAG_ADMIN_278", "Structured properties for the og:video property");
+define("LAN_METATAG_ADMIN_279", "Structured properties for the og:audio property");
 

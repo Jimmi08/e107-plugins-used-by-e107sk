@@ -143,7 +143,5 @@ $text = "
 ";
 
 $ns->tablerender(METLAN_00." (".e_LANGUAGE.")", $mes->render().$text);
-
  
-
 ?>
