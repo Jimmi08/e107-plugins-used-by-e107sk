@@ -56,10 +56,9 @@ function metatag_global_token_site_keywords()
  */
 function metatag_global_token_site_image()
 {
-  $meta = (strpos(e107::getPref('sitebutton'),'{e_MEDIA') !== false) ? e107::getParser()->thumbUrl($pref['sitebutton'],'w=0&h=0',false, true) : e107::getParser()->replaceConstants($pref['sitebutton'],'full');
- 
-	// Removes tags.
-	return $meta ;
+  $path = e107::getConfig()->get('sitebutton');
+  $meta = (strpos(e107::getPref('sitebutton'),'{e_MEDIA') !== false) ? e107::getParser()->thumbUrl($path,'w=0&h=0',false, true) : e107::getParser()->replaceConstants($path,'full');
+  return $meta ;
 }
 
  
@@ -172,7 +171,7 @@ function metatag_global_token_site_current_page_url()
 
 
 /**
- * Returns with Canonical URL.
+ * Returns with Canonical URL for requested URL .
  * news -  e_CURRENT_PLUGIN is not definded
  * download - "download" defined for category
  * forum - e_CURRENT_PLUGIN is not defined forum_viewforum.php here, only later
@@ -200,14 +199,14 @@ function metatag_global_token_manual_canonical_url()
 	    e107_require_once(e_PLUGIN . 'jm_canonical/canonical.class.php');
 	    $canonicalPlugin = new Canonical;  
 	
-		  $request_url = e107::getParser()->toDB(e_REQUEST_URL);
+		$request_url = e107::getParser()->toDB(e_REQUEST_URL);
 	    $result = $canonicalPlugin->getManualCanonicalUrl($request_url, true);
 	    if($result) 
 	    {
 	      return $result;
 	    }
 	    else return $request_url;
-		} 
+	} 
 }
 
 
