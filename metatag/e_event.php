@@ -229,12 +229,19 @@ class metatag_event
 			/** @var \eResponse $response */
 			$response = e107::getSingleton('eResponse');
 			$data = $response->getMeta();
-
+           
 			// Remove all previously added meta tags we want to override.
+            
+            // to remove keys that are not used but added by core without control
+            // dcterms.rights - wrong implementation it has add <link rel="schema.dcterms" href="http://purl.org/dc/terms/">  for all Dublin tags
+            
+            array_push($new_tags_keys, "dcterms.rights", "author");
+            
 			foreach($data as $m)
 			{      
 				if(isset($m['name']) && in_array($m['name'], $new_tags_keys))
 				{
+                    
 					$response->removeMeta($m['name']);
 					continue;
 				}
@@ -250,6 +257,8 @@ class metatag_event
 			$meta->addMetaTags($new_tags);
             //add prefs for this
            // $this->renderDebugInfo($new_tags);
+            $data = $response->getMeta();
+           
 		}
 	}
   
