@@ -126,6 +126,7 @@ if (!class_exists('jmdownload_shortcodes', false))
         // {JMCORE_DOWNLOAD: download_name}
         // {JMCORE_DOWNLOAD: download_image}
         // {JMCORE_DOWNLOAD: download_url}
+        // {JMCORE_DOWNLOAD: admin_edit}
         public function sc_jmcore_download($parm = null)
         {
             if (empty($parm)) {
@@ -177,6 +178,14 @@ if (!class_exists('jmdownload_shortcodes', false))
             break;
             case 'download_url':
                 $text = e107::url('download', 'item', $data);
+            break;
+            // 6 - Access to Media Manager
+            case 'admin_edit':  
+                $icon = "<img src='".e_IMAGE_ABS."generic/edit.png' alt='*' style='padding:0px;border:0px' />";
+         
+                $url = e_PLUGIN_ABS."jmdownload/admin/admin_download.php?action=edit&id=".$data['download_id'];
+             
+                return (ADMIN && getperms('6')) ? "<a  target='_blank' class='e-tip btn btn-default btn-secondary hidden-print' href='".$url."' title='".LAN_EDIT."'>".$icon."</a>" : "";
             break;
             }
             return $text;
