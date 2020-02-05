@@ -732,7 +732,8 @@ class metatag
 		);
     }
     
-		$basic[$field . '[image_src]'] = array(
+ 
+	 $basic[$field . '[image_src]'] = array(
 			'label' => LAN_METATAG_ADMIN_24,
 			'help'  => $form->help(LAN_METATAG_ADMIN_25),
 			'field' => $form->text($field . '[image_src]', varset($values['data']['image_src'], ''), 255, array(
@@ -839,13 +840,13 @@ class metatag
     			'help'  => $form->help(LAN_METATAG_ADMIN_11),
     			'field' => $checkboxes,
     		);
+            
     }
     
     
     if($this->jmcorePrefs['metatag_advanced']) {
 		// Advanced meta tags.
-		$advanced = array();
- 
+	  $advanced = array();
 
  
     if($this->jmcorePrefs['google_news']) {
@@ -2518,7 +2519,19 @@ if($this->jmcorePrefs['metatag_opengraph_optional']) {
     
       $entity_type = $curval['entity_type'];
 	  $entity_id = $curval['entity_id'];
-            
+		   
+	  if($entity_type == 'metatag_default') {
+		
+		switch($entity_id) {
+			case 2:
+				$entity_type = 'front';
+				$entity_id = 1;
+			break;
+		}
+
+		
+	  }
+
       $metatags = $this->getMetaTags($entity_id, $entity_type);
       $new_tags = $this->preProcessMetaTags($metatags, $entity_id, $entity_type);
  
@@ -3341,12 +3354,6 @@ if($this->jmcorePrefs['metatag_opengraph_optional']) {
 					$this->renderMeta($key, implode(', ', $value));
 					break;
 
-				// Restrict to one item.
-				case "image_src":
-					$values = explode('|', $value);
-					$this->renderMeta($key, $values[0]);
-					break;
-
 				case "itemprop:name":
 				case "itemprop:description":
 				case "itemprop:image":
@@ -3433,6 +3440,12 @@ if($this->jmcorePrefs['metatag_opengraph_optional']) {
 
 				case "canonical":
 					$this->renderLinkRel($key, $value);
+					break;
+                    
+				// Restrict to one item.
+				case "image_src":
+					$values = explode('|', $value);
+					$this->renderLinkRel($key, $values[0]);
 					break;
 			}
 		}
