@@ -143,4 +143,106 @@ trait WebLinksTrait
 		return $title;
 	}
 
+	function getparentlink($parentid,$title) {
+		$module_name =  WEB_LINKS_APP;
+		$parentid = intval($parentid);
+		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
+		$row = e107::getDB()->fetch($result);
+		 
+		$cid = $row['cid'];
+		$ptitle = e107::getParser()->toHTML($row_two['title'], "", "TITLE");
+		$pparentid = $row['parentid'];
+		if ($ptitle != "") $title="<a href=\"".$module_name."?l_op=viewlink&amp;cid=".$cid."\">".$ptitle."</a>/".$title;
+			if ($pparentid != 0) {
+				$title = $this->getparentlink($pparentid,$ptitle);
+			}
+		return $title;
+	}
+
+	function convertorderbytrans($orderby) {
+ 
+		
+		switch($orderby) {
+		
+			case "hits ASC":
+				return _POPULARITY1;
+			break;
+			
+			case "hits DESC":
+				return _POPULARITY2;
+			break;
+			
+			case "title ASC":
+				return _TITLEAZ;
+			break;
+			
+			case "title DESC":
+				return _TITLEZA;
+			break;
+			
+			case "date ASC":
+				return _DDATE1;
+			break;
+			
+			case "date DESC":
+				return _DDATE2;
+			break;
+			
+			case "linkratingsummary ASC":
+				return _RATING1;
+			break;
+			
+			case "linkratingsummary DESC":
+				return _RATING2;
+			break;
+			
+			default:
+				Header("Location: ".WEB_LINKS_INDEX);
+				exit();
+			break;
+		}
+	}
+
+	function convertorderbyout($orderby) {
+ 
+		switch($orderby) {
+		
+			case "title ASC":
+				return "titleA";
+			break;
+			
+			case "date ASC":
+				return "dateA";
+			break;
+			
+			case "hits ASC":
+				return "hitsA";
+			break;
+			
+			case "linkratingsummary ASC":
+				return "ratingA";
+			break;
+			
+			case "title DESC":
+				return "titleD";
+			break;
+			
+			case "date DESC":
+				return "dateD";
+			break;
+			
+			case "hits DESC":
+				return "hitsD";
+			break;
+			
+			case "linkratingsummary DESC":
+				return "ratingD";
+			break;
+			
+			default:
+				Header("Location: ".WEB_LINKS_INDEX);
+				exit();
+			break;
+		}
+	}
 }
