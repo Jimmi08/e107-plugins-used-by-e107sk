@@ -5,6 +5,11 @@ But this doesn't mean that they are actively developed.
 
 Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins with name jm are stable (no underscore).
 
+## Web links plugin for e107  
+
+For internal purpose. Porting UnNuke plugin for e107 for site that uses e107 with UnNuke database.
+Not sure now, if it is possible. 
+
 
 ## JM Download plugin for e107  
 
