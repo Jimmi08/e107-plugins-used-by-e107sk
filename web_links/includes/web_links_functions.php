@@ -48,6 +48,41 @@ trait WebLinksTrait
 		return $text;
 	}
 
+	function newlinkgraphic($time) {
+		$module_name =  WEB_LINKS_APP;
+		//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+		preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);
+		$datetime = date("d-M-Y", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+		$startdate = time();
+		$count = 0;
+			while ($count <= 7) {
+				$daysold = date("d-M-Y", $startdate);
+				if ($daysold == $datetime) {
+				if ($count<=1) {
+					$text .= "&nbsp;<img src=\"".$module_name."/images/newred.gif\" alt=\""._NEWTODAY."\">";
+				}
+				if ($count<=3 && $count>1) {
+					$text .= "&nbsp;<img src=\"".$module_name."/images/newgreen.gif\" alt=\""._NEWLAST3DAYS."\">";
+				}
+				if ($count<=7 && $count>3) {
+					$text .= "&nbsp;<img src=\"".$module_name."/images/newblue.gif\" alt=\""._NEWTHISWEEK."\">";
+				}
+				}
+				$count++;
+				$startdate = (time()-(86400 * $count));
+			}
+	}
+
+	function popgraphic($hits) {
+		global $popular;
+		$module_name =  WEB_LINKS_APP;
+		if ($hits>=$popular) {
+			$text = "&nbsp;<img src=\"".$module_name."/images/pop.gif\" alt=\""._POPULAR."\">";
+		}
+		return $text;
+	}
+
+
 	function categorynewlinkgraphic($cat) {
 		$module_name =  WEB_LINKS_APP;
 		$cat = intval($cat);
@@ -76,6 +111,36 @@ trait WebLinksTrait
 				$startdate = (time()-(86400 * $count));
 			}
 		return $text;
+	}
+
+	function detecteditorial($lid) { 
+		$lid = intval($lid);
+		$resulted2 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'");
+		$rowed2 = e107::getDB()->fetch($resulted2);
+
+		$recordexist = $rowed2['numrows'];
+		if ($recordexist != 0) {
+			$text =  " | <a \"".WEB_LINKS_FRONTFILE."?l_op=viewlinkeditorial&amp;lid=".$lid."\">"._EDITORIAL."</a>";
+		}
+
+		return $text;
+	}
+
+	function getparent($parentid,$title) {
+
+		$parentid = intval($parentid);
+		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
+		$row = e107::getDB()->fetch($result);
+		 
+		$cid = $row['cid'];
+		$ptitle = e107::getParser()->toHTML($row['title'], "", "TITLE");
+		$pparentid = $row['parentid'];
+
+		if(!empty($ptitle) && $ptitle != $title) $title = $ptitle."/".$title;
+		if ($pparentid != 0) {
+			$title = getparent($pparentid,$title);
+		}
+		return $title;
 	}
 
 }

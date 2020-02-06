@@ -20,5 +20,8 @@ define("WEB_LINKS_FOLDER",  	'web_links');
 define("WEB_LINKS_INDEX",  	WEB_LINKS_APP.WEB_LINKS_FRONTFILE);
 
 
+define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/');  //TODO
+
+
  
  
