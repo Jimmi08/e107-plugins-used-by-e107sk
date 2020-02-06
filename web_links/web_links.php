@@ -118,7 +118,7 @@ switch($l_op) {
 	break;
 	
 	case "search":
-		$web_linksFront->search($query, $min, $orderby, $show);
+		$web_linksFront->search($unquery, $min, $orderby, $show);
 	break;
 	
 	case "rateinfo":

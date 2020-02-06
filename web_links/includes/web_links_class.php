@@ -10,7 +10,8 @@
 
     function __construct()
 	{
-
+		$this->plugTemplates = e107::getTemplate('web_links', 'web_links');
+		$this->plugPrefs = e107::getPlugConfig('web_links')->getPref();
     }
  
     public function AddLink()
@@ -78,7 +79,7 @@
         $text =  "Add in progress";
         e107::getRender()->tablerender($caption, $text);
     }	
-    public function search($query, $min, $orderby, $show)
+    public function search($unquery, $min, $orderby, $show)
 	{
         $text =  "search in progress";
         e107::getRender()->tablerender($caption, $text);
@@ -120,7 +121,65 @@
     } 	
     public function index()
 	{
-        $text =  "index in progress";
+		$dum = NULL;
+		$mainlink = 0;
+		$text = $this->menu($mainlink);
+		$text .= "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+		$text .= "<div class='center'><font class=\"title\"><b>"._LINKSMAINCAT."</b></font></div><br>";
+		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";	
+
+		$result = e107::getDB()->gen("SELECT cid, title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES."  WHERE parentid='0' ORDER BY title");
+		$rowresult = e107::getDB()->rows();
+		$count = 0;
+		foreach ($rowresult as $row)  {
+			$cid = $row['cid'];
+			$title = e107::getParser()->toHTML($row['title'], "nohtml");
+			$cdescription = stripslashes($row['cdescription']);
+			$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></font>";
+			$text .= $this->categorynewlinkgraphic($cid);
+			if ($cdescription) {
+				$text .= "<br><font class=\"content\">".$cdescription."</font><br>";
+			} else {
+				$text .= "<br>";
+			}
+			$result2 = e107::getDB()->gen("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE parentid='".$cid."' ORDER BY title");// limit 0,3");
+			$rowresult2 = e107::getDB()->rows();
+			$space = 0;   
+			foreach ($rowresult2 as $row2)  { 
+				$cid = $row2['cid'];
+				$stitle = e107::getParser()->toHTML($row2['title'], "nohtml");
+				if ($space>0) {
+					$text .= ", ";
+				}
+				$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></font>";
+				$space++;
+			}
+			if ($count<1) {
+				$text .= "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+				$dum = 1;
+			}
+			$count++;
+			if ($count==2) {
+				$text .= "</td></tr><tr>";
+				$count = 0;
+				$dum = 0;
+			}
+		}
+		if ($dum == 1) {
+			$text .= "</tr></table>";
+		} elseif ($dum == 0) {
+			$text .= "<td></td></tr></table>";
+		}
+		$result3 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+		$numrow = e107::getDB()->fetch($result3);
+		$numrows = $numrow['numrows'];
+		$result4 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
+		$catrow = e107::getDB()->fetch($result4);
+		$catnum = $catrow['numrows'];
+		$text .= "<br><br><center><font class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKS." "._AND." <b>".$catnum."</b> "._CATEGORIES." "._INDB."</font></center>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];		
+		$text .=  "index in progress";
         e107::getRender()->tablerender($caption, $text);
     } 
 } 
