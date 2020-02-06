@@ -100,7 +100,117 @@
     } 
     public function MostPopular($ratenum, $ratetype) 
 	{
-        $text =  "MostPopular in progress";
+		global $db, $admin, $module_name, $user, $mainvotedecimal, $mostpoplinkspercentrigger, $mostpoplinks;
+		$admin = base64_decode($admin);
+		$admin = addslashes($admin);
+		$admin = explode(":", $admin);
+		$aid = $admin[0];
+		$result = $db->sql_query("SELECT radminsuper FROM ".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$radminsuper = $row['radminsuper'];
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		echo "<table border=\"0\" width=\"100%\"><tr><td align=\"center\">";
+			if ($ratenum != "" && $ratetype != "") {
+				$mostpoplinks = $ratenum;
+				if ($ratetype == "percent") $mostpoplinkspercentrigger = 1;
+			}
+			if ($mostpoplinkspercentrigger == 1) {
+				$toplinkspercent = $mostpoplinks;
+				$result2 = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS);
+				$row2 = $db->sql_fetchrow($result2);
+				$db->sql_freeresult($result);
+				$totalmostpoplinks = $row2['numrows'];
+				$mostpoplinks = $mostpoplinks / 100;
+				$mostpoplinks = $totalmostpoplinks * $mostpoplinks;
+				$mostpoplinks = round($mostpoplinks);
+			}
+			if ($mostpoplinkspercentrigger == 1) {
+				echo "<div class='center'><font class=\"option\"><b>"._MOSTPOPULAR." ".$toplinkspercent."% ("._OFALL." ".$totalmostpoplinks." "._LINKS.")</b></font></div>";
+			} else {
+				echo "<div class='center'><font class=\"option\"><b>"._MOSTPOPULAR." ".un_htmlentities($mostpoplinks)."</b></font></div>";
+			}
+		echo "<tr><td><div class='center'>"._SHOWTOP.": [ <a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=num\">10</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=50&amp;ratetype=num\">50</a> | "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=MostPopular&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br><br></td></tr>";
+		if(!is_numeric($mostpoplinks)) {
+			$mostpoplinks = 10;
+		}
+		$result3 = $db->sql_query("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM ".UN_TABLENAME_LINKS_LINKS." ll, ".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid ORDER BY ll.hits DESC LIMIT 0,".$mostpoplinks);
+		echo "<tr><td>";
+			while($row3 = $db->sql_fetchrow($result3)) {
+				$lid = $row3['lid'];
+				$cid = $row3['cid'];
+				$sid = $row3['sid'];
+				$title = stripslashes(check_html($row3['title'], "nohtml"));
+				$description = stripslashes($row3['description']);
+				$time = $row3['date'];
+				$hits = $row3['hits'];
+				$linkratingsummary = $row3['linkratingsummary'];
+				$totalvotes = $row3['totalvotes'];
+				$totalcomments = $row3['totalcomments'];
+				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
+				$ctitle = stripslashes(check_html($row3['cat_title'], "nohtml"));
+				if (is_admin($admin)) {
+					echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+				} else {
+					echo "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+				}
+				echo "<font class=\"content\"><a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				newlinkgraphic($time);
+				popgraphic($hits);
+				echo "<br>";
+				echo _DESCRIPTION.": ".$description."<br>";
+				setlocale (LC_TIME, $locale);
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
+				$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+				setlocale(LC_TIME, 'en_US');
+				$datetime = ucfirst($datetime);
+				echo _ADDEDON.": ".$datetime." "._HITS.": <b>".$hits."</b>";
+				/* voting & comments stats */
+					if ($totalvotes == 1) {
+						$votestring = _VOTE;
+					} else {
+						$votestring = _VOTES;
+					}
+					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
+						echo " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
+					}
+				echo "<br>";
+					if ($radminsuper == 1) {
+						echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+					}
+				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+					if (is_user($user)) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+					}
+					if ($totalvotes != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+					}
+					if ($totalcomments != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+					}
+				detecteditorial($lid);
+				echo "<br>";
+				$ctitle = getparent($cid,$ctitle);
+				echo _CATEGORY.": ".$ctitle;
+				echo "<br><br>";
+				echo "<br><br></font>";
+			}
+		$db->sql_freeresult($result3);
+		echo "</font></td></tr></table>";
+		CloseTable();
+		include("footer.php");
+		
+		$text =  "MostPopular in progress";
         e107::getRender()->tablerender($caption, $text);
     } 	
     public function RandomLink() 
