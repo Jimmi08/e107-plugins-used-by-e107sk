@@ -136,7 +136,7 @@
 			$cid = $row['cid'];
 			$title = e107::getParser()->toHTML($row['title'], "nohtml");
 			$cdescription = stripslashes($row['cdescription']);
-			$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></font>";
+			$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></font>";
 			$text .= $this->categorynewlinkgraphic($cid);
 			if ($cdescription) {
 				$text .= "<br><font class=\"content\">".$cdescription."</font><br>";
@@ -152,7 +152,7 @@
 				if ($space>0) {
 					$text .= ", ";
 				}
-				$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></font>";
+				$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></font>";
 				$space++;
 			}
 			if ($count<1) {

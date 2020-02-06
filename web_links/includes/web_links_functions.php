@@ -14,22 +14,22 @@ trait WebLinksTrait
 		$text = ''; 
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		
-		$text .="<br><center><a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."\"><img src=\"modules/".WEB_LINKS_FOLDER."/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+		$text .="<br><center><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".WEB_LINKS_APP_ABS."/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
 		
 		$text .= $this->SearchForm();
 		$text .= "<font class=\"content\">[ ";
 			if ($mainlink>0) {
-				$text .="<a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."\">"._LINKSMAIN."</a> | ";
+				$text .="<a href=\"".WEB_LINKS_FRONTFILE."\">"._LINKSMAIN."</a> | ";
 			}
 			if (((getperms("P")) && $this->user_addlink == 1) || $this->links_anonaddlinklock != 1) {
-				$text .="<a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=AddLink\">"._ADDLINK."</a>"
+				$text .="<a href=\"".WEB_LINKS_FRONTFILE."?l_op=AddLink\">"._ADDLINK."</a>"
 				." | ";
 			}
 			
-		$text .="<a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=NewLinks\">"._NEW."</a>"
-		." | <a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=MostPopular\">"._POPULAR."</a>"
-		." | <a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=TopRated\">"._TOPRATED."</a>"
-		." | <a href=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."&amp;l_op=RandomLink\">"._RANDOM."</a> ]"
+		$text .="<a href=\"".WEB_LINKS_FRONTFILE."?l_op=NewLinks\">"._NEW."</a>"
+		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=MostPopular\">"._POPULAR."</a>"
+		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=TopRated\">"._TOPRATED."</a>"
+		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=RandomLink\">"._RANDOM."</a> ]"
 		."</font></center>";
 		
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
@@ -40,8 +40,10 @@ trait WebLinksTrait
 		global  $unquery;
 		 
 		if(empty($unquery)) $unquery = "";
-		$text .="<form action=\"".WEB_LINKS_FRONTFILE."?name=".WEB_LINKS_FOLDER."\" method=\"post\">"
-		."<font class=\"content\"><input type=\"hidden\" name=\"l_op\" value=\"search\"><input type=\"text\" size=\"25\" name=\"unquery\" value=\"".un_htmlentities($unquery)."\"> <input type=\"submit\" value=\""._SEARCHWL."\"></font>"
+		$text .="<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
+		."<font class=\"content\"><input type=\"hidden\" name=\"l_op\" value=\"search\">
+		<input type=\"text\" class='form-control text' size=\"25\" name=\"unquery\" value=\"".un_htmlentities($unquery)."\"> 
+		<input type=\"submit\" class='button btn' value=\""._SEARCHWL."\"></font>"
 		."</form>";
 		return $text;
 	}
