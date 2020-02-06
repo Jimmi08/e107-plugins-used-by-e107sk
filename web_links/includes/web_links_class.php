@@ -222,10 +222,9 @@
     } 	
     public function RandomLink() 
 	{
-		global $db;
-		$result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS);
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+		$row = e107::getDB()->fetch($result);
+		 
 		$numrows = $row['numrows'];
 			if ($numrows == 1) {
 				$random = 1;
@@ -233,15 +232,12 @@
 				srand((double)microtime()*1000000);
 				$random = rand(1,$numrows);
 			}
-		$result2 = $db->sql_query("SELECT url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$random."'");
-		$row2 = $db->sql_fetchrow($result2);
-		$db->sql_freeresult($result2);
+		$result2 = e107::getDB()->gen("SELECT url FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$random."'");
+		$row2 = e107::getDB()->fetch($result2);
+		 
 		$url = stripslashes($row2['url']);
-		$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$random."'");
-		Header("Location: ".$url);
-		
-		$text =  "RandomLink in progress";
-        e107::getRender()->tablerender($caption, $text);
+		e107::getDB()->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$random."'");
+		Header("Location: ".$url);  //TODO check LP , don't use e107::redirect()
     } 	
     public function viewlink($cid, $min, $orderby, $show) 
 	{
