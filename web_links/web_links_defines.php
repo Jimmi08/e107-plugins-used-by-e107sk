@@ -17,6 +17,7 @@ define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');
 define("WEB_LINKS_FRONTFILE",   'web_links.php' ); 
 define("WEB_LINKS_FOLDER",  	'web_links');
+define("WEB_LINKS_INDEX",  	WEB_LINKS_APP.WEB_LINKS_FRONTFILE);
 
 
  

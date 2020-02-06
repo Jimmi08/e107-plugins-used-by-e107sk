@@ -14,10 +14,10 @@ trait WebLinksTrait
 		$text = ''; 
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		
-		$text .="<br><center><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".WEB_LINKS_APP_ABS."/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+		$text .="<br><div class='text-center'><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".WEB_LINKS_APP_ABS."/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
 		
 		$text .= $this->SearchForm();
-		$text .= "<font class=\"content\">[ ";
+		$text .= "<div class=\"content\">[ ";
 			if ($mainlink>0) {
 				$text .="<a href=\"".WEB_LINKS_FRONTFILE."\">"._LINKSMAIN."</a> | ";
 			}
@@ -30,7 +30,7 @@ trait WebLinksTrait
 		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=MostPopular\">"._POPULAR."</a>"
 		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=TopRated\">"._TOPRATED."</a>"
 		." | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=RandomLink\">"._RANDOM."</a> ]"
-		."</font></center>";
+		."</div></div>";
 		
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
 		return $text;
@@ -41,9 +41,9 @@ trait WebLinksTrait
 		 
 		if(empty($unquery)) $unquery = "";
 		$text .="<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
-		."<font class=\"content\"><input type=\"hidden\" name=\"l_op\" value=\"search\">
+		."<div class=\"content\"><input type=\"hidden\" name=\"l_op\" value=\"search\">
 		<input type=\"text\" class='form-control text' size=\"25\" name=\"unquery\" value=\"".un_htmlentities($unquery)."\"> 
-		<input type=\"submit\" class='button btn' value=\""._SEARCHWL."\"></font>"
+		<input type=\"submit\" class='button btn' value=\""._SEARCHWL."\"></div>"
 		."</form>";
 		return $text;
 	}

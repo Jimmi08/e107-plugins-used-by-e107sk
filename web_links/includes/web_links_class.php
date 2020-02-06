@@ -18,54 +18,54 @@
 	{
         $text =  "AddLink in progress";
         e107::getRender()->tablerender($caption, $text);
-    }
+	}
+	
     public function NewLinks($newlinkshowdays)
 	{
-		global $db, $module_name;
+		
 		if ($newdownloadshowdays != "") {
 			if (!is_numeric($newdownloadshowdays)) {
-				Header("Location: modules.php?name=".$module_name);
+				e107::redirect(WEB_LINKS_INDEX);
 				exit();
 			}
 		}
-		include("header.php");
-		menu(1);
-		echo "<br>";
-		OpenTable();
-		echo "<div class='center'><font class=\"option\"><b>"._NEWLINKS."</b></font></div><br>";
+		$text = $this->menu(1);
+		$text .=  "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+		$text .=  "<div class='center'><font class=\"option\"><b>"._NEWLINKS."</b></font></div><br>";
 		$counter = 0;
 		$allweeklinks = 0;
-			while ($counter <= 7-1){
-				$newlinkdayRaw = (time()-(86400 * $counter));
-				$newlinkday = date("d-M-Y", $newlinkdayRaw);
-				$newlinkView = date("F d, Y", $newlinkdayRaw);
-				$newlinkDB = Date("Y-m-d", $newlinkdayRaw);
-				$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
-				$totalrow = $db->sql_fetchrow($totalresult);
-				$db->sql_freeresult($totalresult);
-				$totallinks = $totalrow['numrows'];
-				$counter++;
-				$allweeklinks = $allweeklinks + $totallinks;
-			}
+		while ($counter <= 7-1){
+			$newlinkdayRaw = (time()-(86400 * $counter));
+			$newlinkday = date("d-M-Y", $newlinkdayRaw);
+			$newlinkView = date("F d, Y", $newlinkdayRaw);
+			$newlinkDB = Date("Y-m-d", $newlinkdayRaw);
+			$totalresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
+			$totalrow = e107::getDB()->fetch($totalresult);
+				
+			$totallinks = $totalrow['numrows'];
+			$counter++;
+			$allweeklinks = $allweeklinks + $totallinks;
+		}
 		$counter = 0;
 			while ($counter <=30-1){
 				$newlinkdayRaw = (time()-(86400 * $counter));
 				$newlinkDB = Date("Y-m-d", $newlinkdayRaw);
-				$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
-				$totalrow = $db->sql_fetchrow($totalresult);
-				$db->sql_freeresult($totalresult);
+				$totalresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
+				$totalrow = e107::getDB()->fetch($totalresult);
+				 
 				$totallinks = $totalrow['numrows'];
 				$allmonthlinks = $allmonthlinks + $totallinks;
 				$counter++;
 			}
-		echo "<div class='center'><b>"._TOTALNEWLINKS.":</b> "._LASTWEEK." - ".$allweeklinks." \ "._LAST30DAYS." - ".$allmonthlinks."<br>"
-		._SHOW.": <a href=\"modules.php?name=".$module_name."&amp;l_op=NewLinks&amp;newlinkshowdays=7\">"._1WEEK."</a> - <a href=\"modules.php?name=".$module_name."&amp;l_op=NewLinks&amp;newlinkshowdays=14\">"._2WEEKS."</a> - <a href=\"modules.php?name=".$module_name."&amp;l_op=NewLinks&amp;newlinkshowdays=30\">"._30DAYS."</a>"
+		$text .= "<div class='center'><b>"._TOTALNEWLINKS.":</b> "._LASTWEEK." - ".$allweeklinks." \ "._LAST30DAYS." - ".$allmonthlinks."<br>"
+		._SHOW.": <a href=\"".WEB_LINKS_FRONTFILE."?l_op=NewLinks&amp;newlinkshowdays=7\">"._1WEEK."</a> - <a href=\"".WEB_LINKS_FRONTFILE."?l_op=NewLinks&amp;newlinkshowdays=14\">"._2WEEKS."</a> - <a href=\"".WEB_LINKS_FRONTFILE."?l_op=NewLinks&amp;newlinkshowdays=30\">"._30DAYS."</a>"
 		."</div><br>";
 		/* List Last VARIABLE Days of Links */
 		if (!isset($newlinkshowdays)) {
 			$newlinkshowdays = 7;
 		}
-		echo "<br><div class='center'><b>"._TOTALFORLAST." ".$newlinkshowdays." "._DAYS.":</b><br><br>";
+		$text .= "<br><div class='center'><b>"._TOTALFORLAST." ".$newlinkshowdays." "._DAYS.":</b><br><br>";
 		$counter = 0;
 		$allweeklinks = 0;
 			while ($counter <= $newlinkshowdays-1) {
@@ -73,22 +73,20 @@
 				$newlinkday = date("d-M-Y", $newlinkdayRaw);
 				$newlinkView = date("F d, Y", $newlinkdayRaw);
 				$newlinkDB = Date("Y-m-d", $newlinkdayRaw);
-				$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
-				$totalrow = $db->sql_fetchrow($totalresult);
-				$db->sql_freeresult($totalresult);
+				$totalresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
+				$totalrow = e107::getDB()->fetch($totalresult);
+				 
 				$totallinks = $totalrow['numrows'];
 				$counter++;
 				$allweeklinks = $allweeklinks + $totallinks;
-				echo "<span class='big'>&middot;</span> <a href=\"modules.php?name=Web_Links&amp;l_op=NewLinksDate&amp;selectdate=".$newlinkdayRaw."\">".un_convert_time_by_locale($newlinkView, "downloads")."</a>&nbsp;(".$totallinks.")<br>";
+				$text .= "<span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=NewLinksDate&amp;selectdate=".$newlinkdayRaw."\">".un_convert_time_by_locale($newlinkView, "downloads")."</a>&nbsp;(".$totallinks.")<br>";
 			}
 		$counter = 0;
 		$allmonthlinks = 0;
-		echo "</div>";
-		CloseTable();
-		include("footer.php");
-
-		$text =  "NewLinks in progress";
-        e107::getRender()->tablerender($caption, $text);
+		$text .= "</div>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];
+		$caption = '';
+        e107::getRender()->tablerender($caption, $text, 'web_links_newlinks');
     }	
     public function NewLinksDate($selectdate)
 	{
