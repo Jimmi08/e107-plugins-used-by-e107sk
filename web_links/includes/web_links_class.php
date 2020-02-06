@@ -241,7 +241,224 @@
     } 	
     public function viewlink($cid, $min, $orderby, $show) 
 	{
-        $text =  "viewlink in progress";
+	   
+		global $db, $admin, $perpage, $module_name, $user, $mainvotedecimal;
+		$show = intval($show);
+			if (empty($show)) {
+				$show = '';
+			}
+		$admin = base64_decode($admin);
+		$admin = addslashes($admin);
+		$admin = explode(":", $admin);
+		$aid = $admin[0];
+		$result = $db->sql_query("SELECT radminsuper FROM ".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$radminsuper = $row['radminsuper'];
+		include("header.php");
+		if (!isset($min) || empty($min)) $min = 0;
+		if (!isset($max)) $max=$min+$perpage;
+			if(isset($orderby)) {
+				$orderby = convertorderbyin($orderby);
+			} else {
+				$orderby = "title ASC";
+			}
+			if ($show != "") {
+				$perpage = $show;
+			} else {
+				$show = $perpage;
+			}
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		$cid = intval($cid);
+		$result_two = $db->sql_query("SELECT title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$cid."'");
+		$row_two = $db->sql_fetchrow($result_two);
+		$db->sql_freeresult($result_two);
+		$title = stripslashes(check_html($row_two['title'], "nohtml"));
+		$parentid = $row_two['parentid'];
+		$title = getparentlink($parentid,$title);
+		$title = "<a href=\"modules.php?name=".$module_name."\">"._MAIN."</a>/".$title;
+		echo "<div class='center'><font class=\"option\"><b>"._CATEGORY.": ".$title."</b></font></div><br>";
+		echo "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";
+		$cid = intval($cid);
+		$result2 = $db->sql_query("SELECT cid, title, cdescription FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE parentid='".$cid."' ORDER BY title");
+		$count = 0;
+			while($row2 = $db->sql_fetchrow($result2)) {
+				$cid2 = $row2['cid'];
+				$title2 = stripslashes(check_html($row2['title'], "nohtml"));
+				$cdescription2 = stripslashes($row2['cdescription']);
+				echo "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></font>";
+				categorynewlinkgraphic($cid2);
+				if ($cdescription2) {
+					echo " <font class=\"content\">".$cdescription2."</font><br>";
+				} else {
+					echo "<br>";
+				}
+				$result3 = $db->sql_query("SELECT cid, title FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE parentid='".$cid2."' ORDER BY title");// limit 0,3");
+				$space = 0;
+					while($row3 = $db->sql_fetchrow($result3)) {
+						$cid3 = $row3['cid'];
+						$title3 = stripslashes(check_html($row3['title'], "nohtml"));
+							if ($space>0) {
+								echo ", ";
+							}
+						echo "<font class=\"content\"><a href=\"modules.php?name=$module_name&amp;l_op=viewlink&amp;cid=".$cid3."\">".$title3."</a></font>";
+						$space++;
+					}
+				$db->sql_freeresult($result3);
+					if ($count<1) {
+						echo "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+						$dum = 1;
+					}
+				$count++;
+					if ($count==2) {
+						echo "</td></tr><tr>";
+						$count = 0;
+						$dum = 0;
+					}
+			}
+		$db->sql_freeresult($result2);
+			if ($dum == 1) {
+				echo "</tr></table>";
+			} elseif ($dum == 0) {
+				echo "<td></td></tr></table>";
+			}
+		echo "<hr noshade size=\"1\">";
+		$orderbyTrans = convertorderbytrans($orderby);
+		echo "<div class='center'><font class=\"content\">"._SORTLINKSBY.": "
+		._TITLE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
+		._DATE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
+		._RATING." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
+		._POPULARITY." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
+		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></font></div><br><br>";
+			if(!is_numeric($min)){
+				$min=0;
+			}
+		$result4 = $db->sql_query("SELECT lid, title, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM ".UN_TABLENAME_LINKS_LINKS." WHERE cid='".$cid."' ORDER BY ".$orderby." LIMIT ".$min.",".$perpage);
+		$fullcountresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE cid='".$cid."'");
+		$fullcountrow = $db->sql_fetchrow($fullcountresult);
+		$db->sql_freeresult($fullcountresult);
+		$totalselectedlinks = $fullcountrow['numrows'];	
+		echo "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><font class=\"content\">";
+		$x=0;
+			while($row4 = $db->sql_fetchrow($result4)) {
+				$lid = $row4['lid'];
+				$title = stripslashes(check_html($row4['title'], "nohtml"));
+				$description = stripslashes($row4['description']);
+				$time = $row4['date'];
+				$hits = $row4['hits'];
+				$linkratingsummary = $row4['linkratingsummary'];
+				$totalvotes = $row4['totalvotes'];
+				$totalcomments = $row4['totalcomments'];
+				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
+				if (is_admin($admin)) {
+					echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+				} else {
+					echo "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+				}
+				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
+				newlinkgraphic($time);
+				popgraphic($hits);
+				/* INSERT code for *editor review* here */
+				echo "<br>";
+				echo ""._DESCRIPTION.": ".$description."<br>";
+				setlocale (LC_TIME, $locale);
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
+				$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+				setlocale(LC_TIME, 'en_US');
+				$datetime = ucfirst($datetime);
+				echo _ADDEDON.": ".$datetime." "._HITS.": ".$hits;
+					/* voting & comments stats */
+					if ($totalvotes == 1) {
+						$votestring = _VOTE;
+					} else {
+						$votestring = _VOTES;
+					}
+					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
+						echo " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
+					}
+				echo "<br>";
+					if ($radminsuper == 1) {
+						echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+					}
+				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+					if (is_user($user)) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+					}
+					if ($totalvotes != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+					}
+					if ($totalcomments != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+					}
+				detecteditorial($lid);
+				echo "<br><br>";
+				$x++;
+			}
+		$db->sql_freeresult($result4);
+		echo "</font>";
+		$orderby = convertorderbyout($orderby);
+		/* Calculates how many pages exist. Which page one should be on, etc... */
+		$linkpagesint = ($totalselectedlinks / $perpage);
+		$linkpageremainder = ($totalselectedlinks % $perpage);
+			if ($linkpageremainder != 0) {
+				$linkpages = ceil($linkpagesint);
+				if ($totalselectedlinks < $perpage) {
+					$linkpageremainder = 0;
+				}
+			} else {
+				$linkpages = $linkpagesint;
+			}
+			/* Page Numbering */
+			if ($linkpages!=1 && $linkpages!=0) {
+				echo "<br><br>";
+				echo _SELECTPAGE.": ";
+				$prev = $min-$perpage;
+					if ($prev>=0) {
+						$leftarrow = "images/left.gif" ;
+						$ThemeSel = get_theme();
+							if (file_exists("themes/".$ThemeSel."/".$leftarrow)) {
+								$leftarrow = "themes/".$ThemeSel."/images/left.gif";
+							} else {
+								$leftarrow = "images/left.gif";
+							}
+						echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">";
+						echo "<img src=\"".$leftarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._PREVIOUS."\"></a>";
+					}
+				$counter = 1;
+				$currentpage = ($max / $perpage);
+				echo "[ ";
+					while ($counter<=$linkpages ) {
+						$cpage = $counter;
+						$mintemp = ($perpage * $counter) - $perpage;
+							if ($counter == $currentpage) {
+								echo "<b>".$counter."</b> ";
+							} else {
+								echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
+							}
+						$counter++;
+					}
+				echo " ]";
+				$next=$min+$perpage;
+					if ($x>=$perpage) {
+						$rightarrow = "images/right.gif";
+						$ThemeSel = get_theme();
+						if (file_exists("themes/".$ThemeSel."/".$rightarrow)) {
+							$rightarrow = "themes/".$ThemeSel."/images/right.gif";
+						} else {
+							$rightarrow = "images/right.gif";
+						}
+						echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">";
+						echo "<img src=\"".$rightarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._NEXT."\"></a>";
+					}
+			}
+		echo "</td></tr></table>";
+		CloseTable();
+		include("footer.php");
+		
+		$text =  "viewlink in progress";
         e107::getRender()->tablerender($caption, $text);
     }  
     public function brokenlink($lid)
