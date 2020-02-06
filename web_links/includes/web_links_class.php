@@ -222,7 +222,25 @@
     } 	
     public function RandomLink() 
 	{
-        $text =  "RandomLink in progress";
+		global $db;
+		$result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS);
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$numrows = $row['numrows'];
+			if ($numrows == 1) {
+				$random = 1;
+			} else {
+				srand((double)microtime()*1000000);
+				$random = rand(1,$numrows);
+			}
+		$result2 = $db->sql_query("SELECT url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$random."'");
+		$row2 = $db->sql_fetchrow($result2);
+		$db->sql_freeresult($result2);
+		$url = stripslashes($row2['url']);
+		$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$random."'");
+		Header("Location: ".$url);
+		
+		$text =  "RandomLink in progress";
         e107::getRender()->tablerender($caption, $text);
     } 	
     public function viewlink($cid, $min, $orderby, $show) 
