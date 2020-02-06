@@ -1,5 +1,4 @@
 <?php
  //Strings for plugin.xml and Menu manager
-define("_WEBLINKS","Web Links");
- 
+if (!defined(("_WEBLINKS"))) { define("_WEBLINKS","Web Links"); } 
 ?>

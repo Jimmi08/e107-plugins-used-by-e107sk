@@ -150,8 +150,3 @@ define("_ERRORURLEXISTWL","ERROR: This URL address is alrady in the database!");
 define("_ERRORNOTITLEWL","ERROR: You must specify new name for URL!");
 define("_ERRORNOURLWL","ERROR: URL address has to be entered!");
 define("_ERRORNODESCRIPTIONWL","ERROR: Description has to be specified!");
-
-
-/* global ? */
-define("_SAVECHANGES","Save changes");
-?>

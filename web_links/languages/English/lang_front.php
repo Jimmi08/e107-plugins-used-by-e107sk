@@ -22,7 +22,9 @@
 
 global $anonwaitdays,  $outsidewaitdays;
 
-;define("_URL","URL");
+if (!defined(("_WEBLINKS"))) { define("_WEBLINKS","Web Links"); }
+
+define("_URL","URL");
 define("_PREVIOUS","Previous Page");
 define("_NEXT","Next Page");
 define("_YOURNAME","Your Name");
@@ -188,7 +190,7 @@ define("_YOUAREREGGED","You are a registered user and are logged in.");
 define("_FEELFREE2ADD","Feel free to add a comment about this site.");
 define("_YOUARENOTREGGED","You are not a registered user or you have not logged in.");
 define("_IFYOUWEREREG","If you were registered you could make comments on this website.");
-define("_WEBLINKS","Web Links");
+ 
 define("_TITLE","Title");
 define("_MODIFY","Modify");
 define("_COMPLETEVOTE1","Your vote is appreciated.");
