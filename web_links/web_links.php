@@ -49,7 +49,7 @@ $web_linksFront = new web_links_front;
 //process URL parameters, just copy, they knew what they did 
 $qry = str_replace('&amp;', '&', e_QUERY);
 $qry_tmp = explode('&', $qry);
-$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid');  
+$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid' );  
 
 foreach($qry_tmp as $tmp) {
   $qry_lop = explode('=', $tmp);
@@ -60,6 +60,22 @@ foreach($qry_tmp as $tmp) {
 	}
 }
 extract($par);
+
+//process $_POST parameters for rating,  
+$supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid');
+foreach($_POST as $key => $value) {
+	if($value && in_array($key,$supportedpostkeys)) {     
+	    $formvalues[$key] = $value;
+	}
+}
+
+$exType = EXTR_SKIP;
+extract($formvalues, $exType);
+
+
+if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
+	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
+}
   
 require_once(HEADERF); 					// render the header (everything before the main content area)
 
@@ -129,7 +145,7 @@ switch($l_op) {
 		$web_linksFront->ratelink($lid);
 	break;
 	
-	case "addrating":
+	case "addrating":  //TODO this couldn't work 
 		$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments, $user);
 	break;
 	

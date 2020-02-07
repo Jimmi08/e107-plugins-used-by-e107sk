@@ -245,4 +245,14 @@ trait WebLinksTrait
 			break;
 		}
 	}
+
+	function linkfooterchild($lid) {
+		global $module_name, $useoutsidevoting;
+		//include("modules/".$module_name."/l_config.php");
+		if ($useoutsidevoting = 1) {
+			$text = "<br><font class=\"content\">"._ISTHISYOURSITE." <a href=\"".WEB_LINKS_FRONTFILE."?l_op=outsidelinksetup&amp;lid=".$lid."\">"._ALLOWTORATE."</a></font>";
+		}
+		return $text;
+
+	}
 }

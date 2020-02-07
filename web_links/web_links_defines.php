@@ -17,9 +17,13 @@ define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');
 define("WEB_LINKS_FRONTFILE",   'web_links.php' ); 
 define("WEB_LINKS_FOLDER",  	'web_links');
-define("WEB_LINKS_INDEX",  	WEB_LINKS_APP.WEB_LINKS_FRONTFILE);
 
+//only way how to get correct full path without e_url 
+$plugin_index = "{e_PLUGIN}".WEB_LINKS_FOLDER."/".WEB_LINKS_FRONTFILE;
+$plugin_index = e107::getParser()->replaceConstants($plugin_index,'full');
 
+define("WEB_LINKS_INDEX",  	$plugin_index);
+ 
 define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/');  //TODO
 
 

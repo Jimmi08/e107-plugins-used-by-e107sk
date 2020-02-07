@@ -32,7 +32,7 @@
 		$text = $this->menu(1);
 		$text .=  "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .=  "<div class='center'><font class=\"option\"><b>"._NEWLINKS."</b></font></div><br>";
+		$text .=  "<div class='center'><span class=\"option\"><b>"._NEWLINKS."</b></span></div><br>";
 		$counter = 0;
 		$allweeklinks = 0;
 		while ($counter <= 7-1){
@@ -132,9 +132,9 @@
 				$mostpoplinks = round($mostpoplinks);
 			}
 			if ($mostpoplinkspercentrigger == 1) {
-				$text .= "<div class='center'><font class=\"option\"><b>"._MOSTPOPULAR." ".$toplinkspercent."% ("._OFALL." ".$totalmostpoplinks." "._LINKS.")</b></font></div>";
+				$text .= "<div class='center'><span class=\"option\"><b>"._MOSTPOPULAR." ".$toplinkspercent."% ("._OFALL." ".$totalmostpoplinks." "._LINKS.")</b></span></div>";
 			} else {
-				$text .= "<div class='center'><font class=\"option\"><b>"._MOSTPOPULAR." ".un_htmlentities($mostpoplinks)."</b></font></div>";
+				$text .= "<div class='center'><span class=\"option\"><b>"._MOSTPOPULAR." ".un_htmlentities($mostpoplinks)."</b></span></div>";
 			}
 		$text .= "<tr><td><div class='center'>"._SHOWTOP.": [ <a href=\"".WEB_LINKS_FRONTFILE."?l_op=MostPopular&amp;ratenum=10&amp;ratetype=num\">10</a> - "
 		."<a href=\"".WEB_LINKS_FRONTFILE."?l_op=MostPopular&amp;ratenum=25&amp;ratetype=num\">25</a> - "
@@ -169,9 +169,9 @@
 				} else {
 					$text .= "<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
-				$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
-				$this->newlinkgraphic($time);
-				$this->popgraphic($hits);
+				$text .= "<span class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				$text .=$this->newlinkgraphic($time);
+				$text .=$this->popgraphic($hits);
 				$text .= "<br>";
 				$text .= _DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
@@ -205,15 +205,15 @@
 				if ($totalcomments != 0) {
 					$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 				}
-				$this->detecteditorial($lid);
+				$text .= $this->detecteditorial($lid);
 				$text .= "<br>";
 				$ctitle = $this->getparent($cid,$ctitle);
 				$text .= _CATEGORY.": ".$ctitle;
 				$text .= "<br><br>";
-				$text .= "<br><br></font>";
+				$text .= "<br><br></span>";
 			}
 		 
-		$text .= "</font></td></tr></table>";
+		$text .= "</span></td></tr></table>";
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
 		 
 
@@ -273,7 +273,7 @@
 		$parentid = $row_two['parentid'];
 		$title = $this->getparentlink($parentid,$title);
 		$title = "<a href=\"".WEB_LINKS_FRONTFILE."\">"._MAIN."</a>/".$title;
-		$text .= "<div class='center'><font class=\"option\"><b>"._CATEGORY.": ".$title."</b></font></div><br>";
+		$text .= "<div class='center'><span class=\"option\"><b>"._CATEGORY.": ".$title."</b></span></div><br>";
 		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";
 		$cid = intval($cid);
 		$result2 = e107::getDB()->gen("SELECT cid, title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE parentid='".$cid."' ORDER BY title");
@@ -283,10 +283,10 @@
 				$cid2 = $row2['cid'];
 				$title2 = e107::getParser()->toHTML($row2['title'], "", "TITLE");
 				$cdescription2 = stripslashes($row2['cdescription']); 
-				$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></font>";
+				$text .= "<td><span class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></span>";
 				$this->categorynewlinkgraphic($cid2);
 				if ($cdescription2) {
-					$text .= " <font class=\"content\">".$cdescription2."</font><br>";
+					$text .= " <span class=\"content\">".$cdescription2."</span><br>";
 				} else {
 					$text .= "<br>";
 				}
@@ -298,7 +298,7 @@
 							if ($space>0) {
 								$text .= ", ";
 							}
-						$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid3."\">".$title3."</a></font>";
+						$text .= "<span class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid3."\">".$title3."</a></span>";
 						$space++;
 					}
 				 
@@ -321,12 +321,12 @@
 			}
 		$text .= "<hr noshade size=\"1\">";
 		$orderbyTrans = $this->convertorderbytrans($orderby);
-		$text .= "<div class='center'><font class=\"content\">"._SORTLINKSBY.": "
+		$text .= "<div class='center'><span class=\"content\">"._SORTLINKSBY.": "
 		._TITLE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
 		._DATE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
 		._RATING." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
 		._POPULARITY." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
-		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></font></div><br><br>";
+		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></span></div><br><br>";
 			if(!is_numeric($min)){
 				$min=0;
 			}
@@ -336,7 +336,7 @@
 		$fullcountrow = e107::getDB()->fetch($fullcountresult);
 		 
 		$totalselectedlinks = $fullcountrow['numrows'];	
-		$text .= "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><font class=\"content\">";
+		$text .= "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><span class=\"content\">";
 		$x=0;
 		 
 	    foreach ($rowresult4 as $row4)  {
@@ -398,7 +398,7 @@
 				$x++;
 			}
 		 
-		$text .= "</font>";
+		$text .= "</span>";
 		$orderby = $this->convertorderbyout($orderby);
 		/* Calculates how many pages exist. Which page one should be on, etc... */
 		$linkpagesint = ($totalselectedlinks / $perpage);
@@ -495,10 +495,81 @@
     }		
     public function ratelink($lid)
 	{
-        $text =  "ratelink in progress";
+		global $cookie, $datetime, $anonymous, $user;
+		 
+		$text = $this->menu(1);
+		$text .= "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+		$lid = intval($lid);
+		$res = e107::getDB()->gen("SELECT title FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row =  e107::getDB()->fetch($res);
+		$displaytitle = e107::getParser()->toHTML($row['title'], "", "TITLE");
+		$ip = $_SERVER["REMOTE_HOST"];
+		if (empty($ip)) {
+			$ip = $_SERVER["REMOTE_ADDR"];
+		}
+		$text .=  "<b>".$displaytitle."</b>"
+		."<ul class='text-left'>"
+		."<li>"._RATENOTE1."</li>"
+		."<li>"._RATENOTE2."</li>"
+		."<li>"._RATENOTE3."</li>"
+		."<li>"._RATENOTE4."</li>"  //FIX LAN with [x]
+		."<li>"._RATENOTE5."</li>";
+			if(USER) {
+				$auth_name = USERNAME;
+				$text .=  "<li>"._YOUAREREGGED."</li>"
+				."<li>"._FEELFREE2ADD."</li>";
+ 
+			} else {
+				$text .=  "<li>"._YOUARENOTREGGED."</li>"
+				."<li>"._IFYOUWEREREG."</li>";
+				$auth_name = $anonymous;
+			}
+		$text .=  "</ul>"
+		."<form method=\"post\" action=\"".WEB_LINKS_FRONTFILE."\">"
+		."<table border=\"0\" cellpadding=\"1\" cellspacing=\"0\" width=\"100%\">"
+		."<tr><td width=\"25\" nowrap></td>"
+		."<tr><td width=\"25\" nowrap></td><td width=\"550\">"
+		."<input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\">"
+		."<input type=\"hidden\" name=\"ratinguser\" value=\"".$auth_name."\">"
+		."<input type=\"hidden\" name=\"ratinghost_name\" value=\"".$ip."\">"
+		."<span class=\"content\">"._RATETHISSITE
+		."<select name=\"rating\">"  //TODO fix select look
+		."<option>--</option>"
+		."<option>10</option>"
+		."<option>9</option>"
+		."<option>8</option>"
+		."<option>7</option>"
+		."<option>6</option>"
+		."<option>5</option>"
+		."<option>4</option>"
+		."<option>3</option>"
+		."<option>2</option>"
+		."<option>1</option>"
+		."</select></span>"
+		." <span class=\"content\"><input class='button tbox btn' type=\"submit\" value=\""._RATETHISSITE."\"></span>"
+		."<br><br>";
+		// karma system, not banned users TODO
+		//$result = e107::getDB()->gen("SELECT karma FROM #".UN_TABLENAME_USERS." WHERE user_id='".intval($cookie[0])."'");
+		//$karma =  e107::getDB()->fetch($result);
+		$karma['karma'] = 1; //temp fix   
+			if(USER AND $karma['karma'] != 3 AND $karma['karma'] != 4) {
+				$text .=  "<span class=\"content\"><b>"._SCOMMENTS.":</b><br>
+				<textarea class='form-control' wrap=\"virtual\" cols=\"70\" rows=\"15\" name=\"ratingcomments\" id=\"weblinks_comments\"></textarea>"
+				."<br><br><br>"
+				."</span></td>";
+			} else {
+				$text .=  "<input type=\"hidden\" name=\"ratingcomments\" value=\"\">";
+			}
+		$text .=  "</tr></table></form>";
+		$text .=  "<div class='center'>";
+		$text .= $this->linkfooterchild($lid);
+		$text .=  "</div>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];
+		 
         e107::getRender()->tablerender($caption, $text);
     } 
-    public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments, $user)
+    public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
         $text =  "addrating in progress";
         e107::getRender()->tablerender($caption, $text);
@@ -510,7 +581,106 @@
     } 	
     public function outsidelinksetup($lid)
 	{
-        $text =  "outsidelinksetup in progress";
+ 
+		//include("modules/".$module_name."/l_config.php");
+		$text = $this->menu(1);
+		$text .= "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+ 
+		$text .=  "<div class='center'><font class=\"option\"><b>"._PROMOTEYOURSITE."</b></font></div><br><br>	
+		"._PROMOTE01."<br><br>	
+		<b>1) "._TEXTLINK."</b><br><br>
+		"._PROMOTE02."<br><br>
+		<div class='center'><a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE." @ ".$sitename."</a></div><br><br>
+		<div class='center'>"._HTMLCODE1."</div><br>
+		<div class='center'><i>&lt;a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\"&gt;"._RATETHISSITE."&lt;/a&gt;</i></div>
+		<br><br>
+		"._THENUMBER." \"$lid\" "._IDREFER."<br><br>
+		
+		<b>2) "._BUTTONLINK."</b><br><br>
+		
+		"._PROMOTE03."<br><br>
+		<div class='center'>
+		<form action=\"".WEB_LINKS_INDEX."\" method=\"post\">\n
+			<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">\n
+			<input type=\"hidden\" name=\"l_op\" value=\"ratelink\">\n
+			<input type=\"submit\" value=\""._RATEIT."\">\n
+		</form>\n
+		</div>
+		<div class='center'>"._HTMLCODE2."</div><br><br>
+		<table border=\"0\" align=\"center\"><tr><td align=\"left\"><i>
+		&lt;form action=\"".WEB_LINKS_INDEX."\" method=\"post\"&gt;<br>\n
+		&nbsp;&nbsp;&lt;input type=\"hidden\" name=\"lid\" value=\"".$lid."\"&gt;<br>\n
+		&nbsp;&nbsp;&lt;input type=\"hidden\" name=\"l_op\" value=\"ratelink\"&gt;<br>\n
+		&nbsp;&nbsp;&lt;input type=\"submit\" value=\""._RATEIT."\"&gt;<br>\n
+		&lt;/form&gt;\n
+		</i></td></tr></table>
+		<br><br>
+		<b>3) "._REMOTEFORM."</b><br><br>
+		"._PROMOTE04."
+		<div class='center'>
+		<form method=\"post\" action=\"".WEB_LINKS_INDEX."\">
+		<table align=\"center\" border=\"0\" width=\"175\" cellspacing=\"0\" cellpadding=\"0\">
+		<tr><td align=\"center\"><b>"._VOTE4THISSITE."</b></a></td></tr>
+		<tr><td>
+		<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">
+		<tr><td valign=\"top\">
+			<select name=\"rating\">
+			<option selected>--</option>
+			<option>10</option>
+			<option>9</option>
+			<option>8</option>
+			<option>7</option>
+			<option>6</option>
+			<option>5</option>
+			<option>4</option>
+			<option>3</option>
+			<option>2</option>
+			<option>1</option>
+			</select>
+		</td><td valign=\"top\">
+			<input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\">
+			<input type=\"hidden\" name=\"ratinguser\" value=\"outside\">
+			<input type=\"hidden\" name=\"op value=\"addrating\">
+			<input type=\"submit\" value=\""._LINKVOTE."\">
+		</td></tr></table>
+		</td></tr></table></form>
+		<br>"._HTMLCODE3."<br><br></div>
+		<blockquote><i>
+		&lt;form method=\"post\" action=\"".WEB_LINKS_INDEX."\"&gt;<br>
+			&lt;table align=\"center\" border=\"0\" width=\"175\" cellspacing=\"0\" cellpadding=\"0\"&gt;<br>
+			&lt;tr&gt;&lt;td align=\"center\"&gt;&lt;b&gt;"._VOTE4THISSITE."&lt;/b&gt;&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;<br>
+			&lt;tr&gt;&lt;td&gt;<br>
+			&lt;table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\"&gt;<br>
+				&lt;tr&gt;&lt;td valign=\"top\"&gt;<br>
+				&lt;select name=\"rating\"&gt;<br>
+				&lt;option selected&gt;--&lt;/option&gt;<br>
+				&lt;option&gt;10&lt;/option&gt;<br>
+				&lt;option&gt;9&lt;/option&gt;<br>
+				&lt;option&gt;8&lt;/option&gt;<br>
+				&lt;option&gt;7&lt;/option&gt;<br>
+				&lt;option&gt;6&lt;/option&gt;<br>
+				&lt;option&gt;5&lt;/option&gt;<br>
+				&lt;option&gt;4&lt;/option&gt;<br>
+				&lt;option&gt;3&lt;/option&gt;<br>
+				&lt;option&gt;2&lt;/option&gt;<br>
+				&lt;option&gt;1&lt;/option&gt;<br>
+				&lt;/select&gt;<br>
+			&lt;/td&gt;&lt;td valign=\"top\"&gt;<br>
+				&lt;input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\"&gt;<br>
+				&lt;input type=\"hidden\" name=\"ratinguser\" value=\"outside\"&gt;<br>
+				&lt;input type=\"hidden\" name=\"l_op\" value=\"addrating\"&gt;<br>
+				&lt;input type=\"submit\" value=\""._LINKVOTE."\"&gt;<br>
+			&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;<br>
+			&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;<br>
+		&lt;/form&gt;<br>
+		</i></blockquote>
+		<br><br><div class='center'>
+		"._PROMOTE05."<br><br>
+		- $sitename "._STAFF."
+		<br><br></div>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];
+		 
         e107::getRender()->tablerender($caption, $text);
     } 
     public function viewlinkeditorial($lid)
@@ -530,7 +700,7 @@
 		$text = $this->menu($mainlink);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><font class=\"title\"><b>"._LINKSMAINCAT."</b></font></div><br>";
+		$text .= "<div class='center'><span class=\"title\"><b>"._LINKSMAINCAT."</b></span></div><br>";
 		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";	
 
 		$result = e107::getDB()->gen("SELECT cid, title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES."  WHERE parentid='0' ORDER BY title");
@@ -540,10 +710,10 @@
 			$cid = $row['cid'];
 			$title = e107::getParser()->toHTML($row['title'], "", "TITLE");
 			$cdescription = e107::getParser()->toHTML($row['cdescription'], "", "DESCRIPTION");
-			$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></font>";
+			$text .= "<td><span class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></span>";
 			$text .= $this->categorynewlinkgraphic($cid);
 			if ($cdescription) {
-				$text .= "<br><font class=\"content\">".$cdescription."</font><br>";
+				$text .= "<br><span class=\"content\">".$cdescription."</span><br>";
 			} else {
 				$text .= "<br>";
 			}
@@ -556,7 +726,7 @@
 				if ($space>0) {
 					$text .= ", ";
 				}
-				$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></font>";
+				$text .= "<span class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></span>";
 				$space++;
 			}
 			if ($count<1) {
@@ -581,7 +751,7 @@
 		$result4 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
 		$catrow = e107::getDB()->fetch($result4);
 		$catnum = $catrow['numrows'];
-		$text .= "<br><br><center><font class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKS." "._AND." <b>".$catnum."</b> "._CATEGORIES." "._INDB."</font></center>";
+		$text .= "<br><br><center><span class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKS." "._AND." <b>".$catnum."</b> "._CATEGORIES." "._INDB."</span></center>";
 		$text .= $this->plugTemplates['CLOSE_TABLE'];		
 		 
 		$caption = ''; 

@@ -1,5 +1,6 @@
 <?php 
  
+ 
   /* TODO: REPLACE WITH E107 core functions if they are available */
 
 function un_htmlspecialchars($string, $mode = 0) {
