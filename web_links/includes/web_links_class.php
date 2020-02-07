@@ -16,7 +16,50 @@
  
     public function AddLink()
 	{
-        $text =  "AddLink in progress";
+		global $db, $user, $user_addlink, $links_anonaddlinklock, $module_name;
+		include("header.php");
+		$mainlink = 1;
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		echo "<div class='center'><font class=\"title\"><b>"._ADDALINK."</b></font></div><br><br>";
+		if ((is_user($user) && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+			echo "<b>"._INSTRUCTIONS.":</b><br>"
+			."<span class='big'>&middot;</span> "._SUBMITONCE."<br>"
+			."<span class='big'>&middot;</span> "._POSTPENDING."<br>"
+			."<span class='big'>&middot;</span> "._USERANDIP."<br>"
+			."<form method=\"post\" action=\"modules.php?name=".$module_name."&amp;l_op=Add\">"
+			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
+			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
+			echo _CATEGORY.": <select name=\"cat\">";
+			$result = $db->sql_query("SELECT cid, title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid,title");
+				while ($row = $db->sql_fetchrow($result)) {
+					$cid2 = $row['cid'];
+					$ctitle2 = stripslashes(check_html($row['title'], "nohtml"));
+					$parentid2 = $row['parentid'];
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					echo "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+			$db->sql_freeresult($result);
+			echo "</select><br><br>"
+			._LDESCRIPTION."<br><textarea name=\"description\" id=\"weblinks_submit\" cols=\"70\" rows=\"15\"></textarea><br><br><br>"
+			._YOURNAME.": <input type=\"text\" name=\"auth_name\" size=\"30\" maxlength=\"60\"><br>"
+			._YOUREMAIL.": <input type=\"text\" name=\"email\" size=\"30\" maxlength=\"60\"><br><br>"
+			."<input type=\"hidden\" name=\"l_op\" value=\"Add\">"
+			."<input type=\"submit\" value=\""._ADDURL."\"> "._GOBACK."<br><br>"
+			."</form>";
+		}else {
+			echo "<div class='center'>"._LINKSNOTUSER1."<br>"
+			._LINKSNOTUSER2."<br><br>"
+			._LINKSNOTUSER3."<br>"
+			._LINKSNOTUSER4."<br>"
+			._LINKSNOTUSER5."<br>"
+			._LINKSNOTUSER6."<br>"
+			._LINKSNOTUSER7."<br><br>"
+			._LINKSNOTUSER8."</div>";
+		}
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
 	}
 	
@@ -90,62 +133,42 @@
     }	
     public function NewLinksDate($selectdate)
 	{
-        $text =  "NewLinksDate in progress";
-        e107::getRender()->tablerender($caption, $text);
-    } 
-    public function TopRated($ratenum, $ratetype) 
-	{
-		global $db, $admin, $module_name, $user, $toplinks, $mainvotedecimal, $toplinkspercentrigger, $linkvotemin;
+		global $db, $module_name, $admin, $user, $mainvotedecimal;
+		$admin = base64_decode($admin);
+		$admin = addslashes($admin);
+		$admin = explode(":", $admin);
+		$aid = $admin[0];
+		$result = $db->sql_query("SELECT radminsuper FROM ".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$radminsuper = $row['radminsuper'];
+		$dateDB = (date("d-M-Y", $selectdate));
+		$dateView = (date("F d, Y", $selectdate));
 		include("header.php");
-		//include("modules/".$module_name."/l_config.php");
 		menu(1);
 		echo "<br>";
 		OpenTable();
-		echo "<table border=\"0\" width=\"100%\"><tr><td align=\"center\">";
-			if ($ratenum != "" && $ratetype != "") {
-				$toplinks = $ratenum;
-				if ($ratetype == "percent") {
-				$toplinkspercentrigger = 1;
-				}
-			}
-			if ($toplinkspercentrigger == 1) {
-				$toplinkspercent = $toplinks;
-				$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE linkratingsummary <> '0'");
-				$totalrow = $db->sql_fetchrow($totalresult);
-				$db->sql_freeresult($totalresult);
-				$totalratedlinks = $totalrow['numrows'];
-				$toplinks = $toplinks / 100;
-				$toplinks = $totalratedlinks * $toplinks;
-				$toplinks = round($toplinks);
-			}
-			if ($toplinkspercentrigger == 1) {
-				echo "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".$toplinkspercent."% ("._OF." ".$totalratedlinks." "._TRATEDLINKS.")</b></font></div><br>";
-			} else {
-				echo "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".un_htmlentities($toplinks)." </b></font></div><br>";
-			}
-		echo "</td></tr>"
-		."<tr><td><div class='center'>"._NOTE." ".$linkvotemin." "._TVOTESREQ."<br>"
-		._SHOWTOP.":  [ <a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
-		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
-		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
-		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
-		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
-		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br><br></td></tr>";
-		$result = $db->sql_query("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM ".UN_TABLENAME_LINKS_LINKS." ll, ".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid AND ll.linkratingsummary <> 0 AND ll.totalvotes >= ".$linkvotemin." ORDER BY ll.linkratingsummary DESC LIMIT 0,".$toplinks);
-		echo "<tr><td>";
-			while ($row = $db->sql_fetchrow($result)) {
-				$lid = $row['lid'];
-				$cid = $row['cid'];
-				$sid = $row['sid'];
-				$title = stripslashes(check_html($row['title'], "nohtml"));
-				$description = stripslashes($row['description']);
-				$time = $row['date'];
-				$hits = $row['hits'];
-				$linkratingsummary = $row['linkratingsummary'];
-				$totalvotes = $row['totalvotes'];
-				$totalcomments = $row['totalcomments'];
+		$newlinkDB = Date("Y-m-d", $selectdate);
+		$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE date LIKE '%".$newlinkDB."%'");
+		$totalrow = $db->sql_fetchrow($totalresult);
+		$db->sql_freeresult($totalresult);
+		$totallinks = $totalrow['numrows'];
+		echo "<font class=\"option\"><b>".un_convert_time_by_locale($dateView, "downloads")." - ".$totallinks." "._NEWLINKS2."</b></font>"
+		."<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><font class=\"content\">";
+		$result2 = $db->sql_query("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM ".UN_TABLENAME_LINKS_LINKS." ll, ".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid AND ll.date LIKE '%".$newlinkDB."%' ORDER BY ll.title ASC");
+			while ($row2 = $db->sql_fetchrow($result2)) {
+				$lid = $row2['lid'];
+				$cid = $row2['cid'];
+				$sid = $row2['sid'];
+				$title = stripslashes(check_html($row2['title'], "nohtml"));
+				$description = stripslashes($row2['description']);
+				$time = $row2['date'];
+				$hits = $row2['hits'];
+				$linkratingsummary = $row2['linkratingsummary'];
+				$totalvotes = $row2['totalvotes'];
+				$totalcomments = $row2['totalcomments'];
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-				$ctitle = stripslashes(check_html($row['cat_title'], "nohtml"));
+				$ctitle = stripslashes(check_html($row2['cat_title'], "nohtml"));
 				if (is_admin($admin)) {
 					echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
@@ -154,25 +177,29 @@
 				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				newlinkgraphic($time);
 				popgraphic($hits);
-				echo "<br>";
-				echo _DESCRIPTION.": ".$description."<br>";
+				echo "<br>"._DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
+				/* INSERT code for *editor review* here */
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
-				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);
 				$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
 				setlocale(LC_TIME, 'en_US');
 				$datetime = ucfirst($datetime);
-				echo _ADDEDON.": ".$datetime." "._HITS.": ".$hits;
-					/* voting & comments stats */
+				echo _ADDEDON.": <b>".$datetime."</b> "._HITS.": ".$hits;
+				/* voting & comments stats */
 					if ($totalvotes == 1) {
 						$votestring = _VOTE;
 					} else {
 						$votestring = _VOTES;
 					}
 					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
-						echo " "._RATING.": <b> ".$linkratingsummary." </b> ("._VOTES.": ".$totalvotes.")";
+						echo " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 					}
-				echo "<br><a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+				echo "<br>";
+					if ($radminsuper == 1) {
+						echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+					}
+				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (is_user($user)) {
 						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 					}
@@ -180,19 +207,120 @@
 						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 					}
 					if ($totalcomments != 0) {
-						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS.": (".$totalcomments.")</a>";
 					}
 				detecteditorial($lid);
 				echo "<br>";
 				$ctitle = getparent($cid,$ctitle);
 				echo _CATEGORY.": ".$ctitle;
 				echo "<br><br>";
-				echo "<br><br>";
 			}
-		$db->sql_freeresult($result);
-		echo "</td></tr></table>";
+		$db->sql_freeresult($result2);
+		echo "</font></td></tr></table>";
 		CloseTable();
 		include("footer.php");
+        e107::getRender()->tablerender($caption, $text);
+    } 
+    public function TopRated($ratenum, $ratetype) 
+	{
+		global  $admin, $module_name, $user, $toplinks, $mainvotedecimal, $toplinkspercentrigger, $linkvotemin;
+		 
+		//include("modules/".$module_name."/l_config.php");
+		$text = $this->menu(1);
+		$text .=  "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+		$text .=  "<table border=\"0\" width=\"100%\"><tr><td align=\"center\">";
+			if ($ratenum != "" && $ratetype != "") {
+				$toplinks = $ratenum;
+				if ($ratetype == "percent") {
+				$toplinkspercentrigger = 1;
+				}
+			}
+			if ($toplinkspercentrigger == 1) {
+				$toplinkspercent = $toplinks;
+				$totalresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE linkratingsummary <> '0'");
+				$totalrow = e107::getDB()->fetch($totalresult);
+				 
+				$totalratedlinks = $totalrow['numrows'];
+				$toplinks = $toplinks / 100;
+				$toplinks = $totalratedlinks * $toplinks;
+				$toplinks = round($toplinks);
+			}
+			if ($toplinkspercentrigger == 1) {
+				$text .=  "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".$toplinkspercent."% ("._OF." ".$totalratedlinks." "._TRATEDLINKS.")</b></font></div><br>";
+			} else {
+				$text .=  "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".un_htmlentities($toplinks)." </b></font></div><br>";
+			}
+		$text .=  "</td></tr>"
+		."<tr><td><div class='center'>"._NOTE." ".$linkvotemin." "._TVOTESREQ."<br>"
+		._SHOWTOP.":  [ <a href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
+		."<a href=\"href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+		."<a href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
+		."<a href=\"".WEB_LINKS_INDEX."?&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
+		."<a href=\"".WEB_LINKS_INDEX."?&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
+		."<a href=\"".WEB_LINKS_INDEX."?&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br><br></td></tr>";
+		$result = e107::getDB()->gen("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM ".UN_TABLENAME_LINKS_LINKS." ll, ".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid AND ll.linkratingsummary <> 0 AND ll.totalvotes >= ".$linkvotemin." ORDER BY ll.linkratingsummary DESC LIMIT 0,".$toplinks);
+		$text .=  "<tr><td>";
+			while ($row = e107::getDB()->fetch($result)) {
+				$lid = $row['lid'];
+				$cid = $row['cid'];
+				$sid = $row['sid'];
+				$title =  e107::getParser()->toHTML($row['title'], "", "TITLE");
+				$description = stripslashes($row['description']);
+				$time = $row['date'];
+				$hits = $row['hits'];
+				$linkratingsummary = $row['linkratingsummary'];
+				$totalvotes = $row['totalvotes'];
+				$totalcomments = $row['totalcomments'];
+				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
+				$ctitle = e107::getParser()->toHTML($row['cat_title'], "", "TITLE");
+				if (ADMIN) {
+					$text .=  "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+				} else {
+					$text .=  "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+				}
+				$text .=  "<a href=\"href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				$text .= $this->newlinkgraphic($time);
+				$text .= $this->popgraphic($hits);
+				$text .=  "<br>";
+				$text .=  _DESCRIPTION.": ".$description."<br>";
+				setlocale (LC_TIME, $locale);
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
+				$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+				setlocale(LC_TIME, 'en_US');
+				$datetime = ucfirst($datetime);
+				$text .=  _ADDEDON.": ".$datetime." "._HITS.": ".$hits;
+					/* voting & comments stats */
+					if ($totalvotes == 1) {
+						$votestring = _VOTE;
+					} else {
+						$votestring = _VOTES;
+					}
+					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
+						$text .=  " "._RATING.": <b> ".$linkratingsummary." </b> ("._VOTES.": ".$totalvotes.")";
+					}
+				$text .=  "<br><a href=\"href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+					if (USER) {
+						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+					}
+					if ($totalvotes != 0) {
+						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+					}
+					if ($totalcomments != 0) {
+						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+					}
+				$text = $this->detecteditorial($lid);
+				$text .=  "<br>";
+				$ctitle = $this->getparent($cid,$ctitle);
+				$text .=  _CATEGORY.": ".$ctitle;
+				$text .=  "<br><br>";
+				$text .=  "<br><br>";
+			}
+		 
+		$text .=  "</td></tr></table>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];
+		 
         e107::getRender()->tablerender($caption, $text);
     } 
     public function MostPopular($ratenum, $ratetype) 
@@ -547,22 +675,177 @@
     }  
     public function brokenlink($lid)
 	{
-        $text =  "brokenlink in progress";
+		global $db, $user, $cookie, $module_name;
+		if (is_user($user)) {
+			include("header.php");
+			//include("modules/$module_name/l_config.php");
+			$user2 = base64_decode($user);
+			$user2 = addslashes($user2);
+			$cookie = explode(":", $user2);
+			cookiedecode($user);
+			$ratinguser = $cookie[1];
+			menu(1);
+			$lid = intval($lid);
+			echo "<br>";
+			$result = $db->sql_query("SELECT cid, title, url, description FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+			$row = $db->sql_fetchrow($result);
+			$db->sql_freeresult($result);
+			$cid = $row['cid'];
+			$title = stripslashes(check_html($row['title'], "nohtml"));
+			$url = stripslashes($row['url']);
+			$description = stripslashes($row['description']);
+			OpenTable();
+			echo "<div class='center'><font class=\"option\"><b>"._REPORTBROKEN."</b></font><br><br><br><font class=\"content\">";
+			echo "<form action=\"modules.php?name=".$module_name."\" method=\"post\">";
+			echo "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
+			echo "<input type=\"hidden\" name=\"cid\" value=\"".$cid."\">";
+			echo "<input type=\"hidden\" name=\"title\" value=\"".$title."\">";
+			echo "<input type=\"hidden\" name=\"url\" value=\"".$url."\">";
+			echo "<input type=\"hidden\" name=\"description\" value=\"".$description."\">";
+			echo "<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">";
+			echo ""._THANKSBROKEN."<br><br>";
+			echo "<input type=\"hidden\" name=\"l_op\" value=\"brokenlinkS\"><input type=\"submit\" value=\""._REPORTBROKEN."\"></div></form>";
+			CloseTable();
+			include("footer.php");
+		} else {
+			Header("Location: modules.php?name=".$module_name);
+		}
         e107::getRender()->tablerender($caption, $text);
-    }  	
+	}  	
+	
     public function modifylinkrequest($lid)
 	{
-        $text =  "modifylinkrequest in progress";
+		global $db, $user, $module_name, $anonymous, $blockunregmodify;
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+			if(is_user($user)) {
+				$user2 = base64_decode($user);
+				$user2 = addslashes($user2);
+				$cookie = explode(":", $user2);
+				cookiedecode($user);
+				$ratinguser = $cookie[1];
+			} else {
+				$ratinguser = $anonymous;
+			}
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		$blocknow = 0;
+		$lid = intval($lid);
+			if ($blockunregmodify == 1 && $ratinguser== $anonymous) {
+				echo "<br><br><div class='center'>"._ONLYREGUSERSMODIFY."</div>";
+				$blocknow = 1;
+			}
+			if ($blocknow != 1) {
+				$result = $db->sql_query("SELECT cid, sid, title, url, description FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+				echo "<div class='center'><font class=\"option\"><b>"._REQUESTLINKMOD."</b></font><br><font class=\"content\">";
+				while($row = $db->sql_fetchrow($result)) {
+					$cid = $row['cid'];
+					$sid = $row['sid'];
+					$title = stripslashes(check_html($row['title'], "nohtml"));
+					$url = stripslashes($row['url']);
+					$description = stripslashes($row['description']);
+					echo "<form action=\"modules.php?name=".$module_name."\" method=\"post\">"
+					._LINKID.": <b>".$lid."</b></div><br><br><br>"
+					._LINKTITLE.":<br><input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br><br>"
+					._URL.":<br><input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
+					._DESCRIPTION.": <br><textarea name=\"description\" id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
+					echo "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
+					."<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">"
+					._CATEGORY.": <select name=\"cat\">";
+					$result2 = $db->sql_query("SELECT cid, title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
+						while($row2 = $db->sql_fetchrow($result2)) {
+							$cid2 = $row2['cid'];
+							$ctitle2 = stripslashes(check_html($row2['title'], "nohtml"));
+							$parentid2 = $row2['parentid'];
+								if ($cid2==$cid) {
+									$sel = "selected";
+								} else {
+									$sel = "";
+								}
+							if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+							echo "<option value=\"".$cid2."\" ".$sel.">".$ctitle2."</option>";
+						}
+					$db->sql_freeresult($result2);
+					echo "</select><br><br>"
+					."<input type=\"hidden\" name=\"l_op\" value=\"modifylinkrequestS\">"
+					."<input type=\"submit\" value=\""._SENDREQUEST."\"></form>";
+				}
+				$db->sql_freeresult($result);
+			}
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     }   	
     public function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmitter)
 	{
-        $text =  "modifylinkrequestS in progress";
+		global $db, $user, $module_name, $anonymous, $blockunregmodify;
+		//include("modules/".$module_name."/l_config.php");
+			if(is_user($user)) {
+				$user2 = base64_decode($user);
+				$user2 = addslashes($user2);
+				$cookie = explode(":", $user2);
+				cookiedecode($user);
+				$ratinguser = $cookie[1];
+			} else {
+				$ratinguser = $anonymous;
+			}
+		$blocknow = 0;
+			if ($blockunregmodify == 1 && $ratinguser == $anonymous) {
+				include("header.php");
+				menu(1);
+				echo "<br>";
+				OpenTable();
+				echo "<div class='center'><font class=\"content\">"._ONLYREGUSERSMODIFY."</font></div>";
+				$blocknow = 1;
+				CloseTable();
+				include("footer.php");
+			}
+			if ($blocknow != 1) {
+				$cat = explode("-", $cat);
+					if ($cat[1]=="") {
+						$cat[1] = 0;
+					}
+				$title = stripslashes(check_html($title, "nohtml"));
+				$url = stripslashes($url);
+				$description = stripslashes($description);
+				$lid = intval($lid);
+				$cat[0] = intval($cat[0]);
+				$cat[1] = intval($cat[1]);
+				$db->sql_query("INSERT INTO ".UN_TABLENAME_LINKS_MODREQUEST." VALUES (NULL, '".$lid."', '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($ratinguser)."', 0)");
+				include("header.php");
+				menu(1);
+				echo "<br>";
+				OpenTable();
+				echo "<div class='center'><font class=\"content\">"._THANKSFORINFO." "._LOOKTOREQUEST."</font></div>";
+				CloseTable();
+				include("footer.php");
+			}
         e107::getRender()->tablerender($caption, $text);
     }    
     public function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter)
 	{
-        $text =  "brokenlinkS in progress";
+		global $db, $user, $cookie, $module_name, $user;
+		if (is_user($user)) {
+			//include("modules/".$module_name."/l_config.php");
+			$user2 = base64_decode($user);
+			$user2 = addslashes($user2);
+			$cookie = explode(":", $user2);
+			cookiedecode($user);
+			$ratinguser = $cookie[1];
+			$lid = intval($lid);
+			$cid = intval($cid);
+			$db->sql_query("INSERT INTO ".UN_TABLENAME_LINKS_MODREQUEST." VALUES (NULL, '".$lid."', '".$cid."', '0', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".$ratinguser."', '1')");
+			include("header.php");
+			menu(1);
+			echo "<br>";
+			OpenTable();
+			echo "<br><div class='center'>"._THANKSFORINFO."<br><br>"._LOOKTOREQUEST."</div><br>";
+			CloseTable();
+			include("footer.php");
+		} else {
+			Header("Location: modules.php?name=".$module_name);
+		}
         e107::getRender()->tablerender($caption, $text);
     }   
     public function visit($lid)
@@ -577,22 +860,309 @@
     }   
     public function Add($title, $url, $auth_name, $cat, $description, $email)
 	{
-        $text =  "Add in progress";
+		global $db, $user, $user_addlink, $links_anonaddlinklock;
+		$result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$numrows = $row['numrows'];
+			if ($numrows>0) {
+				include("header.php");
+				menu(1);
+				echo "<br>";
+				OpenTable();
+				echo "<div class='center'><b>"._LINKALREADYEXT."</b><br><br>"
+				._GOBACK;
+				CloseTable();
+				include("footer.php");
+			} else {
+				if(is_user($user)) {
+					$user2 = base64_decode($user);
+					$user2 = addslashes($user2);
+					$cookie = explode(":", $user2);
+					cookiedecode($user);
+					$submitter = $cookie[1];
+				}
+				// Check if Title exist
+				if ($title=="") {
+					include("header.php");
+					menu(1);
+					echo "<br>";
+					OpenTable();
+					echo "<div class='center'><b>"._LINKNOTITLE."</b><br><br>"
+					._GOBACK;
+					CloseTable();
+					include("footer.php");
+				}
+				// Check if URL exist
+				if ($url=="") {
+					include("header.php");
+					menu(1);
+					echo "<br>";
+					OpenTable();
+					echo "<div class='center'><b>"._LINKNOURL."</b><br><br>"
+					._GOBACK;
+					CloseTable();
+					include("footer.php");
+				}
+				// Check if Description exist
+				if ($description=="") {
+					include("header.php");
+					menu(1);
+					echo "<br>";
+					OpenTable();
+					echo "<div class='center'><b>"._LINKNODESC."</b><br><br>"
+					._GOBACK;
+					CloseTable();
+					include("footer.php");
+				}
+				$cat = explode("-", $cat);
+					if ($cat[1]=="") {
+						$cat[1] = 0;
+					}
+				$title = stripslashes(check_html(FixQuotes($title), "nohtml"));
+				$url = stripslashes(check_html($url, "nohtml"));
+				$description = stripslashes(check_html(FixQuotes($description), "html"));
+				$auth_name = stripslashes(check_html($auth_name, "nohtml"));
+				$email = stripslashes(check_html($email, "nohtml"));
+				$cat[0] = intval($cat[0]);
+				$cat[1] = intval($cat[1]);
+				$num_result = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_NEWLINK." WHERE title='".addslashes($title)."' OR url='".addslashes($url)."' OR description='".addslashes($description)."'");
+				$num_row = $db->sql_fetchrow($num_result);
+				$db->sql_freeresult($num_result);
+				$num_new = $num_row['numrows'];
+					if ($num_new == 0) {
+						if((is_user($user) && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+							$db->sql_query("INSERT INTO ".UN_TABLENAME_LINKS_NEWLINK." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($auth_name)."', '".addslashes($email)."', '".addslashes($submitter)."')");
+						}
+					}
+				include("header.php");
+				menu(1);
+				echo "<br>";
+				OpenTable();
+				echo "<div class='center'><b>"._LINKRECEIVED."</b><br>";
+				if ($email != "") {
+					echo _EMAILWHENADD;
+				} else {
+					echo _CHECKFORIT;
+				}
+				CloseTable();
+				include("footer.php");
+			}
         e107::getRender()->tablerender($caption, $text);
     }	
     public function search($unquery, $min, $orderby, $show)
 	{
-        $text =  "search in progress";
+		global $db, $admin, $bgcolor2, $module_name, $perpage, $linksresults, $mainvotedecimal;
+		//include("modules/".$module_name."/l_config.php");
+		include("header.php");
+		if (!isset($min)) $min = 0;
+		if (!isset($max)) $max = $min+$linksresults;
+			if(isset($orderby)) {
+				$orderby = convertorderbyin($orderby);
+			} else {
+				$orderby = "title ASC";
+			}
+			if ($show != "") {
+				$linksresults = $show;
+			} else {
+				$show = $linksresults;
+			}
+		$query = check_html($query, "nohtml");
+		$query = addslashes($query);
+			if(!is_numeric($linksresults) AND $linksresults==0) {
+				$linksresults=10;
+			}
+		$result = $db->sql_query("SELECT lid, cid, sid, title, url, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM ".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$query."%' OR description LIKE '%".$query."%' ORDER BY ".$orderby." LIMIT ".intval($min).",".$linksresults);
+		
+		$fullcountresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$query."%' OR description LIKE '%".$query."%'");
+		$fullcountrow = $db->sql_fetchrow($fullcountresult);
+		$db->sql_freeresult($fullcountresult);
+		$totalselectedlinks = $fullcountrow['numrows'];
+		$nrows = $db->sql_numrows($result);
+		$x=0;
+		$the_query = stripslashes($query);
+		$the_query = str_replace("\'", "'", $the_query);
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		if ($query != "") {
+			if ($nrows>0) {
+				echo "<font class=\"option\">"._SEARCHRESULTS4.": <b>".$the_query."</b></font><br><br>"
+				."<table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><font class=\"option\"><b>"._USUBCATEGORIES."</b></font></td></tr></table>";
+				$result2 = $db->sql_query("SELECT cid, title FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE title LIKE '%".$query."%' ORDER BY title DESC");
+					while ($row2 = $db->sql_fetchrow($result2)) {
+						$cid = $row2['cid'];
+						$stitle = stripslashes(check_html($row2['title'], "nohtml"));
+						$res = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE cid='".$cid."'");
+						$resrow = $db->sql_fetchrow($res);
+						$db->sql_freeresult($res);
+						$numrows = $resrow['numrows'];
+						$result3 = $db->sql_query("SELECT cid,title,parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$cid."'");
+						$row3 = $db->sql_fetchrow($result3);
+						$db->sql_freeresult($result3);
+						$cid3 = $row3['cid'];
+						$title3 = stripslashes(check_html($row3['title'], "nohtml"));
+						$parentid3 = $row3['parentid'];
+						if ($parentid3>0) $title3 = getparent($parentid3,$title3);
+						$title3 = str_replace($query, "<b>".$query."</b>", $title3);
+						echo "<span class='big'>&middot;</span>&nbsp;<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."\">".$title3."</a> (".$numrows.")<br>";
+					}
+				$db->sql_freeresult($result2);
+				echo "<br><table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><font class=\"option\"><b>"._LINKS."</b></font></td></tr></table>";
+				$orderbyTrans = convertorderbytrans($orderby);
+				echo "<br><font class=\"content\">"._SORTLINKSBY.": "
+				._TITLE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=titleD\">D</a>)"
+				._DATE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=dateD\">D</a>)"
+				._RATING." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=ratingD\">D</a>)"
+				._POPULARITY." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=hitsD\">D</a>)"
+				."<br>"._SITESSORTED.": ".$orderbyTrans."<br><br>";
+					while($row = $db->sql_fetchrow($result)) {
+						$lid = $row['lid'];
+						$cid = $row['cid'];
+						$sid = $row['sid'];
+						$title = stripslashes(check_html($row['title'], "nohtml"));
+						$url = stripslashes($row['url']);
+						$description = stripslashes($row['description']);
+						$time = $row['date'];
+						$hits = $row['hits'];
+						$linkratingsummary = $row['linkratingsummary'];
+						$totalvotes = $row['totalvotes'];
+						$totalcomments = $row['totalcomments'];
+						$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
+						$title = str_replace($query, "<b>".$query."</b>", $title);
+						if (is_admin($admin)) {
+							echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+						} else {
+							echo "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+						}
+						echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+						newlinkgraphic($time);
+						popgraphic($hits);
+						echo "<br>";
+						$description = str_replace($query, "<b>".$query."</b>", $description);
+						echo _DESCRIPTION.": ".$description."<br>";
+						setlocale (LC_TIME, $locale);
+						//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+						preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);				
+						$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+						setlocale(LC_TIME, 'en_US');
+						$datetime = ucfirst($datetime);
+						echo _ADDEDON.": ".$datetime." "._HITS.": ".$hits;
+						/* voting & comments stats */
+							if ($totalvotes == 1) {
+								$votestring = _VOTE;
+							} else {
+								$votestring = _VOTES;
+							}
+							if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
+								echo " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
+							}
+						echo "<br><a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+							if ($totalvotes != 0) {
+								echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+							}
+							if ($totalcomments != 0) {
+								echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+							}
+						detecteditorial($lid);
+						echo "<br>";
+						$result4 = $db->sql_query("SELECT cid, title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$cid."'");
+						$row4 = $db->sql_fetchrow($result4);
+						$cid3 = $row4['cid'];
+						$title3 = stripslashes(check_html($row4['title'], "nohtml"));
+						$parentid3 = $row4['parentid'];
+							if ($parentid3>0) $title3 = getparent($parentid3,$title3);
+								echo _CATEGORY.": ".$title3."<br><br>";
+								$x++;
+					}
+				echo "</font>";
+				$orderby = convertorderbyout($orderby);
+			} else {
+				echo "<br><br><div class='center'><font class=\"option\"><b>"._NOMATCHES."</b></font><br><br>"._GOBACK."<br></div>";
+			}
+		$db->sql_freeresult($result);
+		/* Calculates how many pages exist.  Which page one should be on, etc... */
+		$linkpagesint = ($totalselectedlinks / $linksresults);
+		$linkpageremainder = ($totalselectedlinks % $linksresults);
+			if ($linkpageremainder != 0) {
+				$linkpages = ceil($linkpagesint);
+				if ($totalselectedlinks < $linksresults) {
+				$linkpageremainder = 0;
+				}
+			} else {
+				$linkpages = $linkpagesint;
+			}
+			/* Page Numbering */
+			if ($linkpages != 1 && $linkpages != 0) {
+				echo "<br><br>"
+				._SELECTPAGE.": ";
+				$prev = $min-$linksresults;
+					if ($prev>=0) {
+						$leftarrow = "images/left.gif" ;
+						$ThemeSel = get_theme();
+							if (file_exists("themes/".$ThemeSel."/".$leftarrow)) {
+								$leftarrow = "themes/".$ThemeSel."/images/left.gif";
+							} else {
+								$leftarrow = "images/left.gif";
+							}
+					echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+					."<img src=\"".$leftarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._PREVIOUS."\"></a>";
+					}
+				$counter = 1;
+				$currentpage = ($max / $linksresults);
+					while ($counter<=$linkpages ) {
+						$cpage = $counter;
+						$mintemp = ($perpage * $counter) - $linksresults;
+							if ($counter == $currentpage) {
+								echo "<b>".$counter."</b> ";
+							} else {
+								echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
+							}
+						$counter++;
+					}
+				$next=$min+$linksresults;
+					if ($x>=$perpage) {
+						$rightarrow = "images/right.gif";
+						$ThemeSel = get_theme();
+						if (file_exists("themes/".$ThemeSel."/".$rightarrow)) {
+							$rightarrow = "themes/".$ThemeSel."/images/right.gif";
+						} else {
+							$rightarrow = "images/right.gif";
+						}
+						echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+						."<img src=\"".$rightarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._NEXT."\"></a>";
+					}
+			}
+		echo "<br><br><div class='center'><font class=\"content\">"
+		._TRY2SEARCH." \"".$the_query."\" "._INOTHERSENGINES."<br>"
+		."<a target=\"_blank\" href=\"http://www.altavista.com/cgi-bin/query?pg=q&amp;sc=on&amp;hl=on&amp;act=2006&amp;par=0&amp;q=".$the_query."&amp;kl=XX&amp;stype=stext\">Alta Vista</a> - "
+		."<a target=\"_blank\" href=\"http://www.hotbot.com/?MT=".$the_query."&amp;DU=days&amp;SW=web\">HotBot</a> - "
+		."<a target=\"_blank\" href=\"http://www.infoseek.com/Titles?qt=".$the_query."\">Infoseek</a> - "
+		."<a target=\"_blank\" href=\"http://www.dejanews.com/dnquery.xp?QRY=".$the_query."\">Deja News</a> - "
+		."<a target=\"_blank\" href=\"http://www.lycos.com/cgi-bin/pursuit?query=".$the_query."&amp;maxhits=20\">Lycos</a> - "
+		."<a target=\"_blank\" href=\"http://search.yahoo.com/bin/search?p=".$the_query."\">Yahoo</a>"
+		."<br>"
+		."<a target=\"_blank\" href=\"http://es.linuxstart.com/cgi-bin/sqlsearch.cgi?pos=1&amp;query=".$the_query."&amp;language=&amp;advanced=&amp;urlonly=&amp;withid=\">LinuxStart</a> - "
+		."<a target=\"_blank\" href=\"http://search.1stlinuxsearch.com/compass?scope=".$the_query."&amp;ui=sr\">1stLinuxSearch</a> - "
+		."<a target=\"_blank\" href=\"http://www.google.com/search?q=".$the_query."\">Google</a> - "
+		."<a target=\"_blank\" href=\"http://www.linuxlinks.com/cgi-bin/search.cgi?query=".$the_query."&amp;engine=Links\">LinuxLinks</a> - "
+		."<a target=\"_blank\" href=\"http://www.freshmeat.net/search/?q=".$the_query."&amp;section=projects\">Freshmeat</a> - "
+		."<a target=\"_blank\" href=\"http://www.justlinux.com/bin/search.pl?key=".$the_query."\">JustLinux</a>"
+		."</font>";
+		} else {
+			echo "<div class='center'><font class=\"option\"><b>"._NOMATCHES."</b></font></div><br><br>";
+		}
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     }	
     public function rateinfo($lid, $user)
-	{
-		global $db;
+	{ 
 		$lid = intval($lid);
-		$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$lid."'");
-		$result = $db->sql_query("SELECT url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		e107::getDB()->gen("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$lid."'");
+		$result = e107::getDB()->gen("SELECT url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = e107::getDB()->fetch($result);
+		 
 		$url = stripslashes($row['url']);
 		Header("Location: ".$url);
         e107::getRender()->tablerender($caption, $text);
@@ -675,25 +1245,21 @@
     } 
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
-		global $db, $cookie, $user, $module_name, $anonymous, $anonwaitdays, $outsidewaitdays;
+		global  $cookie, $user, $module_name, $anonymous, $anonwaitdays, $outsidewaitdays;
 		$passtest = "yes";
 		include("header.php");
-		//include("modules/".$module_name."/l_config.php");
+		 
 		$ratinglid = intval($ratinglid);
-		completevoteheader();
-			if(is_user($user)) {
-				$user2 = base64_decode($user);
-				$user2 = addslashes($user2);
-				$cookie = explode(":", $user2);
-				cookiedecode($user);
-				$ratinguser = $cookie[1];
+		$text = $this->completevoteheader();
+			if(USER) {
+				$ratinguser = USERNAME;
 			} else if ($ratinguser=="outside") {
 				$ratinguser = "outside";
 			} else {
 				$ratinguser = $anonymous;
 			}
-		/*$result = $db->sql_query("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
-			while ($row = $db->sql_fetchrow($result)) {
+		/*$result = e107::getDB()->gen("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
+			while ($row = e107::getDB()->fetch($result)) {
 				$title = stripslashes(check_html($row['title'], "nohtml"));
 				$ttitle = $title;*/
 				/* Make sure only 1 anonymous from an IP in a single day. */
@@ -704,46 +1270,46 @@
 					/* Check if Rating is Null */
 					if ($rating == "--") {
 						$error = "nullerror";
-						completevote($error);
+						$text .= completevote($error);
 						$passtest = "no";
 					}
 					/* Check if Link POSTER is voting (UNLESS Anonymous users allowed to post) */
 					if ($ratinguser != $anonymous && $ratinguser != "outside") {
-						$result2 = $db->sql_query("SELECT submitter FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
-							while ($row2 = $db->sql_fetchrow($result2)) {
+						$result2 = e107::getDB()->gen("SELECT submitter FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
+							while ($row2 = e107::getDB()->fetch($result2)) {
 								$ratinguserDB = $row2['submitter'];
 									if ($ratinguserDB==$ratinguser) {
 										$error = "postervote";
-										completevote($error);
+										$text .= completevote($error);
 										$passtest = "no";
 									}
 							}
-						$db->sql_freeresult($result2);
+						 
 					}
 					/* Check if REG user is trying to vote twice. */
 					if ($ratinguser != $anonymous && $ratinguser != "outside") {
-						$result3 = $db->sql_query("SELECT ratinguser FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."'");
-							while ($row3 = $db->sql_fetchrow($result3)) {
+						$result3 = e107::getDB()->gen("SELECT ratinguser FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."'");
+							while ($row3 = e107::getDB()->fetch($result3)) {
 								$ratinguserDB = $row3['ratinguser'];
 								if ($ratinguserDB==$ratinguser) {
 									$error = "regflood";
-									completevote($error);
+									$text .= completevote($error);
 									$passtest = "no";
 								}
 							}
-						$db->sql_freeresult($result3);
+						 
 					}
 					/* Check if ANONYMOUS user is trying to vote more than once per day. */
 					if ($ratinguser == $anonymous){
 						$yesterdaytimestamp = (time()-(86400 * $anonwaitdays));
 						$ytsDB = Date("Y-m-d H:i:s", $yesterdaytimestamp);
-						$result4 = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='".$anonymous."' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$anonwaitdays."'");
-						$row4 = $db->sql_fetchrow($result4);
-						$db->sql_freeresult($result4);
+						$result4 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='".$anonymous."' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$anonwaitdays."'");
+						$row4 = e107::getDB()->fetch($result4);
+						 
 						$anonvotecount = $row4['numrows'];
 							if ($anonvotecount >= 1) {
 								$error = "anonflood";
-								completevote($error);
+								$text .= $this->completevote($error);
 								$passtest = "no";
 							}
 					}
@@ -751,13 +1317,13 @@
 					if ($ratinguser=="outside"){
 						$yesterdaytimestamp = (time()-(86400 * $outsidewaitdays));
 						$ytsDB = Date("Y-m-d H:i:s", $yesterdaytimestamp);
-						$result5 = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='outside' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$outsidewaitdays."'");
-						$row5 = $db->sql_fetchrow($result5);
-						$db->sql_freeresult($result5);
+						$result5 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='outside' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$outsidewaitdays."'");
+						$row5 = e107::getDB()->fetch($result5);
+						 
 						$outsidevotecount = $row5['numrows'];
 							if ($outsidevotecount >= 1) {
 								$error = "outsideflood";
-								completevote($error);
+								$text .= completevote($error);
 								$passtest = "no";
 							}
 					}
@@ -765,38 +1331,108 @@
 					if ($passtest == "yes") {
 						$ratingcomments = stripslashes(check_html($ratingcomments, 'nohtml'));
 							if ($comment != "") {
-								update_points(16);
+								$text .= update_points(16);
 							}
-						update_points(15);
+						$text .= update_points(15);
 						/* All is well.  Add to Line Item Rate to DB. */
 						$ratinglid = intval($ratinglid);
 						$rating = intval($rating);
 							if ($rating > 10 || $rating < 1) {
-								header("Location: modules.php?name=".$module_name."&l_op=ratelink&lid=".$ratinglid);
+								header("Location:  ".WEB_LINKS_INDEX."?l_op=ratelink&lid=".$ratinglid);
 								die();
 							}
-						$db->sql_query("INSERT INTO ".UN_TABLENAME_LINKS_VOTEDATA." VALUES (NULL,'".$ratinglid."', '".$ratinguser."', '".$rating."', '".$ip."', '".addslashes($ratingcomments)."', now())");
+						e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_VOTEDATA." VALUES (NULL,'".$ratinglid."', '".$ratinguser."', '".$rating."', '".$ip."', '".addslashes($ratingcomments)."', now())");
 						/* All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB. */
 						/* NOTE: If weight is modified, ALL links need to be refreshed with new weight. */
 						/* Running a SQL statement with your modded calc for ALL links will accomplish this. */
-						$voteresult = $db->sql_query("SELECT rating, ratinguser, ratingcomments FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$ratinglid."'");
-						$totalvotesDB = $db->sql_numrows($voteresult);
-						include ("modules/".$module_name."/voteinclude.php");
-						$db->sql_freeresult($voteresult);
+						$voteresult = e107::getDB()->gen("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$ratinglid."'");
+						$rowresult = e107::getDB()->rows();
+						$totalvotesDB = count($voteresult);   //TODO check
+						include (WEB_LINKS_INDEX."/voteinclude.php");
+		 
 						$lid = intval($lid);
-						$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET linkratingsummary='".$finalrating."',totalvotes='".$totalvotesDB."',totalcomments='".$truecomments."' WHERE lid = '".$ratinglid."'");
+						e107::getDB()->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET linkratingsummary='".$finalrating."',totalvotes='".$totalvotesDB."',totalcomments='".$truecomments."' WHERE lid = '".$ratinglid."'");
 						$error = "none";
-						completevote($error);
+						$text .= $this->completevote($error);
 					}
-			/*}
-		$db->sql_freeresult($result);*/
-		completevotefooter($ratinglid, $ratinguser);
-		include("footer.php");
+			 
+					$text .= $this->completevotefooter($ratinglid, $ratinguser);
+		 
         e107::getRender()->tablerender($caption, $text);
     } 
     public function viewlinkcomments($lid)
 	{
-        $text =  "viewlinkcomments in progress";
+		global $db, $admin, $bgcolor2, $module_name;
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+		menu(1);
+		$lid = intval($lid);
+		$result = $db->sql_query("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$ttitle = stripslashes(check_html($row['title'], "nohtml"));
+		echo "<br>";
+		$result = $db->sql_query("SELECT ratinguser, rating, ratingcomments, ratingtimestamp FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."' AND ratingcomments <> '' ORDER BY ratingtimestamp DESC");
+		$totalcomments = $db->sql_numrows($result);
+		$displaytitle = $ttitle;
+		OpenTable();
+		echo "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></font><br><br>";
+		linkinfomenu($lid);
+		echo "<br><br><br>"._TOTALOF." ".$totalcomments." "._COMMENTS."</font></div><br>"
+		."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"450\">";
+		$x=0;
+			while($row = $db->sql_fetchrow($result)) {
+				$ratinguser = $row['ratinguser'];
+				$rating = $row['rating'];
+				$ratingcomments = $row['ratingcomments'];
+				$ratingtimestamp = $row['ratingtimestamp'];
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $ratingtimestamp, $ratingtime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $ratingtimestamp, $ratingtime);			
+				$ratingtime = strftime("%F",mktime($ratingtime[4],$ratingtime[5],$ratingtime[6],$ratingtime[2],$ratingtime[3],$ratingtime[1]));
+				$date_array = explode("-", $ratingtime);
+				$timestamp = mktime(0, 0, 0, $date_array["1"], $date_array["2"], $date_array["0"]);
+				$formatted_date = date("F j, Y", $timestamp);
+				/* Individual user information */
+				$result2 = $db->sql_query("SELECT rating FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinguser = '".$ratinguser."'");
+				$usertotalcomments = $db->sql_numrows($result2);
+				$useravgrating = 0;
+				while($row2 = $db->sql_fetchrow($result2)) $useravgrating = $useravgrating + $row2['rating'];
+				$db->sql_freeresult($result2);
+				$useravgrating = $useravgrating / $usertotalcomments;
+				$useravgrating = number_format($useravgrating, 1);
+				echo "<tr><td bgcolor=\"".$bgcolor2."\">"
+				."<font class=\"content\"><b> "._USER.": </b><a href=\"modules.php?name=".UN_DIR_YOURACOUNT."&amp;op=userinfo&amp;username=".$ratinguser."\">".$ratinguser."</a></font>"
+				."</td>"
+				."<td bgcolor=\"".$bgcolor2."\">"
+				."<font class=\"content\"><b>"._RATING.": </b>".$rating."</font>"
+				."</td>"
+				."<td bgcolor=\"".$bgcolor2."\" align=\"right\">"
+				."<font class=\"content\">".$formatted_date."</font>"
+				."</td>"
+				."</tr>"
+				."<tr>"
+				."<td valign=\"top\">"
+				."<font class=\"tiny\">"._USERAVGRATING.": ".$useravgrating."</font>"
+				."</td>"
+				."<td valign=\"top\" colspan=\"2\">"
+				."<font class=\"tiny\">"._NUMRATINGS.": ".$usertotalcomments."</font>"
+				."</td>"
+				."</tr>"
+				."<tr>"
+				."<td colspan=\"3\">"
+				."<font class=\"content\">";
+					if (is_admin($admin)) {
+						echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
+					}
+				echo " ".$ratingcomments."</font>"
+				."<br><br><br></td></tr>";
+				$x++;
+			}
+		echo "</table><br><br><div class='center'>";
+		linkfooter($lid);
+		echo "</div>";
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     } 	
     public function outsidelinksetup($lid)
@@ -905,12 +1541,367 @@
     } 
     public function viewlinkeditorial($lid)
 	{
-        $text =  "viewlinkeditorial in progress";
+		global $db, $admin, $module_name;
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+		menu(1);
+		$lid = intval($lid);
+		$result = $db->sql_query("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$ttitle = stripslashes(check_html($row['title'], "nohtml"));
+		$result = $db->sql_query("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM ".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid = '".$lid."'");
+		$recordexist = $db->sql_numrows($result);
+		$displaytitle = $ttitle;
+		echo "<br>";
+		OpenTable();
+		echo "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></font><br>";
+		linkinfomenu($lid);
+			if ($recordexist != 0) {
+				while($row = $db->sql_fetchrow($result)) {
+					$adminid = $row['adminid'];
+					$editorialtimestamp = $row['editorialtimestamp'];
+					$editorialtext = stripslashes($row['editorialtext']);
+					$editorialtitle = stripslashes(check_html($row['editorialtitle'], "nohtml"));
+					//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $editorialtimestamp, $editorialtime);
+					epreg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $editorialtimestamp, $editorialtime);				
+					$editorialtime = strftime("%F",mktime($editorialtime[4],$editorialtime[5],$editorialtime[6],$editorialtime[2],$editorialtime[3],$editorialtime[1]));
+					$date_array = explode("-", $editorialtime);
+					$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']);
+					$formatted_date = date("F j, Y", $timestamp);
+					echo "<br><br>";
+					OpenTable2();
+					echo "<div class='center'><font class=\"option\"><b>'".$editorialtitle."'</b></font></div>"
+					."<div class='center'><font class=\"tiny\">"._EDITORIALBY." ".$adminid." - ".$formatted_date."</font></div><br><br>"
+					.$editorialtext;
+					CloseTable2();
+				}
+			} else {
+				echo "<br><br><div class='center'><font class=\"option\"><b>"._NOEDITORIAL."</b></font></div>";
+			}
+		$db->sql_freeresult($result);
+		echo "<br><br><div class='center'>";
+		linkfooter($lid);
+		echo "</div>";
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     }  
     public function viewlinkdetails($lid)
 	{
-        $text = "viewlinkdetails in progress";
+        	global $db, $admin, $bgcolor1, $bgcolor2, $bgcolor3, $module_name, $anonymous, $useoutsidevoting, $anonweight, $outsideweight, $detailvotedecimal;
+	include("header.php");
+	//include("modules/".$module_name."/l_config.php");
+	menu(1);
+	$lid = intval($lid);
+	$voteresult = $db->sql_query("SELECT rating, ratinguser, ratingcomments FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'");
+	$totalvotesDB = $db->sql_numrows($voteresult);
+	$anonvotes = 0;
+	$anonvoteval = 0;
+	$outsidevotes = 0;
+	$outsidevoteeval = 0;
+	$regvoteval = 0;
+	$topanon = 0;
+	$bottomanon = 11;
+	$topreg = 0;
+	$bottomreg = 11;
+	$topoutside = 0;
+	$bottomoutside = 11;
+	$avv = $rvv = $ovv = array(0,0,0,0,0,0,0,0,0,0,0);
+	$truecomments = $totalvotesDB;
+		while($row = $db->sql_fetchrow($voteresult)) {
+			$ratingDB = $row['rating'];
+			$ratinguserDB = $row['ratinguser'];
+			$ratingcommentsDB = $row['ratingcomments'];
+			if ($ratingcommentsDB=="") $truecomments--;
+				if ($ratinguserDB==$anonymous) {
+					$anonvotes++;
+					$anonvoteval += $ratingDB;
+				}
+				if ($useoutsidevoting == 1) {
+					if ($ratinguserDB=='outside') {
+						$outsidevotes++;
+						$outsidevoteval += $ratingDB;
+					}
+				} else {
+					$outsidevotes = 0;
+				}
+				if ($ratinguserDB!=$anonymous && $ratinguserDB!="outside") {
+					$regvoteval += $ratingDB;
+				}
+				if ($ratinguserDB!=$anonymous && $ratinguserDB!="outside") {
+					if ($ratingDB > $topreg) $topreg = $ratingDB;
+					if ($ratingDB < $bottomreg) $bottomreg = $ratingDB;
+					for ($rcounter=1; $rcounter<11; $rcounter++) if ($ratingDB==$rcounter) $rvv[$rcounter]++;
+				}
+				if ($ratinguserDB==$anonymous) {
+					if ($ratingDB > $topanon) $topanon = $ratingDB;
+					if ($ratingDB < $bottomanon) $bottomanon = $ratingDB;
+					for ($rcounter=1; $rcounter<11; $rcounter++) if ($ratingDB==$rcounter) $avv[$rcounter]++;
+				}
+				if ($ratinguserDB=="outside") {
+					if ($ratingDB > $topoutside) $topoutside = $ratingDB;
+					if ($ratingDB < $bottomoutside) $bottomoutside = $ratingDB;
+					for ($rcounter=1; $rcounter<11; $rcounter++) if ($ratingDB==$rcounter) $ovv[$rcounter]++;
+				}
+		}
+	$db->sql_freeresult($voteresult);
+	$regvotes = $totalvotesDB - $anonvotes - $outsidevotes;
+		if ($totalvotesDB == 0) {
+			$finalrating = 0;
+		} else if ($anonvotes == 0 && $regvotes == 0) {
+			/* Figure Outside Only Vote */
+			$finalrating = $outsidevoteval / $outsidevotes;
+			$finalrating = number_format($finalrating, $detailvotedecimal);
+			$avgOU = $outsidevoteval / $totalvotesDB;
+			$avgOU = number_format($avgOU, $detailvotedecimal);
+		} else if ($outsidevotes == 0 && $regvotes == 0) {
+			/* Figure Anon Only Vote */
+			$finalrating = $anonvoteval / $anonvotes;
+			$finalrating = number_format($finalrating, $detailvotedecimal);
+			$avgAU = $anonvoteval / $totalvotesDB;
+			$avgAU = number_format($avgAU, $detailvotedecimal);
+		} else if ($outsidevotes == 0 && $anonvotes == 0) {
+			/* Figure Reg Only Vote */
+			$finalrating = $regvoteval / $regvotes;
+			$finalrating = number_format($finalrating, $detailvotedecimal);
+			$avgRU = $regvoteval / $totalvotesDB;
+			$avgRU = number_format($avgRU, $detailvotedecimal);
+		} else if ($regvotes == 0 && $useoutsidevoting == 1 && $outsidevotes != 0 && $anonvotes != 0 ) {
+			/* Figure Reg and Anon Mix */
+			$avgAU = $anonvoteval / $anonvotes;
+			$avgOU = $outsidevoteval / $outsidevotes;
+				if ($anonweight > $outsideweight ) {
+					/* Anon is 'standard weight' */
+					$newimpact = $anonweight / $outsideweight;
+					$impactAU = $anonvotes;
+					$impactOU = $outsidevotes / $newimpact;
+					$finalrating = ((($avgOU * $impactOU) + ($avgAU * $impactAU)) / ($impactAU + $impactOU));
+					$finalrating = number_format($finalrating, $detailvotedecimal);
+				} else {
+					/* Outside is 'standard weight' */
+					$newimpact = $outsideweight / $anonweight;
+					$impactOU = $outsidevotes;
+					$impactAU = $anonvotes / $newimpact;
+					$finalrating = ((($avgOU * $impactOU) + ($avgAU * $impactAU)) / ($impactAU + $impactOU));
+					$finalrating = number_format($finalrating, $detailvotedecimal);
+				}
+		} else {
+			/* REG User vs. Anonymous vs. Outside User Weight Calutions */
+			$impact = $anonweight;
+			$outsideimpact = $outsideweight;
+				if ($regvotes == 0) {
+					$avgRU = 0;
+				} else {
+					$avgRU = $regvoteval / $regvotes;
+				}
+				if ($anonvotes == 0) {
+					$avgAU = 0;
+				} else {
+					$avgAU = $anonvoteval / $anonvotes;
+				}
+				if ($outsidevotes == 0 ) {
+					$avgOU = 0;
+				} else {
+					$avgOU = $outsidevoteval / $outsidevotes;
+				}
+			$impactRU = $regvotes;
+			$impactAU = $anonvotes / $impact;
+			$impactOU = $outsidevotes / $outsideimpact;
+			$finalrating = (($avgRU * $impactRU) + ($avgAU * $impactAU) + ($avgOU * $impactOU)) / ($impactRU + $impactAU + $impactOU);
+			$finalrating = number_format($finalrating, $detailvotedecimal);
+		}
+		$avgOU = (empty($avgOU)) ? "" : number_format($avgOU, $detailvotedecimal);
+		$avgRU = (empty($avgRU)) ? "" : number_format($avgRU, $detailvotedecimal);
+		$avgAU = (empty($avgAU)) ? "" : number_format($avgAU, $detailvotedecimal);
+	if ($topanon == 0) $topanon = "";
+	if ($bottomanon == 11) $bottomanon = "";
+	if ($topreg == 0) $topreg = "";
+	if ($bottomreg == 11) $bottomreg = "";
+	if ($topoutside == 0) $topoutside = "";
+	if ($bottomoutside == 11) $bottomoutside = "";
+	$totalchartheight = 70;
+	$chartunits = $totalchartheight / 10;
+	$avvper = $rvvper = $ovvper = $avvpercent = $rvvpercent = $ovvpercent = $avvchartheight = $rvvchartheight = $ovvchartheight = array(0,0,0,0,0,0,0,0,0,0,0);
+	$ovvmultiplier = $rvvmultiplier = $avvmultiplier = 0;
+		for ($rcounter=1; $rcounter<11; $rcounter++) {
+			if ($anonvotes != 0) $avvper[$rcounter] = $avv[$rcounter] / $anonvotes;
+			if ($regvotes != 0) $rvvper[$rcounter] = $rvv[$rcounter] / $regvotes;
+			if ($outsidevotes != 0) $ovvper[$rcounter] = $ovv[$rcounter] / $outsidevotes;
+			$avvpercent[$rcounter] = number_format($avvper[$rcounter] * 100, 1);
+			$rvvpercent[$rcounter] = number_format($rvvper[$rcounter] * 100, 1);
+			$ovvpercent[$rcounter] = number_format($ovvper[$rcounter] * 100, 1);
+			if ($avv[$rcounter] > $avvmultiplier) $avvmultiplier = $avv[$rcounter];
+			if ($rvv[$rcounter] > $rvvmultiplier) $rvvmultiplier = $rvv[$rcounter];
+			if ($ovv[$rcounter] > $ovvmultiplier) $ovvmultiplier = $ovv[$rcounter];
+		}
+	if ($avvmultiplier != 0) $avvmultiplier = 10 / $avvmultiplier;
+	if ($rvvmultiplier != 0) $rvvmultiplier = 10 / $rvvmultiplier;
+	if ($ovvmultiplier != 0) $ovvmultiplier = 10 / $ovvmultiplier;
+	for ($rcounter=1; $rcounter<11; $rcounter++) {
+		$avvchartheight[$rcounter] = ($avv[$rcounter] * $avvmultiplier) * $chartunits;
+		$rvvchartheight[$rcounter] = ($rvv[$rcounter] * $rvvmultiplier) * $chartunits;
+		$ovvchartheight[$rcounter] = ($ovv[$rcounter] * $ovvmultiplier) * $chartunits;
+		if ($avvchartheight[$rcounter]==0) $avvchartheight[$rcounter]=1;
+		if ($rvvchartheight[$rcounter]==0) $rvvchartheight[$rcounter]=1;
+		if ($ovvchartheight[$rcounter]==0) $ovvchartheight[$rcounter]=1;
+	}
+	$res = $db->sql_query("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+	$rowt = $db->sql_fetchrow($res);
+	$db->sql_freeresult($res);
+	$ttitle = stripslashes(check_html($rowt['title'], "nohtml"));
+	echo "<br>";
+	OpenTable();
+	echo "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".$ttitle."</b></font><br><br>";
+	linkinfomenu($lid);
+	echo "<br><br>"._LINKRATINGDET."<br>"
+        ._TOTALVOTES." ".$totalvotesDB."<br>"
+        ._OVERALLRATING.": ".$finalrating."</div><br><br>"
+	."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"455\">"
+	."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\">"
+	."<font class=\"content\"><b>"._REGISTEREDUSERS."</b></font>"
+	."</td></tr>"
+	."<tr>"
+	."<td bgcolor=\"".$bgcolor1."\">"
+        ."<font class=\"content\">"._NUMBEROFRATINGS.": ".$regvotes."</font>"
+	."</td>"
+	."<td rowspan=\"5\" width=\"200\">";
+		if ($regvotes==0) {
+			echo "<div class='center'><font class=\"content\">"._NOREGUSERSVOTES."</font></div>";
+		} else {
+			echo "<table border=\"1\" width=\"200\">"
+			."<tr>"
+			."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+			."</tr>"
+			."<tr>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[1]." "._LVOTES." (".$rvvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[1]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[2]." "._LVOTES." (".$rvvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[2]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[3]." "._LVOTES." (".$rvvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[3]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[4]." "._LVOTES." (".$rvvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[4]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[5]." "._LVOTES." (".$rvvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[5]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[6]." "._LVOTES." (".$rvvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[6]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[7]." "._LVOTES." (".$rvvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[7]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[8]." "._LVOTES." (".$rvvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[8]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[9]." "._LVOTES." (".$rvvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[9]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[10]." "._LVOTES." (".$rvvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[10]."\"></td>"
+			."</tr>"
+			."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
+			."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+			."</tr></table>"
+			."</td></tr></table>";
+		}
+    echo "</td>"
+	."</tr>"
+	."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgRU."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topreg."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomreg."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMOFCOMMENTS.": ".$truecomments."</font></td></tr>"
+	."<tr><td></td></tr>"
+	."<tr><td valign=\"top\" colspan=\"2\"><font class=\"tiny\"><br><br>"._WEIGHNOTE." ".$anonweight." "._TO." 1.</font></td></tr>"
+	."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><font class=\"content\"><b>"._UNREGISTEREDUSERS."</b></font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMBEROFRATINGS.": ".$anonvotes."</font></td>"
+	."<td rowspan=\"5\" width=\"200\">";
+		if ($anonvotes==0) {
+			echo "<div class='center'><font class=\"content\">"._NOUNREGUSERSVOTES."</font></div>";
+		} else {
+			echo "<table border=\"1\" width=\"200\">"
+			."<tr>"
+			."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+			."</tr>"
+			."<tr>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[1]." "._LVOTES." (".$avvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[1]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[2]." "._LVOTES." (".$avvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[2]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[3]." "._LVOTES." (".$avvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[3]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[4]." "._LVOTES." (".$avvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[4]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[5]." "._LVOTES." (".$avvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[5]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[6]." "._LVOTES." (".$avvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[6]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[7]." "._LVOTES." (".$avvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[7]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[8]." "._LVOTES." (".$avvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[8]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[9]." "._LVOTES." (".$avvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[9]."\"></td>"
+			."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[10]." "._LVOTES." (".$avvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[10]."\"></td>"
+			."</tr>"
+			."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
+			."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
+			."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+			."</tr></table>"
+			."</td></tr></table>";
+		}
+	echo "</td>"
+	."</tr>"
+	."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgAU."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topanon."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomanon."</font></td></tr>"
+	."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">&nbsp;</font></td></tr>";
+		if ($useoutsidevoting == 1) {
+			echo "<tr><td valign=\"top\" colspan=\"2\"><font class=\"tiny\"><br><br>"._WEIGHOUTNOTE." ".$outsideweight." "._TO." 1.</font></td></tr>"
+			."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><font class=\"content\"><b>"._OUTSIDEVOTERS."</b></font></td></tr>"
+			."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMBEROFRATINGS.": ".$outsidevotes."</font></td>"
+			."<td rowspan=\"5\" width=\"200\">";
+				if ($outsidevotes==0) {
+					echo "<div class='center'><font class=\"content\">"._NOOUTSIDEVOTES."</font></div>";
+				} else {
+					echo "<table border=\"1\" width=\"200\">"
+					."<tr>"
+					."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+					."</tr>"
+					."<tr>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[1] "._LVOTES." (".$ovvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[1]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[2] "._LVOTES." (".$ovvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[2]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[3] "._LVOTES." (".$ovvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[3]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[4] "._LVOTES." (".$ovvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[4]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[5] "._LVOTES." (".$ovvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[5]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[6] "._LVOTES." (".$ovvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[6]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[7] "._LVOTES." (".$ovvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[7]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[8] "._LVOTES." (".$ovvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[8]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[9] "._LVOTES." (".$ovvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[9]."\"></td>"
+					."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[10] "._LVOTES." (".$ovvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[10]."\"></td>"
+					."</tr>"
+					."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
+					."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
+					."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+					."</tr></table>"
+					."</td></tr></table>";
+				}
+			echo "</td>"
+			."</tr>"
+			."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgOU."</font></td></tr>"
+			."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topoutside."</font></td></tr>"
+			."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomoutside."</font></td></tr>"
+			."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">&nbsp;</font></td></tr>";
+		}
+	echo "</table><br><br><div class='center'>";
+	linkfooter($lid);
+	echo "</div>";
+	CloseTable();
+	include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     } 	
     public function index()
