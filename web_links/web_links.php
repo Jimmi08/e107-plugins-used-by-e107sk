@@ -49,7 +49,7 @@ $web_linksFront = new web_links_front;
 //process URL parameters, just copy, they knew what they did 
 $qry = str_replace('&amp;', '&', e_QUERY);
 $qry_tmp = explode('&', $qry);
-$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype');  
+$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid');  
 
 foreach($qry_tmp as $tmp) {
   $qry_lop = explode('=', $tmp);

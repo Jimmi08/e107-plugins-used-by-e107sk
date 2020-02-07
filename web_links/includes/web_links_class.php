@@ -272,7 +272,7 @@
 		$title = e107::getParser()->toHTML($row_two['title'], "", "TITLE");
 		$parentid = $row_two['parentid'];
 		$title = $this->getparentlink($parentid,$title);
-		$title = "<a href=\"modules.php?name=".$module_name."\">"._MAIN."</a>/".$title;
+		$title = "<a href=\"".WEB_LINKS_FRONTFILE."\">"._MAIN."</a>/".$title;
 		$text .= "<div class='center'><font class=\"option\"><b>"._CATEGORY.": ".$title."</b></font></div><br>";
 		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";
 		$cid = intval($cid);
@@ -283,7 +283,7 @@
 				$cid2 = $row2['cid'];
 				$title2 = e107::getParser()->toHTML($row2['title'], "", "TITLE");
 				$cdescription2 = stripslashes($row2['cdescription']); 
-				$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"modules.php?name=Web_Links&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></font>";
+				$text .= "<td><font class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></font>";
 				$this->categorynewlinkgraphic($cid2);
 				if ($cdescription2) {
 					$text .= " <font class=\"content\">".$cdescription2."</font><br>";
@@ -298,7 +298,7 @@
 							if ($space>0) {
 								$text .= ", ";
 							}
-						$text .= "<font class=\"content\"><a href=\"modules.php?name=$module_name&amp;l_op=viewlink&amp;cid=".$cid3."\">".$title3."</a></font>";
+						$text .= "<font class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid3."\">".$title3."</a></font>";
 						$space++;
 					}
 				 
@@ -322,10 +322,10 @@
 		$text .= "<hr noshade size=\"1\">";
 		$orderbyTrans = $this->convertorderbytrans($orderby);
 		$text .= "<div class='center'><font class=\"content\">"._SORTLINKSBY.": "
-		._TITLE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
-		._DATE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
-		._RATING." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
-		._POPULARITY." (<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
+		._TITLE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
+		._DATE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
+		._RATING." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
+		._POPULARITY." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
 		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></font></div><br><br>";
 			if(!is_numeric($min)){
 				$min=0;
@@ -352,11 +352,11 @@
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				//if (is_admin($admin)) {
 				if (ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
-					$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
-				$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
+				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
 				$this->newlinkgraphic($time);
 				$this->popgraphic($hits);
 				/* INSERT code for *editor review* here */
@@ -382,16 +382,16 @@
 					if ($radminsuper == 1) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 					}
-				$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					//if (is_user($user)) {
 					if (USER) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 					}
 					if ($totalvotes != 0) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 					}
 					if ($totalcomments != 0) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 					}
 				$this->detecteditorial($lid);
 				$text .= "<br><br>";
@@ -417,8 +417,8 @@
 				$text .= _SELECTPAGE.": ";
 				$prev = $min-$perpage;
 					if ($prev>=0) {
-						$leftarrow = "images/left.gif" ;
-						$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">";
+						$leftarrow = WEB_LINKS_APP_ABS."images/left.gif" ;
+						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">";
 						$text .= "<img src=\"".$leftarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._PREVIOUS."\"></a>";
 					}
 				$counter = 1;
@@ -430,7 +430,7 @@
 							if ($counter == $currentpage) {
 								$text .= "<b>".$counter."</b> ";
 							} else {
-								$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
+								$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
 							}
 						$counter++;
 					}
@@ -439,7 +439,7 @@
 					if ($x>=$perpage) {
 						$rightarrow = WEB_LINKS_APP_ABS."images/right.gif";					  
 						 
-						$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">";
+						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">";
 						$text .= "<img src=\"".$rightarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._NEXT."\"></a>";
 					}
 			}
@@ -470,8 +470,13 @@
     }   
     public function visit($lid)
 	{
-        $text =  "visit in progress";
-        e107::getRender()->tablerender($caption, $text);
+		$lid = intval($lid);
+		e107::getDB()->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$lid."'");
+		update_points(14);
+		$result = e107::getDB()->gen("SELECT url FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = e107::getDB()->fetch($result);
+		$url = stripslashes($row['url']);
+		Header("Location: ".$url);
     }   
     public function Add($title, $url, $auth_name, $cat, $description, $email)
 	{

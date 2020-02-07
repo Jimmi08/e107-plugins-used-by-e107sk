@@ -143,3 +143,9 @@ function translate($phrase) {
 	}
 	return $tmp;
 }
+
+
+function update_points($id) {
+	 //reward system
+	 //do nothing for now
+}
