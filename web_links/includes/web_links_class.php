@@ -23,12 +23,12 @@ $text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$text .= "<div class='center'><font class=\"title\"><b>"._ADDALINK."</b></font></div><br><br>";
-		if ((is_user($user) && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+		if ((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
 			$text .= "<b>"._INSTRUCTIONS.":</b><br>"
 			."<span class='big'>&middot;</span> "._SUBMITONCE."<br>"
 			."<span class='big'>&middot;</span> "._POSTPENDING."<br>"
 			."<span class='big'>&middot;</span> "._USERANDIP."<br>"
-			."<form method=\"post\" action=\"modules.php?name=".$module_name."&amp;l_op=Add\">"
+			."<form method=\"post\" action=\"".WEB_LINKS_FRONTFILE."?l_op=Add\">"
 			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
 			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
 			$text .= _CATEGORY.": <select name=\"cat\">";
@@ -37,7 +37,7 @@ $text =$this->menu(1);
 					$cid2 = $row['cid'];
 					$ctitle2 = stripslashes(check_html($row['title'], "nohtml"));
 					$parentid2 = $row['parentid'];
-					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					if ($parentid2 != 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
 					$text .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
 				}
 
@@ -46,7 +46,7 @@ $text =$this->menu(1);
 			._YOURNAME.": <input type=\"text\" name=\"auth_name\" size=\"30\" maxlength=\"60\"><br>"
 			._YOUREMAIL.": <input type=\"text\" name=\"email\" size=\"30\" maxlength=\"60\"><br><br>"
 			."<input type=\"hidden\" name=\"l_op\" value=\"Add\">"
-			."<input type=\"submit\" value=\""._ADDURL."\"> "._GOBACK."<br><br>"
+			."<input type=\"submit\" class='button btn' value=\""._ADDURL."\"> "._GOBACK."<br><br>"
 			."</form>";
 		}else {
 			$text .= "<div class='center'>"._LINKSNOTUSER1."<br>"
@@ -174,7 +174,7 @@ $text =$this->menu(1);
 				} else {
 					$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
-				$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				newlinkgraphic($time);
 				popgraphic($hits);
 				$text .= "<br>"._DESCRIPTION.": ".$description."<br>";
@@ -199,19 +199,19 @@ $text =$this->menu(1);
 					if ($radminsuper == 1) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 					}
-				$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
-					if (is_user($user)) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+					if (USER) {
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 					}
 					if ($totalvotes != 0) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 					}
 					if ($totalcomments != 0) {
-						$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS.": (".$totalcomments.")</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS.": (".$totalcomments.")</a>";
 					}
 				detecteditorial($lid);
 				$text .= "<br>";
-				$ctitle = getparent($cid,$ctitle);
+				$ctitle = $this->getparent($cid,$ctitle);
 				$text .= _CATEGORY.": ".$ctitle;
 				$text .= "<br><br>";
 			}
@@ -254,7 +254,7 @@ $text =$this->menu(1);
 		$text .=  "</td></tr>"
 		."<tr><td><div class='center'>"._NOTE." ".$linkvotemin." "._TVOTESREQ."<br>"
 		._SHOWTOP.":  [ <a href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
-		."<a href=\"href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+		."<a href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
 		."<a href=\"".WEB_LINKS_INDEX."?l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
 		."<a href=\"".WEB_LINKS_INDEX."?&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
 		."<a href=\"".WEB_LINKS_INDEX."?&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
@@ -279,7 +279,7 @@ $text =$this->menu(1);
 				} else {
 					$text .=  "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
-				$text .=  "<a href=\"href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				$text .=  "<a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				$text .= $this->newlinkgraphic($time);
 				$text .= $this->popgraphic($hits);
 				$text .=  "<br>";
@@ -300,15 +300,15 @@ $text =$this->menu(1);
 					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
 						$text .=  " "._RATING.": <b> ".$linkratingsummary." </b> ("._VOTES.": ".$totalvotes.")";
 					}
-				$text .=  "<br><a href=\"href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+				$text .=  "<br><a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
-						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 					}
 					if ($totalvotes != 0) {
-						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 					}
 					if ($totalcomments != 0) {
-						$text .=  " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 					}
 				$text = $this->detecteditorial($lid);
 				$text .=  "<br>";
@@ -420,7 +420,7 @@ $text =$this->menu(1);
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
-				//if (is_user($user)) {
+				//if (isx_user($user)) {
 				if(USER) {	
 					$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 				}
@@ -547,10 +547,10 @@ $text =$this->menu(1);
 		$text .= "<hr noshade size=\"1\">";
 		$orderbyTrans = $this->convertorderbytrans($orderby);
 		$text .= "<div class='center'><span class=\"content\">"._SORTLINKSBY.": "
-		._TITLE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
-		._DATE." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
-		._RATING." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
-		._POPULARITY." (<a href=\"href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
+		._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
+		._DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
+		._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
+		._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
 		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></span></div><br><br>";
 			if(!is_numeric($min)){
 				$min=0;
@@ -608,7 +608,7 @@ $text =$this->menu(1);
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
-					//if (is_user($user)) {
+					//if (isx_user($user)) {
 					if (USER) {
 						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 					}
@@ -676,15 +676,9 @@ $text =$this->menu(1);
     public function brokenlink($lid)
 	{
 		global $db, $user, $cookie, $module_name;
-		if (is_user($user)) {
-			include("header.php");
-			//include("modules/$module_name/l_config.php");
-			$user2 = base64_decode($user);
-			$user2 = addslashes($user2);
-			$cookie = explode(":", $user2);
-			cookiedecode($user);
-			$ratinguser = $cookie[1];
-	$text =$this->menu(1);
+		if (USER) {
+			$ratinguser = USERNAME;
+			$text =$this->menu(1);
 			$lid = intval($lid);
 			$text .= "<br>";
 			$result = e107::getDB()->gen("SELECT cid, title, url, description FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
@@ -696,7 +690,7 @@ $text =$this->menu(1);
 			$description = stripslashes($row['description']);
 			$text .= $this->plugTemplates['OPEN_TABLE'];
 			$text .= "<div class='center'><font class=\"option\"><b>"._REPORTBROKEN."</b></font><br><br><br><font class=\"content\">";
-			$text .= "<form action=\"modules.php?name=".$module_name."\" method=\"post\">";
+			$text .= "<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">";
 			$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 			$text .= "<input type=\"hidden\" name=\"cid\" value=\"".$cid."\">";
 			$text .= "<input type=\"hidden\" name=\"title\" value=\"".$title."\">";
@@ -704,11 +698,11 @@ $text =$this->menu(1);
 			$text .= "<input type=\"hidden\" name=\"description\" value=\"".$description."\">";
 			$text .= "<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">";
 			$text .= ""._THANKSBROKEN."<br><br>";
-			$text .= "<input type=\"hidden\" name=\"l_op\" value=\"brokenlinkS\"><input type=\"submit\" value=\""._REPORTBROKEN."\"></div></form>";
+			$text .= "<input type=\"hidden\" name=\"l_op\" value=\"brokenlinkS\"><input type=\"submit\" class='button btn' value=\""._REPORTBROKEN."\"></div></form>";
 			$text .= $this->plugTemplates['CLOSE_TABLE'];
 	 
 		} else {
-			Header("Location: modules.php?name=".$module_name);
+			Header("Location: ".WEB_LINKS_FRONTFILE);
 		}
         e107::getRender()->tablerender($caption, $text);
 	}  	
@@ -716,14 +710,8 @@ $text =$this->menu(1);
     public function modifylinkrequest($lid)
 	{
 		global $db, $user, $module_name, $anonymous, $blockunregmodify;
-		include("header.php");
-		//include("modules/".$module_name."/l_config.php");
-			if(is_user($user)) {
-				$user2 = base64_decode($user);
-				$user2 = addslashes($user2);
-				$cookie = explode(":", $user2);
-				cookiedecode($user);
-				$ratinguser = $cookie[1];
+			if(USER) {
+				$ratinguser = USERNAME;
 			} else {
 				$ratinguser = $anonymous;
 			}
@@ -745,31 +733,31 @@ $text =$this->menu(1);
 					$title = stripslashes(check_html($row['title'], "nohtml"));
 					$url = stripslashes($row['url']);
 					$description = stripslashes($row['description']);
-					$text .= "<form action=\"modules.php?name=".$module_name."\" method=\"post\">"
+					$text .= "<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
 					._LINKID.": <b>".$lid."</b></div><br><br><br>"
-					._LINKTITLE.":<br><input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br><br>"
-					._URL.":<br><input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
-					._DESCRIPTION.": <br><textarea name=\"description\" id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
+					._LINKTITLE.":<br><input type=\"text\" class='form-control tbox' name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br><br>"
+					._URL.":<br><input type=\"text\" class='form-control tbox' name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
+					._DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
 					$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
 					."<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">"
-					._CATEGORY.": <select name=\"cat\">";
+					._CATEGORY.": <select name=\"cat\" class='form-control tbox' >";
 					$result2 = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
-						while($row2 = e107::getDB()->fetch($result2)) {
+						while($row2 = e107::getDB()->fetch($result2)) {   
 							$cid2 = $row2['cid'];
-							$ctitle2 = stripslashes(check_html($row2['title'], "nohtml"));
+							$ctitle2 = stripslashes(check_html($row2['title'], "nohtml"));   
 							$parentid2 = $row2['parentid'];
-								if ($cid2==$cid) {
-									$sel = "selected";
-								} else {
-									$sel = "";
-								}
-							if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+							if ($cid2==$cid) {
+								$sel = "selected";
+							} else {
+								$sel = "";
+							}
+							if ($parentid2 > 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
 							$text .= "<option value=\"".$cid2."\" ".$sel.">".$ctitle2."</option>";
 						}
  
 					$text .= "</select><br><br>"
 					."<input type=\"hidden\" name=\"l_op\" value=\"modifylinkrequestS\">"
-					."<input type=\"submit\" value=\""._SENDREQUEST."\"></form>";
+					."<input type=\"submit\" class='button btn' value=\""._SENDREQUEST."\"></form>";
 				}
 	
 			}
@@ -781,12 +769,8 @@ $text =$this->menu(1);
 	{
 		global $db, $user, $module_name, $anonymous, $blockunregmodify;
 		//include("modules/".$module_name."/l_config.php");
-			if(is_user($user)) {
-				$user2 = base64_decode($user);
-				$user2 = addslashes($user2);
-				$cookie = explode(":", $user2);
-				cookiedecode($user);
-				$ratinguser = $cookie[1];
+			if(USER) {
+				$ratinguser = USERNAME;
 			} else {
 				$ratinguser = $anonymous;
 			}
@@ -826,13 +810,8 @@ $text =$this->menu(1);
     public function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter)
 	{
 		global $db, $user, $cookie, $module_name, $user;
-		if (is_user($user)) {
-			//include("modules/".$module_name."/l_config.php");
-			$user2 = base64_decode($user);
-			$user2 = addslashes($user2);
-			$cookie = explode(":", $user2);
-			cookiedecode($user);
-			$ratinguser = $cookie[1];
+		if (USERNAME) {
+			$ratinguser = USERNAME;
 			$lid = intval($lid);
 			$cid = intval($cid);
 			e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_MODREQUEST." VALUES (NULL, '".$lid."', '".$cid."', '0', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".$ratinguser."', '1')");
@@ -844,7 +823,7 @@ $text =$this->menu(1);
 			$text .= $this->plugTemplates['CLOSE_TABLE'];
 	 
 		} else {
-			Header("Location: modules.php?name=".$module_name);
+			Header("Location: ".WEB_LINKS_INDEX);
 		}
         e107::getRender()->tablerender($caption, $text);
     }   
@@ -875,12 +854,8 @@ $text =$this->menu(1);
 				$text .= $this->plugTemplates['CLOSE_TABLE'];
 		 
 			} else {
-				if(is_user($user)) {
-					$user2 = base64_decode($user);
-					$user2 = addslashes($user2);
-					$cookie = explode(":", $user2);
-					cookiedecode($user);
-					$submitter = $cookie[1];
+				if(USER) {
+					$submitter = USERNAME;
 				}
 				// Check if Title exist
 				if ($title=="") {
@@ -931,7 +906,7 @@ $text =$this->menu(1);
  
 				$num_new = $num_row['numrows'];
 					if ($num_new == 0) {
-						if((is_user($user) && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+						if((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
 							e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_NEWLINK." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($auth_name)."', '".addslashes($email)."', '".addslashes($submitter)."')");
 						}
 					}
@@ -1003,18 +978,18 @@ $text =$this->menu(1);
 						$cid3 = $row3['cid'];
 						$title3 = stripslashes(check_html($row3['title'], "nohtml"));
 						$parentid3 = $row3['parentid'];
-						if ($parentid3>0) $title3 = getparent($parentid3,$title3);
+						if ($parentid3>0) $title3 = $this->getparent($parentid3,$title3);
 						$title3 = str_replace($query, "<b>".$query."</b>", $title3);
-						$text .= "<span class='big'>&middot;</span>&nbsp;<a href=\"modules.php?name=".$module_name."&amp;l_op=viewlink&amp;cid=".$cid."\">".$title3."</a> (".$numrows.")<br>";
+						$text .= "<span class='big'>&middot;</span>&nbsp;<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$title3."</a> (".$numrows.")<br>";
 					}
  
 				$text .= "<br><table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><font class=\"option\"><b>"._LINKS."</b></font></td></tr></table>";
 				$orderbyTrans = convertorderbytrans($orderby);
 				$text .= "<br><font class=\"content\">"._SORTLINKSBY.": "
-				._TITLE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=titleA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=titleD\">D</a>)"
-				._DATE." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=dateA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=dateD\">D</a>)"
-				._RATING." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=ratingD\">D</a>)"
-				._POPULARITY." (<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;orderby=hitsD\">D</a>)"
+				._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=titleD\">D</a>)"
+				._DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=dateD\">D</a>)"
+				._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=ratingD\">D</a>)"
+				._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=hitsD\">D</a>)"
 				."<br>"._SITESSORTED.": ".$orderbyTrans."<br><br>";
 					while($row = e107::getDB()->fetch($result)) {
 						$lid = $row['lid'];
@@ -1035,7 +1010,7 @@ $text =$this->menu(1);
 						} else {
 							$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 						}
-						$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 						newlinkgraphic($time);
 						popgraphic($hits);
 						$text .= "<br>";
@@ -1057,12 +1032,12 @@ $text =$this->menu(1);
 							if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
 								$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 							}
-						$text .= "<br><a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+						$text .= "<br><a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 							if ($totalvotes != 0) {
-								$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+								$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 							}
 							if ($totalcomments != 0) {
-								$text .= " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+								$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 							}
 						detecteditorial($lid);
 						$text .= "<br>";
@@ -1071,7 +1046,7 @@ $text =$this->menu(1);
 						$cid3 = $row4['cid'];
 						$title3 = stripslashes(check_html($row4['title'], "nohtml"));
 						$parentid3 = $row4['parentid'];
-							if ($parentid3>0) $title3 = getparent($parentid3,$title3);
+							if ($parentid3>0) $title3 = $this->getparent($parentid3,$title3);
 								$text .= _CATEGORY.": ".$title3."<br><br>";
 								$x++;
 					}
@@ -1105,7 +1080,7 @@ $text =$this->menu(1);
 							} else {
 								$leftarrow = "images/left.gif";
 							}
-					$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+					$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">"
 					."<img src=\"".$leftarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._PREVIOUS."\"></a>";
 					}
 				$counter = 1;
@@ -1116,7 +1091,7 @@ $text =$this->menu(1);
 							if ($counter == $currentpage) {
 								$text .= "<b>".$counter."</b> ";
 							} else {
-								$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
+								$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
 							}
 						$counter++;
 					}
@@ -1129,7 +1104,7 @@ $text =$this->menu(1);
 						} else {
 							$rightarrow = "images/right.gif";
 						}
-						$text .= "<a href=\"modules.php?name=".$module_name."&amp;l_op=search&amp;query=".$the_query."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">"
 						."<img src=\"".$rightarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._NEXT."\"></a>";
 					}
 			}
@@ -1221,7 +1196,7 @@ $text =$this->menu(1);
 		."<option>2</option>"
 		."<option>1</option>"
 		."</select></span>"
-		." <span class=\"content\"><input class='button tbox btn' type=\"submit\" value=\""._RATETHISSITE."\"></span>"
+		." <span class=\"content\"><input class='button btn' type=\"submit\" value=\""._RATETHISSITE."\"></span>"
 		."<br><br>";
 		// karma system, not banned users TODO
 		//$result = e107::getDB()->gen("SELECT karma FROM #".UN_TABLENAME_USERS." WHERE user_id='".intval($cookie[0])."'");
@@ -1460,7 +1435,7 @@ $text =$this->menu(1);
 		<form action=\"".WEB_LINKS_INDEX."\" method=\"post\">\n
 			<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">\n
 			<input type=\"hidden\" name=\"l_op\" value=\"ratelink\">\n
-			<input type=\"submit\" value=\""._RATEIT."\">\n
+			<input type=\"submit\" class='button btn' value=\""._RATEIT."\">\n
 		</form>\n
 		</div>
 		<div class='center'>"._HTMLCODE2."</div><br><br>
@@ -1468,7 +1443,7 @@ $text =$this->menu(1);
 		&lt;form action=\"".WEB_LINKS_INDEX."\" method=\"post\"&gt;<br>\n
 		&nbsp;&nbsp;&lt;input type=\"hidden\" name=\"lid\" value=\"".$lid."\"&gt;<br>\n
 		&nbsp;&nbsp;&lt;input type=\"hidden\" name=\"l_op\" value=\"ratelink\"&gt;<br>\n
-		&nbsp;&nbsp;&lt;input type=\"submit\" value=\""._RATEIT."\"&gt;<br>\n
+		&nbsp;&nbsp;&lt;input type=\"submit\" class='button btn' value=\""._RATEIT."\"&gt;<br>\n
 		&lt;/form&gt;\n
 		</i></td></tr></table>
 		<br><br>
@@ -1498,7 +1473,7 @@ $text =$this->menu(1);
 			<input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\">
 			<input type=\"hidden\" name=\"ratinguser\" value=\"outside\">
 			<input type=\"hidden\" name=\"op value=\"addrating\">
-			<input type=\"submit\" value=\""._LINKVOTE."\">
+			<input type=\"submit\" class='button btn' value=\""._LINKVOTE."\">
 		</td></tr></table>
 		</td></tr></table></form>
 		<br>"._HTMLCODE3."<br><br></div>
@@ -1526,7 +1501,7 @@ $text =$this->menu(1);
 				&lt;input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\"&gt;<br>
 				&lt;input type=\"hidden\" name=\"ratinguser\" value=\"outside\"&gt;<br>
 				&lt;input type=\"hidden\" name=\"l_op\" value=\"addrating\"&gt;<br>
-				&lt;input type=\"submit\" value=\""._LINKVOTE."\"&gt;<br>
+				&lt;input type=\"submit\" class='button btn' value=\""._LINKVOTE."\"&gt;<br>
 			&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;<br>
 			&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;<br>
 		&lt;/form&gt;<br>

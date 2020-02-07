@@ -316,5 +316,49 @@ trait WebLinksTrait
 		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | <a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
 		$text .= $this->linkfooterchild($lid);
 	}
+
+	function convertorderbyin($orderby) {
+		global $module_name;
+	
+		switch($orderby) {
+		
+			case "titleA":
+				return "title ASC";
+			break;
+			
+			case "dateA":
+				return "date ASC";
+			break;
+			
+			case "hitsA":
+				return "hits ASC";
+			break;
+			
+			case "ratingA":
+				return "linkratingsummary ASC";
+			break;
+			
+			case "titleD":
+				return "title DESC";
+			break;
+			
+			case "dateD":
+				return "date DESC";
+			break;
+			
+			case "hitsD":
+				return "hits DESC";
+			break;
+			
+			case "ratingD":
+				return "linkratingsummary DESC";
+			break;
+			
+			default:
+				Header("Location: ".WEB_LINKS_INDEX);
+				exit();
+			break;
+		}
+	}
 	
 }

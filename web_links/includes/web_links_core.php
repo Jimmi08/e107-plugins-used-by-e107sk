@@ -150,3 +150,16 @@ function update_points($id) {
 	 //reward system
 	 //do nothing for now
 }
+
+
+function check_html($str, $strip = "") {
+	 
+	
+	if ($strip == "nohtml") {
+
+	    $str = e107::getParser()->toHTML($str, "", "TITLE");
+	}	 
+	
+	return $str;
+
+}
