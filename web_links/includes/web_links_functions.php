@@ -10,7 +10,10 @@ trait WebLinksTrait
 
 
 	function menu($mainlink) {
-		global  $user, $user_addlink, $links_anonaddlinklock;
+		 
+		$links_anonaddlinklock = e107::getPlugConfig('web_links')->getPref('links_anonaddlinklock');
+		$user_addlink = $this->plugPrefs['user_addlink'];
+
 		$text = ''; 
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		
@@ -74,9 +77,9 @@ trait WebLinksTrait
 	}
 
 	function popgraphic($hits) {
-		global $popular;
+		$popular = e107::getPlugConfig('web_links')->getPref('popular');
 		$module_name =  WEB_LINKS_APP;
-		if ($hits>=$popular) {
+		if ($hits<=$popular) {
 			$text = "&nbsp;<img src=\"".$module_name."/images/pop.gif\" alt=\""._POPULAR."\">";
 		}
 		return $text;
@@ -247,8 +250,9 @@ trait WebLinksTrait
 	}
 
 	function linkfooterchild($lid) {
-		global $module_name, $useoutsidevoting;
-		//include("modules/".$module_name."/l_config.php");
+		 
+		$useoutsidevoting = e107::getPlugConfig('web_links')->getPref('useoutsidevoting');
+		 
 		if ($useoutsidevoting = 1) {
 			$text = "<br><font class=\"content\">"._ISTHISYOURSITE." <a href=\"".WEB_LINKS_FRONTFILE."?l_op=outsidelinksetup&amp;lid=".$lid."\">"._ALLOWTORATE."</a></font>";
 		}
@@ -318,8 +322,7 @@ trait WebLinksTrait
 	}
 
 	function convertorderbyin($orderby) {
-		global $module_name;
-	
+
 		switch($orderby) {
 		
 			case "titleA":

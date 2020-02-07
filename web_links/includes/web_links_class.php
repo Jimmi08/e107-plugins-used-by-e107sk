@@ -16,8 +16,9 @@
  
     public function AddLink()
 	{
-		global $db, $user, $user_addlink, $links_anonaddlinklock, $module_name;
-		include("header.php");
+		global  $module_name;
+		$links_anonaddlinklock = $this->plugPrefs['links_anonaddlinklock'];
+		$user_addlink = $this->plugPrefs['user_addlink'];
 		$mainlink = 1;
 $text =$this->menu(1);
 		$text .= "<br>";
@@ -133,19 +134,16 @@ $text =$this->menu(1);
     }	
     public function NewLinksDate($selectdate)
 	{
-		global $db, $module_name, $admin, $user, $mainvotedecimal;
-		$admin = base64_decode($admin);
-		$admin = addslashes($admin);
-		$admin = explode(":", $admin);
-		$aid = $admin[0];
-		$result = e107::getDB()->gen("SELECT radminsuper FROM #".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
-		$row = e107::getDB()->fetch($result);
-
-		$radminsuper = $row['radminsuper'];
+		global  $module_name,  $user, $mainvotedecimal;
+		 
+		$aid = USERID;
+		//$result = e107::getDB()->gen("SELECT radminsuper FROM #".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
+		//$row = e107::getDB()->fetch($result);
+ 
 		$dateDB = (date("d-M-Y", $selectdate));
 		$dateView = (date("F d, Y", $selectdate));
-		include("header.php");
-$text =$this->menu(1);
+		
+		$text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$newlinkDB = Date("Y-m-d", $selectdate);
@@ -169,7 +167,7 @@ $text =$this->menu(1);
 				$totalcomments = $row2['totalcomments'];
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = stripslashes(check_html($row2['cat_title'], "nohtml"));
-				if (is_admin($admin)) {
+				if (ADMIN) {
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
@@ -196,7 +194,7 @@ $text =$this->menu(1);
 						$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 					}
 				$text .= "<br>";
-					if ($radminsuper == 1) {
+					if (getperms('0')) {  //e107 superadmin
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -223,9 +221,12 @@ $text =$this->menu(1);
     } 
     public function TopRated($ratenum, $ratetype) 
 	{
-		global  $admin, $module_name, $user, $toplinks, $mainvotedecimal, $toplinkspercentrigger, $linkvotemin;
+		global $module_name, $user,  $mainvotedecimal ;
 		 
-		//include("modules/".$module_name."/l_config.php");
+		$toplinkspercentrigger = $this->plugPrefs['toplinkspercentrigger'];
+		$toplinks = $this->plugPrefs['toplinks'];
+		$linkvotemin = $this->plugPrefs['linkvotemin'];
+
 		$text = $this->menu(1);
 		$text .=  "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -325,17 +326,9 @@ $text =$this->menu(1);
     } 
     public function MostPopular($ratenum, $ratetype) 
 	{
-		global   $mainvotedecimal, $mostpoplinkspercentrigger, $mostpoplinks;
-		/*
-		global  $admin;
-		$admin = base64_decode($admin);
-		$admin = addslashes($admin);
-		$admin = explode(":", $admin);
-		$aid = $admin[0];
-		$result = e107::getDB()->gen("SELECT radminsuper FROM #".UN_TABLENAME_AUTHORS." WHERE aid='".$aid."'");
-		$row = e107::getDB()->fetch($result);
-		 
-		$radminsuper = $row['radminsuper'];  */
+		$mainvotedecimal = $this->plugPrefs['mainvotedecimal'];
+		$mostpoplinkspercentrigger = $this->plugPrefs['mostpoplinkspercentrigger'];
+		$mostpoplinks = $this->plugPrefs['mostpoplinks'];
 		$module_name =  WEB_LINKS_APP;
 
 		$text  = $this->menu(1);
@@ -386,8 +379,7 @@ $text =$this->menu(1);
 				$totalcomments = $row3['totalcomments'];
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = e107::getParser()->toHTML($row3['cat_title'], "", "TITLE");
-				 
-				//if (is_admin($admin)) {
+ 
 				if(ADMIN) {
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
 					<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
@@ -416,7 +408,7 @@ $text =$this->menu(1);
 					$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 				}
 				$text .= "<br>";
-				if ($radminsuper == 1) {
+				if (getperms('0')) {
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -575,7 +567,7 @@ $text =$this->menu(1);
 				$totalvotes = $row4['totalvotes'];
 				$totalcomments = $row4['totalcomments'];
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-				//if (is_admin($admin)) {
+ 
 				if (ADMIN) {
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
@@ -604,7 +596,7 @@ $text =$this->menu(1);
 						$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 					}
 				$text .= "<br>";
-					if ($radminsuper == 1) {
+					if (getperms('0')) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -675,7 +667,7 @@ $text =$this->menu(1);
     }  
     public function brokenlink($lid)
 	{
-		global $db, $user, $cookie, $module_name;
+		global  $user, $cookie, $module_name;
 		if (USER) {
 			$ratinguser = USERNAME;
 			$text =$this->menu(1);
@@ -709,13 +701,15 @@ $text =$this->menu(1);
 	
     public function modifylinkrequest($lid)
 	{
-		global $db, $user, $module_name, $anonymous, $blockunregmodify;
+		global  $user, $module_name, $anonymous;
+
+		$blockunregmodify = $this->plugPrefs['blockunregmodify'];
 			if(USER) {
 				$ratinguser = USERNAME;
 			} else {
 				$ratinguser = $anonymous;
 			}
-$text =$this->menu(1);
+		$text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$blocknow = 0;
@@ -767,7 +761,7 @@ $text =$this->menu(1);
     }   	
     public function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmitter)
 	{
-		global $db, $user, $module_name, $anonymous, $blockunregmodify;
+		global   $user, $module_name, $anonymous, $blockunregmodify;
 		//include("modules/".$module_name."/l_config.php");
 			if(USER) {
 				$ratinguser = USERNAME;
@@ -776,7 +770,7 @@ $text =$this->menu(1);
 			}
 		$blocknow = 0;
 			if ($blockunregmodify == 1 && $ratinguser == $anonymous) {
-				include("header.php");
+				
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -797,7 +791,7 @@ $text =$this->menu(1);
 				$cat[0] = intval($cat[0]);
 				$cat[1] = intval($cat[1]);
 				e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_MODREQUEST." VALUES (NULL, '".$lid."', '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($ratinguser)."', 0)");
-				include("header.php");
+				
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -809,13 +803,13 @@ $text =$this->menu(1);
     }    
     public function brokenlinkS($lid,$cid, $title, $url, $description, $modifysubmitter)
 	{
-		global $db, $user, $cookie, $module_name, $user;
+		global   $user, $cookie, $module_name, $user;
 		if (USERNAME) {
 			$ratinguser = USERNAME;
 			$lid = intval($lid);
 			$cid = intval($cid);
 			e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_MODREQUEST." VALUES (NULL, '".$lid."', '".$cid."', '0', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".$ratinguser."', '1')");
-			include("header.php");
+			
 	$text =$this->menu(1);
 			$text .= "<br>";
 			$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -839,13 +833,16 @@ $text =$this->menu(1);
     }   
     public function Add($title, $url, $auth_name, $cat, $description, $email)
 	{
-		global $db, $user, $user_addlink, $links_anonaddlinklock;
+		 
+		$user_addlink = $this->plugPrefs['user_addlink'];
+		$links_anonaddlinklock = e107::getPlugConfig('web_links')->getPref('links_anonaddlinklock');
+
 		$result = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
 		$row = e107::getDB()->fetch($result);
 
 		$numrows = $row['numrows'];
 			if ($numrows>0) {
-				include("header.php");
+				
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -859,7 +856,7 @@ $text =$this->menu(1);
 				}
 				// Check if Title exist
 				if ($title=="") {
-					include("header.php");
+					
 			$text =$this->menu(1);
 					$text .= "<br>";
 					$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -870,7 +867,7 @@ $text =$this->menu(1);
 				}
 				// Check if URL exist
 				if ($url=="") {
-					include("header.php");
+					
 			$text =$this->menu(1);
 					$text .= "<br>";
 					$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -881,7 +878,7 @@ $text =$this->menu(1);
 				}
 				// Check if Description exist
 				if ($description=="") {
-					include("header.php");
+					
 			$text =$this->menu(1);
 					$text .= "<br>";
 					$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -910,7 +907,7 @@ $text =$this->menu(1);
 							e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_NEWLINK." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($auth_name)."', '".addslashes($email)."', '".addslashes($submitter)."')");
 						}
 					}
-				include("header.php");
+				
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
@@ -927,9 +924,12 @@ $text =$this->menu(1);
     }	
     public function search($unquery, $min, $orderby, $show)
 	{
-		global $db, $admin, $bgcolor2, $module_name, $perpage, $linksresults, $mainvotedecimal;
+		global  $bgcolor2, $module_name;
+
+		$linksresults 		= $this->plugPrefs['linksresults'];
+		$mainvotedecimal 	= $this->plugPrefs['mainvotedecimal'];
 		//include("modules/".$module_name."/l_config.php");
-		include("header.php");
+		$perpage = $this->plugPrefs['perpage']; 
 		if (!isset($min)) $min = 0;
 		if (!isset($max)) $max = $min+$linksresults;
 			if(isset($orderby)) {
@@ -1005,7 +1005,7 @@ $text =$this->menu(1);
 						$totalcomments = $row['totalcomments'];
 						$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 						$title = str_replace($query, "<b>".$query."</b>", $title);
-						if (is_admin($admin)) {
+						if (ADMIN) {
 							$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
 						} else {
 							$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
@@ -1220,10 +1220,13 @@ $text =$this->menu(1);
     } 
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
-		global  $cookie, $user, $module_name, $anonymous, $anonwaitdays, $outsidewaitdays;
+		global  $cookie, $user, $module_name, $anonymous;
+
+		$anonwaitdays= $this->plugPrefs['anonwaitdays'];
+		$outsidewaitdays = $this->plugPrefs['outsidewaitdays'];
+
 		$passtest = "yes";
-		include("header.php");
-		 
+ 
 		$ratinglid = intval($ratinglid);
 		$text = $this->completevoteheader();
 			if(USER) {
@@ -1337,10 +1340,8 @@ $text =$this->menu(1);
     } 
     public function viewlinkcomments($lid)
 	{
-		global $db, $admin, $bgcolor2, $module_name;
-		include("header.php");
-		//include("modules/".$module_name."/l_config.php");
-$text =$this->menu(1);
+		global  $bgcolor2, $module_name;
+		$text =$this->menu(1);
 		$lid = intval($lid);
 		$result = e107::getDB()->gen("SELECT title FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
 		$row = e107::getDB()->fetch($result);
@@ -1396,7 +1397,7 @@ $text =$this->menu(1);
 				."<tr>"
 				."<td colspan=\"3\">"
 				."<font class=\"content\">";
-					if (is_admin($admin)) {
+					if (ADMIN) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
 					}
 				$text .= " ".$ratingcomments."</font>"
@@ -1516,10 +1517,9 @@ $text =$this->menu(1);
     } 
     public function viewlinkeditorial($lid)
 	{
-		global $db, $admin, $module_name;
-		include("header.php");
+		global  $module_name;	
 		//include("modules/".$module_name."/l_config.php");
-$text =$this->menu(1);
+		$text =$this->menu(1);
 		$lid = intval($lid);
 		$result = e107::getDB()->gen("SELECT title FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
 		$row = e107::getDB()->fetch($result);
@@ -1564,10 +1564,14 @@ $text =$this->menu(1);
     }  
     public function viewlinkdetails($lid)
 	{
-		global $db, $admin, $bgcolor1, $bgcolor2, $bgcolor3, $module_name, $anonymous, $useoutsidevoting, $anonweight, $outsideweight, $detailvotedecimal;
-		include("header.php");
-		//include("modules/".$module_name."/l_config.php");
-$text =$this->menu(1);
+		global  $bgcolor1, $bgcolor2, $bgcolor3, $module_name, $anonymous ;
+
+		$useoutsidevoting = $this->plugPrefs['useoutsidevoting'];
+		$anonweight = $this->plugPrefs['anonweight'];
+		$outsideweight = $this->plugPrefs['outsideweight'];
+		$detailvotedecimal = $this->plugPrefs['detailvotedecimal'];
+
+		$text =$this->menu(1);
 		$lid = intval($lid);
 		$voteresult = e107::getDB()->gen("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'");
 		$totalvotesDB = count(e107::getDB()->rows($voteresult));
