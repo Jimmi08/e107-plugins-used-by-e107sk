@@ -115,7 +115,7 @@ trait WebLinksTrait
 
 	function detecteditorial($lid) { 
 		$lid = intval($lid);
-		$resulted2 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'");
+		$resulted2 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'");
 		$rowed2 = e107::getDB()->fetch($resulted2);
 
 		$recordexist = $rowed2['numrows'];
@@ -129,7 +129,7 @@ trait WebLinksTrait
 	function getparent($parentid,$title) {
 
 		$parentid = intval($parentid);
-		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM ".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
+		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
 		$row = e107::getDB()->fetch($result);
 		 
 		$cid = $row['cid'];
@@ -138,7 +138,7 @@ trait WebLinksTrait
 
 		if(!empty($ptitle) && $ptitle != $title) $title = $ptitle."/".$title;
 		if ($pparentid != 0) {
-			$title = getparent($pparentid,$title);
+			$title = $this->getparent($pparentid,$title);
 		}
 		return $title;
 	}
@@ -257,39 +257,64 @@ trait WebLinksTrait
 	}
 
 	function completevoteheader(){
-		menu(1);
-		echo "<br>";
-		OpenTable();
+		$text = $this->menu(1);
+		$text .=  "<br>";
+		$text .= $this->plugTemplates['OPEN_TABLE'];
+
+		return $text;
 	}
 	
 	function completevotefooter($lid, $ratinguser) {
-		global $db, $sitename, $module_name;
+		$sitename = SITENAME;
 		//include("modules/".$module_name."/l_config.php");
 		$lid = intval($lid);
-		$result = $db->sql_query("SELECT title, url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
-		$row = $db->sql_fetchrow($result);
-		$db->sql_freeresult($result);
+		$result = e107::getDB()->gen("SELECT title, url FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = e107::getDB()->fetch($result);
+		 
 		$url = stripslashes($row['url']);
 		$ttitle = stripslashes(check_html($row['title'], "nohtml"));
-		echo "<font class=\"content\">"._THANKSTOTAKETIME." ".$sitename.". "._LETSDECIDE."</font><br><br><br>";
+		$text .=  "<font class=\"content\">"._THANKSTOTAKETIME." ".$sitename.". "._LETSDECIDE."</font><br><br><br>";
 		if ($ratinguser=="outside") {
-			echo "<div class='center'><font class=\"content\">".WEAPPREACIATE." ".$sitename."!<br><a href=\"".$url."\">"._RETURNTO." ".$ttitle."</a></font><div class='center'><br><br>";
+			$text .=  "<div class='center'><font class=\"content\">".WEAPPREACIATE." ".$sitename."!<br><a href=\"".$url."\">"._RETURNTO." ".$ttitle."</a></font><div class='center'><br><br>";
 		}
-		echo "<div class='center'>";
-		linkinfomenu($lid);
-		echo "</div>";
-		CloseTable();
+		$text .=  "<div class='center'>";
+		$text .= $this->linkinfomenu($lid);
+		$text .=  "</div>";
+		$text .= $this->plugTemplates['CLOSE_TABLE'];
+
+		return $text;
 	}
 
 	function completevote($error) {
-		global $module_name;
-		//include("modules/".$module_name."/l_config.php");
-		if ($error == "none") echo "<div class='center'><font class=\"content\"><b>"._COMPLETEVOTE1."</b></font></div>";
-		if ($error == "anonflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE2."</b></font></div><br>";
-		if ($error == "regflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE3."</b></font></div><br>";
-		if ($error == "postervote") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE4."</b></font></div><br>";
-		if ($error == "nullerror") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE5."</b></font></div><br>";
-		if ($error == "outsideflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE6."</b></font></div><br>";
+ 
+		if ($error == "none") $text .=  "<div class='center'><font class=\"content\"><b>"._COMPLETEVOTE1."</b></font></div>";
+		if ($error == "anonflood") $text .=  "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE2."</b></font></div><br>";
+		if ($error == "regflood") $text .=  "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE3."</b></font></div><br>";
+		if ($error == "postervote") $text .=  "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE4."</b></font></div><br>";
+		if ($error == "nullerror") $text .=  "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE5."</b></font></div><br>";
+		if ($error == "outsideflood") $text .=  "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE6."</b></font></div><br>";
+
+		return $text;
+	}
+
+	function linkinfomenu($lid) {
+		 
+		$text = "<br><font class=\"content\">[ "
+		."<a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._LINKCOMMENTS."</a>"
+		." | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._ADDITIONALDET."</a>"
+		." | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkeditorial&amp;lid=".$lid."\">"._EDITORREVIEW."</a>"
+		." | <a href=\"".WEB_LINKS_INDEX."?l_op=modifylinkrequest&amp;lid=".$lid."\">"._MODIFY."</a>";
+		if (USER) {
+			$text .= " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+		}
+		$text .= " ]</font>";
+
+		return $text;
+	}
+
+	function linkfooter($lid) {
+		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | <a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
+		$text .= $this->linkfooterchild($lid);
 	}
 	
 }
