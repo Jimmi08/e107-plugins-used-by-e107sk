@@ -95,7 +95,104 @@
     } 
     public function TopRated($ratenum, $ratetype) 
 	{
-        $text =  "TopRated in progress";
+		global $db, $admin, $module_name, $user, $toplinks, $mainvotedecimal, $toplinkspercentrigger, $linkvotemin;
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+		menu(1);
+		echo "<br>";
+		OpenTable();
+		echo "<table border=\"0\" width=\"100%\"><tr><td align=\"center\">";
+			if ($ratenum != "" && $ratetype != "") {
+				$toplinks = $ratenum;
+				if ($ratetype == "percent") {
+				$toplinkspercentrigger = 1;
+				}
+			}
+			if ($toplinkspercentrigger == 1) {
+				$toplinkspercent = $toplinks;
+				$totalresult = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_LINKS." WHERE linkratingsummary <> '0'");
+				$totalrow = $db->sql_fetchrow($totalresult);
+				$db->sql_freeresult($totalresult);
+				$totalratedlinks = $totalrow['numrows'];
+				$toplinks = $toplinks / 100;
+				$toplinks = $totalratedlinks * $toplinks;
+				$toplinks = round($toplinks);
+			}
+			if ($toplinkspercentrigger == 1) {
+				echo "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".$toplinkspercent."% ("._OF." ".$totalratedlinks." "._TRATEDLINKS.")</b></font></div><br>";
+			} else {
+				echo "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".un_htmlentities($toplinks)." </b></font></div><br>";
+			}
+		echo "</td></tr>"
+		."<tr><td><div class='center'>"._NOTE." ".$linkvotemin." "._TVOTESREQ."<br>"
+		._SHOWTOP.":  [ <a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=num\">10</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=25&amp;ratetype=num\">25</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=50&amp;ratetype=num\">50</a> | "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=1&amp;ratetype=percent\">1%</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=5&amp;ratetype=percent\">5%</a> - "
+		."<a href=\"modules.php?name=".$module_name."&amp;l_op=TopRated&amp;ratenum=10&amp;ratetype=percent\">10%</a> ]</div><br><br></td></tr>";
+		$result = $db->sql_query("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM ".UN_TABLENAME_LINKS_LINKS." ll, ".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid AND ll.linkratingsummary <> 0 AND ll.totalvotes >= ".$linkvotemin." ORDER BY ll.linkratingsummary DESC LIMIT 0,".$toplinks);
+		echo "<tr><td>";
+			while ($row = $db->sql_fetchrow($result)) {
+				$lid = $row['lid'];
+				$cid = $row['cid'];
+				$sid = $row['sid'];
+				$title = stripslashes(check_html($row['title'], "nohtml"));
+				$description = stripslashes($row['description']);
+				$time = $row['date'];
+				$hits = $row['hits'];
+				$linkratingsummary = $row['linkratingsummary'];
+				$totalvotes = $row['totalvotes'];
+				$totalcomments = $row['totalcomments'];
+				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
+				$ctitle = stripslashes(check_html($row['cat_title'], "nohtml"));
+				if (is_admin($admin)) {
+					echo "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+				} else {
+					echo "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+				}
+				echo "<a href=\"modules.php?name=".$module_name."&amp;l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
+				newlinkgraphic($time);
+				popgraphic($hits);
+				echo "<br>";
+				echo _DESCRIPTION.": ".$description."<br>";
+				setlocale (LC_TIME, $locale);
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
+				$datetime = strftime(_LINKSDATESTRING, mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
+				setlocale(LC_TIME, 'en_US');
+				$datetime = ucfirst($datetime);
+				echo _ADDEDON.": ".$datetime." "._HITS.": ".$hits;
+					/* voting & comments stats */
+					if ($totalvotes == 1) {
+						$votestring = _VOTE;
+					} else {
+						$votestring = _VOTES;
+					}
+					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
+						echo " "._RATING.": <b> ".$linkratingsummary." </b> ("._VOTES.": ".$totalvotes.")";
+					}
+				echo "<br><a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+					if (is_user($user)) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+					}
+					if ($totalvotes != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+					}
+					if ($totalcomments != 0) {
+						echo " | <a href=\"modules.php?name=".$module_name."&amp;l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+					}
+				detecteditorial($lid);
+				echo "<br>";
+				$ctitle = getparent($cid,$ctitle);
+				echo _CATEGORY.": ".$ctitle;
+				echo "<br><br>";
+				echo "<br><br>";
+			}
+		$db->sql_freeresult($result);
+		echo "</td></tr></table>";
+		CloseTable();
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     } 
     public function MostPopular($ratenum, $ratetype) 
@@ -490,7 +587,14 @@
     }	
     public function rateinfo($lid, $user)
 	{
-        $text =  "rateinfo in progress";
+		global $db;
+		$lid = intval($lid);
+		$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET hits=hits+1 WHERE lid='".$lid."'");
+		$result = $db->sql_query("SELECT url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$url = stripslashes($row['url']);
+		Header("Location: ".$url);
         e107::getRender()->tablerender($caption, $text);
     }		
     public function ratelink($lid)
@@ -571,7 +675,123 @@
     } 
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
-        $text =  "addrating in progress";
+		global $db, $cookie, $user, $module_name, $anonymous, $anonwaitdays, $outsidewaitdays;
+		$passtest = "yes";
+		include("header.php");
+		//include("modules/".$module_name."/l_config.php");
+		$ratinglid = intval($ratinglid);
+		completevoteheader();
+			if(is_user($user)) {
+				$user2 = base64_decode($user);
+				$user2 = addslashes($user2);
+				$cookie = explode(":", $user2);
+				cookiedecode($user);
+				$ratinguser = $cookie[1];
+			} else if ($ratinguser=="outside") {
+				$ratinguser = "outside";
+			} else {
+				$ratinguser = $anonymous;
+			}
+		/*$result = $db->sql_query("SELECT title FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
+			while ($row = $db->sql_fetchrow($result)) {
+				$title = stripslashes(check_html($row['title'], "nohtml"));
+				$ttitle = $title;*/
+				/* Make sure only 1 anonymous from an IP in a single day. */
+				$ip = $_SERVER["REMOTE_HOST"];
+					if (empty($ip)) {
+						$ip = $_SERVER["REMOTE_ADDR"];
+					}
+					/* Check if Rating is Null */
+					if ($rating == "--") {
+						$error = "nullerror";
+						completevote($error);
+						$passtest = "no";
+					}
+					/* Check if Link POSTER is voting (UNLESS Anonymous users allowed to post) */
+					if ($ratinguser != $anonymous && $ratinguser != "outside") {
+						$result2 = $db->sql_query("SELECT submitter FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
+							while ($row2 = $db->sql_fetchrow($result2)) {
+								$ratinguserDB = $row2['submitter'];
+									if ($ratinguserDB==$ratinguser) {
+										$error = "postervote";
+										completevote($error);
+										$passtest = "no";
+									}
+							}
+						$db->sql_freeresult($result2);
+					}
+					/* Check if REG user is trying to vote twice. */
+					if ($ratinguser != $anonymous && $ratinguser != "outside") {
+						$result3 = $db->sql_query("SELECT ratinguser FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."'");
+							while ($row3 = $db->sql_fetchrow($result3)) {
+								$ratinguserDB = $row3['ratinguser'];
+								if ($ratinguserDB==$ratinguser) {
+									$error = "regflood";
+									completevote($error);
+									$passtest = "no";
+								}
+							}
+						$db->sql_freeresult($result3);
+					}
+					/* Check if ANONYMOUS user is trying to vote more than once per day. */
+					if ($ratinguser == $anonymous){
+						$yesterdaytimestamp = (time()-(86400 * $anonwaitdays));
+						$ytsDB = Date("Y-m-d H:i:s", $yesterdaytimestamp);
+						$result4 = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='".$anonymous."' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$anonwaitdays."'");
+						$row4 = $db->sql_fetchrow($result4);
+						$db->sql_freeresult($result4);
+						$anonvotecount = $row4['numrows'];
+							if ($anonvotecount >= 1) {
+								$error = "anonflood";
+								completevote($error);
+								$passtest = "no";
+							}
+					}
+					/* Check if OUTSIDE user is trying to vote more than once per day. */
+					if ($ratinguser=="outside"){
+						$yesterdaytimestamp = (time()-(86400 * $outsidewaitdays));
+						$ytsDB = Date("Y-m-d H:i:s", $yesterdaytimestamp);
+						$result5 = $db->sql_query("SELECT COUNT(*) AS numrows FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid='".$ratinglid."' AND ratinguser='outside' AND ratinghostname = '".$ip."' AND TO_DAYS(NOW()) - TO_DAYS(ratingtimestamp) < '".$outsidewaitdays."'");
+						$row5 = $db->sql_fetchrow($result5);
+						$db->sql_freeresult($result5);
+						$outsidevotecount = $row5['numrows'];
+							if ($outsidevotecount >= 1) {
+								$error = "outsideflood";
+								completevote($error);
+								$passtest = "no";
+							}
+					}
+					/* Passed Tests */
+					if ($passtest == "yes") {
+						$ratingcomments = stripslashes(check_html($ratingcomments, 'nohtml'));
+							if ($comment != "") {
+								update_points(16);
+							}
+						update_points(15);
+						/* All is well.  Add to Line Item Rate to DB. */
+						$ratinglid = intval($ratinglid);
+						$rating = intval($rating);
+							if ($rating > 10 || $rating < 1) {
+								header("Location: modules.php?name=".$module_name."&l_op=ratelink&lid=".$ratinglid);
+								die();
+							}
+						$db->sql_query("INSERT INTO ".UN_TABLENAME_LINKS_VOTEDATA." VALUES (NULL,'".$ratinglid."', '".$ratinguser."', '".$rating."', '".$ip."', '".addslashes($ratingcomments)."', now())");
+						/* All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB. */
+						/* NOTE: If weight is modified, ALL links need to be refreshed with new weight. */
+						/* Running a SQL statement with your modded calc for ALL links will accomplish this. */
+						$voteresult = $db->sql_query("SELECT rating, ratinguser, ratingcomments FROM ".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$ratinglid."'");
+						$totalvotesDB = $db->sql_numrows($voteresult);
+						include ("modules/".$module_name."/voteinclude.php");
+						$db->sql_freeresult($voteresult);
+						$lid = intval($lid);
+						$db->sql_query("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET linkratingsummary='".$finalrating."',totalvotes='".$totalvotesDB."',totalcomments='".$truecomments."' WHERE lid = '".$ratinglid."'");
+						$error = "none";
+						completevote($error);
+					}
+			/*}
+		$db->sql_freeresult($result);*/
+		completevotefooter($ratinglid, $ratinguser);
+		include("footer.php");
         e107::getRender()->tablerender($caption, $text);
     } 
     public function viewlinkcomments($lid)

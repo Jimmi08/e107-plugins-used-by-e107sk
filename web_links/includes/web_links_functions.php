@@ -255,4 +255,41 @@ trait WebLinksTrait
 		return $text;
 
 	}
+
+	function completevoteheader(){
+		menu(1);
+		echo "<br>";
+		OpenTable();
+	}
+	
+	function completevotefooter($lid, $ratinguser) {
+		global $db, $sitename, $module_name;
+		//include("modules/".$module_name."/l_config.php");
+		$lid = intval($lid);
+		$result = $db->sql_query("SELECT title, url FROM ".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
+		$row = $db->sql_fetchrow($result);
+		$db->sql_freeresult($result);
+		$url = stripslashes($row['url']);
+		$ttitle = stripslashes(check_html($row['title'], "nohtml"));
+		echo "<font class=\"content\">"._THANKSTOTAKETIME." ".$sitename.". "._LETSDECIDE."</font><br><br><br>";
+		if ($ratinguser=="outside") {
+			echo "<div class='center'><font class=\"content\">".WEAPPREACIATE." ".$sitename."!<br><a href=\"".$url."\">"._RETURNTO." ".$ttitle."</a></font><div class='center'><br><br>";
+		}
+		echo "<div class='center'>";
+		linkinfomenu($lid);
+		echo "</div>";
+		CloseTable();
+	}
+
+	function completevote($error) {
+		global $module_name;
+		//include("modules/".$module_name."/l_config.php");
+		if ($error == "none") echo "<div class='center'><font class=\"content\"><b>"._COMPLETEVOTE1."</b></font></div>";
+		if ($error == "anonflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE2."</b></font></div><br>";
+		if ($error == "regflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE3."</b></font></div><br>";
+		if ($error == "postervote") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE4."</b></font></div><br>";
+		if ($error == "nullerror") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE5."</b></font></div><br>";
+		if ($error == "outsideflood") echo "<div class='center'><font class=\"option\"><b>"._COMPLETEVOTE6."</b></font></div><br>";
+	}
+	
 }
