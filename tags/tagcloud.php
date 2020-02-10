@@ -14,8 +14,8 @@ if(!defined('e107_INIT'))
 {
 	require_once('../../class2.php');
 }
- 
-	$cache_tag = "tagcloud_";
+ 	
+$cache_tag = "tagcloud_";
 
 // See if the page is already in the cache
 	if($cacheData = $e107cache->retrieve($cache_tag))
@@ -40,6 +40,7 @@ else {
  
    include_lan(e_PLUGIN.'tags/languages/'.e_LANGUAGE.'/lan_tagcloud.php');
 
+    $plugPrefs = e107::getPlugConfig('tags')->getPref();
 //ECHO "<P>DECODE:".URLDECODE(e_QUERY)."<P>" ;
 //a tag -> a_tag ->  a+tag  -> a_tag -> a tag
 
@@ -132,12 +133,18 @@ else {
                         $TITLE      = "<a href = '".$res['link']."'>".$res['title']."</a>";
                         $PRETITLE   = $res['pretitle'];                                           //echo "PRETITLE<p>$PRETITLE";
                         $PRESUMMARY = $res['pre_summary'];                                        //echo "PRESUMMARY<p>$PRESUMMARY";
-                        $SUMMARY    = $res['summary'];
-                        $SUMMARY    = $tp->toHTML($SUMMARY, TRUE, 'constants');
-                        $SUMMARY    = $tp->html_truncate($SUMMARY,$plugPrefs['tags_preview'],"");   //echo "SUMMARY<p>$SUMMARY";
+                        $SUMMARY    = $res['summary'];    
+        
+                        $SUMMARY     = $tp->toHTML($SUMMARY,true);                    //from metatag description solution
+                		$SUMMARY 	 = preg_replace('/\v(?:[\v\h]+)/', '', $SUMMARY); // remove all line-breaks and excess whitespace
+                		$SUMMARY 	 = $tp->text_truncate($SUMMARY, $plugPrefs['tags_preview']); // + '...'
+                		$SUMMARY     = $tp->toText($SUMMARY);
+        
+                  //      $SUMMARY    = e107::getParser()->toHTML($SUMMARY, TRUE, 'DESCRIPTION');      
+                  //      $SUMMARY    = $tp->html_truncate($SUMMARY,$plugPrefs['tags_preview'],"");   //echo "SUMMARY<p>$SUMMARY";
                         $SUMMARY   .= "...<a href='".$res['link']."'>".LAN_TG7."</a>";
                         $DETAIL     = $res['detail'];
-
+                         
                         //get other tags for output
                         $sql->select("tag_main","*","WHERE Tag_Item_ID = ".$tagrow['Tag_Item_ID']." and Tag_Name <> '".$tagrow['Tag_Name']."' and Tag_Type ='".$tagrow['Tag_Type']."' ORDER BY Tag_Rank" ,  TRUE);
                         $TAGS  .= "<span class='".$plugPrefs['tags_style_link']."'>";
@@ -152,7 +159,7 @@ else {
                         if ($plugPrefs['tags_adminmod'] and ADMIN) {$TAGS .= "<a href='".e_PLUGIN."tagcloud/tagedit.php?".$tagrow['Tag_Type'].".".$tagrow['Tag_Item_ID']."'>(edit tags)</a>";}
                         $bodyt = $template['default']['body'];
 
-												$tagtext .= $tp->parseTemplate($bodyt, TRUE, $tagcloud_shortcodes)."\n";
+						$tagtext .= $tp->parseTemplate($bodyt, TRUE, $tagcloud_shortcodes)."\n";
 
       }
 

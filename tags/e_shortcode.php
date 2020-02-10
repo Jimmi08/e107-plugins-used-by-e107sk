@@ -14,6 +14,7 @@ if(!defined('e107_INIT'))
 class tags_shortcodes extends e_shortcode
 {
  
+     /* {TAGS}  */
 	function sc_tags($parm = '')
 	{   
         $plugPrefs = e107::getPlugConfig('tags')->getPref();   
