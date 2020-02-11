@@ -10,6 +10,10 @@ Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins w
 For internal purpose. Porting UnNuke plugin for e107 for site that uses e107 with UnNuke database.
 Not sure now, if it is possible. 
 
+## JM ContactUs plugin for e107  
+
+Just backup for now.  Attempt for fixing SP Contact Us plugin by Spinnet Plugin for new version. 
+
 
 ## JM Download plugin for e107  
 
