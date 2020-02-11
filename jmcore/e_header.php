@@ -171,7 +171,7 @@ if (ADMIN_AREA) {
                 }
                 
                 .e-container a {
-                    color: {$custom_bg_primary_color};  
+                    color: {$custom_color_primary};  
                 }
 							 
             	#admin-ui-list-batch, .adminlist > thead > tr {
