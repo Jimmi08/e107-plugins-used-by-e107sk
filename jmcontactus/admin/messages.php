@@ -20,7 +20,7 @@ if (!getperms('P'))
 	exit;
 }
 
-require_once("admin_menu.php");       
+require_once("admin_leftmenu.php");       
 new jmcontactus_admin_adminArea();
 require_once(e_ADMIN."auth.php");
 

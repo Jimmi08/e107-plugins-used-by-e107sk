@@ -19,6 +19,8 @@ if (!getperms('P'))
 }
  
 require_once("admin_leftmenu.php");  
+
+new jmcontactus_admin_adminArea();
 require_once(e_ADMIN.'auth.php');
 
 /////////////////////////////////////////////////////////////////
