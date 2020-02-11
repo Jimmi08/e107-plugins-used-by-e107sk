@@ -10,11 +10,14 @@
 *	GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
 +---------------------------------------------------------------+
 */
+
  
+
 if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
+
 
 $sql = e107::getDB(); 					// mysql class object
 $tp = e107::getParser(); 				// parser for converting to HTML and parsing templates etc.
@@ -24,8 +27,9 @@ $ns = e107::getRender();				// render in theme box.
 $text = '';    
 
 include_lan(e_PLUGIN.'jmcontactus/languages/'.e_LANGUAGE.'.php');
-if(!function_exists("form_open")) { require_once(e_HANDLER.'form_handler.php'); }
+
 if(!function_exists("buildformfield")) { require_once(e_PLUGIN."jmcontactus/lib/functions.php"); }
+
 $pname = 'jmcontactus';
 $error_count = 0;
 
@@ -33,6 +37,7 @@ $error_count = 0;
 // Shortcode Info ///////////////////////////
 $contactus_shortcodes = e107::getScBatch('jmcontactus',true, 'jmcontactus');
 
+$eplug_prefs = e107::pref('jmcontactus');           
 
 if(is_readable(THEME."templates/jmcontactus/jmcontactus_template.php")) {
 	require_once(THEME."templates/jmcontactus/jmcontactus_template.php");
@@ -40,13 +45,12 @@ if(is_readable(THEME."templates/jmcontactus/jmcontactus_template.php")) {
 else {
 	require_once(e_PLUGIN."jmcontactus/templates/jmcontactus_template.php");
 }
-
-$eplug_prefs = e107::pref('jmcontactus');
+ 
 
 // Check if date field exists
-if ($eplug_prefs[$pname.'_settings_showform'] == 1) {
-	$sql->db_Select(strtolower($pname."_form"), "*", "`type` != 'hidden' ORDER BY `order`");
-	$form_fields = $sql->db_getList();
+if ($eplug_prefs['jmcontactus_settings_showform'] == 1) {
+	$sql->select("jmcontactus_form", "*", "`type` != 'hidden' ORDER BY `order`");
+	$form_fields = $sql->rows();
 	foreach($form_fields as $field) {
 		if ($field["type"] === "date") {
 			$hasDateField = true;
@@ -55,15 +59,9 @@ if ($eplug_prefs[$pname.'_settings_showform'] == 1) {
 }
 
 // information
-$sql->select(strtolower($pname."_info"), "*", "");
-while($row=$sql->fetch($sql)){
-	$contactinfo = $row;
-}
  
- 
-//cachevars('contactinfo_data', $contactinfo);
-e107::setRegistry('core/cachedvars/contactinfo_data', $contactinfo);
- $contactus_shortcodes->setVars($contactinfo);
+$contactinfo = $sql->retrieve("jmcontactus_info", "*", false);
+$contactus_shortcodes->setVars($contactinfo);
 $text = "";
  
 // Google Map
@@ -129,7 +127,7 @@ if ($eplug_prefs[$pname.'_settings_showinfo'] == 1) {
 	$text .= $tp->parseTemplate($CONTACTUS_INFO, FALSE, $contactus_shortcodes);
 	$text .= $tp->parseTemplate($CONTACTUS_INFO_AFTER, FALSE, $contactus_shortcodes);
 }
-
+ 
 // Contact Form
 if ($eplug_prefs[$pname.'_settings_showform'] == 1) {
   $formurl = e107::url($pname, 'thankyou');
@@ -168,9 +166,9 @@ if (strstr(e_QUERY, 'thankyou') && $_POST["Submit"] && $error_count === 0) {
 	if($eplug_prefs[$pname.'_settings_savetodb'] == 1) {
 		save_msg($p_vars, time(), $_SERVER["REMOTE_ADDR"]);
 	}
-	$ns->tablerender($caption, $thanks);
+	$ns->tablerender($caption, $thanks, 'contactus_thanks');
 } else {
-	$ns->tablerender($caption, $text);
+	$ns->tablerender($caption, $text, 'contactus_form');
 }
 require_once(FOOTERF);
 exit();

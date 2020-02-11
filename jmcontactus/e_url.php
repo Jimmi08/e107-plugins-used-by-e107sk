@@ -19,6 +19,8 @@ if (!defined('e107_INIT')) { exit; }
 
 // v2.x Standard  - Simple mod-rewrite module. 
 
+define("e_PAGE", "contact.php");
+
 class jmcontactus_url // plugin-folder + '_url'
 {
 	function config() 
@@ -29,14 +31,14 @@ class jmcontactus_url // plugin-folder + '_url'
 			'alias'         => 'contactus',                         
 			'regex'			=> '^{alias}\/$', 					 
 			'sef'			=> '{alias}/', 						 
-			'redirect'		=> '{e_PLUGIN}jmcontactus/jmcontactus.php',  
+			'redirect'		=> '{e_PLUGIN}jmcontactus/contactus.php',  
 		);
 
 		$config['thankyou'] = array(
 			'alias'         => 'contactus',                         
 			'regex'			=> '^{alias}/thankyou/', 					 
 			'sef'			=> '{alias}/thankyou/', 						 
-			'redirect'		=> '{e_PLUGIN}jmcontactus/jmcontactus.php?thankyou',  
+			'redirect'		=> '{e_PLUGIN}jmcontactus/contactus.php?thankyou',  
 		);
 		return $config;
 	}

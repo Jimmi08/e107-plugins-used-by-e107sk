@@ -99,11 +99,8 @@ class plugin_jmcontactus_jmcontactus_shortcodes extends e_shortcode
 // ------------------------------------------------
 // {CONTACT_INFO}
   function sc_contact_info() {
-	global $tp;
-   //$item = getcachedvars('contactinfo_data');
-   $item = e107::getRegistry('core/cachedvars/contactinfo_data', false);
-
-   return $tp->toHTML(stripBBCode($item["info"]));
+   $item = e107::getParser() -> toHTML($this->var['info'], TRUE,'DESCRIPTION');
+   return $item;
 }
 
 // ------------------------------------------------

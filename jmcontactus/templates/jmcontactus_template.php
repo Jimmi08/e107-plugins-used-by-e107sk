@@ -4,8 +4,7 @@
 // jmcontactus Template file
 
 if (!defined('e107_INIT')) { exit; }
-
-
+ 
 $JMCONTACTUS_TEMPLATE = array();
 
 $JMCONTACTUS_TEMPLATE['default']['start'] 	= '{SETIMAGE: w=400&h=300}';
@@ -15,7 +14,7 @@ $JMCONTACTUS_TEMPLATE['default']['item'] 	= '';
 $JMCONTACTUS_TEMPLATE['default']['end'] 	= '';
 
 
-global $sc_style, $pref;
+global $sc_style ;
 
 $sc_style['FORM_NAME']['pre'] = "";
 $sc_style['FORM_NAME']['post'] = "";
@@ -40,7 +39,7 @@ $CONTACTUS_INFO_BEFORE =
 "<div id='spcu_top' class='row'>
 ";
 
-if($pref['SP_ContactUs_settings_showmap'] == 1) {
+if($eplug_prefs['jmcontactus_settings_showmap'] == 1) {
 	// With Google Map
 	$CONTACTUS_INFO = "
 		<div id='spcu_info' class='col-sm-4 col-xs-12'>
@@ -55,7 +54,7 @@ else {
 	// Without Google Map
 	$CONTACTUS_INFO = "
 		<div id='spcu_info' class='col-sm-12'>
-			{CONTACT_INFO}
+			{CONTACT_INFO}     
 		</div>
 	";
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="JM Contact Us" lan="LAN_CP_NAME" version="1.0.1" date="2018-08-21" compatibility="2.0" installRequired="true" >
-	<author name="Spinnet Planet / Jimako" url="https://www.e107.sk/" />
+<e107Plugin name="Contact Us" lan="LAN_CP_NAME" version="1.1.0" date="2020-11-02" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107.sk/" />
 	<summary lan="">Contact Us plugin by Spinning Planet - courtesy of original author</summary>
-	<description lan="">A Plugin that replaces the core e107 contact page. This plugin will store all message sent through the contact form. Also has a simple interface to edit Contact Information</description>
+	<description lan="">Contact Us plugin by Spinning Planet - courtesy of original author. A Plugin that replaces the core e107 contact page. This plugin will store all message sent through the contact form. Also has a simple interface to edit Contact Information</description>
 	<keywords>
 		<word>information</word>
 		<word>contact</word>
@@ -13,6 +13,9 @@
 	<adminLinks>
 		<link url="admin/config.php" description="" icon="/img/SP_ContactUs_32.png" iconSmall="/img/SP_ContactUs_16.png" icon128="/img/SP_ContactUs_128.png" primary="true" >LAN_CONFIGURE</link>
 	</adminLinks>
+  <siteLinks>
+      <link url="contactus/" sef='index' perm="everyone" >Contact</link>
+  </siteLinks>
 	<pluginPrefs>
 		<pref name='jmcontactus_settings_emailto'></pref>
 		<pref name='jmcontactus_settings_emailcopy'>1</pref>

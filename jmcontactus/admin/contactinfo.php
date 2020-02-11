@@ -25,6 +25,8 @@ require_once(e_ADMIN."header.php");
 $pname = 'jmcontactus';
 $caption = CUP_INFO_00;
 
+
+
 // just not load this everywhere
 if (e_PAGE == "contactinfo.php") 
 {
@@ -35,6 +37,11 @@ if (e_PAGE == "contactinfo.php")
 		e107::js("footer", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places" );
 		e107::js('footer', e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
 	}
+
+	e107::js('jmcontactus',  "js/bootstrap-growl.min.js", 'jquery');
+	e107::js('jmcontactus',  "js/contact-admin.js", 'jquery');
+	
+ 
 }
  
  
@@ -52,17 +59,17 @@ if (isset($_POST['update_info']))
 	{
 		if ($sql->update(strtolower($pname . "_info"), "title='" . $tp->toDB($_POST[$pname . "_title"]) . "', googlemap='" . $tp->toDB($_POST[$pname . "_googlemap"]) . "', googlemap_zoom='" . $tp->toDB($_POST[$pname . "_googlemap_zoom"]) . "', info='" . $tp->toDB($_POST[$pname . "_info"]) . "' WHERE id=" . intval($_POST['id']))) 
 		{
-			$js_function_call[] = "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'});";
+			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'});" );
 		} else 
 		{
-			$js_function_call[] = "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_ERRORMSG) . "', {type: 'danger'});";
+			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_ERRORMSG) . "', {type: 'danger'});" );
 		}
 	} else {
 		if ($sql->insert(strtolower($pname . "_info"), "0, '" . $tp->toDB($_POST[$pname . "_title"]) . "', '" . $tp->toDB($_POST[$pname . "_info"]) . "', '" . $tp->toDB($_POST[$pname . "_googlemap"]) . "', '" . $tp->toDB($_POST[$pname . "_googlemap_zoom"]) . "'")) {
-			$js_function_call[] = "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'});";
+			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'})" );
 		} else 
 		{
-			$js_function_call[] = "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_ERRORMSG) . "', {type: 'danger'});";
+			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_ERRORMSG) . "', {type: 'danger'})" );
 		}
 	}
 }
