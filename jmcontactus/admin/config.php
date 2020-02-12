@@ -54,6 +54,8 @@ $sql = e107::getDb();
  
 if (isset($_POST['update_prefs'])) 
 {
+    $eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();
+    
 	$eplug_prefs[$pname.'_settings_emailto']	= $tp->toDB($_POST[$pname.'_settings_emailto']);
 	$eplug_prefs[$pname.'_settings_emailfrom']	= $tp->toDB($_POST[$pname.'_settings_emailfrom']);
 	$eplug_prefs[$pname.'_settings_emailfromname']	= $tp->toDB($_POST[$pname.'_settings_emailfromname']);
