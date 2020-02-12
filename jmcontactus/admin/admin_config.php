@@ -24,9 +24,12 @@ class jmcontactus_prefs_ui extends e_admin_ui
 
 		//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
-			'jmcontactus_settings_showmap'		=> array('title'=> CUP_SETTINGS_MAP, 'tab'=>0, 'type'=>'boolean', 'data' => 'str', 'help'=>''),
-			'jmcontactus_googlemapsapikey'		=> array('title' => CUP_SETTINGS_MAP_KEY, 'type'=>'text', 'writeParms'=>array('size'=>'block-level'),  'help'=>''),
-			); 
+			'jmcontactus_google_maps_embed' 	=> array('title'=> CUP_SETTINGS_MAP_IFRAME, 'tab'=>0, 'type'=>'textarea', 'data' => 'str', 'help'=>''), 
+			'jmcontactus_googlemapsapikey'		=> array('title'=> CUP_SETTINGS_MAP_KEY, 'type'=>'text', 'writeParms'=>array('size'=>'block-level'),  'help'=>''),
+			
+			'jmcontactus_gmap3_support'     	=> array('title' => CUP_SETTINGS_MAP_GMAP3, 'type'=>'boolean', 'data' => 'str', 'help'=>CUP_SETTINGS_MAP_GMAP3_HELP),		
+			'jmcontactus_mapmarker'     		=> array('title' => CUP_SETTINGS_MAP_MARKER, 'type'=>'image', 'help'=>CUP_SETTINGS_MAP_MARKER_HELP),	
+			); 	
 	
 		public function init()
 		{

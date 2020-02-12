@@ -44,6 +44,7 @@ define("CUP_MENU_01", "Edit ".CUP_MENU." Information");
 define("CUP_MENU_02", "Edit ".CUP_MENU." Form");
 define("CUP_MENU_04", "Submitted Messages");
 define("CUP_MENU_05", "Help");
+define("CUP_MENU_06", "Google Map Settings");
 
 // Admin Contact Us Settings
 define("CUP_SETTINGS_00", CUP_MENU." - Configuration");
@@ -59,7 +60,15 @@ define("CUP_SETTINGS_06", "Thankyou Message");
 define("CUP_SETTINGS_BTNADD", "Add Email");
 define("CUP_SETTINGS_SAVESETTINGS", "Save Settings");
 define("CUP_S_SAVEMSG", "Settings Successfully Saved");
-define("CUP_SETTINGS_MAP_KEY", "Insert Google Map Key");
+define("CUP_SETTINGS_MAP_KEY", "Insert Google Maps API key");
+define("CUP_SETTINGS_MAP_IFRAME", "Embed Google Map");
+define("CUP_SETTINGS_MAP_IFRAME_HELP", "Use for embed map in iframe without API key");
+define("CUP_SETTINGS_MAP_MARKER", "Map Marker");
+define("CUP_SETTINGS_MAP_MARKER_HELP", "It works only if your theme supports this");
+define("CUP_SETTINGS_MAP_GMAP3", "GMAP3 script support");
+define("CUP_SETTINGS_MAP_GMAP3_HELP", "Not implemented yet");
+
+
 
 define("CUP_S_ERRORMSG", "Error Saving Settings");
 

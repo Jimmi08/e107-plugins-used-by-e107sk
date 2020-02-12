@@ -74,9 +74,9 @@ if ($eplug_prefs['jmcontactus_settings_showmap'] == 1) {
     
     
     $settings = array(
-      'googlemap_address' =>  $contactinfo["googlemap"],
-			'googlemap_zoom' => $contactinfo["googlemap_zoom"]
-  );  
+      	'googlemap_address' =>  $contactinfo["googlemap"],
+		'googlemap_zoom' => $contactinfo["googlemap_zoom"]
+  	);  
 	   	
    
      $code = "

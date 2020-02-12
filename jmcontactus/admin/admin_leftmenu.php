@@ -16,14 +16,8 @@ if (!defined('e107_INIT')) { exit; }
 require_once("../../../class2.php");
  
 // Language Files ///////////////////////////////////////////////
-if (file_exists(e_PLUGIN."jmcontactus/languages/".e_LANGUAGE.".php")) 
-{
-	include_lan(e_PLUGIN."jmcontactus/languages/".e_LANGUAGE.".php");
-} 
-else 
-{
-	include_lan(e_PLUGIN."jmcontactus/languages/English.php");
-}
+e107::includeLan(e_PLUGIN."jmcontactus/languages/".e_LANGUAGE.".php");
+
 /////////////////////////////////////////////////////////////////
 						
 class jmcontactus_admin_adminArea extends e_admin_dispatcher
@@ -43,7 +37,7 @@ class jmcontactus_admin_adminArea extends e_admin_dispatcher
  
  	protected $adminMenu = array(
 		'main/config'					=> array('caption'=> CUP_MENU_03, 'perm' => 'P', 'url'=>'config.php'),
-		'config/prefs'		      		=> array('caption'=> 'MAP', 'perm' => 'P',  'url'=>'admin_config.php'),	
+		'config/prefs'		      		=> array('caption'=> CUP_MENU_06, 'perm' => 'P',  'url'=>'admin_config.php'),	
 		'main/contactinfo'  			=> array('caption'=> CUP_MENU_01, 'perm' => 'P',  'url'=>'contactinfo.php'),
 		'main/contactform'				=> array('caption'=> CUP_MENU_02, 'perm' => 'P',  'url'=>'contactform.php'),   
   
