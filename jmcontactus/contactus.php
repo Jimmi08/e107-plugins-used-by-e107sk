@@ -37,7 +37,7 @@ $error_count = 0;
 // Shortcode Info ///////////////////////////
 $contactus_shortcodes = e107::getScBatch('jmcontactus',true, 'jmcontactus');
 
-$eplug_prefs = e107::pref('jmcontactus');           
+$eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();        
 
 if(is_readable(THEME."templates/jmcontactus/jmcontactus_template.php")) {
 	require_once(THEME."templates/jmcontactus/jmcontactus_template.php");
@@ -63,13 +63,13 @@ if ($eplug_prefs['jmcontactus_settings_showform'] == 1) {
 $contactinfo = $sql->retrieve("jmcontactus_info", "*", false);
 $contactus_shortcodes->setVars($contactinfo);
 $text = "";
- 
-// Google Map
-if ($eplug_prefs[$pname.'_settings_showmap'] == 1) {
-	$googlemapsapikey = e107::pref('jmcontactus', 'jmcontactus_googlemapsapikey');
-	$googlemapsapikey = trim($googlemapsapikey);          
+                       
+// Google Map             print_a($eplug_prefs);
+if ($eplug_prefs['jmcontactus_settings_showmap'] == 1) {          
+	$googlemapsapikey = $eplug_prefs['jmcontactus_googlemapsapikey'];
+	$googlemapsapikey = trim($googlemapsapikey);         
 	if ($googlemapsapikey) {
- 
+                
 		e107::js("url", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places", 'jquery');
     
     
