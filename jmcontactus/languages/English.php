@@ -65,9 +65,8 @@ define("CUP_SETTINGS_MAP_KEY", "Insert Google Maps API key");
 define("CUP_SETTINGS_MAP_IFRAME", "Embed Google Map");
 define("CUP_SETTINGS_MAP_IFRAME_HELP", "Use for embed map in iframe without API key");
 define("CUP_SETTINGS_MAP_MARKER", "Map Marker");
-define("CUP_SETTINGS_MAP_MARKER_HELP", "It works only if your theme supports this");
-define("CUP_SETTINGS_MAP_GMAP3", "GMAP3 script support");
-define("CUP_SETTINGS_MAP_GMAP3_HELP", "Not implemented yet");
+define("CUP_SETTINGS_MAP_MARKER_HELP", " ");
+ 
 
 
 

@@ -31,7 +31,7 @@ class jmcontactus_prefs_ui extends e_admin_ui
 				'data'	 		=> 'str', 
 				'help'			=>	CUP_SETTINGS_MAP_HELP, 
             	'writeParms'	=>array(
-					'optionArray'	=>array(
+					'optArray'	=>array(
 						'nomap'		=>'No map', 
 						'iframe'	=>'Iframe', 
 						'gmap'		=>'Google Map Api', 
@@ -39,9 +39,7 @@ class jmcontactus_prefs_ui extends e_admin_ui
 					)
 				),
 			'jmcontactus_google_maps_embed' 	=> array('title'=> CUP_SETTINGS_MAP_IFRAME, 'tab'=>0, 'type'=>'textarea', 'data' => 'str', 'help'=>''), 
-			'jmcontactus_googlemapsapikey'		=> array('title'=> CUP_SETTINGS_MAP_KEY, 'type'=>'text', 'writeParms'=>array('size'=>'block-level'),  'help'=>''),
-			
-			'jmcontactus_gmap3_support'     	=> array('title' => CUP_SETTINGS_MAP_GMAP3, 'type'=>'boolean', 'data' => 'str', 'help'=>CUP_SETTINGS_MAP_GMAP3_HELP),		
+			'jmcontactus_googlemapsapikey'		=> array('title'=> CUP_SETTINGS_MAP_KEY, 'type'=>'text', 'writeParms'=>array('size'=>'block-level'),  'help'=>''),	
 			'jmcontactus_mapmarker'     		=> array('title' => CUP_SETTINGS_MAP_MARKER, 'type'=>'image', 'help'=>CUP_SETTINGS_MAP_MARKER_HELP),	
 			); 	
 	
