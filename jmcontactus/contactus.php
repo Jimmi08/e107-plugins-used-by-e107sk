@@ -64,33 +64,37 @@ $contactinfo = $sql->retrieve("jmcontactus_info", "*", false);
 $contactus_shortcodes->setVars($contactinfo);
 $text = "";
                        
-// Google Map             print_a($eplug_prefs);
-if ($eplug_prefs['jmcontactus_settings_showmap'] == 1) {          
-	$googlemapsapikey = $eplug_prefs['jmcontactus_googlemapsapikey'];
-	$googlemapsapikey = trim($googlemapsapikey);         
-	if ($googlemapsapikey) {
-                
+// Google Map simple way 
+switch ($eplug_prefs['jmcontactus_map_type']) {   
+	case 'gmap' :
+		$googlemapsapikey = trim($eplug_prefs['jmcontactus_googlemapsapikey']);
 		e107::js("url", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places", 'jquery');
-    
-    
-    $settings = array(
-      	'googlemap_address' =>  $contactinfo["googlemap"],
-		'googlemap_zoom' => $contactinfo["googlemap_zoom"]
-  	);  
-	   	
-   
-     $code = "
-     var googlemap_address = '{$contactinfo["googlemap"]}';
-     var googlemap_zoom = {$contactinfo["googlemap_zoom"]} ";
-   
-    e107::js("footer", e_PLUGIN."jmcontactus/js/googlemap.js" );    
-    e107::js("footer-inline", $code);	 
-     
-; 
-	}	 
-}      
+		$settings = array(
+			'googlemap_address' =>  $contactinfo["googlemap"],
+		  	'googlemap_zoom' => $contactinfo["googlemap_zoom"]
+		);  
 
+		$code = "
+		var googlemap_address = '{$contactinfo["googlemap"]}';
+		var googlemap_zoom = {$contactinfo["googlemap_zoom"]} ";
+	  
+	   e107::js("footer", e_PLUGIN."jmcontactus/js/googlemap.js" );    
+	   e107::js("footer-inline", $code);	 
 
+	break;
+	case 'gmap3' : 
+		$googlemapsapikey = trim($eplug_prefs['jmcontactus_googlemapsapikey']);
+ 
+		e107::js("url", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}", 'jquery');
+		e107::js("footer", e_PLUGIN."jmcontactus/js/gmap3.min.js", 'jquery', 2);
+		e107::js("footer", e_PLUGIN."jmcontactus/js/gmap3.custom.js", 'jquery', 2);
+	break;
+	case 'iframe' :
+	default:
+	break;	
+}
+ 
+ 
 define("e_PAGETITLE", $contactinfo["title"]);
 require_once(HEADERF);
  

@@ -80,7 +80,7 @@ $(document).ready(function() {
 			// to geographical location types.
 			autocomplete = new google.maps.places.Autocomplete(
 				/** @type {HTMLInputElement} */
-				(document.getElementById('jm-contactus-googlemap')), {
+				(document.getElementById('jmcontactus-googlemap')), {
 					types: ['geocode']
 				});
 		}

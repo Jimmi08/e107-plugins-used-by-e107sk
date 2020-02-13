@@ -37,11 +37,8 @@ if (e_PAGE == "contactinfo.php")
 		e107::js("footer", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places" );
 		e107::js('footer', e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
 	}
-
 	e107::js('jmcontactus',  "js/bootstrap-growl.min.js", 'jquery');
-	e107::js('jmcontactus',  "js/contact-admin.js", 'jquery');
-	
- 
+	e107::js('footer',  e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
 }
  
  

@@ -62,7 +62,6 @@ if (isset($_POST['update_prefs']))
 	$eplug_prefs[$pname.'_settings_emailcopy']	= intval($_POST[$pname.'_settings_emailcopy']);
 	$eplug_prefs[$pname.'_settings_savetodb']	= intval($_POST[$pname.'_settings_savetodb']);
 	$eplug_prefs[$pname.'_settings_showinfo']	= intval($_POST[$pname.'_settings_showinfo']);
-	$eplug_prefs[$pname.'_settings_showmap']	= intval($_POST[$pname.'_settings_showmap']);
 	$eplug_prefs[$pname.'_settings_showform']	= intval($_POST[$pname.'_settings_showform']);
 	$eplug_prefs[$pname.'_thankyou_msg']		= $tp->toDB($_POST[$pname.'_thankyou_msg']);
   
@@ -130,14 +129,7 @@ $text .= "<div class='form-group'><label class='control-label col-md-2' for='".$
 $text .= "<div class='col-md-6'><div class='settings_showinfo'>"
 .$frm->radio_switch($pname."_settings_showinfo", $eplug_prefs[$pname.'_settings_showinfo'])
 ."</div></div></div>"; 
-
-// Show Google Map
-$text .= "<div class='form-group'><label class='control-label col-md-2' for='".$pname."_settings_showmap'>"
-.CUP_SETTINGS_MAP."</label>";
-$text .= "<div class='col-md-6'><div class='settings_showmap'>"
-.$frm->radio_switch($pname."_settings_showmap", $eplug_prefs[$pname.'_settings_showmap'])
-."</div></div></div>"; 
-
+ 
 // Show Contact Form
 $text .= "<div class='form-group'><label class='control-label col-md-2' for='".$pname."_settings_showformp'>"
 .CUP_SETTINGS_05."</label>";

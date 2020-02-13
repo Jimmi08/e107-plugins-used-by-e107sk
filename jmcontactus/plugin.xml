@@ -22,7 +22,6 @@
 		<pref name='jmcontactus_settings_emailfromname'>1</pref>		
 		<pref name='jmcontactus_settings_savetodb'>1</pref>
 		<pref name='jmcontactus_settings_showinfo'>1</pref>
-		<pref name='jmcontactus_settings_showmap'>1</pref>
 		<pref name='jmcontactus_settings_showform'>1</pref>
 		<pref name='jmcontactus_thankyou_msg'>Thank you for taking the time to contact us, we will contact you soon</pref>
 		<pref name='jmcontactus_googlemapsapikey'></pref>

@@ -39,7 +39,7 @@ $CONTACTUS_INFO_BEFORE =
 "<div id='spcu_top' class='row'>
 ";
 
-if($eplug_prefs['jmcontactus_settings_showmap'] == 1) {
+if($eplug_prefs['jmcontactus_map_type'] != 'nomap') {
 	// With Google Map
 	$CONTACTUS_INFO = "
 		<div id='spcu_info' class='col-sm-4 col-xs-12'>

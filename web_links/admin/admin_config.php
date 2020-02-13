@@ -42,8 +42,7 @@ class links_prefs_ui extends e_admin_ui
 {
 			
 		protected $pluginTitle		= 'Web Links';
-		protected $pluginName		= 'web_links';
-	//	protected $eventName		= 'web_links-links_categories'; // remove comment to enable event triggers in admin. 		
+		protected $pluginName		= 'web_links';		
 		protected $table			= '';
 		protected $pid				= 'cid';
 		protected $fields 			= array ();			

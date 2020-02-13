@@ -113,15 +113,46 @@ class plugin_jmcontactus_jmcontactus_shortcodes extends e_shortcode
 
 	// {CONTACT_MAP}
 	function sc_contact_map() {  
-		
-		if(isset($this->eplug_prefs['jmcontactus_google_maps_embed'])) 
-		{   
-			return $this->sc_google_map_embed();
+		switch ($this->eplug_prefs['jmcontactus_map_type']) { 
+			case 'iframe' :
+				return $this->sc_google_map_embed();
+			break;
+			case 'gmap' :
+				return "<div id='google-map'></div>";
+			break;
+			case 'gmap3' : 	 
+			 
+				$mapmarker = varset($this->eplug_prefs['jmcontactus_mapmarker'], '{e_PLUGIN}jmcontactus/img/marker.png');
+				$mapmarker = e107::getParser()->replaceConstants($mapmarker, 'full');    
+
+				$contactadress = $this->var["googlemap"]; 
+				$mapzoom = $this->var["googlemap_zoom"]; 
+
+				$text = '<!-- Google Maps -->
+                <section class="section no-top-padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <!-- Google Maps Element -->
+                            <div data-styles=\'[{"featureType":"landscape","stylers":[{"saturation":-100},{"lightness":65},{"visibility":"on"}]},{"featureType":"poi","stylers":[{"saturation":-100},{"lightness":51},{"visibility":"simplified"}]},{"featureType":"road.highway","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"saturation":-100},{"lightness":30},{"visibility":"on"}]},{"featureType":"road.local","stylers":[{"saturation":-100},{"lightness":40},{"visibility":"on"}]},{"featureType":"transit","stylers":[{"saturation":-100},{"visibility":"simplified"}]},{"featureType":"administrative.province","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":-25},{"saturation":-100}]},{"featureType":"water","elementType":"geometry","stylers":[{"hue":"#ffff00"},{"lightness":-25},{"saturation":-97}]}]\'
+								class="map" id="map1" style="height: 450px;" data-type="ROADMAP" 
+								data-zoom="'.$mapzoom.'" 
+								data-scroll="false" 
+								data-markers=\'{
+									"address": "'.$contactadress.'",
+									"center": "true",
+									"data": "",
+									"options": {
+										"icon": "'.$mapmarker.'"
+									}
+                    			} \'></div>
+                        </div>
+                </section>
+                <!-- /Google Maps -->';
+					 
+				return $text;
+			break;
+			return '';
 		}
-		else 
-		{
-			return "<div id='google-map'></div>";
-		}  
 	}
 
 	// ------------------------------------------------

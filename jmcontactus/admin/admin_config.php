@@ -24,6 +24,20 @@ class jmcontactus_prefs_ui extends e_admin_ui
 
 		//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
+            'jmcontactus_map_type' 	=> array(
+				'title'			=> 	CUP_SETTINGS_MAP, 
+				'tab'			=>	0, 
+				'type'			=>	'dropdown', 
+				'data'	 		=> 'str', 
+				'help'			=>	CUP_SETTINGS_MAP_HELP, 
+            	'writeParms'	=>array(
+					'optionArray'	=>array(
+						'nomap'		=>'No map', 
+						'iframe'	=>'Iframe', 
+						'gmap'		=>'Google Map Api', 
+						'gmap3'		=>'JQuery Gmap3 script')
+					)
+				),
 			'jmcontactus_google_maps_embed' 	=> array('title'=> CUP_SETTINGS_MAP_IFRAME, 'tab'=>0, 'type'=>'textarea', 'data' => 'str', 'help'=>''), 
 			'jmcontactus_googlemapsapikey'		=> array('title'=> CUP_SETTINGS_MAP_KEY, 'type'=>'text', 'writeParms'=>array('size'=>'block-level'),  'help'=>''),
 			
