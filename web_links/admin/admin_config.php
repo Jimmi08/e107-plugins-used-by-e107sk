@@ -42,7 +42,8 @@ class links_prefs_ui extends e_admin_ui
 {
 			
 		protected $pluginTitle		= 'Web Links';
-		protected $pluginName		= 'web_links';		
+		protected $pluginName		= 'web_links';
+	//	protected $eventName		= 'web_links-links_categories'; // remove comment to enable event triggers in admin. 		
 		protected $table			= '';
 		protected $pid				= 'cid';
 		protected $fields 			= array ();			
@@ -71,7 +72,7 @@ class links_prefs_ui extends e_admin_ui
 			'links_anonaddlinklock'		=> array(
 				'title'=> 'Lock Unregistered users from Suggesting New Links? [links_anonaddlinklock]', 
 				'tab'=>0, 
-				'type'=>'number', 
+				'type'=>'boolean', 
 				'data' => 'str', 
 				'help'=>'Lock Unregistered users from Suggesting New Links? (0=Yes 1=No)'),
 			'anonwaitdays'		=> array(
@@ -89,7 +90,7 @@ class links_prefs_ui extends e_admin_ui
 			'useoutsidevoting'		=> array(
 				'title'=> 'Allow Webmasters to put vote links on their site [useoutsidevoting]', 
 				'tab'=>0, 
-				'type'=>'number', 
+				'type'=>'boolean', 
 				'data' => 'str', 
 				'help'=>'Allow Webmasters to put vote links on their site (1=Yes 0=No)'),
 			'anonweight'		=> array(
@@ -147,14 +148,14 @@ class links_prefs_ui extends e_admin_ui
 			'blockunregmodify'		=> array(
 				'title'=> 'Block unregistered users from suggesting links changes? [blockunregmodify]', 
 				'tab'=>0, 
-				'type'=>'number', 
+				'type'=>'boolean', 
 				'data' => 'str', 
 				'help'=>'Block unregistered users from suggesting links changes? (1=Yes 0=No)'),
 			'user_addlink'		=> array(
 				'title'=> 'Let registered users to add new link? [user_addlink]', 
 				'tab'=>0, 
-				'type'=>'number', 
-				'data' => 'str', 
+				'type'=>'boolean', 
+				'data' => 'int', 
 				'help'=>'Let registered users to add new link?'),
 		); 
 			

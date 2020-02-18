@@ -171,7 +171,7 @@ define("_LINKVOTE","Vote!");
 define("_HTMLCODE3","Using this form will allow users to rate your resource directly from your site and the rating will be recorded here. The above form is disabled, but the following source code will work if you simply cut and paste it into your web page. The source code is shown below:");
 define("_PROMOTE05","Thanks! and good luck with your ratings!");
 define("_STAFF","Staff");
-define("_THANKSBROKEN","Thank you for your help to keep our database up-to-date.");
+define("_THANKSBROKEN","Thank you for your help to keep our database up-to-date. Click on link bellow to confirm it.");
 define("_THANKSFORINFO","Thanks for the information.");
 define("_LOOKTOREQUEST","We will process your request as soon as possible.");
 define("_ONLYREGUSERSMODIFY","Only registered users can suggest links modifications. Please <a href=\"modules.php?name=".UN_DIR_YOURACOUNT."\">register or login</a>.");

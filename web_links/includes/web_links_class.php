@@ -23,7 +23,7 @@
 $text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><font class=\"title\"><b>"._ADDALINK."</b></font></div><br><br>";
+		$text .= "<div class='center'><span class=\"title\"><b>"._ADDALINK."</b></span></div><br><br>";
 		if ((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
 			$text .= "<b>"._INSTRUCTIONS.":</b><br>"
 			."<span class='big'>&middot;</span> "._SUBMITONCE."<br>"
@@ -151,8 +151,8 @@ $text =$this->menu(1);
 		$totalrow = e107::getDB()->fetch($totalresult);
  
 		$totallinks = $totalrow['numrows'];
-		$text .= "<font class=\"option\"><b>".un_convert_time_by_locale($dateView, "downloads")." - ".$totallinks." "._NEWLINKS2."</b></font>"
-		."<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><font class=\"content\">";
+		$text .= "<span class=\"option\"><b>".un_convert_time_by_locale($dateView, "downloads")." - ".$totallinks." "._NEWLINKS2."</b></span>"
+		."<table width=\"100%\" cellspacing=\"0\" cellpadding=\"10\" border=\"0\"><tr><td><span class=\"content\">";
 		$result2 = e107::getDB()->gen("SELECT ll.lid, ll.cid, ll.sid, ll.title, ll.description, ll.date, ll.hits, ll.linkratingsummary, ll.totalvotes, ll.totalcomments, lc.title AS cat_title FROM #".UN_TABLENAME_LINKS_LINKS." ll, #".UN_TABLENAME_LINKS_CATEGORIES." lc WHERE lc.cid = ll.cid AND ll.date LIKE '%".$newlinkDB."%' ORDER BY ll.title ASC");
 			while ($row2 = e107::getDB()->fetch($result2)) {
 				$lid = $row2['lid'];
@@ -168,7 +168,7 @@ $text =$this->menu(1);
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = stripslashes(check_html($row2['cat_title'], "nohtml"));
 				if (ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
@@ -195,7 +195,7 @@ $text =$this->menu(1);
 					}
 				$text .= "<br>";
 					if (getperms('0')) {  //e107 superadmin
-						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
@@ -214,7 +214,7 @@ $text =$this->menu(1);
 				$text .= "<br><br>";
 			}
  
-		$text .= "</font></td></tr></table>";
+		$text .= "</span></td></tr></table>";
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
  
         e107::getRender()->tablerender($caption, $text);
@@ -248,9 +248,9 @@ $text =$this->menu(1);
 				$toplinks = round($toplinks);
 			}
 			if ($toplinkspercentrigger == 1) {
-				$text .=  "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".$toplinkspercent."% ("._OF." ".$totalratedlinks." "._TRATEDLINKS.")</b></font></div><br>";
+				$text .=  "<div class='center'><span class=\"option\"><b>"._BESTRATED." ".$toplinkspercent."% ("._OF." ".$totalratedlinks." "._TRATEDLINKS.")</b></span></div><br>";
 			} else {
-				$text .=  "<div class='center'><font class=\"option\"><b>"._BESTRATED." ".un_htmlentities($toplinks)." </b></font></div><br>";
+				$text .=  "<div class='center'><span class=\"option\"><b>"._BESTRATED." ".un_htmlentities($toplinks)." </b></span></div><br>";
 			}
 		$text .=  "</td></tr>"
 		."<tr><td><div class='center'>"._NOTE." ".$linkvotemin." "._TVOTESREQ."<br>"
@@ -276,7 +276,7 @@ $text =$this->menu(1);
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = e107::getParser()->toHTML($row['cat_title'], "", "TITLE");
 				if (ADMIN) {
-					$text .=  "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+					$text .=  "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .=  "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
@@ -382,7 +382,7 @@ $text =$this->menu(1);
  
 				if(ADMIN) {
 					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
-					<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+					<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
@@ -409,7 +409,7 @@ $text =$this->menu(1);
 				}
 				$text .= "<br>";
 				if (getperms('0')) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 				//if (isx_user($user)) {
@@ -569,7 +569,7 @@ $text =$this->menu(1);
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
  
 				if (ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"". LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
@@ -597,7 +597,7 @@ $text =$this->menu(1);
 					}
 				$text .= "<br>";
 					if (getperms('0')) {
-						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">"._EDIT."</a> | ";
+						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					//if (isx_user($user)) {
@@ -681,7 +681,7 @@ $text =$this->menu(1);
 			$url = stripslashes($row['url']);
 			$description = stripslashes($row['description']);
 			$text .= $this->plugTemplates['OPEN_TABLE'];
-			$text .= "<div class='center'><font class=\"option\"><b>"._REPORTBROKEN."</b></font><br><br><br><font class=\"content\">";
+			$text .= "<div class='center'><span class=\"option\"><b>"._REPORTBROKEN."</b></span><br><br><br><span class=\"content\">";
 			$text .= "<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">";
 			$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 			$text .= "<input type=\"hidden\" name=\"cid\" value=\"".$cid."\">";
@@ -720,7 +720,7 @@ $text =$this->menu(1);
 			}
 			if ($blocknow != 1) {
 				$result = e107::getDB()->gen("SELECT cid, sid, title, url, description FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
-				$text .= "<div class='center'><font class=\"option\"><b>"._REQUESTLINKMOD."</b></font><br><font class=\"content\">";
+				$text .= "<div class='center'><span class=\"option\"><b>"._REQUESTLINKMOD."</b></span><br><span class=\"content\">";
 				while($row = e107::getDB()->fetch($result)) {
 					$cid = $row['cid'];
 					$sid = $row['sid'];
@@ -774,7 +774,7 @@ $text =$this->menu(1);
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
-				$text .= "<div class='center'><font class=\"content\">"._ONLYREGUSERSMODIFY."</font></div>";
+				$text .= "<div class='center'><span class=\"content\">"._ONLYREGUSERSMODIFY."</span></div>";
 				$blocknow = 1;
 				$text .= $this->plugTemplates['CLOSE_TABLE'];
 		 
@@ -795,7 +795,7 @@ $text =$this->menu(1);
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
-				$text .= "<div class='center'><font class=\"content\">"._THANKSFORINFO." "._LOOKTOREQUEST."</font></div>";
+				$text .= "<div class='center'><span class=\"content\">"._THANKSFORINFO." "._LOOKTOREQUEST."</span></div>";
 				$text .= $this->plugTemplates['CLOSE_TABLE'];
 		 
 			}
@@ -933,7 +933,7 @@ $text =$this->menu(1);
 		if (!isset($min)) $min = 0;
 		if (!isset($max)) $max = $min+$linksresults;
 			if(isset($orderby)) {
-				$orderby = convertorderbyin($orderby);
+				$orderby = $this->convertorderbyin($orderby);
 			} else {
 				$orderby = "title ASC";
 			}
@@ -942,29 +942,29 @@ $text =$this->menu(1);
 			} else {
 				$show = $linksresults;
 			}
-		$query = check_html($query, "nohtml");
-		$query = addslashes($query);
+		$unquery = check_html($unquery, "nohtml");
+		$unquery = addslashes($unquery);
 			if(!is_numeric($linksresults) AND $linksresults==0) {
 				$linksresults=10;
 			}
-		$result = e107::getDB()->gen("SELECT lid, cid, sid, title, url, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$query."%' OR description LIKE '%".$query."%' ORDER BY ".$orderby." LIMIT ".intval($min).",".$linksresults);
-		
-		$fullcountresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$query."%' OR description LIKE '%".$query."%'");
+		$result = e107::getDB()->gen("SELECT lid, cid, sid, title, url, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$unquery."%' OR description LIKE '%".$unquery."%' ORDER BY ".$orderby." LIMIT ".intval($min).",".$linksresults, true);
+ 
+		$fullcountresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$unquery."%' OR description LIKE '%".$unquery."%'");
 		$fullcountrow = e107::getDB()->fetch($fullcountresult);
  
 		$totalselectedlinks = $fullcountrow['numrows'];
-		$nrows = count(e107::getDB()->rows($result));
+		$nrows =  e107::getDB()->rows($result) ;        
 		$x=0;
-		$the_query = stripslashes($query);
+		$the_query = stripslashes($unquery);
 		$the_query = str_replace("\'", "'", $the_query);
-$text =$this->menu(1);
+        $text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		if ($query != "") {
+		if ($unquery != "") {
 			if ($nrows>0) {
-				$text .= "<font class=\"option\">"._SEARCHRESULTS4.": <b>".$the_query."</b></font><br><br>"
-				."<table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><font class=\"option\"><b>"._USUBCATEGORIES."</b></font></td></tr></table>";
-				$result2 = e107::getDB()->gen("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE title LIKE '%".$query."%' ORDER BY title DESC");
+				$text .= "<span class=\"option\">"._SEARCHRESULTS4.": <b>".$the_query."</b></span><br><br>"
+				."<table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><span class=\"option\"><b>"._USUBCATEGORIES."</b></span></td></tr></table>";
+				$result2 = e107::getDB()->gen("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE title LIKE '%".$unquery."%' ORDER BY title DESC");
 					while ($row2 = e107::getDB()->fetch($result2)) {
 						$cid = $row2['cid'];
 						$stitle = stripslashes(check_html($row2['title'], "nohtml"));
@@ -979,17 +979,17 @@ $text =$this->menu(1);
 						$title3 = stripslashes(check_html($row3['title'], "nohtml"));
 						$parentid3 = $row3['parentid'];
 						if ($parentid3>0) $title3 = $this->getparent($parentid3,$title3);
-						$title3 = str_replace($query, "<b>".$query."</b>", $title3);
+						$title3 = str_replace($unquery, "<b>".$unquery."</b>", $title3);
 						$text .= "<span class='big'>&middot;</span>&nbsp;<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$title3."</a> (".$numrows.")<br>";
 					}
  
-				$text .= "<br><table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><font class=\"option\"><b>"._LINKS."</b></font></td></tr></table>";
-				$orderbyTrans = convertorderbytrans($orderby);
-				$text .= "<br><font class=\"content\">"._SORTLINKSBY.": "
-				._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=titleD\">D</a>)"
-				._DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=dateD\">D</a>)"
-				._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=ratingD\">D</a>)"
-				._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;orderby=hitsD\">D</a>)"
+				$text .= "<br><table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><span class=\"option\"><b>"._LINKS."</b></span></td></tr></table>";
+				$orderbyTrans = $this->convertorderbytrans($orderby);
+				$text .= "<br><span class=\"content\">"._SORTLINKSBY.": "
+				._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=titleD\">D</a>)"
+				._DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=dateD\">D</a>)"
+				._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=ratingD\">D</a>)"
+				._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=hitsD\">D</a>)"
 				."<br>"._SITESSORTED.": ".$orderbyTrans."<br><br>";
 					while($row = e107::getDB()->fetch($result)) {
 						$lid = $row['lid'];
@@ -1004,9 +1004,9 @@ $text =$this->menu(1);
 						$totalvotes = $row['totalvotes'];
 						$totalcomments = $row['totalcomments'];
 						$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
-						$title = str_replace($query, "<b>".$query."</b>", $title);
+						$title = str_replace($unquery, "<b>".$unquery."</b>", $title);
 						if (ADMIN) {
-							$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\""._EDIT."\"></a>&nbsp;&nbsp;";
+							$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 						} else {
 							$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 						}
@@ -1014,7 +1014,7 @@ $text =$this->menu(1);
 						newlinkgraphic($time);
 						popgraphic($hits);
 						$text .= "<br>";
-						$description = str_replace($query, "<b>".$query."</b>", $description);
+						$description = str_replace($unquery, "<b>".$unquery."</b>", $description);
 						$text .= _DESCRIPTION.": ".$description."<br>";
 						setlocale (LC_TIME, $locale);
 						//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
@@ -1050,10 +1050,10 @@ $text =$this->menu(1);
 								$text .= _CATEGORY.": ".$title3."<br><br>";
 								$x++;
 					}
-				$text .= "</font>";
-				$orderby = convertorderbyout($orderby);
+				$text .= "</span>";
+				$orderby = $this->convertorderbyout($orderby);
 			} else {
-				$text .= "<br><br><div class='center'><font class=\"option\"><b>"._NOMATCHES."</b></font><br><br>"._GOBACK."<br></div>";
+				$text .= "<br><br><div class='center'><span class=\"option\"><b>"._NOMATCHES."</b></span><br><br>"._GOBACK."<br></div>";
 			}
 
 		/* Calculates how many pages exist.  Which page one should be on, etc... */
@@ -1080,7 +1080,7 @@ $text =$this->menu(1);
 							} else {
 								$leftarrow = "images/left.gif";
 							}
-					$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+					$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;min=".$prev."&amp;orderby=".$orderby."&amp;show=".$show."\">"
 					."<img src=\"".$leftarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._PREVIOUS."\"></a>";
 					}
 				$counter = 1;
@@ -1091,7 +1091,7 @@ $text =$this->menu(1);
 							if ($counter == $currentpage) {
 								$text .= "<b>".$counter."</b> ";
 							} else {
-								$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
+								$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;min=".$mintemp."&amp;orderby=".$orderby."&amp;show=".$show."\">".$counter."</a> ";
 							}
 						$counter++;
 					}
@@ -1104,11 +1104,12 @@ $text =$this->menu(1);
 						} else {
 							$rightarrow = "images/right.gif";
 						}
-						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;query=".$the_query."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">"
+						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;min=".$max."&amp;orderby=".$orderby."&amp;show=".$show."\">"
 						."<img src=\"".$rightarrow."\" align=\"middle\" border=\"0\" hspace=\"5\" alt=\""._NEXT."\"></a>";
 					}
 			}
-		$text .= "<br><br><div class='center'><font class=\"content\">"
+            /*
+		$text .= "<br><br><div class='center'><span class=\"content\">"
 		._TRY2SEARCH." \"".$the_query."\" "._INOTHERSENGINES."<br>"
 		."<a target=\"_blank\" href=\"http://www.altavista.com/cgi-bin/query?pg=q&amp;sc=on&amp;hl=on&amp;act=2006&amp;par=0&amp;q=".$the_query."&amp;kl=XX&amp;stype=stext\">Alta Vista</a> - "
 		."<a target=\"_blank\" href=\"http://www.hotbot.com/?MT=".$the_query."&amp;DU=days&amp;SW=web\">HotBot</a> - "
@@ -1117,15 +1118,15 @@ $text =$this->menu(1);
 		."<a target=\"_blank\" href=\"http://www.lycos.com/cgi-bin/pursuit?query=".$the_query."&amp;maxhits=20\">Lycos</a> - "
 		."<a target=\"_blank\" href=\"http://search.yahoo.com/bin/search?p=".$the_query."\">Yahoo</a>"
 		."<br>"
-		."<a target=\"_blank\" href=\"http://es.linuxstart.com/cgi-bin/sqlsearch.cgi?pos=1&amp;query=".$the_query."&amp;language=&amp;advanced=&amp;urlonly=&amp;withid=\">LinuxStart</a> - "
+		."<a target=\"_blank\" href=\"http://es.linuxstart.com/cgi-bin/sqlsearch.cgi?pos=1&amp;unquery=".$the_query."&amp;language=&amp;advanced=&amp;urlonly=&amp;withid=\">LinuxStart</a> - "
 		."<a target=\"_blank\" href=\"http://search.1stlinuxsearch.com/compass?scope=".$the_query."&amp;ui=sr\">1stLinuxSearch</a> - "
 		."<a target=\"_blank\" href=\"http://www.google.com/search?q=".$the_query."\">Google</a> - "
 		."<a target=\"_blank\" href=\"http://www.linuxlinks.com/cgi-bin/search.cgi?query=".$the_query."&amp;engine=Links\">LinuxLinks</a> - "
 		."<a target=\"_blank\" href=\"http://www.freshmeat.net/search/?q=".$the_query."&amp;section=projects\">Freshmeat</a> - "
 		."<a target=\"_blank\" href=\"http://www.justlinux.com/bin/search.pl?key=".$the_query."\">JustLinux</a>"
-		."</font>";
+		."</span>"; */
 		} else {
-			$text .= "<div class='center'><font class=\"option\"><b>"._NOMATCHES."</b></font></div><br><br>";
+			$text .= "<div class='center'><span class=\"option\"><b>"._NOMATCHES."</b></span></div><br><br>";
 		}
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
  
@@ -1352,9 +1353,9 @@ $text =$this->menu(1);
 		$totalcomments = count(e107::getDB()->rows($result));
 		$displaytitle = $ttitle;
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></font><br><br>";
+		$text .= "<div class='center'><span class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></span><br><br>";
 		$text .= $this->linkinfomenu($lid);
-		$text .= "<br><br><br>"._TOTALOF." ".$totalcomments." "._COMMENTS."</font></div><br>"
+		$text .= "<br><br><br>"._TOTALOF." ".$totalcomments." "._COMMENTS."</span></div><br>"
 		."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"450\">";
 		$x=0;
 			while($row = e107::getDB()->fetch($result)) {
@@ -1377,30 +1378,30 @@ $text =$this->menu(1);
 				$useravgrating = $useravgrating / $usertotalcomments;
 				$useravgrating = number_format($useravgrating, 1);
 				$text .= "<tr><td bgcolor=\"".$bgcolor2."\">"
-				."<font class=\"content\"><b> "._USER.": </b><a href=\"modules.php?name=".UN_DIR_YOURACOUNT."&amp;op=userinfo&amp;username=".$ratinguser."\">".$ratinguser."</a></font>"
+				."<span class=\"content\"><b> "._USER.": </b><a href=\"modules.php?name=".UN_DIR_YOURACOUNT."&amp;op=userinfo&amp;username=".$ratinguser."\">".$ratinguser."</a></span>"
 				."</td>"
 				."<td bgcolor=\"".$bgcolor2."\">"
-				."<font class=\"content\"><b>"._RATING.": </b>".$rating."</font>"
+				."<span class=\"content\"><b>"._RATING.": </b>".$rating."</span>"
 				."</td>"
 				."<td bgcolor=\"".$bgcolor2."\" align=\"right\">"
-				."<font class=\"content\">".$formatted_date."</font>"
+				."<span class=\"content\">".$formatted_date."</span>"
 				."</td>"
 				."</tr>"
 				."<tr>"
 				."<td valign=\"top\">"
-				."<font class=\"tiny\">"._USERAVGRATING.": ".$useravgrating."</font>"
+				."<span class=\"tiny\">"._USERAVGRATING.": ".$useravgrating."</span>"
 				."</td>"
 				."<td valign=\"top\" colspan=\"2\">"
-				."<font class=\"tiny\">"._NUMRATINGS.": ".$usertotalcomments."</font>"
+				."<span class=\"tiny\">"._NUMRATINGS.": ".$usertotalcomments."</span>"
 				."</td>"
 				."</tr>"
 				."<tr>"
 				."<td colspan=\"3\">"
-				."<font class=\"content\">";
+				."<span class=\"content\">";
 					if (ADMIN) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
 					}
-				$text .= " ".$ratingcomments."</font>"
+				$text .= " ".$ratingcomments."</span>"
 				."<br><br><br></td></tr>";
 				$x++;
 			}
@@ -1419,7 +1420,7 @@ $text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
  
-		$text .=  "<div class='center'><font class=\"option\"><b>"._PROMOTEYOURSITE."</b></font></div><br><br>	
+		$text .=  "<div class='center'><span class=\"option\"><b>"._PROMOTEYOURSITE."</b></span></div><br><br>	
 		"._PROMOTE01."<br><br>	
 		<b>1) "._TEXTLINK."</b><br><br>
 		"._PROMOTE02."<br><br>
@@ -1530,7 +1531,7 @@ $text =$this->menu(1);
 		$displaytitle = $ttitle;
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></font><br>";
+		$text .= "<div class='center'><span class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></span><br>";
 		$text .= $this->linkinfomenu($lid);
 			if ($recordexist != 0) {
 				while($row = e107::getDB()->fetch($result)) {
@@ -1546,13 +1547,13 @@ $text =$this->menu(1);
 					$formatted_date = date("F j, Y", $timestamp);
 					$text .= "<br><br>";
 					$text .= $this->plugTemplates['OPEN_TABLE_2'];
-					$text .= "<div class='center'><font class=\"option\"><b>'".$editorialtitle."'</b></font></div>"
-					."<div class='center'><font class=\"tiny\">"._EDITORIALBY." ".$adminid." - ".$formatted_date."</font></div><br><br>"
+					$text .= "<div class='center'><span class=\"option\"><b>'".$editorialtitle."'</b></span></div>"
+					."<div class='center'><span class=\"tiny\">"._EDITORIALBY." ".$adminid." - ".$formatted_date."</span></div><br><br>"
 					.$editorialtext;
 					$text .= $this->plugTemplates['CLOSE_TABLE_2'];
 				}
 			} else {
-				$text .= "<br><br><div class='center'><font class=\"option\"><b>"._NOEDITORIAL."</b></font></div>";
+				$text .= "<br><br><div class='center'><span class=\"option\"><b>"._NOEDITORIAL."</b></span></div>";
 			}
 
 		$text .= "<br><br><div class='center'>";
@@ -1731,26 +1732,26 @@ $text =$this->menu(1);
 		$ttitle = stripslashes(check_html($rowt['title'], "nohtml"));
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><font class=\"option\"><b>"._LINKPROFILE.": ".$ttitle."</b></font><br><br>";
+		$text .= "<div class='center'><span class=\"option\"><b>"._LINKPROFILE.": ".$ttitle."</b></span><br><br>";
 		$text .= $this->linkinfomenu($lid);
 		$text .= "<br><br>"._LINKRATINGDET."<br>"
 			._TOTALVOTES." ".$totalvotesDB."<br>"
 			._OVERALLRATING.": ".$finalrating."</div><br><br>"
 		."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"455\">"
 		."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\">"
-		."<font class=\"content\"><b>"._REGISTEREDUSERS."</b></font>"
+		."<span class=\"content\"><b>"._REGISTEREDUSERS."</b></span>"
 		."</td></tr>"
 		."<tr>"
 		."<td bgcolor=\"".$bgcolor1."\">"
-			."<font class=\"content\">"._NUMBEROFRATINGS.": ".$regvotes."</font>"
+			."<span class=\"content\">"._NUMBEROFRATINGS.": ".$regvotes."</span>"
 		."</td>"
 		."<td rowspan=\"5\" width=\"200\">";
 			if ($regvotes==0) {
-				$text .= "<div class='center'><font class=\"content\">"._NOREGUSERSVOTES."</font></div>";
+				$text .= "<div class='center'><span class=\"content\">"._NOREGUSERSVOTES."</span></div>";
 			} else {
 				$text .= "<table border=\"1\" width=\"200\">"
 				."<tr>"
-				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 				."</tr>"
 				."<tr>"
 				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[1]." "._LVOTES." (".$rvvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[1]."\"></td>"
@@ -1766,36 +1767,36 @@ $text =$this->menu(1);
 				."</tr>"
 				."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 				."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">1</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">2</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">3</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">4</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">5</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">6</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">7</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">8</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">9</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">10</span></td>"
 				."</tr></table>"
 				."</td></tr></table>";
 			}
 		$text .= "</td>"
 		."</tr>"
-		."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgRU."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topreg."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomreg."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMOFCOMMENTS.": ".$truecomments."</font></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LINKRATING.": ".$avgRU."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._HIGHRATING.": ".$topreg."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LOWRATING.": ".$bottomreg."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._NUMOFCOMMENTS.": ".$truecomments."</span></td></tr>"
 		."<tr><td></td></tr>"
-		."<tr><td valign=\"top\" colspan=\"2\"><font class=\"tiny\"><br><br>"._WEIGHNOTE." ".$anonweight." "._TO." 1.</font></td></tr>"
-		."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><font class=\"content\"><b>"._UNREGISTEREDUSERS."</b></font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMBEROFRATINGS.": ".$anonvotes."</font></td>"
+		."<tr><td valign=\"top\" colspan=\"2\"><span class=\"tiny\"><br><br>"._WEIGHNOTE." ".$anonweight." "._TO." 1.</span></td></tr>"
+		."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><span class=\"content\"><b>"._UNREGISTEREDUSERS."</b></span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._NUMBEROFRATINGS.": ".$anonvotes."</span></td>"
 		."<td rowspan=\"5\" width=\"200\">";
 			if ($anonvotes==0) {
-				$text .= "<div class='center'><font class=\"content\">"._NOUNREGUSERSVOTES."</font></div>";
+				$text .= "<div class='center'><span class=\"content\">"._NOUNREGUSERSVOTES."</span></div>";
 			} else {
 				$text .= "<table border=\"1\" width=\"200\">"
 				."<tr>"
-				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 				."</tr>"
 				."<tr>"
 				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[1]." "._LVOTES." (".$avvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[1]."\"></td>"
@@ -1811,36 +1812,36 @@ $text =$this->menu(1);
 				."</tr>"
 				."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 				."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
-				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">1</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">2</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">3</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">4</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">5</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">6</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">7</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">8</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">9</span></td>"
+				."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">10</span></td>"
 				."</tr></table>"
 				."</td></tr></table>";
 			}
 		$text .= "</td>"
 		."</tr>"
-		."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgAU."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topanon."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomanon."</font></td></tr>"
-		."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">&nbsp;</font></td></tr>";
+		."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LINKRATING.": ".$avgAU."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._HIGHRATING.": ".$topanon."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LOWRATING.": ".$bottomanon."</span></td></tr>"
+		."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">&nbsp;</span></td></tr>";
 			if ($useoutsidevoting == 1) {
-				$text .= "<tr><td valign=\"top\" colspan=\"2\"><font class=\"tiny\"><br><br>"._WEIGHOUTNOTE." ".$outsideweight." "._TO." 1.</font></td></tr>"
-				."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><font class=\"content\"><b>"._OUTSIDEVOTERS."</b></font></td></tr>"
-				."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._NUMBEROFRATINGS.": ".$outsidevotes."</font></td>"
+				$text .= "<tr><td valign=\"top\" colspan=\"2\"><span class=\"tiny\"><br><br>"._WEIGHOUTNOTE." ".$outsideweight." "._TO." 1.</span></td></tr>"
+				."<tr><td colspan=\"2\" bgcolor=\"".$bgcolor2."\"><span class=\"content\"><b>"._OUTSIDEVOTERS."</b></span></td></tr>"
+				."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._NUMBEROFRATINGS.": ".$outsidevotes."</span></td>"
 				."<td rowspan=\"5\" width=\"200\">";
 					if ($outsidevotes==0) {
-						$text .= "<div class='center'><font class=\"content\">"._NOOUTSIDEVOTES."</font></div>";
+						$text .= "<div class='center'><span class=\"content\">"._NOOUTSIDEVOTES."</span></div>";
 					} else {
 						$text .= "<table border=\"1\" width=\"200\">"
 						."<tr>"
-						."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._BREAKDOWNBYVAL."</font></td>"
+						."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 						."</tr>"
 						."<tr>"
 						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[1] "._LVOTES." (".$ovvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[1]."\"></td>"
@@ -1856,25 +1857,25 @@ $text =$this->menu(1);
 						."</tr>"
 						."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 						."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">1</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">2</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">3</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">4</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">5</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">6</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">7</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">8</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">9</font></td>"
-						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><font class=\"content\">10</font></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">1</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">2</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">3</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">4</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">5</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">6</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">7</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">8</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">9</span></td>"
+						."<td width=\"10%\" valign=\"bottom\" align=\"center\"><span class=\"content\">10</span></td>"
 						."</tr></table>"
 						."</td></tr></table>";
 					}
 				$text .= "</td>"
 				."</tr>"
-				."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LINKRATING.": ".$avgOU."</font></td></tr>"
-				."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">"._HIGHRATING.": ".$topoutside."</font></td></tr>"
-				."<tr><td bgcolor=\"".$bgcolor2."\"><font class=\"content\">"._LOWRATING.": ".$bottomoutside."</font></td></tr>"
-				."<tr><td bgcolor=\"".$bgcolor1."\"><font class=\"content\">&nbsp;</font></td></tr>";
+				."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LINKRATING.": ".$avgOU."</span></td></tr>"
+				."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">"._HIGHRATING.": ".$topoutside."</span></td></tr>"
+				."<tr><td bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._LOWRATING.": ".$bottomoutside."</span></td></tr>"
+				."<tr><td bgcolor=\"".$bgcolor1."\"><span class=\"content\">&nbsp;</span></td></tr>";
 			}
 		$text .= "</table><br><br><div class='center'>";
 		$text .=$this->linkfooter($lid);

@@ -49,8 +49,8 @@ $web_linksFront = new web_links_front;
 //process URL parameters, just copy, they knew what they did 
 $qry = str_replace('&amp;', '&', e_QUERY);
 $qry_tmp = explode('&', $qry);
-$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid' );  
-
+$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid', 'unquery' );  
+ 
 foreach($qry_tmp as $tmp) {
   $qry_lop = explode('=', $tmp);
   $value = $qry_lop[1];
@@ -61,8 +61,10 @@ foreach($qry_tmp as $tmp) {
 }
 extract($par);
 
+
 //process $_POST parameters for rating,  
-$supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid');
+//process $_POST parameters for searching ,
+$supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid',  'unquery');
 foreach($_POST as $key => $value) {
 	if($value && in_array($key,$supportedpostkeys)) {     
 	    $formvalues[$key] = $value;
@@ -71,8 +73,7 @@ foreach($_POST as $key => $value) {
 
 $exType = EXTR_SKIP;
 extract($formvalues, $exType);
-
-
+ 
 if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
 	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 }
