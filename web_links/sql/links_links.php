@@ -1,0 +1,20 @@
+CREATE TABLE `links_links` (
+  `lid` int(11) NOT NULL auto_increment,
+  `cid` int(11) NOT NULL default '0',
+  `sid` int(11) NOT NULL default '0',
+  `title` varchar(100) NOT NULL default '',
+  `url` varchar(100) NOT NULL default '',
+  `description` text NOT NULL,
+  `date` datetime default NULL,
+  `name` varchar(100) NOT NULL default '',
+  `email` varchar(100) NOT NULL default '',
+  `hits` int(11) NOT NULL default '0',
+  `submitter` varchar(60) NOT NULL default '',
+  `linkratingsummary` double(6,4) NOT NULL default '0.0000',
+  `totalvotes` int(11) NOT NULL default '0',
+  `totalcomments` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`lid`),
+  KEY `lid` (`lid`),
+  KEY `cid` (`cid`),
+  KEY `sid` (`sid`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 ;
