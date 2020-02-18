@@ -60,9 +60,7 @@ foreach($qry_tmp as $tmp) {
 	}
 }
 extract($par);
-
-
-//process $_POST parameters for rating,  
+  
 //process $_POST parameters for searching ,
 $supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid',  'unquery');
 foreach($_POST as $key => $value) {
