@@ -12,6 +12,16 @@ define("UN_TABLENAME_LINKS_MODREQUEST", $prefix."links_modrequest");
 define("UN_TABLENAME_LINKS_NEWLINK", 	$prefix."links_newlink");
 define("UN_TABLENAME_LINKS_VOTEDATA", 	$prefix."links_votedata");
 
+//use e107 users
+define("UN_TABLENAME_USERS", 	$prefix."user AS user" );
+
+define ("UN_TABLENAME_USERNAME",  "user.user_name");  // Do not change the aliasing (the "author." part)!
+define ("UN_TABLENAME_USERNAME_ALIAS",  "user.user_name AS username");  // Do not change the aliasing (the "author." part)!
+define ("UN_TABLENAME_USEREMAIL", "user.user_email");  // Do not change the aliasing (the "author." part)!
+define ("UN_TABLENAME_USEREMAIL_ALIAS", "user.user_email AS user_email");  // Do not change the aliasing (the "author." part)!
+
+define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/index.php');
+ 
 
 define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');

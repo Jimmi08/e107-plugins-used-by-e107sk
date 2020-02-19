@@ -61,8 +61,10 @@ foreach($qry_tmp as $tmp) {
 }
 extract($par);
   
+//process $_POST parameters for rating,
 //process $_POST parameters for searching ,
-$supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid',  'unquery');
+//process $_POST parameters for moderate ,
+$supportedpostkeys = array('ratinglid',  'ratinguser', 'rating', 'rating', 'ratinghost_name', 'ratingcomments', 'l_op', 'lid',  'unquery', 'title', 'url', 'description', 'modifysubmitter' , 'cat' , 'sid');
 foreach($_POST as $key => $value) {
 	if($value && in_array($key,$supportedpostkeys)) {     
 	    $formvalues[$key] = $value;
