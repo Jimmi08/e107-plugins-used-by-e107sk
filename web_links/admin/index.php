@@ -35,6 +35,10 @@ require_once("admin_leftmenu.php");
 
 new leftmenu_adminArea();
 require_once(e_ADMIN."header.php"); 
+
+
+// load UnNuke core functions TODO replace with e107 stuff
+require_once(e_PLUGIN.'web_links/includes/web_links_core.php');
  
 //process URL parameters, just copy, they knew what they did 
 $qry = str_replace('&amp;', '&', e_QUERY);
@@ -52,7 +56,7 @@ foreach($qry_tmp as $tmp) {
 extract($par); 
 
 //process $_POST parameters for searching ,
-$supportedkeys = array('op',  'lid', 'linkid', 'editorialtitle', 'editorialtext', 'cid', 'sid', 'title', 'lid', 'requestid' );
+$supportedkeys = array('op',  'lid', 'linkid', 'editorialtitle', 'editorialtext', 'cid', 'sid', 'title', 'lid', 'requestid', 'url', 'description', 'name', 'email', 'hits', 'cat' );
 foreach($_POST as $key => $value) {
 	if($value && in_array($key,$supportedpostkeys)) {     
 	    $formvalues[$key] = $value;

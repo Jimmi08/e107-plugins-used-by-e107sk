@@ -20,7 +20,7 @@
 		$links_anonaddlinklock = $this->plugPrefs['links_anonaddlinklock'];
 		$user_addlink = $this->plugPrefs['user_addlink'];
 		$mainlink = 1;
-$text =$this->menu(1);
+		$text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$text .= "<div class='center'><span class=\"title\"><b>"._ADDALINK."</b></span></div><br><br>";
@@ -199,7 +199,7 @@ $text =$this->menu(1);
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
-						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."-1</a>";
 					}
 					if ($totalvotes != 0) {
 						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
@@ -303,7 +303,7 @@ $text =$this->menu(1);
 					}
 				$text .=  "<br><a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
-						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."-2</a>";
 					}
 					if ($totalvotes != 0) {
 						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
@@ -414,7 +414,7 @@ $text =$this->menu(1);
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 				//if (isx_user($user)) {
 				if(USER) {	
-					$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+					$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."-3</a>";
 				}
 				if ($totalvotes != 0) {
 					$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
@@ -599,7 +599,7 @@ $text =$this->menu(1);
 					if (getperms('0')) {
 						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
-				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+				    $text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					//if (isx_user($user)) {
 					if (USER) {
 						$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
@@ -1219,6 +1219,7 @@ $text =$this->menu(1);
 		 
         e107::getRender()->tablerender($caption, $text);
     } 
+    
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
 		global  $cookie, $user, $module_name, $anonymous;
@@ -1249,7 +1250,7 @@ $text =$this->menu(1);
 					/* Check if Rating is Null */
 					if ($rating == "--") {
 						$error = "nullerror";
-						$text .= completevote($error);
+						$text .= $this->completevote($error);
 						$passtest = "no";
 					}
 					/* Check if Link POSTER is voting (UNLESS Anonymous users allowed to post) */
@@ -1259,7 +1260,7 @@ $text =$this->menu(1);
 								$ratinguserDB = $row2['submitter'];
 									if ($ratinguserDB==$ratinguser) {
 										$error = "postervote";
-										$text .= completevote($error);
+										$text .= $this->completevote($error);
 										$passtest = "no";
 									}
 							}
@@ -1272,7 +1273,7 @@ $text =$this->menu(1);
 								$ratinguserDB = $row3['ratinguser'];
 								if ($ratinguserDB==$ratinguser) {
 									$error = "regflood";
-									$text .= completevote($error);
+									$text .= $this->completevote($error);
 									$passtest = "no";
 								}
 							}
@@ -1302,7 +1303,7 @@ $text =$this->menu(1);
 						$outsidevotecount = $row5['numrows'];
 							if ($outsidevotecount >= 1) {
 								$error = "outsideflood";
-								$text .= completevote($error);
+								$text .= $this->completevote($error);
 								$passtest = "no";
 							}
 					}

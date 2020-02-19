@@ -41,6 +41,7 @@ define("_PAGEURL","Page URL");
 define("_ADDURL","Add this URL");
 define("_LINKID","Link ID");
 define("_WEBLINKS","Web Links");
+ 
 //define("_TITLE","Title");
 //define("_STATUS","Status");
 define("_ADD","Add");
@@ -109,7 +110,7 @@ define("_EZTHEREIS","There is");
 define("_EZSUBCAT","sub-categories");
 define("_EZATTACHEDTOCAT","under this category");
 define("_EZBROKENLINKS","Broken Links");
-define("_LINKAPPROVEDMSG", "Gratulujeme! Odkaz, který jste vlo¾il do na¹í databáze, byl právì schvál","");
+define("_LINKAPPROVEDMSG", "Gratulujeme! Odkaz, kterï¿½ jste vloï¿½il do naï¿½ï¿½ databï¿½ze, byl prï¿½vï¿½ schvï¿½l","");
 
 define("_OWNERISADMIN","Administration");
 
@@ -150,3 +151,16 @@ define("_ERRORURLEXISTWL","ERROR: This URL address is alrady in the database!");
 define("_ERRORNOTITLEWL","ERROR: You must specify new name for URL!");
 define("_ERRORNOURLWL","ERROR: URL address has to be entered!");
 define("_ERRORNODESCRIPTIONWL","ERROR: Description has to be specified!");
+
+
+define("_ALLCATEGORIES","All Categories");
+define("_PARENT_CATEGORY","Parent Category");
+define("_TOPLEVEL","Main Category");
+define("_ADD_CATEGORY","Add New Category");
+
+define("_WLINKS","Links");
+define("_MODREQLINKS","Edit links");
+define("_BROKENLINKS","Broken links");
+define("_WAITINGCONT","Waiting for you are");
+define("LAN_MAINTENANCE","Maintenance");
+ 
