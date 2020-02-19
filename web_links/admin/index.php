@@ -62,7 +62,7 @@ foreach($_POST as $key => $value) {
 switch ($op) {
 
 	case "Links":
-	//	links();
+  	 links();
 	break;
 	
 	case "LinksDelNew":

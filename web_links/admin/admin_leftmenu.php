@@ -69,38 +69,56 @@ class leftmenu_adminArea extends e_admin_dispatcher
 				'perm' => 'P', ),
 			'tools/opt1' 				=> array(
 				'header' =>  _WAITINGCONT),
-			'Links/index'				=> array(
+                
+			'Links'				=> array(
 				'caption'=> _WLINKS, 
 				'perm' => 'P',  
 				'badge'=>array('value'=>$num, 'type'=>'default'),
-				'url'=>'index.php?op=Links'),
-			'LinksListModRequests/index'=> array(
+				'uri'=>'index.php?op=Links'),
+                
+			'LinksListModRequests'=> array(
 				'caption'=> _MODREQLINKS, 
 				'perm' => 'P', 
-				'url'=>'index.php?op=LinksListModRequests',
+				'uri'=>'index.php?op=LinksListModRequests',
 				'badge'=>array('value'=>$modreql, 'type'=>'default'),
 			),
-			'LinksListBrokenLinks/index'=> array(
+			'LinksListBrokenLinks'=> array(
 				'caption'=> _BROKENLINKS, 
 				'perm' => 'P', 
-				'url'=>'index.php?op=LinksListBrokenLinks',
+				'uri'=>'index.php?op=LinksListBrokenLinks',
 				'badge'=>array('value'=>$brokenl, 'type'=>'default'),
-			)	 
+			),  
+            
+			'tools/opt2' 				=> array(
+				'header' =>  LAN_MAINTENANCE
+            ),
+                         
+ 			'LinksLinkCheck'=> array(
+				'caption'=> _VALIDATELINKS, 
+				'perm' => '0', 
+				'uri'=>'index.php?op=LinksLinkCheck',
+				 ),
+            'LinksCleanVotes'=> array(
+				'caption'=> _CLEANLINKSDB, 
+				'perm' => '0', 
+				'uri'=>'index.php?op=LinksCleanVotes',
+		     ),
+  	 
 		);
 
 		if($num > 0) 
 		{
-			$this->adminMenu['Links/index/index']['badge']['type'] = 'danger';
+			$this->adminMenu['Links/index']['badge']['type'] = 'danger';
 		}
 
 		if($modreql > 0) 
 		{
-			$this->adminMenu['LinksListModRequests/index']['badge']['type'] = 'danger';
+			$this->adminMenu['LinksListModRequests']['badge']['type'] = 'danger';
 
 		}
 		if($brokenl > 0) 
 		{
-			$this->adminMenu['LinksListBrokenLinks/index']['badge']['type'] = 'danger';
+			$this->adminMenu['LinksListBrokenLinks']['badge']['type'] = 'danger';
 
 		}
 
