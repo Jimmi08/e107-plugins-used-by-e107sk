@@ -35,8 +35,7 @@ require_once("admin_leftmenu.php");
 
 new leftmenu_adminArea();
 require_once(e_ADMIN."header.php"); 
-
-
+  
 // load UnNuke core functions TODO replace with e107 stuff
 require_once(e_PLUGIN.'web_links/includes/web_links_core.php');
  
@@ -54,15 +53,25 @@ foreach($qry_tmp as $tmp) {
 	}
 }
 extract($par); 
-
+ 
 //process $_POST parameters for searching ,
-$supportedkeys = array('op',  'lid', 'linkid', 'editorialtitle', 'editorialtext', 'cid', 'sid', 'title', 'lid', 'requestid', 'url', 'description', 'name', 'email', 'hits', 'cat' );
-foreach($_POST as $key => $value) {
-	if($value && in_array($key,$supportedpostkeys)) {     
+$supportedostkeys = array('op',  'lid', 'linkid', 'editorialtitle', 'editorialtext', 'cid', 'sid', 'title', 'lid', 
+'requestid', 'url', 'description',   'cdescription',
+'name', 'email', 'hits', 'cat',   'sub','rid', 'cidfrom', 'cidto',
+'editorialtitle', 'editorialtext' );
+foreach($_POST as $key => $value) {     
+	if($value && in_array($key,$supportedostkeys)) {     
 	    $formvalues[$key] = $value;
 	}
 }
-
+ 
+$exType = EXTR_SKIP;
+extract($formvalues, $exType);
+ 
+if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
+	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
+}
+ 
 switch ($op) {
 
 	case "Links":
@@ -74,15 +83,16 @@ switch ($op) {
 	break;
 	
 	case "LinksAddCat":
-	//	LinksAddCat($title, $cdescription);
+	  //	LinksAddCat($title, $cdescription);
 	break;
 	
 	case "LinksAddSubCat":
-	//	LinksAddSubCat($cid, $title, $cdescription);
+	 	//LinksAddSubCat($cid, $title, $cdescription);
 	break;
 	
 	case "LinksAddLink":
-	//	LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $email, $submitter);
+	 //	LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $email, $submitter);
+        
 	break;
 
 	case "LinksAddEditorial":

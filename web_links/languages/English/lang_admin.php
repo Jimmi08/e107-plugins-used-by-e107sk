@@ -51,6 +51,7 @@ define("_LINKSWAITINGVAL","Links Waiting for Validation");
 define("_SUBMITTER","Submitter");
 define("_VISIT","Visit");
 define("_CLEANLINKSDB","Clean Links Votes");
+define("_LINKVOTEDCLEANED","Links Votes Cleaned");
 define("_BROKENLINKSREP","Broken Links Reports");
 define("_LINKMODREQUEST","Link Modification Requests");
 define("_ADDMAINCATEGORY","Add a MAIN Category");
@@ -115,7 +116,7 @@ define("_LINKAPPROVEDMSG", "Gratulujeme! Odkaz, kterï¿½ jste vloï¿½il do naï¿½ï¿
 define("_OWNERISADMIN","Administration");
 
 //added
-define("_WEBLINKCOMMENTS","wEB lINKS cOMMENTS");
+define("_WEBLINKCOMMENTS","Web Links Comments");
 define("_WEBLINKCOMMENTSTOTAL","Total comments:");
 define("_WEBLINKCOMMENTSUSER","User");
 define("_WEBLINKCOMMENTSUSERCOM","Comment");
@@ -143,6 +144,8 @@ define("_WEBLINKVOTEOUTVOTES","So far nobody from outside rated this link");
 define("_WLMODEDITORIAL","Modify editorial");
 
 define("_LINKS","links");
+define("_FUNCTIONS","Functions");
+define("_NONE","None");
 
 //fixes for doubled records with Downloads
 define("_ADDURLWL","Add new URL");

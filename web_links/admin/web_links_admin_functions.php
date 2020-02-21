@@ -18,6 +18,28 @@ function CloseTable() {
     return $text;
 }
 
+/*********************************************************/
+/* Links Modified Web Links                              */
+/*********************************************************/
+
+function getparent($parentid,$title) {
+	$sql = e107::getDb();
+	$title = stripslashes(check_html($title, "nohtml"));
+	$parentid = intval($parentid);
+	$result = $sql->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
+	$row = $sql->fetch($result);
+	$cid = $row['cid'];
+	$ptitle = $row['title'];
+	$pparentid = $row['parentid'];
+ 
+	if ($ptitle != "") $title = $ptitle."/".$title;
+		if ($pparentid != 0) {
+			$title = getparent($pparentid,$title);
+		}
+	return $title;
+}
+
+
 // save time, move to class complicates things 
 
 function LinksLinkCheck() {
@@ -229,8 +251,26 @@ function getCode($returnedStatusCode) {
     
 function LinksCleanVotes() {
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._CLEANLINKSDB;
-    $text = 'Comming soon';
-    e107::getRender()->tablerender($caption, $text, 'web_links_index');
+	$sql = e107::getDb();
+	$result = $sql->retrieve("SELECT distinct ratinglid FROM #".UN_TABLENAME_LINKS_VOTEDATA, true); 
+    foreach($result AS $row) {   
+		$ratinglid = $row['ratinglid'];     
+        $voteresult = $sql->retrieve("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$ratinglid."'", true);
+		$totalvotesDB = count($voteresult);
+		include ("../voteinclude.php");
+		$sql->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET linkratingsummary='".$finalrating."', totalvotes='".$totalvotesDB."', totalcomments='".$truecomments."' WHERE lid = '".$ratinglid."'");
+    }
+   $content .= "</table>";
+  
+  
+	$content .= OpenTable();
+	$content .= "<br><div class='center'>"
+	."<font class=\"option\">"
+	._LINKVOTEDCLEANED."<br><br>"
+	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
+	$content .= CloseTable();
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');  
+ 
 }
 
 function LinksListBrokenLinks() {
@@ -482,28 +522,289 @@ function LinksEditBrokenLinks($lid) {
     e107::getRender()->tablerender($caption, $content, 'web_links_index');
 }
 
-function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $cat) {
+function LinksModLink($lid) {     
+    $sql = e107::getDb();
+ 
+	global $anonymous;    
+    $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._MODLINK;    
+	$lid = intval($lid);
+	$result = $sql->retrieve("SELECT cid, title, url, description, name, email, hits FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'", true);
+	$content = OpenTable();
+	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	$content .= OpenTable();
+	$content .= "<div class='center'><font class=\"option\"><b>"._MODLINK."</b></font></div><br><br>";
+    foreach($result AS $row) {
+		$cid = $row['cid'];
+		$title = stripslashes($row['title']);
+		$url = $row['url'];
+		$description = stripslashes($row['description']);
+		$name = $row['name'];
+		$email = $row['email'];
+		$hits = $row['hits'];
+		$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+		._LINKID.": <b>".$lid."</b><br>"
+		._PAGETITLE.": <input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br>"
+		._PAGEURL.": <input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a href=\"index.php?url=".$url."\">"._VISIT."</a> ]<br>"
+		.LAN_DESCRIPTION.":<br><textarea name=\"description\" id=\"weblinks_link_edit\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br>"
+		.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"50\" maxlength=\"100\" value=\"".$name."\"><br>"
+		.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"50\" maxlength=\"100\" value=\"".$email."\"><br>"
+		._HITS.": <input type=\"text\" name=\"hits\" value=\"".$hits."\" size=\"12\" maxlength=\"11\"><br>";
+		$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
+		.LAN_CATEGORY.": <select name=\"cat\">";
+		$result2 = $sql->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
+			while($row2 = $sql->fetch($result2)) {
+				$cid2 = $row2['cid'];
+				$ctitle2 = stripslashes($row2['title']);
+				$parentid2 = $row2['parentid'];
+					if ($cid2 == $cid) {
+						$sel = "selected";
+					} else {
+						$sel = "";
+					}
+				if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+				$content .= "<option value=\"".$cid2."\" ".$sel.">".$ctitle2."</option>";
+			}
+ 
+		$content .= "</select>"
+		."<input type=\"hidden\" name=\"op\" value=\"LinksModLinkS\">"
+		."<input type=\"submit\" value=\""._MODIFY."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</form><br>";
+		$content .= CloseTable();   
+		$content .= "<br>";    
+		/* Modify or Add Editorial */
+		$resulted2 = $sql->retrieve("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM #".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'", true);
+		$recordexist = count($resulted2);    
+                
+		$content .= OpenTable();  
+		/* if returns 'bad query' status 0 (add editorial) */
+			if ($recordexist == 0) {
+				$content .= "<div class='center'><font class=\"option\"><b>"._ADDEDITORIAL."</b></font></div><br><br>"
+				."<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+				."<input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">"
+				._EDITORIALTITLE.":<br><input type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\"><br>"
+				._EDITORIALTEXT.":<br><textarea name=\"editorialtext\" id=\"weblinks_editorial_new\" cols=\"70\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea><br>"
+				."</select><input type=\"hidden\" name=\"op\" value=\"LinksAddEditorial\"><input type=\"submit\" value=\"Add\">";
+			} else {
+				/* if returns 'cool' then status 1 (modify editorial) */
+                foreach($resulted2 AS $row3) {
+					$editorialtimestamp = $row3['editorialtimestamp'];
+					$editorialtext = stripslashes($row3['editorialtext']);
+					$editorialtitle = stripslashes($row3['editorialtitle']);
+					//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $editorialtimestamp, $editorialtime);
+					preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $editorialtimestamp, $editorialtime);					
+					$editorialtime = strftime("%F",mktime($editorialtime[4],$editorialtime[5],$editorialtime[6],$editorialtime[2],$editorialtime[3],$editorialtime[1]));
+					$date_array = explode("-", $editorialtime); 
+					$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
+					$formatted_date = date("F j, Y", $timestamp);         	
+					$content .= "<div class='center'><font class=\"option\"><b>"._WLMODEDITORIAL."</b></font></div><br><br>"
+					."<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+					._AUTHOR.": ".$adminid."<br>"
+					._DATEWRITTEN.": ".$formatted_date."<br><br>"
+					."<input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">"
+					._EDITORIALTITLE.":<br><input type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\"><br>"
+					._EDITORIALTEXT.":<br><textarea name=\"editorialtext\" cols=\"70\" id=\"weblinks_editorial_edit\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea><br>"
+					."</select><input type=\"hidden\" name=\"op\" value=\"LinksModEditorial\"><input type=\"submit\" value=\""._MODIFY."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelEditorial&amp;linkid=".$lid."\">".LAN_DELETE."</a> ]";
+				}
+			}
+ 
+		$content .= CloseTable();    
+		$content .= "<br>";
+		$content .= OpenTable();       
+		/* Show Comments */
+		$result4 = $sql->retrieve("SELECT ratingdbid, ratinguser, ratingcomments, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." 
+        WHERE ratinglid = '".$lid."' AND ratingcomments <> '' ORDER BY ratingtimestamp DESC", true);
+		$totalcomments = count($result4);
+		$content .= "<table width=\"100%\">";    
+		$content .= "<tr><td colspan=\"7\"><b>"._WEBLINKCOMMENTS." ("._WEBLINKCOMMENTSTOTAL." ".$totalcomments.")</b><br><br></td></tr>";    
+		$content .= "<tr><td width=\"20\" colspan=\"1\"><b>"._WEBLINKCOMMENTSUSER."  </b></td><td colspan=\"5\"><b>"._WEBLINKCOMMENTSUSERCOM."  </b></td><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalcomments == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKCOMMENTNOCOM."<br></font></div></td></tr>";
+		$x=0;
+		$colorswitch = "#dddddd";
+            foreach($result4 AS $row4) {
+				$ratingdbid = $row4['ratingdbid'];
+				$ratinguser = $row4['ratinguser'];
+				$ratingcomments = stripslashes($row4['ratingcomments']);
+				$ratingtimestamp = $row4['ratingtimestamp'];
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $ratingtimestamp, $ratingtime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $ratingtimestamp, $ratingtime);				
+				$ratingtime = strftime("%F",mktime($ratingtime[4],$ratingtime[5],$ratingtime[6],$ratingtime[2],$ratingtime[3],$ratingtime[1]));
+				$date_array = explode("-", $ratingtime); 
+				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
+				$formatted_date = date("F j, Y", $timestamp);
+				$content .= "<tr><td bgcolor=\"".$colorswitch."\">".$ratinguser."</td><td colspan=\"5\" bgcolor=\"".$colorswitch."\">".$ratingcomments."</td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelComment&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr>";                       
+				$x++;
+				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
+			}
+ 
+		// Show Registered Users Votes
+		$result5 = $sql->retrieve("SELECT ratingdbid, ratinguser, rating, ratinghostname, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." 
+        WHERE ratinglid = '".$lid."' AND ratinguser <> 'outside' AND ratinguser <> '".$anonymous."' ORDER BY ratingtimestamp DESC", true);
+		$totalvotes = count($result5);
+		$content .= "<tr><td colspan=\"7\"><br><br><b>"._WEBLINKREGUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
+		$content .= "<tr><td><b>"._WEBLINKCOMMENTSUSER."  </b></td><td><b>"._WEBLINKVOTESIPADDR."  </b></td><td><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEAVGRATING."  </b></td><td><b>"._WEBLINKVOTETOTALRATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></font></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEREGVOTES."<br></font></div></td></tr>";
+		$x=0;
+		$colorswitch="#dddddd";
+			foreach($result5 AS $row5) {
+				$ratingdbid = $row5['ratingdbid'];
+				$ratinguser = $row5['ratinguser'];
+				$rating = $row5['rating'];
+				$ratinghostname = $row5['ratinghostname'];
+				$ratingtimestamp = $row5['ratingtimestamp'];
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $ratingtimestamp, $ratingtime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $ratingtimestamp, $ratingtime);				
+				$ratingtime = strftime("%F",mktime($ratingtime[4],$ratingtime[5],$ratingtime[6],$ratingtime[2],$ratingtime[3],$ratingtime[1]));
+				$date_array = explode("-", $ratingtime); 
+				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
+				$formatted_date = date("F j, Y", $timestamp); 
+				//Individual user information
+				$result6 = $sql->retrieve("SELECT rating FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinguser = '".$ratinguser."'", true);
+				$usertotalcomments = count($result6);
+				$useravgrating = 0;
+                foreach($result6 AS $row6)    {  $useravgrating = $useravgrating + $rating2;     }
+				$useravgrating = $useravgrating / $usertotalcomments;
+				$useravgrating = number_format($useravgrating, 1);
+				$content .= "<tr><td bgcolor=\"".$colorswitch."\">".$ratinguser."</td><td bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$useravgrating."</td><td bgcolor=\"".$colorswitch."\">".$usertotalcomments."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";
+				$x++;
+				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
+			}
+           
+		// Show Unregistered Users Votes
+		$result7 = $sql->retrieve("SELECT ratingdbid, rating, ratinghostname, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." 
+        WHERE ratinglid = '".$lid."' AND ratinguser = '".$anonymous."' ORDER BY ratingtimestamp DESC", true);
+		$totalvotes = count($result7);
+		$content .= "<tr><td colspan=\"7\"><b><br><br>"._WEBLINKUNREGUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
+		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></font></td><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEUNREGVOTES."<br></font></div></td></tr>";
+		$x=0;
+		$colorswitch="#dddddd";
+            foreach($result7 AS $row7) { 
+				$ratingdbid = $row7['ratingdbid'];
+				$rating = $row7['rating'];
+				$ratinghostname = $row7['ratinghostname'];
+				$ratingtimestamp = $row7['ratingtimestamp'];
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $ratingtimestamp, $ratingtime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $ratingtimestamp, $ratingtime);				
+				$ratingtime = strftime("%F",mktime($ratingtime[4],$ratingtime[5],$ratingtime[6],$ratingtime[2],$ratingtime[3],$ratingtime[1]));
+				$date_array = explode("-", $ratingtime); 
+				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
+				$formatted_date = date("F j, Y", $timestamp); 
+				$content .= "<td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
+				$x++;
+				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
+			}
+ 
+		// Show Outside Users Votes
+		$result8 = $sql->retrieve("SELECT ratingdbid, rating, ratinghostname, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." 
+        WHERE ratinglid = '".$lid."' AND ratinguser = 'outside' ORDER BY ratingtimestamp DESC", true );
+		$totalvotes = count($result8);
+		$content .= "<tr><td colspan=\"7\"><b><br><br>"._WEBLINKUNOUTUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
+		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></font></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEOUTVOTES." ".$sitename."<br></font></div></td></tr>";
+		$x=0;
+		$colorswitch="#dddddd";
+            foreach($result8 AS $row) { 
+				$ratingdbid = $row8['ratingdbid'];
+				$rating = $row8['rating'];
+				$ratinghostname = $row8['ratinghostname'];
+				$ratingtimestamp = $row8['ratingtimestamp'];
+				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $ratingtimestamp, $ratingtime);
+				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $ratingtimestamp, $ratingtime);				
+				$ratingtime = strftime("%F",mktime($ratingtime[4],$ratingtime[5],$ratingtime[6],$ratingtime[2],$ratingtime[3],$ratingtime[1]));
+				$date_array = explode("-", $ratingtime); 
+				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
+				$formatted_date = date("F j, Y", $timestamp); 
+				$content .= "<tr><td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
+				$x++;
+				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
+			}
+        
+		$content .= "<tr><td colspan=\"6\"><br></td></tr>";	    
+		$content .= "</table>";
+	}
+ 
+	$content .= "</form>";
+	$content .= CloseTable();
+	$content .= "<br>";
+      
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');
+}
+
+
+function LinksModLinkS($lid, $title, $url, $description, $name, $email, $hits, $cat) {      
 	$sql = e107::getDb();
 	$cat = explode("-", $cat);
 		if ($cat[1] == "") {
 			$cat[1] = 0;
 		}
 	$lid = intval($lid);
-	$title = stripslashes(FixQuotes($title));
-	$url = stripslashes(FixQuotes($url));
-	$description = stripslashes(FixQuotes($description));
-	$name = stripslashes(FixQuotes($name));
-	$email = stripslashes(FixQuotes($email));
+	$title = e107::getParser()->toDb($title);
+	$url = e107::getParser()->toDb($url);
+	$description = e107::getParser()->toDb($description);
+	$name = e107::getParser()->toDb($name);
+	$email = e107::getParser()->toDb($email);
 	$hits = intval($hits);
-	$sql->gen("UPDATE ".UN_TABLENAME_LINKS_LINKS." SET cid='".$cat[0]."', sid='".$cat[1]."', title='".$title."', url='".$url."', description='".$description."', name='".$name."', email='".$email."', hits='".$hits."' WHERE lid='".$lid."'");
-	$sql = "SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE lid='".$lid."'";
-	$result = $sql->retrieve($sql);
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET cid='".$cat[0]."', sid='".$cat[1]."', title='".$title."', url='".$url."', description='".$description."', name='".$name."', email='".$email."', hits='".$hits."' WHERE lid='".$lid."'");
+ 
+    $query = "SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE lid='".$lid."'";
+	$result = $sql->gen($query);
 	$row = $sql->fetch($result);
     $numrows = $result['numrows'];
-		if ($numrows>0) {
-			$sql->gen("DELETE FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE lid='".$lid."'");
-		}
+	if ($numrows>0) {
+		$sql->gen("DELETE FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE lid='".$lid."'");
+	}     
 	Header("Location: ".UN_FILENAME_ADMIN."?op=Links");
+}
+
+function LinksAddEditorial($linkid, $editorialtitle, $editorialtext) {
+    $sql = e107::getDb();
+    $aid = USERID;
+	$linkid = intval($linkid);
+	$editorialtitle = addslashes($editorialtitle);
+	$editorialtext = e107::getParser()->toDb($editorialtext);
+	$sql->gen("INSERT INTO #".UN_TABLENAME_LINKS_EDITORIALS." VALUES ('".$linkid."', '".$aid."', now(), '".$editorialtext."', '".$editorialtitle."')");
+ 
+	$content .= OpenTable();
+	$content .= "<div class='center'><br>"
+	."<font class=\"option\">"
+	._EDITORIALADDED."<br><br>"
+	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
+	$content .= $linkid."  ".$adminid.", ".$editorialtitle.", ".$editorialtext;
+	$content .= CloseTable();
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');
+}
+
+function LinksModEditorial($linkid, $editorialtitle, $editorialtext) {
+	$sql = e107::getDb();
+	$linkid = intval($linkid);
+	$editorialtitle = addslashes($editorialtitle);
+	$editorialtext = e107::getParser()->toDb($editorialtext);
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_EDITORIALS." SET editorialtext='".$editorialtext."', editorialtitle='".$editorialtitle."' WHERE linkid='".$linkid."'");
+ 
+ 
+	$content .= OpenTable();
+	$content .= "<br><div class='center'>"
+	."<font class=\"option\">"
+	._EDITORIALMODIFIED."<br><br>"
+	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
+	$content .= CloseTable();
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');    
+}
+
+function LinksDelEditorial($linkid) {
+	$sql = e107::getDb();
+	$linkid = intval($linkid);
+	$sql->gen("DELETE FROM #".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$linkid."'");
+ 
+	$content .= OpenTable();
+	$content .= "<br><div class='center'>"
+	."<font class=\"option\">"
+	._EDITORIALREMOVED."<br><br>"
+	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
+	$content .= CloseTable();
+    
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');
 }
 
  
@@ -530,10 +831,246 @@ function LinksIgnoreBrokenLinks($lid) {
 	Header("Location: ".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks");
 }
 
-function Links() {
+function links() {
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._WLINKS;
-    $text = 'Comming soon';
-    e107::getRender()->tablerender($caption, $text, 'web_links_index');
+	$sql = e107::getDb();
+ 
+	$content .= OpenTable();
+ 
+    $content .= "<div class='center'><a href=\"modules.php?name=Web_Links\"><img src=\"modules/Web_Links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+ 
+	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+	$row = $sql->fetch($result);
+ 
+	$numrows = $row['numrows'];
+	$content .= "<font class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKSINDB."</font></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	/* Temporarily 'homeless' links functions (to be revised in admin.php breakup) */
+	$result2 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");
+	$row2 = $sql->fetch($result2);
+ 
+	$totalbrokenlinks = $row2['numrows'];
+	$result3 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='0'");
+	$row3 = $sql->fetch($result3);
+ 
+	$totalmodrequests = $row3['numrows'];
+	$content .= OpenTable();
+	$content .= "<div class='center'><font class=\"content\">[ <a href=\"".UN_FILENAME_ADMIN."?op=LinksCleanVotes\">"._CLEANLINKSDB."</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks\">"._BROKENLINKSREP." (".$totalbrokenlinks.")</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</font></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	/* List Links waiting for validation */
+	$result4 = $sql->retrieve("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM #".UN_TABLENAME_LINKS_NEWLINK." ORDER BY lid", true);
+	$numrows = count($result4);
+	if ($numrows>0) {
+		$content .= OpenTable();
+		$content .= "<div class='center'><font class=\"option\"><b>"._LINKSWAITINGVAL."</b></font></div><br><br>";
+		foreach($result AS $row4) {
+				$lid = $row4['lid'];
+				$cid = $row4['cid'];
+				$sid = $row4['sid'];
+				$title = stripslashes($row4['title']);
+				$url = $row4['url'];
+				$description = stripslashes($row4['description']);
+				$name = $row4['name'];
+				$email = $row4['email'];
+				$submitter = $row4['submitter'];
+				$url2 = urlencode($url);
+					if ($submitter == "") {
+						$submitter = _NONE;
+					}
+				$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+				."<b>"._LINKID.": ".$lid."</b><br><br>"
+				._SUBMITTER.":  ".$submitter."<br>"
+				._PAGETITLE.": <input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br>"
+				._PAGEURL.": <input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a href=\"index.php?url=".$url2."\" target=\"_blank\">"._VISIT."</a> ]<br>"
+				.LAN_DESCRIPTION.": <br><textarea name=\"description\" id=\"weblinks_waiting\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br>"
+				.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"20\" maxlength=\"100\" value=\"".$name."\">&nbsp;&nbsp;"
+				.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\"><br>";
+				$content .= "<input type=\"hidden\" name=\"new\" value=\"1\">";
+				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
+				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
+				$content .=  _CATEGORY.": <select name=\"cat\">";
+				$result5 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
+                    foreach($result5 AS $row5) {
+						$cid2 = $row5['cid'];
+						$ctitle2 = stripslashes($row5['title']);
+						$parentid2 = $row5['parentid'];
+							if ($cid2 == $cid) {
+								$sel = "selected";
+							} else {
+								$sel = "";
+							}
+							if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+						$content .= "<option value=\"".$cid2."\" ".$sel.">".$ctitle2."</option>";
+					}
+ 
+					$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
+					$content .= "</select><input type=\"hidden\" name=\"op\" value=\"LinksAddLink\"><input type=\"submit\" value=\""._ADD."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelNew&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</form><br><hr noshade><br>";
+			}
+ 
+	$content .= CloseTable();
+	$content .= "<br>";
+	}
+	/* Add a New Main Category */
+	$content .= OpenTable();
+	$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+	."<font class=\"option\"><b>"._ADDMAINCATEGORY."</b></font><br><br>"
+	.LAN_NAME.": <input type=\"text\" name=\"title\" size=\"30\" maxlength=\"100\"><br>"
+	.LAN_DESCRIPTION.":<br><textarea name=\"cdescription\" id=\"weblinks_category_new\" cols=\"70\" rows=\"15\"></textarea><br>"
+	."<input type=\"hidden\" name=\"op\" value=\"LinksAddCat\">"
+	."<input type=\"submit\" value=\""._ADD."\"><br>"
+	."</form>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	// Add a New Sub-Category
+	$result6 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
+	$row6 = $sql->fetch($result6);
+ 
+	$numrows = $row6['numrows'];
+		if ($numrows>0) {
+			$content .= OpenTable();
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+			."<font class=\"option\"><b>"._ADDSUBCATEGORY."</b></font><br><br>"
+			.LAN_NAME.": <input type=\"text\" name=\"title\" size=\"30\" maxlength=\"100\">&nbsp;"._IN."&nbsp;";
+			$result7 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
+			$content .= "<select name=\"cid\">";
+			foreach($result7 AS $row7) {
+					$cid2 = $row7['cid'];
+					$ctitle2 = stripslashes($row7['title']);
+					$parentid2 = $row7['parentid'];
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+ 
+			$content .= "</select><br>"
+			.LAN_DESCRIPTION.":<br><textarea name=\"cdescription\" id=\"weblinks_subcategory_new\" cols=\"70\" rows=\"15\"></textarea><br>"
+			."<input type=\"hidden\" name=\"op\" value=\"LinksAddSubCat\">"
+			."<input type=\"submit\" value=\""._ADD."\"><br>"
+			."</form>";
+			$content .= CloseTable();
+			$content .= "<br>";
+		}
+	// Add a New Link to Database
+	$result8 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
+	$row8 = $sql->fetch($result8);
+ 
+	$numrows = $row8['numrows'];
+		if ($numrows>0) {
+			$content .= OpenTable();
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+			."<font class=\"option\"><b>"._ADDNEWLINK."</b></font><br><br>"
+			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
+			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
+			$result9 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
+			$content .= _CATEGORY.": <select name=\"cat\">";
+                foreach($result9 AS $row9) {
+					$cid2 = $row9['cid'];
+					$ctitle2 = stripslashes($row9['title']);
+					$parentid2 = $row9['parentid'];
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+		 
+			$content .= "</select><br><br><br>"
+			._DESCRIPTION255."<br><textarea name=\"description\" id=\"weblinks_link_new\" cols=\"70\" rows=\"15\"></textarea><br><br><br>"
+			.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"30\" maxlength=\"60\"><br>"
+			.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"30\" maxlength=\"60\"><br><br>"
+			."<input type=\"hidden\" name=\"op\" value=\"LinksAddLink\">"
+			."<input type=\"hidden\" name=\"new\" value=\"0\">"
+			."<input type=\"hidden\" name=\"lid\" value=\"0\">"
+			."<div class='center'><input type=\"submit\" value=\""._ADDURLWL."\"><br>"
+			."</form>";
+			$content .= CloseTable();
+			$content .= "<br>";
+		}
+	// Modify Category
+	$result10 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
+	$row10 = $sql->fetch($result10);
+ 
+	$numrows = $row10['numrows'];
+		if ($numrows>0) {
+			$content .= OpenTable();
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+			."<font class=\"option\"><b>"._MODCATEGORY."</b></font><br><br>";
+			$result11 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
+			$content .= _CATEGORY.": <select name=\"cat\">";
+                foreach($result11 AS $row11) {
+					$cid2 = $row11['cid'];
+					$ctitle2 = stripslashes($row11['title']);
+					$parentid2 = $row11['parentid'];
+						if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+ 
+			$content .= "</select>"
+			."<input type=\"hidden\" name=\"op\" value=\"LinksModCat\">"
+			."<input type=\"submit\" value=\""._MODIFY."\">"
+			."</form>";
+			$content .= CloseTable();
+			$content .= "<br>";
+		}
+	// Modify Links
+	$result12 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+	$row12 = $sql->fetch($result12);
+ 
+	$numrows = $row12['numrows'];
+		if ($numrows>0) {
+			$content .= OpenTable();
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+			."<font class=\"option\"><b>"._MODLINK."</b></font><br><br>"
+			._LINKID.": <input type=\"text\" name=\"lid\" size=\"12\" maxlength=\"11\">&nbsp;&nbsp;"
+			."<input type=\"hidden\" name=\"op\" value=\"LinksModLink\">"
+			."<input type=\"submit\" value=\""._MODIFY."\">"
+			."</form>";
+			$content .= CloseTable();
+			$content .= "<br>";
+		}
+	// Transfer Categories
+	$result13 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+	$row13 = $sql->fetch($result13);
+ 
+	$numrows = $row13['numrows'];
+		if ($numrows>0) {
+			$content .= OpenTable();
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
+			."<font class=\"option\"><b>"._EZTRANSFERLINKS."</b></font><br><br>"
+			._CATEGORY.": "
+			."<select name=\"cidfrom\">";
+			$result14 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
+            foreach($result14 AS $row14) {
+ 
+					$cid2 = $row14['cid'];
+					$ctitle2 = stripslashes($row14['title']);
+					$parentid2 = $row14['parentid'];
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+ 
+			$content .= "</select><br>"
+			._IN."&nbsp;"._CATEGORY.": ";
+			$result15 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
+			$content .= "<select name=\"cidto\">";
+				foreach($result15 AS $row15) {
+					$cid2 = intval($row15['cid']);
+					$ctitle2 = stripslashes($row15['title']);
+					$parentid2 = $row15['parentid'];
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+				}
+ 
+			$content .= "</select><br>"
+			."<input type=\"hidden\" name=\"op\" value=\"LinksTransfer\">"
+			."<input type=\"submit\" value=\""._EZTRANSFER."\"><br>"
+			."</form>";
+			$content .= CloseTable();
+			$content .= "<br>";
+		}
+ 
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');
 }
 
 function LinksChangeIgnoreRequests($requestid) {
@@ -594,3 +1131,109 @@ function LinksDelLink($lid) {
 		}
 	Header("Location: ".UN_FILENAME_ADMIN."?op=Links");
 }
+
+
+function LinksTransfer($cidfrom,$cidto) {
+	$sql = e107::getDb();
+	$cidfrom = intval($cidfrom);
+	$cidto = intval($cidto);
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET cid='".$cidto."' WHERE cid='".$cidfrom."'");
+	Header("Location: ".UN_FILENAME_ADMIN."?op=Links");
+}
+
+function LinksDelComment($lid, $rid) {
+	$sql = e107::getDb();
+	$rid = intval($rid);
+	$lid = intval($lid);
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_VOTEDATA." SET ratingcomments='' WHERE ratingdbid = '".$rid."'");
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET totalcomments = totalcomments-1 WHERE lid = '".$lid."'");
+	Header("Location: ".UN_FILENAME_ADMIN."?op=LinksModLink&lid=".$lid);
+}
+
+
+function LinksDelVote($lid, $rid) {
+	$sql = e107::getDb();
+	$rid = intval($rid);
+	$lid = intval($lid);
+	$sql->gen("DELETE FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratingdbid='".$rid."'");
+    $voteresult = $sql->retrieve("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'", true);
+	$totalvotesDB = count($voteresult);
+	include ("../voteinclude.php");
+	$sql->gen("UPDATE #".UN_TABLENAME_LINKS_LINKS." SET linkratingsummary='".$finalrating."', totalvotes='".$totalvotesDB."', totalcomments='".$truecomments."' WHERE lid = '".$lid."'");
+	Header("Location: ".UN_FILENAME_ADMIN."?op=LinksModLink&lid=".$lid);
+}
+
+
+function LinksModCat($cat) {
+	$sql = e107::getDb();
+ 
+	$content .= OpenTable();
+	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	$content .= OpenTable();
+	$content .= "<div class='center'><font class=\"option\"><b>"._MODCATEGORY."</b></font></div><br><br>";
+	$cat = explode("-", $cat);
+		if ($cat[1] == "") {
+			$cat[1] = 0;
+		}
+	$result = $sql->gen("SELECT title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$cat[0]."'");
+	$row = $sql->fetch($result);
+ 
+	$title = stripslashes($row['title']);
+	$cdescription = stripslashes($row['cdescription']);
+	$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+	.LAN_NAME.": <input type=\"text\" name=\"title\" value=\"".$title."\" size=\"51\" maxlength=\"50\"><br>"
+	.LAN_DESCRIPTION.":<br><textarea name=\"cdescription\" id=\"weblinks_category_edit\" cols=\"70\" rows=\"15\">".un_htmlentities($cdescription, ENT_QUOTES)."</textarea><br>"
+	."<input type=\"hidden\" name=\"sub\" value=\"0\">"
+	."<input type=\"hidden\" name=\"cid\" value=\"".$cat[0]."\">"
+	."<input type=\"hidden\" name=\"op\" value=\"LinksModCatS\">"
+	."<table border=\"0\"><tr><td>"
+	."<input type=\"submit\" value=\"".LAN_SAVE ."\"></form></td><td>"
+	."<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
+	."<input type=\"hidden\" name=\"sub\" value=\"0\">"
+	."<input type=\"hidden\" name=\"cid\" value=\"".$cat[0]."\">"
+	."<input type=\"hidden\" name=\"op\" value=\"LinksDelCat\">"
+	."<input type=\"submit\" value=\"".LAN_DELETE."\"></form></td></tr></table>";
+	$content .= CloseTable();
+    
+    e107::getRender()->tablerender($caption, $content, 'web_links_index');
+ 
+}
+
+
+function LinksModCatS($cid, $sid, $sub, $title, $cdescription) {
+	$sql = e107::getDb();
+	$cid = intval($cid);
+		if ($sub==0) {
+			$sql->gen("UPDATE #".UN_TABLENAME_LINKS_CATEGORIES." SET title='".addslashes($title)."', cdescription='".addslashes($cdescription)."' WHERE cid='".$cid."'");
+		}
+	Header("Location: ".UN_FILENAME_ADMIN."?op=Links");
+}
+
+
+function LinksAddSubCat($cid, $title, $cdescription) {
+	$sql = e107::getDb();
+	$cid = intval($cid);
+	$title = addslashes($title);
+	$cdescription = addslashes($cdescription);
+	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE title='".$title."' AND cid='".$cid."'");
+	$row = $sql->fetch($result);
+ 
+	$numrows =$row['numrows'];
+		if ($numrows>0) {
+ 
+ 
+			$content .= OpenTable();
+			$content .= "<br><div class='center'>";
+			$content .= "<font class=\"option\">"
+			."<b>"._ERRORTHESUBCATEGORY." ".$title." "._ALREADYEXIST."</b><br><br>"
+			._GOBACK."<br><br>";
+ 
+		} else {
+			$sql->gen("INSERT INTO #".UN_TABLENAME_LINKS_CATEGORIES." VALUES (NULL, '".$title."', '".$cdescription."', '".$cid."')");
+			Header("Location: ".UN_FILENAME_ADMIN."?op=Links");
+		}
+}
+
+ 

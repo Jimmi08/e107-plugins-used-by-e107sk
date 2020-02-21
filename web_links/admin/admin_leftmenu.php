@@ -50,6 +50,9 @@ class leftmenu_adminArea extends e_admin_dispatcher
 
 		$db = e107::getDb();
 
+       $links = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+	 
+    
 		// get actual data TODO move to e_dashboard ? 
 		$num = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_NEWLINK);
 		$brokenl = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");		 
@@ -59,7 +62,8 @@ class leftmenu_adminArea extends e_admin_dispatcher
 		$this->adminMenu = array( 
 			'main/prefs' 				=> array(
 				'caption'=> LAN_PREFS,
-				'perm' => 'P'),	
+				'perm' => 'P',
+                'url'=>'admin_config.php'), 	
 			'links_links/list'			=> array(
 				'caption'=> _WEBLINKS, 
 				'perm' => 'P', 
@@ -67,23 +71,31 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'links_categories/list'		=> array(
 				'caption'=> _ALLCATEGORIES, 
 				'perm' => 'P', ),
+                
+            'Links'=> array(
+				'caption'=> _WEBLINKSADMIN, 
+				'perm' => '0', 
+                'badge'=>array('value'=>$links, 'type'=>'default'),
+				'uri'=>'index.php?op=Links',
+		     ),                
+                
 			'tools/opt1' 				=> array(
 				'header' =>  _WAITINGCONT),
                 
-			'Links'				=> array(
+			'WLinks'				=> array(
 				'caption'=> _WLINKS, 
 				'perm' => 'P',  
 				'badge'=>array('value'=>$num, 'type'=>'default'),
 				'uri'=>'index.php?op=Links'),
                 
 			'LinksListModRequests'=> array(
-				'caption'=> _MODREQLINKS, 
+				'caption'=> _LINKMODREQUEST, 
 				'perm' => 'P', 
 				'uri'=>'index.php?op=LinksListModRequests',
 				'badge'=>array('value'=>$modreql, 'type'=>'default'),
 			),
 			'LinksListBrokenLinks'=> array(
-				'caption'=> _BROKENLINKS, 
+				'caption'=> _BROKENLINKSREP, 
 				'perm' => 'P', 
 				'uri'=>'index.php?op=LinksListBrokenLinks',
 				'badge'=>array('value'=>$brokenl, 'type'=>'default'),
