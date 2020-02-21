@@ -891,11 +891,11 @@
 					if ($cat[1]=="") {
 						$cat[1] = 0;
 					}
-				$title = stripslashes(check_html(FixQuotes($title), "nohtml"));
-				$url = stripslashes(check_html($url, "nohtml"));
-				$description = stripslashes(check_html(FixQuotes($description), "html"));
-				$auth_name = stripslashes(check_html($auth_name, "nohtml"));
-				$email = stripslashes(check_html($email, "nohtml"));
+				$title = e107::getParser()->toDb($title);
+				$url = e107::getParser()->toDb($url);
+				$description = e107::getParser()->toDb($description);
+				$auth_name = e107::getParser()->toDb($auth_name);
+				$email = e107::getParser()->toDb($email);
 				$cat[0] = intval($cat[0]);
 				$cat[1] = intval($cat[1]);
 				$num_result = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_NEWLINK." WHERE title='".addslashes($title)."' OR url='".addslashes($url)."' OR description='".addslashes($description)."'");

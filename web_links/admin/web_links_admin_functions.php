@@ -837,7 +837,7 @@ function links() {
  
 	$content .= OpenTable();
  
-    $content .= "<div class='center'><a href=\"modules.php?name=Web_Links\"><img src=\"modules/Web_Links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+    $content .= "<div class='center'><a href=\"modules.php?name=Web_Links\"><img src=\"".e_PLUGIN."/Web_Links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
  
 	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
 	$row = $sql->fetch($result);
@@ -867,8 +867,8 @@ function links() {
 	$numrows = count($result4);
 	if ($numrows>0) {
 		$content .= OpenTable();
-		$content .= "<div class='center'><font class=\"option\"><b>"._LINKSWAITINGVAL."</b></font></div><br><br>";
-		foreach($result AS $row4) {
+		$content .= "<div class='center'><font class=\"option\"><b>"._LINKSWAITINGVAL."</b></font></div><br><br>";        
+		foreach($result4 AS $row4) {
 				$lid = $row4['lid'];
 				$cid = $row4['cid'];
 				$sid = $row4['sid'];
@@ -915,45 +915,29 @@ function links() {
 	$content .= CloseTable();
 	$content .= "<br>";
 	}
-	/* Add a New Main Category */
-	$content .= OpenTable();
-	$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-	."<font class=\"option\"><b>"._ADDMAINCATEGORY."</b></font><br><br>"
-	.LAN_NAME.": <input type=\"text\" name=\"title\" size=\"30\" maxlength=\"100\"><br>"
-	.LAN_DESCRIPTION.":<br><textarea name=\"cdescription\" id=\"weblinks_category_new\" cols=\"70\" rows=\"15\"></textarea><br>"
-	."<input type=\"hidden\" name=\"op\" value=\"LinksAddCat\">"
-	."<input type=\"submit\" value=\""._ADD."\"><br>"
-	."</form>";
-	$content .= CloseTable();
-	$content .= "<br>";
-	// Add a New Sub-Category
-	$result6 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
-	$row6 = $sql->fetch($result6);
+    $url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";
+    $url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
+    $content .= '
+                  
+    <div class="row">                    
+        <div class="row">                    
+            <div class="col-md-3">                        
+                <div class="box-placeholder">                            
+                    <a href="'.$url01.'"  class="btn btn-primary btn-block">'._ADD_CATEGORY.'</a>                        
+                </div>                    
+            </div> 
+            <div class="col-md-3">                        
+                <div class="box-placeholder">                            
+                    <a href="'.$url02.'"  class="btn btn-primary btn-block">'._ADDNEWLINK.'</a>                        
+                </div>                    
+            </div>                                      
+        </div>                
+    </div>            
+ ';
  
-	$numrows = $row6['numrows'];
-		if ($numrows>0) {
-			$content .= OpenTable();
-			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-			."<font class=\"option\"><b>"._ADDSUBCATEGORY."</b></font><br><br>"
-			.LAN_NAME.": <input type=\"text\" name=\"title\" size=\"30\" maxlength=\"100\">&nbsp;"._IN."&nbsp;";
-			$result7 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
-			$content .= "<select name=\"cid\">";
-			foreach($result7 AS $row7) {
-					$cid2 = $row7['cid'];
-					$ctitle2 = stripslashes($row7['title']);
-					$parentid2 = $row7['parentid'];
-					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
-					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
-				}
- 
-			$content .= "</select><br>"
-			.LAN_DESCRIPTION.":<br><textarea name=\"cdescription\" id=\"weblinks_subcategory_new\" cols=\"70\" rows=\"15\"></textarea><br>"
-			."<input type=\"hidden\" name=\"op\" value=\"LinksAddSubCat\">"
-			."<input type=\"submit\" value=\""._ADD."\"><br>"
-			."</form>";
-			$content .= CloseTable();
-			$content .= "<br>";
-		}
+$content .= CloseTable();
+$content .= "<br>";
+		
 	// Add a New Link to Database
 	$result8 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
 	$row8 = $sql->fetch($result8);
@@ -1236,4 +1220,103 @@ function LinksAddSubCat($cid, $title, $cdescription) {
 		}
 }
 
+// REPLACE THIS TODO
+function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $email, $submitter) {
+	global  $sitename, $nukeurl;
+    
+    $sql = e107::getDb();
+        
+	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
+	$row = $sql->fetch($result);
+ 
+	$numrows = $row['numrows'];
+	if ($numrows>0) {
+ 
+		$content .= OpenTable();
+		$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+		$content .= CloseTable();
+		$content .= "<br>";
+		$content .= OpenTable();
+		$content .= "<br><div class='center'>"
+		."<font class=\"option\">"
+		."<b>"._ERRORURLEXISTWL."</b></font><br><br>"
+		._GOBACK."<br><br>";
+	   e107::getRender()->tablerender($caption, $content, 'web_links_index');
+	 
+	} else {
+		/* Check if Title exist */
+		if ($title=="") {
+ 
+			$content .= OpenTable();
+			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+			$content .= CloseTable();
+			$content .= "<br>";
+			$content .= OpenTable();
+			$content .= "<br><div class='center'>"
+			."<font class=\"option\">"
+			."<b>"._ERRORNOTITLEWL."</b></font><br><br>"
+			._GOBACK."<br><br>";
+			$content .= CloseTable();
+		     e107::getRender()->tablerender($caption, $content, 'web_links_index');
+		}
+		/* Check if URL exist */
+		if ($url=="") {
+ 
+			$content .= OpenTable();
+			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+			$content .= CloseTable();
+			$content .= "<br>";
+			$content .= OpenTable();
+			$content .= "<br><div class='center'>"
+			."<font class=\"option\">"
+			."<b>"._ERRORNOURLWL."</b></font><br><br>"
+			._GOBACK."<br><br>";
+			$content .= CloseTable();
+			 e107::getRender()->tablerender($caption, $content, 'web_links_index');
+		}
+		// Check if Description exist
+		if ($description=="") {
+ 
+			$content .= OpenTable();
+			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+			$content .= CloseTable();
+			$content .= "<br>";
+			$content .= OpenTable();
+			$content .= "<br><div class='center'>"
+			."<font class=\"option\">"
+			."<b>"._ERRORNODESCRIPTIONWL."</b></font><br><br>"
+			._GOBACK."<br><br>";
+			$content .= CloseTable();
+			 e107::getRender()->tablerender($caption, $content, 'web_links_index');
+		}
+	$cat = explode("-", $cat);
+		if ($cat[1] == "") {
+			$cat[1] = 0;
+		}
+	$title = e107::getParser()->toDB($title);
+	$url = e107::getParser()->toDB($url);
+	$description = e107::getParser()->toDB($description);
+	$name = e107::getParser()->toDB($name);
+	$email = e107::getParser()->toDB($email);
+	$sql->gen("INSERT INTO #".UN_TABLENAME_LINKS_LINKS." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".$title."', '".$url."', '".$description."', now(), '".$name."', '".$email."', '0', '".$submitter."', '0', '0', '0')");
+ 
+	$content .= OpenTable();
+	$content .= "<br><div class='center'>";
+	$content .= "<font class=\"option\">";
+	$content .= _NEWLINKADDED."</font><br><br>";
+	$content .= "[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]</div><br><br>";
+	$content .= CloseTable();
+	if ($new==1) {
+		$sql->gen("DELETE FROM #".UN_TABLENAME_LINKS_NEWLINK." WHERE lid='".$lid."'");
+		if ($email != "") {
+			$subject = _YOURLINKAT." ".$sitename;
+			$message = _HELLO." ".$name.":\n\n"._LINKAPPROVEDMSG."\n\n"._LINKTITLE.": ".$title."\n"._URL.": ".$url."\n".LAN_DESCRIPTION.": ".$description."\n\n\n"._YOUCANBROWSEUS." ".$nukeurl."/modules.php?name=Web_Links\n\n"._THANKS4YOURSUBMISSION."\n\n".$sitename." "._TEAM;
+			$from = $sitename;
+			//un_mail($email, $subject, $message, "From: ".$from."\n");
+            //TODO NOTIFY
+		}
+	}
+ 
+    }
+}
  

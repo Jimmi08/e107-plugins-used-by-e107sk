@@ -54,8 +54,8 @@ define("_CLEANLINKSDB","Clean Links Votes");
 define("_LINKVOTEDCLEANED","Links Votes Cleaned");
 define("_BROKENLINKSREP","Broken Links Reports");
 define("_LINKMODREQUEST","Link Modification Requests");
-define("_ADDMAINCATEGORY","Add a MAIN Category");
-define("_ADDSUBCATEGORY","Add a SUB-Category");
+//define("_ADDMAINCATEGORY","Add a MAIN Category");
+//define("_ADDSUBCATEGORY","Add a SUB-Category");
 define("_IN","in");
 define("_ADDNEWLINK","Add a New Link");
 define("_DESCRIPTION255","Description: (255 characters max)");
@@ -166,4 +166,7 @@ define("_MODREQLINKS","Edit links");
 define("_BROKENLINKS","Broken links");
 define("_WAITINGCONT","Waiting for you are");
 define("LAN_MAINTENANCE","Maintenance");
+
+define("_GOBACK","Go Back");
+
  

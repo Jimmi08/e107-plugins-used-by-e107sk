@@ -20,9 +20,6 @@ define ("UN_TABLENAME_USERNAME_ALIAS",  "user.user_name AS username");  // Do no
 define ("UN_TABLENAME_USEREMAIL", "user.user_email");  // Do not change the aliasing (the "author." part)!
 define ("UN_TABLENAME_USEREMAIL_ALIAS", "user.user_email AS user_email");  // Do not change the aliasing (the "author." part)!
 
-define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/index.php');
- 
-
 define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');
 define("WEB_LINKS_FRONTFILE",   'web_links.php' ); 
@@ -34,8 +31,7 @@ $plugin_index = e107::getParser()->replaceConstants($plugin_index,'full');
 
 define("WEB_LINKS_INDEX",  	$plugin_index);
  
-define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/');  //TODO
-
-
+define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/index.php');
+define("UN_FILENAME_ADMIN_FOLDER",	e_PLUGIN.'web_links/admin/');
  
  

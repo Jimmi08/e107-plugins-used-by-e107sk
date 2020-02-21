@@ -15,7 +15,7 @@ require_once("admin_leftmenu.php");
 class web_links_ui extends e_admin_ui
 {
 			
-		protected $pluginTitle		= '';
+		protected $pluginTitle		= _WEBLINKSADMIN;
 		protected $pluginName		= 'web_links';		
 		protected $table			= 'links_categories';
 		protected $pid				= 'cid';
@@ -27,20 +27,43 @@ class web_links_ui extends e_admin_ui
 	
 		protected $fields 		= array (
 			'checkboxes'              => array (  'title' => '',  'type' => null,  'data' => null,  'forced' => true,  'toggle' => 'e-multiselect',  'fieldpref' => '1',),
-			'parentid'                => array (  'title' => _PARENT_CATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'fieldpref' => '1',),
-			'cid'                     => array (  'title' => 'Cid',  'data' => 'int',  'fieldpref' => '1',),
-			'title'                   => array (  'title' => LAN_TITLE,  'type' => 'text',  'data' => 'str',  'inline' => true,  'filter' => true,  'fieldpref' => '1',),
-			'cdescription'            => array (  'title' => LAN_DESCRIPTION,  'type' => 'textarea',  'data' => 'str',  'filter' => true,  'fieldpref' => '1',),
-
+			'parentid'                => array (  'title' => _PARENT_CATEGORY,  'type' => 'dropdown',  
+            'data' => 'int',  
+            'batch' => true,  
+            'filter' => true ),
+			'cid'                     => array (  'title' => 'Cid',  'data' => 'int' ),
+			'title'                   => array (  'title' => LAN_TITLE,  'type' => 'text',  'data' => 'str', 
+             'inline' => true,  'filter' => true,   'writeParms' =>array('size'=>'block-level')
+             ),
+			'cdescription'            => array (  'title' => LAN_DESCRIPTION,  'type' => 'textarea',  'data' => 'str',  
+              'writeParms' =>array('size'=>'block-level'
+            ),
+            ),
 			'options'                 => array (  'title' => LAN_OPTIONS,  'type' => null,  'data' => null,  'forced' => true,  'fieldpref' => '1',),
 		);		
 		
 		protected $fieldpref = array('cid', 'title', 'cdescription', 'parentid');
 		
+        
+		public function __construct($request, $response, $params = array()) {
+
+			//$action = $this->getRequest()->getAction();
+			$action = $_GET['action'];
+			$this->pluginTitle = _WEBLINKSADMIN;
+
+			if($action == 'create') 
+			{
+				$this->pluginTitle .= ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._ADD_CATEGORY;
+			}
+
+			parent::__construct($request, $response, $params = array());
+		}
+        
 	
 		public function init()
 		{
-        	$this->postFiliterMarkup = $this->AddButton();
+         
+            $this->postFiliterMarkup = $this->AddButton();
 			// Example Drop-down array from database.
 			$rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid = 0 ", true);
 			$values[0] = _TOPLEVEL;

@@ -57,7 +57,7 @@ extract($par);
 //process $_POST parameters for searching ,
 $supportedostkeys = array('op',  'lid', 'linkid', 'editorialtitle', 'editorialtext', 'cid', 'sid', 'title', 'lid', 
 'requestid', 'url', 'description',   'cdescription',
-'name', 'email', 'hits', 'cat',   'sub','rid', 'cidfrom', 'cidto',
+'name', 'email', 'hits', 'cat',   'sub','rid', 'cidfrom', 'cidto',  'new',  'submitter',
 'editorialtitle', 'editorialtext' );
 foreach($_POST as $key => $value) {     
 	if($value && in_array($key,$supportedostkeys)) {     
@@ -81,20 +81,7 @@ switch ($op) {
 	case "LinksDelNew":
 		LinksDelNew($lid);
 	break;
-	
-	case "LinksAddCat":
-	  //	LinksAddCat($title, $cdescription);
-	break;
-	
-	case "LinksAddSubCat":
-	 	//LinksAddSubCat($cid, $title, $cdescription);
-	break;
-	
-	case "LinksAddLink":
-	 //	LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $email, $submitter);
-        
-	break;
-
+ 
 	case "LinksAddEditorial":
 		LinksAddEditorial($linkid, $editorialtitle, $editorialtext);
 	break;

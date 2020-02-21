@@ -70,7 +70,8 @@ class leftmenu_adminArea extends e_admin_dispatcher
 				'url'=>'admin_links_links.php'),
 			'links_categories/list'		=> array(
 				'caption'=> _ALLCATEGORIES, 
-				'perm' => 'P', ),
+				'perm' => 'P', 
+                'url'=>'admin_links_categories.php'),
                 
             'Links'=> array(
 				'caption'=> _WEBLINKSADMIN, 
