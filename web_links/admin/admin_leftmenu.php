@@ -34,7 +34,12 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'ui' 			=> 'web_links_form_ui',
 			'uipath' 		=> null
 		),			
-	
+		'links_newlink'	=> array(
+			'controller' 	=> 'web_links_ui',
+			'path' 			=> null,
+			'ui' 			=> 'web_links_form_ui',
+			'uipath' 		=> null
+		),	
 		
 
 	);
@@ -83,11 +88,12 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'tools/opt1' 				=> array(
 				'header' =>  _WAITINGCONT),
                 
-			'WLinks'				=> array(
-				'caption'=> _WLINKS, 
-				'perm' => 'P',  
-				'badge'=>array('value'=>$num, 'type'=>'default'),
-				'uri'=>'index.php?op=Links'),
+			'links_newlink/list'		=> array(
+				'caption'=> _LINKSWAITINGVAL, 
+				'perm' => 'P', 
+                'badge'=>array('value'=>$num, 'type'=>'default'),
+                'url'=>'admin_links_newlink.php'),
+ 
                 
 			'LinksListModRequests'=> array(
 				'caption'=> _LINKMODREQUEST, 

@@ -938,39 +938,7 @@ function links() {
 $content .= CloseTable();
 $content .= "<br>";
 		
-	// Add a New Link to Database
-	$result8 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
-	$row8 = $sql->fetch($result8);
- 
-	$numrows = $row8['numrows'];
-		if ($numrows>0) {
-			$content .= OpenTable();
-			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-			."<font class=\"option\"><b>"._ADDNEWLINK."</b></font><br><br>"
-			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
-			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
-			$result9 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
-			$content .= _CATEGORY.": <select name=\"cat\">";
-                foreach($result9 AS $row9) {
-					$cid2 = $row9['cid'];
-					$ctitle2 = stripslashes($row9['title']);
-					$parentid2 = $row9['parentid'];
-					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
-					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
-				}
-		 
-			$content .= "</select><br><br><br>"
-			._DESCRIPTION255."<br><textarea name=\"description\" id=\"weblinks_link_new\" cols=\"70\" rows=\"15\"></textarea><br><br><br>"
-			.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"30\" maxlength=\"60\"><br>"
-			.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"30\" maxlength=\"60\"><br><br>"
-			."<input type=\"hidden\" name=\"op\" value=\"LinksAddLink\">"
-			."<input type=\"hidden\" name=\"new\" value=\"0\">"
-			."<input type=\"hidden\" name=\"lid\" value=\"0\">"
-			."<div class='center'><input type=\"submit\" value=\""._ADDURLWL."\"><br>"
-			."</form>";
-			$content .= CloseTable();
-			$content .= "<br>";
-		}
+
 	// Modify Category
 	$result10 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
 	$row10 = $sql->fetch($result10);

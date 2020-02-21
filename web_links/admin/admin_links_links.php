@@ -23,7 +23,7 @@ class web_links_ui extends e_admin_ui
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
 		protected $listOrder		= 'lid DESC';
-	    //'sid'  'date'  'hits' 'submitter'   'linkratingsummary'  'totalvotes'    'totalcomments'
+	    //   'date'  'hits' 'submitter'   'linkratingsummary'  'totalvotes'    'totalcomments'
 		protected $fields 		= array (
 			'checkboxes'              => array (  'title' => '',  'type' => null,  'data' => null,  'forced' => true,  'toggle' => 'e-multiselect' ),
 			'lid'                     => array (  'title' => LAN_ID,  'data' => 'int', ),
@@ -31,7 +31,8 @@ class web_links_ui extends e_admin_ui
             'writeParms' => 'size=block-level', 'filter' => true ),
 			'url'                     => array (  'title' => _PAGEURL,  'type' => 'url',  'data' => 'str',   'readParms' => 'target=blank', 
             'writeParms' => 'size=block-level',),
-            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),          
+            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),
+            'sid'                     => array (  'title' => _SUBCATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),               
 			'description'             => array (  'title' => _DESCRIPTION255,  'type' => 'textarea',  'data' => 'str',  
             'readParms' => 'expand=...&truncate=150&bb=1',  'writeParms' => 'size=block-level',),
 			'name'                    => array (  'title' => LAN_NAME,  'type' => 'text',  'data' => 'str',  'inline' => true,   'nosort' => true,),
@@ -58,13 +59,24 @@ class web_links_ui extends e_admin_ui
 		public function init()
 		{	
 			$this->postFiliterMarkup = $this->AddButton();
-			$rows = e107::getDb()->retrieve("links_categories", "*", true, true);
+ 
+			$rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid = 0 ", true);
 			$values[0] = '_NONE';
 			foreach($rows AS $row) 
 			{
 				$values[$row['cid']] = $row['title'];
 			}
-			$this->fields['cid']['writeParms']['optArray'] = $values ; 
+			$this->fields['cid']['writeParms']['optArray'] = $values ;   
+            
+            $values = array();
+            
+            $rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid != 0 ", true);
+			$values[0] = '_NONE';
+			foreach($rows AS $row) 
+			{
+				$values[$row['cid']] = $row['title'];
+			}
+        	$this->fields['sid']['writeParms']['optArray'] = $values ; 
 		}
 
         function AddButton()
