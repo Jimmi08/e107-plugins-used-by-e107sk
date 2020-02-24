@@ -22,7 +22,9 @@ define ("UN_TABLENAME_USEREMAIL_ALIAS", "user.user_email AS user_email");  // Do
 
 define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');
-define("WEB_LINKS_FRONTFILE",   'web_links.php' ); 
+
+$fronturl =  e107::url('web_links', 'main');
+define("WEB_LINKS_FRONTFILE",   $fronturl );         
 define("WEB_LINKS_FOLDER",  	'web_links');
 
 //only way how to get correct full path without e_url 

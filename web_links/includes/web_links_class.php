@@ -195,7 +195,7 @@
 					}
 				$text .= "<br>";
 					if (getperms('0')) {  //e107 superadmin
-						$text .= "<a  target='_blank'  href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
+						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
@@ -911,13 +911,13 @@
 		$text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
-				$text .= "<div class='center'><b>"._LINKRECEIVED."</b><br>";
+				$text .= "<div class='text-center'><b>"._LINKRECEIVED."</b><br>";
 				if ($email != "") {
 					$text .= _EMAILWHENADD;
 				} else {
 					$text .= _CHECKFORIT;
 				}
-				$text .= $this->plugTemplates['CLOSE_TABLE'];
+				$text .= "</div>".$this->plugTemplates['CLOSE_TABLE'];
 		 
 			}
         e107::getRender()->tablerender($caption, $text);

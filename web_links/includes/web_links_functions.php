@@ -52,7 +52,7 @@ trait WebLinksTrait
 	}
 
 	function newlinkgraphic($time) {
-		$module_name =  WEB_LINKS_APP;
+		$module_name =  WEB_LINKS_APP_ABS;
 		//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 		preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);
 		$datetime = date("d-M-Y", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
@@ -62,13 +62,13 @@ trait WebLinksTrait
 				$daysold = date("d-M-Y", $startdate);
 				if ($daysold == $datetime) {
 				if ($count<=1) {
-					$text .= "&nbsp;<img src=\"".$module_name."/images/newred.gif\" alt=\""._NEWTODAY."\">";
+					$text .= "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newred.gif\" alt=\""._NEWTODAY."\">";
 				}
 				if ($count<=3 && $count>1) {
-					$text .= "&nbsp;<img src=\"".$module_name."/images/newgreen.gif\" alt=\""._NEWLAST3DAYS."\">";
+					$text .= "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newgreen.gif\" alt=\""._NEWLAST3DAYS."\">";
 				}
 				if ($count<=7 && $count>3) {
-					$text .= "&nbsp;<img src=\"".$module_name."/images/newblue.gif\" alt=\""._NEWTHISWEEK."\">";
+					$text .= "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newblue.gif\" alt=\""._NEWTHISWEEK."\">";
 				}
 				}
 				$count++;
@@ -78,16 +78,14 @@ trait WebLinksTrait
 
 	function popgraphic($hits) {
 		$popular = e107::getPlugConfig('web_links')->getPref('popular');
-		$module_name =  WEB_LINKS_APP;
 		if ($hits<=$popular) {
-			$text = "&nbsp;<img src=\"".$module_name."/images/pop.gif\" alt=\""._POPULAR."\">";
+			$text = "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/pop.gif\" alt=\""._POPULAR."\">";
 		}
 		return $text;
 	}
 
 
 	function categorynewlinkgraphic($cat) {
-		$module_name =  WEB_LINKS_APP;
 		$cat = intval($cat);
 		$result = e107::getDB()->gen("SELECT date FROM #".UN_TABLENAME_LINKS_LINKS." WHERE cid='".$cat."' ORDER BY date DESC LIMIT 1");
 		$row = e107::getDB()->fetch($result);
@@ -101,13 +99,13 @@ trait WebLinksTrait
 				$daysold = date("d-M-Y", $startdate);
 				if ($daysold == $datetime) {
 					if ($count<=1) {
-						$text = "&nbsp;<img src=\"".$module_name."/images/newred.gif\" alt=\""._CATNEWTODAY."\">";
+						$text = "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newred.gif\" alt=\""._CATNEWTODAY."\">";
 					}
 					if ($count<=3 && $count>1) {
-						$text = "&nbsp;<img src=\"".$module_name."/images/newgreen.gif\" alt=\""._CATLAST3DAYS."\">";
+						$text = "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newgreen.gif\" alt=\""._CATLAST3DAYS."\">";
 					}
 					if ($count<=7 && $count>3) {
-						$text = "&nbsp;<img src=\"".$module_name."/images/newblue.gif\" alt=\""._CATTHISWEEK."\">";
+						$text = "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/newblue.gif\" alt=\""._CATTHISWEEK."\">";
 					}
 				}
 				$count++;

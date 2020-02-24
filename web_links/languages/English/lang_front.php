@@ -22,7 +22,7 @@
 
 global $anonwaitdays,  $outsidewaitdays;
 
-if (!defined(("_WEBLINKS"))) { define("_WEBLINKS","Web Links"); }
+if (!defined(("_WEBLINKS"))) { define("_WEBLINKS","Web Links"); }  
 
 define("_URL","URL");
 define("_PREVIOUS","Previous Page");
@@ -208,7 +208,7 @@ define("_NEWLINKS2","new link(s)");
 
 define("_GOBACK","[ <a href=\"javascript:history.go(-1)\">Back</a> ]");
 define("_NOTE","Note:");
-
+define("_VOTES","Votes");
 
 
 ?>
