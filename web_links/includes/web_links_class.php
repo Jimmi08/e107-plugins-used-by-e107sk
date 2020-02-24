@@ -168,9 +168,9 @@
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = stripslashes(check_html($row2['cat_title'], "nohtml"));
 				if (ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
+					$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
-					$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				newlinkgraphic($time);
@@ -195,7 +195,7 @@
 					}
 				$text .= "<br>";
 					if (getperms('0')) {  //e107 superadmin
-						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
+						$text .= "<a  target='_blank'  href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
@@ -276,9 +276,9 @@
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = e107::getParser()->toHTML($row['cat_title'], "", "TITLE");
 				if (ADMIN) {
-					$text .=  "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
+					$text .=  "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
-					$text .=  "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+					$text .=  "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
 				$text .=  "<a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				$text .= $this->newlinkgraphic($time);
@@ -381,7 +381,7 @@
 				$ctitle = e107::getParser()->toHTML($row3['cat_title'], "", "TITLE");
  
 				if(ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
+					$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
 					<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
@@ -408,8 +408,8 @@
 					$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 				}
 				$text .= "<br>";
-				if (getperms('0')) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
+				if (ADMIN) {
+					$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 				//if (isx_user($user)) {
@@ -569,7 +569,7 @@
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
  
 				if (ADMIN) {
-					$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"". LAN_EDIT."\"></a>&nbsp;&nbsp;";
+					$text .= "<a  target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"". LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
@@ -597,7 +597,7 @@
 					}
 				$text .= "<br>";
 					if (getperms('0')) {
-						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
+						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				    $text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					//if (isx_user($user)) {
@@ -947,13 +947,13 @@
 			if(!is_numeric($linksresults) AND $linksresults==0) {
 				$linksresults=10;
 			}
-		$result = e107::getDB()->gen("SELECT lid, cid, sid, title, url, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$unquery."%' OR description LIKE '%".$unquery."%' ORDER BY ".$orderby." LIMIT ".intval($min).",".$linksresults, true);
+		$result = e107::getDB()->retrieve("SELECT lid, cid, sid, title, url, description, date, hits, linkratingsummary, totalvotes, totalcomments FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$unquery."%' OR description LIKE '%".$unquery."%' ORDER BY ".$orderby." LIMIT ".intval($min).",".$linksresults, true);
  
 		$fullcountresult = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE title LIKE '%".$unquery."%' OR description LIKE '%".$unquery."%'");
 		$fullcountrow = e107::getDB()->fetch($fullcountresult);
  
 		$totalselectedlinks = $fullcountrow['numrows'];
-		$nrows =  e107::getDB()->rows($result) ;        
+		$nrows =  count($result) ;        
 		$x=0;
 		$the_query = stripslashes($unquery);
 		$the_query = str_replace("\'", "'", $the_query);
@@ -964,8 +964,8 @@
 			if ($nrows>0) {
 				$text .= "<span class=\"option\">"._SEARCHRESULTS4.": <b>".$the_query."</b></span><br><br>"
 				."<table width=\"100%\" bgcolor=\"".$bgcolor2."\"><tr><td><span class=\"option\"><b>"._USUBCATEGORIES."</b></span></td></tr></table>";
-				$result2 = e107::getDB()->gen("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE title LIKE '%".$unquery."%' ORDER BY title DESC");
-					while ($row2 = e107::getDB()->fetch($result2)) {
+				$result2 = e107::getDB()->gen("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE title LIKE '%".$unquery."%' ORDER BY title DESC", true);
+					foreach($result2 AS $row2) {
 						$cid = $row2['cid'];
 						$stitle = stripslashes(check_html($row2['title'], "nohtml"));
 						$res = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE cid='".$cid."'");
@@ -991,7 +991,7 @@
 				._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=ratingD\">D</a>)"
 				._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=search&amp;unquery=".$the_query."&amp;orderby=hitsD\">D</a>)"
 				."<br>"._SITESSORTED.": ".$orderbyTrans."<br><br>";
-					while($row = e107::getDB()->fetch($result)) {
+                    foreach($result AS $row) {
 						$lid = $row['lid'];
 						$cid = $row['cid'];
 						$sid = $row['sid'];
@@ -1006,13 +1006,13 @@
 						$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 						$title = str_replace($unquery, "<b>".$unquery."</b>", $title);
 						if (ADMIN) {
-							$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
+							$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 						} else {
-							$text .= "<img src=\"modules/".$module_name."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
+							$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 						}
 						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
-						newlinkgraphic($time);
-						popgraphic($hits);
+						$this->newlinkgraphic($time);
+						$this->popgraphic($hits);
 						$text .= "<br>";
 						$description = str_replace($unquery, "<b>".$unquery."</b>", $description);
 						$text .= _DESCRIPTION.": ".$description."<br>";
@@ -1039,7 +1039,7 @@
 							if ($totalcomments != 0) {
 								$text .= " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 							}
-						detecteditorial($lid);
+						$this->detecteditorial($lid);
 						$text .= "<br>";
 						$result4 = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$cid."'");
 						$row4 = e107::getDB()->fetch($result4);
@@ -1400,7 +1400,7 @@
 				."<td colspan=\"3\">"
 				."<span class=\"content\">";
 					if (ADMIN) {
-						$text .= "<a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
+						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"modules/".$module_name."/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
 					}
 				$text .= " ".$ratingcomments."</span>"
 				."<br><br><br></td></tr>";
