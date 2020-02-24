@@ -52,7 +52,7 @@ trait WebLinksTrait
 	}
 
 	function newlinkgraphic($time) {
-		$module_name =  WEB_LINKS_APP_ABS;
+ 
 		//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 		preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);
 		$datetime = date("d-M-Y", mktime($datetime[4],$datetime[5],$datetime[6],$datetime[2],$datetime[3],$datetime[1]));
@@ -145,7 +145,7 @@ trait WebLinksTrait
 	}
 
 	function getparentlink($parentid,$title) {
-		$module_name =  WEB_LINKS_APP;
+ 
 		$parentid = intval($parentid);
 		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
 		$row = e107::getDB()->fetch($result);
@@ -153,7 +153,7 @@ trait WebLinksTrait
 		$cid = $row['cid'];
 		$ptitle = e107::getParser()->toHTML($row_two['title'], "", "TITLE");
 		$pparentid = $row['parentid'];
-		if ($ptitle != "") $title="<a href=\"".$module_name."?l_op=viewlink&amp;cid=".$cid."\">".$ptitle."</a>/".$title;
+		if ($ptitle != "") $title="<a href=\"".WEB_LINKS_APP."?l_op=viewlink&amp;cid=".$cid."\">".$ptitle."</a>/".$title;
 			if ($pparentid != 0) {
 				$title = $this->getparentlink($pparentid,$ptitle);
 			}
@@ -268,7 +268,7 @@ trait WebLinksTrait
 	
 	function completevotefooter($lid, $ratinguser) {
 		$sitename = SITENAME;
-		//include("modules/".$module_name."/l_config.php");
+ 
 		$lid = intval($lid);
 		$result = e107::getDB()->gen("SELECT title, url FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'");
 		$row = e107::getDB()->fetch($result);
@@ -315,7 +315,8 @@ trait WebLinksTrait
 	}
 
 	function linkfooter($lid) {
-		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | <a href=\"modules.php?name=".$module_name."&amp;l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
+		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | 
+        <a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
 		$text .= $this->linkfooterchild($lid);
 	}
 
