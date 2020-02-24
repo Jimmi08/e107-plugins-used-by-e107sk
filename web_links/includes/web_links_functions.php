@@ -307,7 +307,7 @@ trait WebLinksTrait
 		." | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkeditorial&amp;lid=".$lid."\">"._EDITORREVIEW."</a>"
 		." | <a href=\"".WEB_LINKS_INDEX."?l_op=modifylinkrequest&amp;lid=".$lid."\">"._MODIFY."</a>";
 		if (USER) {
-			$text .= " | <a href=\"href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
+			$text .= " | <a href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."</a>";
 		}
 		$text .= " ]</font>";
 
@@ -316,7 +316,7 @@ trait WebLinksTrait
 
 	function linkfooter($lid) {
 		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | 
-        <a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
+        <a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
 		$text .= $this->linkfooterchild($lid);
 	}
 

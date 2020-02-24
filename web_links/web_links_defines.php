@@ -28,7 +28,9 @@ define("WEB_LINKS_FRONTFILE",   $fronturl );
 define("WEB_LINKS_FOLDER",  	'web_links');
 
 //only way how to get correct full path without e_url 
-$plugin_index = "{e_PLUGIN}".WEB_LINKS_FOLDER."/".WEB_LINKS_FRONTFILE;
+//$plugin_index = "{e_PLUGIN}".WEB_LINKS_FOLDER."/".WEB_LINKS_FRONTFILE;   
+//with e_url
+$plugin_index = "{e_BASE}".WEB_LINKS_FOLDER."/";
 $plugin_index = e107::getParser()->replaceConstants($plugin_index,'full');
 
 define("WEB_LINKS_INDEX",  	$plugin_index);

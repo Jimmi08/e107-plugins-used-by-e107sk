@@ -301,15 +301,15 @@
 					if ($linkratingsummary != "0" || $linkratingsummary != "0.0") {
 						$text .=  " "._RATING.": <b> ".$linkratingsummary." </b> ("._VOTES.": ".$totalvotes.")";
 					}
-				$text .=  "<br><a href=\"".WEB_LINKS_INDEX."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
+				$text .=  "<br><a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
 					if (USER) {
-						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."-2</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=brokenlink&amp;lid=".$lid."\">"._REPORTBROKEN."-2</a>";
 					}
 					if ($totalvotes != 0) {
-						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkdetails&amp;lid=".$lid."\">"._DETAILS."</a>";
 					}
 					if ($totalcomments != 0) {
-						$text .=  " | <a href=\"".WEB_LINKS_INDEX."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
+						$text .=  " | <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlinkcomments&amp;lid=".$lid."\">"._SCOMMENTS." (".$totalcomments.")</a>";
 					}
 				$text = $this->detecteditorial($lid);
 				$text .=  "<br>";
@@ -1162,7 +1162,7 @@
 		."<li>"._RATENOTE1."</li>"
 		."<li>"._RATENOTE2."</li>"
 		."<li>"._RATENOTE3."</li>"
-		."<li>"._RATENOTE4."</li>"  //FIX LAN with [x]
+		."<li>".e107::getParser()->lanVars(_RATENOTE4, WEB_LINKS_FRONTFILE)."</li>"  
 		."<li>"._RATENOTE5."</li>";
 			if(USER) {
 				$auth_name = USERNAME;
@@ -1221,7 +1221,7 @@
     
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
-		global  $cookie, $user,  $anonymous;
+		global  $cookie,  $anonymous;
 
 		$anonwaitdays= $this->plugPrefs['anonwaitdays'];
 		$outsidewaitdays = $this->plugPrefs['outsidewaitdays'];
@@ -1554,7 +1554,7 @@
 				$text .= "<br><br><div class='center'><span class=\"option\"><b>"._NOEDITORIAL."</b></span></div>";
 			}
 
-		$text .= "<br><br><div class='center'>";
+		$text .= "</div><br><br><div class='center'>";
 		$text .=$this->linkfooter($lid);
 		$text .= "</div>";
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
@@ -1572,8 +1572,8 @@
 
 		$text =$this->menu(1);
 		$lid = intval($lid);
-		$voteresult = e107::getDB()->gen("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'");
-		$totalvotesDB = count(e107::getDB()->rows($voteresult));
+		$voteresult = e107::getDB()->retrieve("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'", true);
+		$totalvotesDB = count($voteresult);
 		$anonvotes = 0;
 		$anonvoteval = 0;
 		$outsidevotes = 0;
@@ -1587,7 +1587,7 @@
 		$bottomoutside = 11;
 		$avv = $rvv = $ovv = array(0,0,0,0,0,0,0,0,0,0,0);
 		$truecomments = $totalvotesDB;
-			while($row = e107::getDB()->fetch($voteresult)) {
+            foreach($voteresult AS $row) {
 				$ratingDB = $row['rating'];
 				$ratinguserDB = $row['ratinguser'];
 				$ratingcommentsDB = $row['ratingcomments'];
@@ -1752,16 +1752,16 @@
 				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 				."</tr>"
 				."<tr>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[1]." "._LVOTES." (".$rvvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[1]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[2]." "._LVOTES." (".$rvvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[2]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[3]." "._LVOTES." (".$rvvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[3]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[4]." "._LVOTES." (".$rvvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[4]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[5]." "._LVOTES." (".$rvvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[5]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[6]." "._LVOTES." (".$rvvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[6]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[7]." "._LVOTES." (".$rvvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[7]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[8]." "._LVOTES." (".$rvvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[8]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[9]." "._LVOTES." (".$rvvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[9]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[10]." "._LVOTES." (".$rvvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[10]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[1]." "._LVOTES." (".$rvvpercent[1]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[1]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[2]." "._LVOTES." (".$rvvpercent[2]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[2]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[3]." "._LVOTES." (".$rvvpercent[3]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[3]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[4]." "._LVOTES." (".$rvvpercent[4]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[4]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[5]." "._LVOTES." (".$rvvpercent[5]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[5]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[6]." "._LVOTES." (".$rvvpercent[6]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[6]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[7]." "._LVOTES." (".$rvvpercent[7]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[7]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[8]." "._LVOTES." (".$rvvpercent[8]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[8]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[9]." "._LVOTES." (".$rvvpercent[9]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[9]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$rvv[10]." "._LVOTES." (".$rvvpercent[10]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."/images/blackpixel.gif\" width=\"15\" height=\"".$rvvchartheight[10]."\"></td>"
 				."</tr>"
 				."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 				."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"

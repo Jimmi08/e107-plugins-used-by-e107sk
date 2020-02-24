@@ -184,7 +184,7 @@ define("_RETURNTO","Return to");
 define("_RATENOTE1","Please do not vote for the same link more than once.");
 define("_RATENOTE2","The scale is 1 - 10, with 1 being poor and 10 being excellent.");
 define("_RATENOTE3","Please be objective. If everybody vote for 1 or 10 the rating does not have sense.");
-define("_RATENOTE4","You can view a list of the <a href=\"".WEB_LINKS_FRONTFILE."?l_op=TopRated\">Top Rated Resources</a>.");
+define("_RATENOTE4","You can view a list of the <a href=\"[x]?l_op=TopRated\">Top Rated Resources</a>.");
 define("_RATENOTE5","Please do not vote if the website is yours.");
 define("_YOUAREREGGED","You are a registered user and are logged in.");
 define("_FEELFREE2ADD","Feel free to add a comment about this site.");
@@ -209,6 +209,5 @@ define("_NEWLINKS2","new link(s)");
 define("_GOBACK","[ <a href=\"javascript:history.go(-1)\">Back</a> ]");
 define("_NOTE","Note:");
 define("_VOTES","Votes");
-
-
+define("_COMMENTS","Comments");
 ?>

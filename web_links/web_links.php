@@ -50,7 +50,7 @@ $web_linksFront = new web_links_front;
 $qry = str_replace('&amp;', '&', e_QUERY);
 $qry_tmp = explode('&', $qry);
 $supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid', 'unquery' );  
- 
+          
 foreach($qry_tmp as $tmp) {
   $qry_lop = explode('=', $tmp);
   $value = $qry_lop[1];
@@ -73,13 +73,16 @@ foreach($_POST as $key => $value) {
 
 $exType = EXTR_SKIP;
 extract($formvalues, $exType);
- 
-if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
-	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
-}
-  
+
 require_once(HEADERF); 					// render the header (everything before the main content area)
 
+ 
+if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
+    $l_op = 'addrating';
+//	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
+}
+  
+  
 switch($l_op) {
 
 	case "AddLink":
@@ -147,7 +150,8 @@ switch($l_op) {
 	break;
 	
 	case "addrating":  //TODO this couldn't work 
-		$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments, $user);
+	//	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments, $user);
+        $web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 	break;
 	
 	case "viewlinkcomments":
@@ -171,9 +175,7 @@ switch($l_op) {
 	break;
 
 }
-
-
-
+ 
  
 require_once(FOOTERF);					// render the footer (everything after the main content area)
 exit; 
