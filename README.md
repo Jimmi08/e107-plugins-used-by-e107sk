@@ -12,7 +12,7 @@ Not sure now, if it is possible.
 
 ## JM ContactUs plugin for e107  
 
-Just backup for now.  Attempt for fixing SP Contact Us plugin by Spinnet Plugin for new version. 
+Version 1.2 is tested on live site. There is still a lot of old and not tested code, but needed functionality was tested. 
 
 
 ## JM Download plugin for e107  

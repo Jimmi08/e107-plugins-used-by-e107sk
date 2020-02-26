@@ -1,4 +1,25 @@
+# Contact Us plugin
 
+This plugin is courtesy of the original author - Spinning Planet. They permitted me to update their old premium ContactUs plugin for the new version. 
+
+## Version 1.2.0 
+  At this state, you can with this plugin:
+- replace  core contact.php page 
+- use simple contact form builder 
+- save form data to the database
+- set more recipients regardless of core email settings
+- use Thank you page
+- sent copy of the email to sender email
+- use google map with API, google API and gmap3 script
+
+Warnings:
+a lot of old code 
+tested only with e107sk.com environment (PHP 7.2)
+
+Plans for the future:
+fully replace ContentPage plugin
+
+Use it only on your own risk. 
 
 
 
