@@ -173,7 +173,6 @@ function save_msg($vars, $timestamp, $ip) {
 
 function checkimgcode($usercode, $gencode) {
 	global $error_count, $pref;
-	@include(e_PLUGIN.'jmcontactus/languages/'.e_LANGUAGE.'.php');
  
 	if (!isset($pref['plug_installed']['recaptcha']))  {
   	if(empty($usercode)){   
@@ -191,14 +190,14 @@ function checkimgcode($usercode, $gencode) {
       if (!e107::getSecureImg()->verify_code($gencode, $usercode))    {
      // if (e107::getSecureImg()->invalidCode($gencode, $usercode))  {
 		 //if(!$sec_img->verify_code($gencode, $usercode)){   
-          @include(e_PLUGIN.'recaptcha/languages/'.e_LANGUAGE.'.php');
 		  $error_count++;
-		 	return $gencode.$usercode.LAN_RECAPTCHA_ERROR_MESSAGE;
+		 	return $gencode.$usercode.CU_POST_RECAPTCHA_ERROR_MESSAGE;
 		}
 	}
 }
 
 function checkfields($type, $req, $name, $val) {
+ 
 	global $error_count;
 	if($req && !$val) {
 		$error_count++;

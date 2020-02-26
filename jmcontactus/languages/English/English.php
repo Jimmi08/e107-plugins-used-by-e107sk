@@ -21,6 +21,7 @@ define("CU_IMGCODE", "Please Enter Code");
 define("CU_POST_ERROR", "Please fill out this field.");
 define("CU_POST_IMGCODE_ERROR", "Please enter the code.");
 define("CU_POST_IMGCODE_ERROR2", "Code Incorrect - Enter new code.");
+define("CU_POST_RECAPTCHA_ERROR_MESSAGE", "Incorrect Captcha..!");
 define("CU_POST_EMAIL_ERROR", "Invalid email address");
 define("CU_EMAIL_SUBJECT", "Form Submitted");
 define("CU_EDIT_INFO", "Edit Contact Information");

@@ -135,8 +135,9 @@ if ($eplug_prefs[$pname.'_settings_showinfo'] == 1) {
 }
  
 // Contact Form
-if ($eplug_prefs[$pname.'_settings_showform'] == 1 AND !strstr(e_QUERY, 'thankyou')) {
-  $formurl = e107::url($pname, 'thankyou');
+if ($eplug_prefs[$pname.'_settings_showform'] == 1 ) {
+    $formurl = e107::url($pname, 'thankyou');
+    //$text .= form::form_open("post", strtok($_SERVER["REQUEST_URI"],'?')."?thankyou", "ContactUs_form");
 	$text .= form::form_open("post", $formurl, "ContactUs_form");
 	$sql->db_Select(strtolower($pname."_form"), "*", "`type` = 'hidden'");
 	while($row = $sql->db_Fetch(MYSQLI_ASSOC)) {
