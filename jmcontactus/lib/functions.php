@@ -2,53 +2,60 @@
 
 // Admin Functions ////////////////////////////////////////////////////
 
-function orderitem($order,$id) {
+function orderitem($order,$id) 
+{
 	$sql = e107::getDb();
 	$pname = 'jmcontactus';
 	$sql->update(strtolower($pname."_form"), "`order`=".intval($order)." WHERE `id`=".intval($id));
 }
 
-function deleteitem($id) {
+function deleteitem($id) 
+{
 	$sql = e107::getDb();
 	$result =  $sql->delete(strtolower("jmcontactus_form"), "`id`=".intval($id));
 }
 
-function deletemessage($id) {
+function deletemessage($id) 
+{
 	$sql = e107::getDb();
-    $sql->delete("jmcontactus_messages" , "`id`=".intval($id));
+	$sql->delete("jmcontactus_messages" , "`id`=".intval($id));
  
 }
 
-function cu_make_calendar($boxname, $boxvalue, $format) {
+function cu_make_calendar($boxname, $boxvalue, $format) //TODO
+{
 	/*	if(!function_exists("make_input_field")) { require_once(e_HANDLER."calendar/calendar_class.php"); }
 		$cal = new DHTML_Calendar(true);
-        unset($cal_options);
-        unset($cal_attrib);
-        $cal_options['showsTime'] = false;
-        $cal_options['showOthers'] = true;
-        $cal_options['weekNumbers'] = false;
-        $cal_options['ifFormat'] = $format;
-        $cal_attrib['class'] = "tbox";
-        $cal_attrib['size'] = "5";
-        $cal_attrib['name'] = $boxname;
-        $cal_attrib['value'] = $boxvalue;
-        return $cal->make_input_field($cal_options, $cal_attrib);       */
+		unset($cal_options);
+		unset($cal_attrib);
+		$cal_options['showsTime'] = false;
+		$cal_options['showOthers'] = true;
+		$cal_options['weekNumbers'] = false;
+		$cal_options['ifFormat'] = $format;
+		$cal_attrib['class'] = "tbox";
+		$cal_attrib['size'] = "5";
+		$cal_attrib['name'] = $boxname;
+		$cal_attrib['value'] = $boxvalue;
+		return $cal->make_input_field($cal_options, $cal_attrib);   */
 }
 
 // Public Functions ////////////////////////////////////////////////////
 
-function stripBBCode($text_to_search) {
+function stripBBCode($text_to_search) 
+{
 	$pattern = '|[[\/\!]*?[^\[\]]*?]|si';
 	$replace = '';
 	return preg_replace($pattern, $replace, $text_to_search);
 }
 
-function cleanstring($var) {
+function cleanstring($var) 
+{
 	$ns = ereg_replace("[^A-Za-z0-9]", "", $var);
 	return $ns;
 }
 
-function getformname($id,$col) {
+function getformname($id,$col) 
+{
 	$sql =  e107::getDb();
 	$pname = 'jmcontactus';
 	$sql->db_Select(strtolower($pname."_form"), "*", "`id` = ".intval($id));
@@ -57,27 +64,20 @@ function getformname($id,$col) {
 	}
 }
 
-function hasmessages() {
+function hasmessages() 
+{
 	$sql =  e107::getDb();
 	$pname = 'jmcontactus';
 	$count = $sql->db_Count(strtolower($pname."_messages"), "(*)", "WHERE 1");
 	return intval($count);
 }
 
-function send_emails($formdata) {
-	global $tp;
-    $eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();
+function send_emails($formdata) 
+{
+	$tp = e107::getParser();
+	$eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();
 	$pname = 'jmcontactus';
 
-//	if(!function_exists("sendemail")) { require_once(e_HANDLER."mail.php"); }
-
-  /*
-	if (file_exists(THEME.'email_template.php')) {
-		require_once(THEME.'email_template.php');
-	} else	{
-		require_once(e_THEME.'templates/email_template.php');
-	}
-  */
 	if (file_exists(THEME.'email_template.php'))
 	{
 		include(THEME.'email_template.php');
@@ -87,36 +87,45 @@ function send_emails($formdata) {
 		// include core default. 
 		include(e107::coreTemplatePath('email'));
 	}
-         /*
-$EMAIL_TEMPLATE['jmcontactus']['name']				= "What's New";												
-$EMAIL_TEMPLATE['jmcontactus']['subject']			= '{SITENAME}: {SUBJECT} ';
-$EMAIL_TEMPLATE['jmcontactus']['header']			= $EMAIL_TEMPLATE['default']['header']; // will use default header above. 	
-$EMAIL_TEMPLATE['jmcontactus']['body']				= "Hi {USERNAME},<br />{BODY}";
-$EMAIL_TEMPLATE['jmcontactus']['footer']			= $EMAIL_TEMPLATE['default']['footer'];
-         */
-  if (array_key_exists('jmcontactus', $EMAIL_TEMPLATE)) {
-    $EMAIL_HEADER = $EMAIL_TEMPLATE['jmcontactus']['header'];
-    $EMAIL_FOOTER = $EMAIL_TEMPLATE['jmcontactus']['footer'];
-  }
-  else {
-    $EMAIL_HEADER = $EMAIL_TEMPLATE['default']['header'];
-    $EMAIL_FOOTER = $EMAIL_TEMPLATE['default']['footer'];
-  }
+	
+	/*
+	$EMAIL_TEMPLATE['jmcontactus']['name']				= "What's New";												
+	$EMAIL_TEMPLATE['jmcontactus']['subject']			= '{SITENAME}: {SUBJECT} ';
+	$EMAIL_TEMPLATE['jmcontactus']['header']			= $EMAIL_TEMPLATE['default']['header']; // will use default header above. 	
+	$EMAIL_TEMPLATE['jmcontactus']['body']				= "Hi {USERNAME},<br />{BODY}";
+	$EMAIL_TEMPLATE['jmcontactus']['footer']			= $EMAIL_TEMPLATE['default']['footer'];
+	*/
+	
+	if (array_key_exists('jmcontactus', $EMAIL_TEMPLATE)) 
+	{
+		$EMAIL_HEADER = $EMAIL_TEMPLATE['jmcontactus']['header'];
+		$EMAIL_FOOTER = $EMAIL_TEMPLATE['jmcontactus']['footer'];
+	}
+	else 
+	{
+		$EMAIL_HEADER = $EMAIL_TEMPLATE['default']['header'];
+		$EMAIL_FOOTER = $EMAIL_TEMPLATE['default']['footer'];
+	}
+
 	// Header
 	$header = (isset($EMAIL_HEADER)) ? $tp->parseTemplate($EMAIL_HEADER) : "";
 
 	// User Message
 	$msg .= "<p>".stripBBCode($eplug_prefs[$pname.'_thankyou_msg'])."</p>";
-	foreach($formdata as $k => $c) {
-		if(is_numeric($k)) {
+	foreach($formdata as $k => $c) 
+	{
+		if(is_numeric($k)) 
+		{
 			$msg .= "<p><strong>".getformname($k, "name")."</strong><br />".$c."</p>";
 		}
 	}
 	$msg = $tp->toEmail($msg);
-    
+
 	// Admin Message
-	foreach($formdata as $k => $c) {
-		if(is_numeric($k)) {
+	foreach($formdata as $k => $c) 
+	{
+		if(is_numeric($k)) 
+		{
 			$admin_msg .= "<p><strong>".getformname($k, "name")."</strong><br />".$c."</p>";
 		}
 	}
@@ -129,125 +138,135 @@ $EMAIL_TEMPLATE['jmcontactus']['footer']			= $EMAIL_TEMPLATE['default']['footer'
 	$senders_name = ($formdata["1"]) ? $formdata["1"] : "Unknown";
  
  
-    $body = $header.$admin_msg.$footer;
-    $eml = array(
-    'sender_email'  => $eplug_prefs[$pname.'_settings_emailfrom'],
-	'subject'       => $subject,
-	'sender_name'   => $eplug_prefs[$pname.'_settings_emailfromname'],
-	'body'          => $body,
-    'replyto'       => $formdata["2"] ,
-    'replytonames'  => $senders_name ,
-    'template'      => 'default'
-    );
-        
+	$body = $header.$admin_msg.$footer;
+	$eml = array(
+		'sender_email'  => $eplug_prefs[$pname.'_settings_emailfrom'],
+		'subject'   => $subject,
+		'sender_name'   => $eplug_prefs[$pname.'_settings_emailfromname'],
+		'body' => $body,
+		'replyto'   => $formdata["2"] ,
+		'replytonames'  => $senders_name ,
+		'template'  => 'default'
+	);
+
 	// Send to admins
 	foreach($eplug_prefs[$pname.'_settings_emailto'] as $e) {
-		//sendemail($send_to, $subject, $message, $to_name, $send_from='', $from_name='', $attachments='', $Cc='', $Bcc='', $returnpath='', $returnreceipt='',$inline ="");
-		//sendemail($e, $subject, $header.$admin_msg.$footer, $e, $formdata["2"], $senders_name);
- 
-        e107::getEmail()->sendEmail($e, $eplug_prefs[$pname.'_settings_emailfromname'] , $eml, false);
+		e107::getEmail()->sendEmail($e, $eplug_prefs[$pname.'_settings_emailfromname'] , $eml, false);
 	}
 
 	// Send to User
- 	if($eplug_prefs[$pname."_settings_emailcopy"] == 1) {
-         $eml['subject'] =  CUP_RECEPIENT_MESSAGE_01;
-    
-   
- 		//sendemail($send_to, $subject, $message, $to_name, $send_from='', $from_name='', $attachments='', $Cc='', $Bcc='', $returnpath='', $returnreceipt='',$inline ="");
- 		//sendemail($formdata["2"], $subject, $header.$msg.$footer, $senders_name, $eplug_prefs[$pname.'_settings_emailfrom'], $eplug_prefs[$pname.'_settings_emailfromname']);
-        e107::getEmail()->sendEmail($formdata["2"], $formdata["1"], $eml, false);
-     }
+	if($eplug_prefs[$pname."_settings_emailcopy"] == 1) 
+	{
+		$eml['subject'] =  CUP_RECEPIENT_MESSAGE_01;
+		e107::getEmail()->sendEmail($formdata["2"], $formdata["1"], $eml, false);
+	}
 }
 
-function save_msg($vars, $timestamp, $ip) {
-	global $tp;
+function save_msg($vars, $timestamp, $ip) 
+{
+	$tp = e107::getParser();
 	$sql =  e107::getDb();
 	$pname = 'jmcontactus';
-	foreach($vars as $k => $v) {
-		if(is_numeric($k)) {
+	foreach($vars as $k => $v) 
+	{
+		if(is_numeric($k)) 
+		{
 			$todb[getformname($k,"name")] = $v;
 		}
 	}
 	$sql->insert(strtolower($pname."_messages"), "0, '".serialize($todb)."', ".intval($timestamp).", '".$tp->toDB($ip)."'");
 }
 
-function checkimgcode($usercode, $gencode) {
-	global $error_count, $pref;
- 
-	if (!isset($pref['plug_installed']['recaptcha']))  {
-  	if(empty($usercode)){   
-		$error_count++;
-			return CU_POST_IMGCODE_ERROR;
-		} else if(!e107::getSecureImg()->verify_code($gencode, $usercode)){
+function checkimgcode($usercode, $gencode) 
+{
+	global $error_count;
+
+	$isrecaptchainstalled = e107::isInstalled('recaptcha');
+
+	if ($isrecaptchainstalled)  
+	{
+		if(empty($usercode))
+		{   
 			$error_count++;
-			return CU_POST_IMGCODE_ERROR2;
-		} else {
-			return TRUE;
+			return CU_POST_IMGCODE_ERROR;
+		} else if(!e107::getSecureImg()->verify_code($gencode, $usercode))
+		{
+				$error_count++;
+				return CU_POST_IMGCODE_ERROR2;
+		} else
+		{
+				return TRUE;
 		}
 	}
-	else {
- 
-      if (!e107::getSecureImg()->verify_code($gencode, $usercode))    {
-     // if (e107::getSecureImg()->invalidCode($gencode, $usercode))  {
-		 //if(!$sec_img->verify_code($gencode, $usercode)){   
-		  $error_count++;
-		 	return $gencode.$usercode.CU_POST_RECAPTCHA_ERROR_MESSAGE;
+	else 
+	{
+		if (!e107::getSecureImg()->verify_code($gencode, $usercode))
+		{
+			$error_count++;
+			return $gencode.$usercode.CU_POST_RECAPTCHA_ERROR_MESSAGE;
 		}
 	}
 }
 
-function checkfields($type, $req, $name, $val) {
- 
+function checkfields($type, $req, $name, $val) 
+{
 	global $error_count;
-	if($req && !$val) {
+	if($req && !$val) 
+	{
 		$error_count++;
 		return CU_POST_ERROR;
 	}
 
-	if($type == "email" && !preg_match('/^[^@]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$/', $val)) {
+	if($type == "email" && !preg_match('/^[^@]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$/', $val)) 
+	{
 		$error_count++;
 		return CU_POST_EMAIL_ERROR;
 	}
 }
 
-function buildformfield($type, $id, $parameters = '',  $value = null) {
-  	global $pref;
-    
-	if(!function_exists("secure_image")) { require_once(e_HANDLER.'secure_img_handler.php'); }
+function buildformfield($type, $id, $parameters = '',  $value = null) 
+{
+	if(!function_exists("secure_image")) {
+		require_once(e_HANDLER.'secure_img_handler.php'); 
+	}
  
 	$sec_img = new secure_image;
-    
+
 	$parameters = unserialize($parameters);
 
-	if($type === "text") {
+	if($type === "text") 
+	{
 		$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
 		return $text;
 	}
 
-	if($type === "email") {
-        $sk = e107::getPlugConfig('jmcontactus')->getPref();
-         
-        if($sk['use_honey-pot']) { 
-            $text = '<input class="jmas_email" id="email" name="email" type="email" value="'.$value.'">';
-            $text .= '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
-        }
-		else {
-            $text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
-        }
-        
-        
-        
+	if($type === "email") 
+	{
+		$sk = e107::getPlugConfig('jmcontactus')->getPref();
+
+		if($sk['use_honey-pot']) 
+		{ 
+			$text = '<input class="jmas_email" id="email" name="email" type="email" value="'.$value.'">';
+			$text .= '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
+		}
+		else 
+		{
+			$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
+		} 
 		return $text;
 	}
 
-	if($type === "textarea") {
+	if($type === "textarea") 
+	{
 		$textarea = '<textarea class="form-control" id="'.$id.'" name="'.$id.'">'.$value.'</textarea>';
 		return $textarea;
 	}
 
-	if($type === "checkbox") {
+	if($type === "checkbox") 
+	{
 		$checkbox = "";
-		foreach($parameters as $option) {
+		foreach($parameters as $option) 
+		{
 			$checkbox .= '
 				<div class="checkbox">
 					<label>
@@ -259,9 +278,11 @@ function buildformfield($type, $id, $parameters = '',  $value = null) {
 		return $checkbox;
 	}
 
-	if($type === "radio") {
+	if($type === "radio") 
+	{
 		$radio = "";
-		foreach($parameters as $option) {
+		foreach($parameters as $option) 
+		{
 			$radio .= '
 				<div class="radio">
 					<label>
@@ -273,7 +294,8 @@ function buildformfield($type, $id, $parameters = '',  $value = null) {
 		return $radio;
 	}
 
-	if($type === "dropdown") {
+	if($type === "dropdown") 
+	{
 		$select = '<select class="form-control" id="'.$id.'" name="'.$id.'">';
 		foreach($parameters as $option) {
 			$select .= '<option value="'.$option.'" '.($value === $option ? "selected" : "").'>'.$option.'</option>';
@@ -282,43 +304,40 @@ function buildformfield($type, $id, $parameters = '',  $value = null) {
 		return $select;
 	}
 
-	if($type === "date") {
+	if($type === "date") 
+	{
 		$date = '<input class="form-control js-datepicker" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'" placeholder="dd/mm/yyyy">';
 		return $date;
 	}
 
-	if($type === "hidden" && $v[0]) {
+	if($type === "hidden" && $v[0]) 
+	{
 		$hidden = '<input name="'.$id.'" type="hidden" value="'.$v[0].'">';
 		return $hidden;
 	}
 
-	if($type === "imgcode") {
-                                
-	  // recaptcha is not installed
-	  if (e107::isInstalled('recaptcha'))  {   
-            $recaptchaSiteKey = $pref['recaptcha_sitekey'];
-		    $imgcode = '<div class="g-recaptcha" data-sitekey="'.$recaptchaSiteKey.'"  ></div> ';
+	if($type === "imgcode") 
+	{
+ 
+		// recaptcha is installed   {RECAPTCHA} should work too
+		if (e107::isInstalled('recaptcha'))  
+		{   
+			$recaptchaSiteKey = e107::pref('recaptcha', 'sitekey'); 
+			$imgcode = '<div class="g-recaptcha" data-sitekey="'.$recaptchaSiteKey.'"  ></div> ';
 		}
-		else {
-                      
-	       /*		$imgcode = '
-				<span class="input-group-addon CU_imgcode">
-					<input name="rand_num" type="hidden" value="'.$sec_img->random_number.'">
-					'.$sec_img->r_image().'
-				</span>
-				<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">
-			';  */
-            $imgcode = e107::getSecureImg()->r_image()."<div>".e107::getSecureImg()->renderInput()."</div>"; 		 
+		else 
+		{   
+   			$imgcode = e107::getSecureImg()->r_image()."<div>".e107::getSecureImg()->renderInput()."</div>"; 	 
 		}
-       
+   
 		return $imgcode;
 	}
 
-	if($type === "submit") {
+	if($type === "submit") 
+	{
 		$button = '<button class="btn btn-primary" id="'.$id.'" name="'.$id.'" type="submit" value="'.$id.'">'.$id.'</button>';
 		return $button;
 	}
 }
-
 
 ?>
