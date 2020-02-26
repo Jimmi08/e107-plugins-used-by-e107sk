@@ -28,11 +28,6 @@
     right: 5px;
 }
 
-.spcu-message textarea {
-    height: 330px;
-    resize: none;
-}
-
 @media (max-width: 767px) {
 
     #spcu_map {
@@ -45,14 +40,6 @@
         position: static;
     }
 }
-
-@media (min-width: 768px) and (max-width: 992px)     {
-
-	.spcu-message textarea {
-	    height: 255px;
-	}
-
-}
-
+ 
 
 .jmas_email { display:none;}

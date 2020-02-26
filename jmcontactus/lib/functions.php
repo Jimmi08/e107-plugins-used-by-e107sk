@@ -231,9 +231,9 @@ function buildformfield($type, $id, $parameters = '',  $value = null)
 	}
  
 	$sec_img = new secure_image;
-
+   
 	$parameters = unserialize($parameters);
-
+ 
 	if($type === "text") 
 	{
 		$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
@@ -258,7 +258,12 @@ function buildformfield($type, $id, $parameters = '',  $value = null)
 
 	if($type === "textarea") 
 	{
-		$textarea = '<textarea class="form-control" id="'.$id.'" name="'.$id.'">'.$value.'</textarea>';
+		$cols = varset($parameters[0], 25); 
+        $rows = varset($parameters[1], 15);
+        $opts['class'] = 'form-control';
+        
+        $textarea = e107::getForm()->textarea($id, $value, $cols, $rows,  $opts );
+        //$textarea .= '<textarea class="form-control" id="'.$id.'" name="'.$id.'">'.$value.'</textarea>';
 		return $textarea;
 	}
 
