@@ -48,51 +48,31 @@ class jmcontactus_prefs_ui extends e_admin_ui
                   
 		}
 
-		
-		// ------- Customize Create --------
-		
-		public function beforeCreate($new_data,$old_data)
-		{
-			return $new_data;
-		}
+			
+}
+
+
+class as_prefs_ui extends e_admin_ui
+{
+			
+		protected $pluginTitle		= CUP_SETTINGS_00;
+		protected $pluginName		= 'jmcontactus'; 		
+		protected $table			= '';
+		protected $pid				= '';	
+		protected $listOrder		= ' DESC';	
+		protected $fields 		= NULL;				
+		protected $fieldpref = array();
+
+		//	protected $preftabs        = array('General', 'Other' );
+		protected $prefs = array(
+            'use_honey-pot'    	=> array('title'=> 'AS test', 'type'=>'boolean', 'help'=>''),	
+			); 	
 	
-		public function afterCreate($new_data, $old_data, $id)
+		public function init()
 		{
-			// do something
+                  
 		}
 
-		public function onCreateError($new_data, $old_data)
-		{
-			// do something		
-		}		
-		
-		
-		// ------- Customize Update --------
-		
-		public function beforeUpdate($new_data, $old_data, $id)
-		{
-			return $new_data;
-		}
-
-		public function afterUpdate($new_data, $old_data, $id)
-		{
-			// do something	
-		}
-		
-		public function onUpdateError($new_data, $old_data, $id)
-		{
-			// do something		
-		}		
-		
-		// left-panel help menu area. 
-		public function renderHelp()
-		{
-			$caption = LAN_HELP;
-			$text = 'Some help text';
-
-			return array('caption'=>$caption,'text'=> $text);
-
-		}
 			
 }
 

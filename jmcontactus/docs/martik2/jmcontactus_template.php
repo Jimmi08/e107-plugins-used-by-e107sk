@@ -64,45 +64,42 @@ $CONTACTUS_INFO_AFTER = "
 ";
 
 //Contact Form
-$CONTACTUS_FORM_BEFORE = "
+$CONTACTUS_FORM_BEFORE =  "
 <div class='well spcu_well'><div id='spcu_bottom'>
 ";
 
 $CONTACTUS_FORM_ROWS = "
-	<div class='row'>
-		<div class='form-group col-sm-4 col-xs-12'>
- 
-				<label class='control-label' for='{FORM_FOR}'>{FORM_REQUIRED} {FORM_NAME}</label>
-				{FORM_FIELD}{FORM_FIELD_ERROR}
-		 
-		</div>
-	</div>
+<div class='form-group bmd-form-group'>
+ 	<label class='bmd-label-floating' for='{FORM_FOR}'>{FORM_REQUIRED} {FORM_NAME}</label>
+	{FORM_FIELD}{FORM_FIELD_ERROR}
+</div>
 ";
 
 $CONTACTUS_FORM_MESSAGE = "
-	<div class='row'>
-		<div class='spcu-message form-group col-sm-8 col-sm-offset-4 col-xs-12'>
-			<label class='control-label' for='{FORM_FOR}'>{FORM_REQUIRED} {FORM_NAME}</label>
-			{FORM_FIELD}{FORM_FIELD_ERROR}
-		</div>
-	</div>
+<div class='form-group bmd-form-group'>
+	<label class='control-label bmd-label-floating' for='{FORM_FOR}'>{FORM_REQUIRED} {FORM_NAME}</label>
+	{FORM_FIELD}{FORM_FIELD_ERROR}
+</div>
 ";
 	
 $CONTACTUS_FORM_AFTER = "
-	<div class='row'>
-		<div class='form-group col-sm-4 col-xs-12'>
-				<label class='control-label' for='code_verify'>{FORM_NAME_IMGCODE}</label>
-				<div class='input-group'>{FORM_FIELD_IMGCODE}</div>{FORM_FIELD_IMGCODE_ERROR} 
+		<div class='form-group bmd-form-group'>
+				<label class='control-label bmd-label-floating' for='code_verify'>{FORM_NAME_IMGCODE}</label>
+				 {FORM_FIELD_IMGCODE}
+        </div>
+        <div class='form-group bmd-form-group'>        
+                {FORM_FIELD_IMGCODE_ERROR} 
 		</div>
-	</div>
-       
-	<div class='text-right'>
+  
+<div class='submit text-center'>
 		{FORM_SUBMIT_BUTTON}
-	</div>     
-</div></div>
+</div>
+
 ";
 
 // Thank You Page
-$CONTACTUS_THANKYOU = "
-	{THANKYOU_MSG}
-";
+$CONTACTUS_THANKYOU = '
+<div class="alert alert-success" role="alert">
+  {THANKYOU_MSG}
+</div>	
+';

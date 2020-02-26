@@ -115,4 +115,9 @@ define("CUP_MESSAGE_BTN_DELETEMESSAGE", "Delete Message");
 define("CUP_MESSAGE_DELETEMESSAGETITLE", "Confirm Deletion of Message");
 define("CUP_MESSAGE_DELETECONF", "Message deleted.");
 
+//frontend strings
+define("CUP_RECEPIENT_MESSAGE_01",  "Your form has been sent ");
+ 
+
+
 ?>

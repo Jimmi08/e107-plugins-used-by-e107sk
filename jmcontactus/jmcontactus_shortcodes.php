@@ -54,6 +54,7 @@ class plugin_jmcontactus_jmcontactus_shortcodes extends e_shortcode
 	//	$posted = getcachedvars('contactform_post');
 	$posted = e107::getRegistry('core/cachedvars/contactform_post', false);
 		$name = $fields["id"];
+ 
 		return buildformfield($fields["type"], $name, $fields["vars"], $posted[$name]);
 	}
 

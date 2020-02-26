@@ -17,7 +17,7 @@ if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
-
+       
 
 $sql = e107::getDB(); 					// mysql class object
 $tp = e107::getParser(); 				// parser for converting to HTML and parsing templates etc.
@@ -26,7 +26,8 @@ $ns = e107::getRender();				// render in theme box.
     
 $text = '';    
 
-include_lan(e_PLUGIN.'jmcontactus/languages/'.e_LANGUAGE.'.php');
+ 
+e107::lan("jmcontactus" , e_LANGUAGE);
 
 if(!function_exists("buildformfield")) { require_once(e_PLUGIN."jmcontactus/lib/functions.php"); }
 
@@ -103,6 +104,7 @@ if ($_POST["Submit"]) {
 	foreach($_POST as $k => $p) {
 		$p_vars[$k] = $p;
 	}
+
 	//cachevars('contactform_post', $p_vars);
 	e107::setRegistry('core/cachedvars/contactform_post', $p_vars);
 }
@@ -133,7 +135,7 @@ if ($eplug_prefs[$pname.'_settings_showinfo'] == 1) {
 }
  
 // Contact Form
-if ($eplug_prefs[$pname.'_settings_showform'] == 1) {
+if ($eplug_prefs[$pname.'_settings_showform'] == 1 AND !strstr(e_QUERY, 'thankyou')) {
   $formurl = e107::url($pname, 'thankyou');
 	$text .= form::form_open("post", $formurl, "ContactUs_form");
 	$sql->db_Select(strtolower($pname."_form"), "*", "`type` = 'hidden'");
@@ -166,10 +168,21 @@ $caption = $contactinfo["title"];
  
 if (strstr(e_QUERY, 'thankyou') && $_POST["Submit"] && $error_count === 0) {
 	$thanks = $tp->parseTemplate($CONTACTUS_THANKYOU, FALSE, $contactus_shortcodes);
-	send_emails($p_vars);
-	if($eplug_prefs[$pname.'_settings_savetodb'] == 1) {
-		save_msg($p_vars, time(), $_SERVER["REMOTE_ADDR"]);
-	}
+    if($_POST["email"]) {
+ 
+      $thanks = 'Thank you, really. Nobody will contact you. If you see this message, try to start with empty form or contact us different way. ';
+      // do nothing, spam, but let them think that it was sent
+    }
+    else {
+ 
+    	send_emails($p_vars);    
+ 
+    	if($eplug_prefs[$pname.'_settings_savetodb'] == 1) {
+            //    $p_vars['ip'] = e107::getIPHandler()->getIP(TRUE); 
+            //    getCurrentIP();
+    		save_msg($p_vars, time(), $_SERVER["REMOTE_ADDR"]);
+    	}
+    }
 	$ns->tablerender($caption, $thanks, 'contactus_thanks');
 } else {
 	$ns->tablerender($caption, $text, 'contactus_form');

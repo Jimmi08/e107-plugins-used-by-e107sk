@@ -65,10 +65,11 @@ function hasmessages() {
 }
 
 function send_emails($formdata) {
-	global $tp, $pref;
+	global $tp;
+    $eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();
 	$pname = 'jmcontactus';
-	@include(e_PLUGIN.'jmcontactus/languages/'.e_LANGUAGE.'.php');
-	if(!function_exists("sendemail")) { require_once(e_HANDLER."mail.php"); }
+
+//	if(!function_exists("sendemail")) { require_once(e_HANDLER."mail.php"); }
 
   /*
 	if (file_exists(THEME.'email_template.php')) {
@@ -105,14 +106,14 @@ $EMAIL_TEMPLATE['jmcontactus']['footer']			= $EMAIL_TEMPLATE['default']['footer'
 	$header = (isset($EMAIL_HEADER)) ? $tp->parseTemplate($EMAIL_HEADER) : "";
 
 	// User Message
-	$msg .= "<p>".stripBBCode($pref[$pname.'_thankyou_msg'])."</p>";
+	$msg .= "<p>".stripBBCode($eplug_prefs[$pname.'_thankyou_msg'])."</p>";
 	foreach($formdata as $k => $c) {
 		if(is_numeric($k)) {
 			$msg .= "<p><strong>".getformname($k, "name")."</strong><br />".$c."</p>";
 		}
 	}
 	$msg = $tp->toEmail($msg);
-
+    
 	// Admin Message
 	foreach($formdata as $k => $c) {
 		if(is_numeric($k)) {
@@ -126,18 +127,36 @@ $EMAIL_TEMPLATE['jmcontactus']['footer']			= $EMAIL_TEMPLATE['default']['footer'
 
 	$subject = ($formdata["3"]) ? CU_EMAIL_SUBJECT." - ".$formdata["3"] : CU_EMAIL_SUBJECT;
 	$senders_name = ($formdata["1"]) ? $formdata["1"] : "Unknown";
-
+ 
+ 
+    $body = $header.$admin_msg.$footer;
+    $eml = array(
+    'sender_email'  => $eplug_prefs[$pname.'_settings_emailfrom'],
+	'subject'       => $subject,
+	'sender_name'   => $eplug_prefs[$pname.'_settings_emailfromname'],
+	'body'          => $body,
+    'replyto'       => $formdata["2"] ,
+    'replytonames'  => $senders_name ,
+    'template'      => 'default'
+    );
+        
 	// Send to admins
-	foreach($pref[$pname.'_settings_emailto'] as $e) {
+	foreach($eplug_prefs[$pname.'_settings_emailto'] as $e) {
 		//sendemail($send_to, $subject, $message, $to_name, $send_from='', $from_name='', $attachments='', $Cc='', $Bcc='', $returnpath='', $returnreceipt='',$inline ="");
-		sendemail($e, $subject, $header.$admin_msg.$footer, $e, $formdata["2"], $senders_name);
+		//sendemail($e, $subject, $header.$admin_msg.$footer, $e, $formdata["2"], $senders_name);
+ 
+        e107::getEmail()->sendEmail($e, $eplug_prefs[$pname.'_settings_emailfromname'] , $eml, false);
 	}
 
 	// Send to User
-	if($pref[$pname."_settings_emailcopy"] == 1) {
-		//sendemail($send_to, $subject, $message, $to_name, $send_from='', $from_name='', $attachments='', $Cc='', $Bcc='', $returnpath='', $returnreceipt='',$inline ="");
-		sendemail($formdata["2"], $subject, $header.$msg.$footer, $senders_name, $pref[$pname.'_settings_emailfrom'], $pref[$pname.'_settings_emailfromname']);
-	}
+ 	if($eplug_prefs[$pname."_settings_emailcopy"] == 1) {
+         $eml['subject'] =  CUP_RECEPIENT_MESSAGE_01;
+    
+   
+ 		//sendemail($send_to, $subject, $message, $to_name, $send_from='', $from_name='', $attachments='', $Cc='', $Bcc='', $returnpath='', $returnreceipt='',$inline ="");
+ 		//sendemail($formdata["2"], $subject, $header.$msg.$footer, $senders_name, $eplug_prefs[$pname.'_settings_emailfrom'], $eplug_prefs[$pname.'_settings_emailfromname']);
+        e107::getEmail()->sendEmail($formdata["2"], $formdata["1"], $eml, false);
+     }
 }
 
 function save_msg($vars, $timestamp, $ip) {
@@ -192,7 +211,7 @@ function checkfields($type, $req, $name, $val) {
 	}
 }
 
-function buildformfield($type, $id, $parameters = array(), $value = null) {
+function buildformfield($type, $id, $parameters = '',  $value = null) {
   	global $pref;
     
 	if(!function_exists("secure_image")) { require_once(e_HANDLER.'secure_img_handler.php'); }
@@ -207,7 +226,18 @@ function buildformfield($type, $id, $parameters = array(), $value = null) {
 	}
 
 	if($type === "email") {
-		$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
+        $sk = e107::getPlugConfig('jmcontactus')->getPref();
+         
+        if($sk['use_honey-pot']) { 
+            $text = '<input class="jmas_email" id="email" name="email" type="email" value="'.$value.'">';
+            $text .= '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
+        }
+		else {
+            $text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
+        }
+        
+        
+        
 		return $text;
 	}
 
