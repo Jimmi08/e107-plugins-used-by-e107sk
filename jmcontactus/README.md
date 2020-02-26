@@ -21,6 +21,12 @@ fully replace ContentPage plugin
 
 Use it only on your own risk. 
 
+## Version 1.2.1
+
+- FIXED required fields
+- FIXED recaptcha
+- UPDATED date field
+- UPDATED textarea field
 
 
 ##### Versioning Guidlines

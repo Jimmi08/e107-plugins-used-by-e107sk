@@ -311,7 +311,10 @@ function buildformfield($type, $id, $parameters = '',  $value = null)
 
 	if($type === "date") 
 	{
-		$date = '<input class="form-control js-datepicker" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'" placeholder="dd/mm/yyyy">';
+        
+        $options['type'] = 'date';
+        $date = e107::getForm()->datepicker($id,time(),$options);   
+	 	//$date = '<input class="form-control js-datepicker" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'" placeholder="dd/mm/yyyy">';
 		return $date;
 	}
 
