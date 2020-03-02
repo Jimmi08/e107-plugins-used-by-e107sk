@@ -28,7 +28,7 @@ define("_URL","URL");
 define("_PREVIOUS","Previous Page");
 define("_NEXT","Next Page");
 define("_YOURNAME","Your Name");
-define("_CATEGORY","Category");
+//define("_CATEGORY","Category");
 define("_CATEGORIES","Categories");
 define("_LVOTES","votes");
 define("_TOTALVOTES","Total Votes:");
@@ -37,7 +37,7 @@ define("_HITS","Hits");
 define("_THEREARE","There are");
 define("_NOMATCHES","No matches found to your query");
 define("_SCOMMENTS","Comments");
-define("_DESCRIPTION","Description");
+//define("_DESCRIPTION","Description");
 //define("_DATE","Date");
 define("_TO","To");
 define("_ADDLINK","Add Link");
@@ -70,7 +70,7 @@ define("_LINKSNOTUSER4","Why do we require registration for access to certain fe
 define("_LINKSNOTUSER5","So we can offer you only the highest quality content,");
 define("_LINKSNOTUSER6","each item is individually reviewed and approved by our staff.");
 define("_LINKSNOTUSER7","We hope to offer you only valuable information.");
-define("_LINKSNOTUSER8","<a href=\"modules.php?name=".UN_DIR_YOURACOUNT."\">Register for an Account</a>");
+define("_LINKSNOTUSER8","<a href='".e_SIGNUP."'>Register for an Account</a>");
 define("_LINKALREADYEXT","ERROR: This URL is already listed in the Database!");
 define("_LINKNOTITLE","ERROR: You need to type a TITLE for your URL!");
 define("_LINKNOURL","ERROR: You need to type a URL for your URL!");
@@ -191,7 +191,7 @@ define("_FEELFREE2ADD","Feel free to add a comment about this site.");
 define("_YOUARENOTREGGED","You are not a registered user or you have not logged in.");
 define("_IFYOUWEREREG","If you were registered you could make comments on this website.");
  
-define("_TITLE","Title");
+//define("_TITLE","Title");
 define("_MODIFY","Modify");
 define("_COMPLETEVOTE1","Your vote is appreciated.");
 define("_COMPLETEVOTE2","You have already voted for this resource in the past $anonwaitdays day(s).");
@@ -211,5 +211,6 @@ define("_NOTE","Note:");
 define("_VOTES","Votes");
 define("_COMMENTS","Comments");
 define("_ANONYMOUSNAME","Anonymous Default Name");
+define("_NONE","None");
 
 ?>

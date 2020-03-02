@@ -40,13 +40,15 @@ trait WebLinksTrait
 	}
 
 	function SearchForm() {
-		global  $unquery;
-		 
+		global  $unquery;	 
+        // $class		 = varset($options['class']) ? trim($options['class']) : "";
+        $class_1 = ' form-inline justify-content-center ';
+        $class_2 = ' button btn btn-primary ';
 		if(empty($unquery)) $unquery = "";
-		$text .="<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
+		$text .="<form class='{$class_1}' action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
 		."<div class=\"content\"><input type=\"hidden\" name=\"l_op\" value=\"search\">
 		<input type=\"text\" class='form-control text' size=\"25\" name=\"unquery\" value=\"".un_htmlentities($unquery)."\"> 
-		<input type=\"submit\" class='button btn' value=\""._SEARCHWL."\"></div>"
+		<input type=\"submit\" class='{$class_2}' value=\""._SEARCHWL."\"></div>"
 		."</form>";
 		return $text;
 	}
@@ -74,6 +76,7 @@ trait WebLinksTrait
 				$count++;
 				$startdate = (time()-(86400 * $count));
 			}
+       return $text;
 	}
 
 	function popgraphic($hits) {

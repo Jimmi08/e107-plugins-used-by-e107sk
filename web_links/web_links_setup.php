@@ -133,7 +133,7 @@ if(!class_exists("web_links_setup"))
 						'email'  				=> ''  , 
 						'hits'  				=> $links_page['link_refer']  ,   
 						'submitter'  			=> '' , 
-						'linkratingsummary'  	=> '' ,
+						'linkratingsummary'  	=> 0 ,
 						'totalvotes'  			=> 0  ,						
 						'totalcomments'  		=> 0 ,						
 						'_DUPLICATE_KEY_UPDATE' => 1

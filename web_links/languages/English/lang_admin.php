@@ -26,7 +26,7 @@
 //define("_FUNCTIONS","Functions");
 //define("_YES","Yes");
 //define("_NO","No");
-define("_CATEGORY","Category");
+//define("_CATEGORY","Category");
 //define("_SAVECHANGES","Save Changes");
 define("_OK","Ok!");
 define("_HELLO","Hello");

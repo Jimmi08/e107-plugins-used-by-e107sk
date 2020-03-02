@@ -277,7 +277,7 @@ function LinksListBrokenLinks() {
     $sql = e107::getDb();
     $tp = e107::getParser();
     
-    $anonymous        = $this->plugPrefs['xanonymous']; 
+    $anonymous        = e107::getPlugConfig('web_links')->getPref('xanonymous'); 
     
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._BROKENLINKS;
     $content .= OpenTable();
@@ -305,7 +305,7 @@ function LinksListBrokenLinks() {
 			."<td><b>".LAN_DELETE."</b></td>"
 			."</tr>";
  
-                foreach($result AS $row) {      print_a($row2);
+                foreach($result AS $row) {     
 					$requestid = $row['requestid'];
 					$lid = $row['lid'];
 					$modifysubmitter = $row['modifysubmitter'];
@@ -476,7 +476,7 @@ function LinksEditBrokenLinks($lid) {
 	$lid = intval($lid);
 	$result = $sql->retrieve("SELECT requestid, lid, cid, title, url, description, modifysubmitter FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1' AND lid='".$lid."'", true);
 	$row = $result[0];
-    print_a($row);
+ 
 	$requestid = $row['requestid'];
 	$lid = $row['lid'];
 	$cid = $row['cid'];
@@ -527,7 +527,7 @@ function LinksEditBrokenLinks($lid) {
 function LinksModLink($lid) {     
     $sql = e107::getDb();
  
-	$anonymous        = $this->plugPrefs['xanonymous'];    
+	$anonymous   = e107::getPlugConfig('web_links')->getPref('xanonymous');    
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._MODLINK;    
 	$lid = intval($lid);
 	$result = $sql->retrieve("SELECT cid, title, url, description, name, email, hits FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'", true);

@@ -26,11 +26,13 @@
 **/
 
 require_once('../../../class2.php');
-if (!getperms('P')) {
+
+if(!getperms("P") || !e107::isInstalled('web_links'))
+{
 	e107::redirect('admin');
-	exit;
+	exit();
 }
- 
+
 require_once("admin_leftmenu.php");
 
 new leftmenu_adminArea();

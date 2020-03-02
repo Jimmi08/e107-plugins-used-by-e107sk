@@ -15,39 +15,89 @@
     }
  
     public function AddLink()
-	{
- 
-		$links_anonaddlinklock = $this->plugPrefs['links_anonaddlinklock'];
+	{	
+        $frm = e107::getForm();
+        
+        $links_anonaddlinklock = $this->plugPrefs['links_anonaddlinklock'];
 		$user_addlink = $this->plugPrefs['user_addlink'];
+        
+        $class_1 = '  ';
+        $class_2 = ' button btn btn-primary ';
+        
 		$mainlink = 1;
 		$text =$this->menu(1);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$text .= "<div class='center'><span class=\"title\"><b>"._ADDALINK."</b></span></div><br><br>";
+        
 		if ((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+        
+            $rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "cid, title, parentid", "WHERE TRUE ORDER BY parentid,title ",  true);
+            $values[0] = '_NONE';
+            foreach($rows AS $row) 
+			{   $ctitle2 = stripslashes(check_html($row['title'], "nohtml"));
+                $parentid2 = $row['parentid'];
+				if ($parentid2 != 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
+				$values[$row['cid']] = $ctitle2;
+			}
+		//	$this->fields['cid']['writeParms']['optArray'] = $values ;  
+           
+            $fields['title']   =  array(
+        				'title' => _PAGETITLE,
+                        'type'  => 'text',
+                        'writeParms' => array('placeholder'=>_PAGETITLE, 'size'=>50, 'maxlength'=>100, 'required'=> true ) 	
+                );  
+                        
+            $fields['url']   =  array(
+        				'title' => _PAGEURL,
+                        'type'  => 'url',
+                        'writeParms' => array('placeholder'=>_PAGEURL, 'size'=>50, 'maxlength'=>100, 'required'=> true ) 	
+                );   
+            $fields['cat']   =  array(
+        				'title' => LAN_CATEGORY,
+                        'type'  => 'dropdown',
+                        'writeParms' => array('placeholder'=>LAN_CATEGORY, 'size'=>30, 'maxlength'=>60, 'required'=> true,
+                        'optArray' => $values ) 	
+                );
+            $fields['description']   =  array(
+        				'title' => _LDESCRIPTION,
+                        'type'  => 'textarea',  'noresize'=>false, 
+                        'writeParms' => array('placeholder'=>_LDESCRIPTION, 'cols'=>70, 'rows'=>5,  'size'=>255,  
+                        'required'=> true, 'id'=>'weblinks_submit',
+                        'optArray' => $values,  'class'=>'form-control' ) ,
+                );
+                     
+            $fields['auth_name']   =  array(
+        				'title' => _YOURNAME,
+                        'type'  => 'text',
+                        'writeParms' => array('placeholder'=>_YOURNAME, 'size'=>30, 'maxlength'=>60, 'required'=> true ) 	
+                );
+            $fields['email']  = array(
+        				'title' => _YOUREMAIL,
+                        'type'  => 'text',
+                        'writeParms' => array('placeholder'=>_YOUREMAIL, 'size'=>30, 'maxlength'=>60, 'required'=> true ) 	
+                ); 
+                               
+            $value = array();
+            $value['auth_name'] = USERNAME;  
+            $value['email']     = USEREMAIL;  
+            
 			$text .= "<b>"._INSTRUCTIONS.":</b><br>"
 			."<span class='big'>&middot;</span> "._SUBMITONCE."<br>"
 			."<span class='big'>&middot;</span> "._POSTPENDING."<br>"
 			."<span class='big'>&middot;</span> "._USERANDIP."<br>"
-			."<form method=\"post\" action=\"".WEB_LINKS_FRONTFILE."?l_op=Add\">"
-			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
-			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
-			$text .= _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
-			$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid,title");
-				while ($row = e107::getDB()->fetch($result)) {
-					$cid2 = $row['cid'];
-					$ctitle2 = stripslashes(check_html($row['title'], "nohtml"));
-					$parentid2 = $row['parentid'];
-					if ($parentid2 != 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
-					$text .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
-				}
-
-			$text .= "</select><br><br>"
-			._LDESCRIPTION."<br><textarea name=\"description\" id=\"weblinks_submit\" cols=\"70\" rows=\"15\"></textarea><br><br><br>"
-			._YOURNAME.": <input type=\"text\" name=\"auth_name\" size=\"30\" maxlength=\"60\"><br>"
-			._YOUREMAIL.": <input type=\"text\" name=\"email\" size=\"30\" maxlength=\"60\"><br><br>"
-			."<input type=\"hidden\" name=\"l_op\" value=\"Add\">"
-			."<input type=\"submit\" class='button btn' value=\""._ADDURL."\"> "._GOBACK."<br><br>"
+			."<form class='{$class_1}' method=\"post\" action=\"".WEB_LINKS_FRONTFILE."?l_op=Add\">";
+ 
+            foreach ($fields AS $fieldkey=>$field) {
+               $text .= "<div class=\"form-group\">";
+               $text .= "<label for=\"{$fieldkey}\">{$field['title']}: </label>";     
+               $text  .= $frm->renderElement($fieldkey , $value[$fieldkey] , $field);
+               $text .=  "</div>";
+            }
+     
+ 
+			$text .= "<input type=\"hidden\" name=\"l_op\" value=\"Add\">"
+			."<input type=\"submit\" class='{$class_2}' value=\""._ADDURL."\"> "._GOBACK."<br><br>"
 			."</form>";
 		}else {
 			$text .= "<div class='center'>"._LINKSNOTUSER1."<br>"
@@ -173,9 +223,9 @@
 					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
-				newlinkgraphic($time);
-				popgraphic($hits);
-				$text .= "<br>"._DESCRIPTION.": ".$description."<br>";
+				$text .= $this->newlinkgraphic($time);
+				$text .= $this->popgraphic($hits);
+				$text .= "<br>".LAN_DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				/* INSERT code for *editor review* here */
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
@@ -194,7 +244,7 @@
 						$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 					}
 				$text .= "<br>";
-					if (getperms('0')) {  //e107 superadmin
+					if (ADMIN) {  //TODO add prefs, change path
 						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -210,7 +260,7 @@
 				detecteditorial($lid);
 				$text .= "<br>";
 				$ctitle = $this->getparent($cid,$ctitle);
-				$text .= _CATEGORY.": ".$ctitle;
+				$text .= LAN_CATEGORY.": ".$ctitle;
 				$text .= "<br><br>";
 			}
  
@@ -284,7 +334,7 @@
 				$text .= $this->newlinkgraphic($time);
 				$text .= $this->popgraphic($hits);
 				$text .=  "<br>";
-				$text .=  _DESCRIPTION.": ".$description."<br>";
+				$text .=  LAN_DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
@@ -314,7 +364,7 @@
 				$text = $this->detecteditorial($lid);
 				$text .=  "<br>";
 				$ctitle = $this->getparent($cid,$ctitle);
-				$text .=  _CATEGORY.": ".$ctitle;
+				$text .=  LAN_CATEGORY.": ".$ctitle;
 				$text .=  "<br><br>";
 				$text .=  "<br><br>";
 			}
@@ -379,7 +429,7 @@
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 				$ctitle = e107::getParser()->toHTML($row3['cat_title'], "", "TITLE");
  
-				if(ADMIN) {
+				if (ADMIN) {  //TODO add prefs, change path
 					$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
 					<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
@@ -389,7 +439,7 @@
 				$text .=$this->newlinkgraphic($time);
 				$text .=$this->popgraphic($hits);
 				$text .= "<br>";
-				$text .= _DESCRIPTION.": ".$description."<br>";
+				$text .= LAN_DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
@@ -407,7 +457,7 @@
 					$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 				}
 				$text .= "<br>";
-				if (ADMIN) {
+				if (ADMIN) {  //TODO add prefs, change path
 					$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -424,7 +474,7 @@
 				$text .= $this->detecteditorial($lid);
 				$text .= "<br>";
 				$ctitle = $this->getparent($cid,$ctitle);
-				$text .= _CATEGORY.": ".$ctitle;
+				$text .= LAN_CATEGORY.": ".$ctitle;
 				$text .= "<br><br>";
 				$text .= "<br><br></span>";
 			}
@@ -489,7 +539,7 @@
 		$parentid = $row_two['parentid'];
 		$title = $this->getparentlink($parentid,$title);
 		$title = "<a href=\"".WEB_LINKS_FRONTFILE."\">"._MAIN."</a>/".$title;
-		$text .= "<div class='center'><span class=\"option\"><b>"._CATEGORY.": ".$title."</b></span></div><br>";
+		$text .= "<div class='center'><span class=\"option\"><b>".LAN_CATEGORY.": ".$title."</b></span></div><br>";
 		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";
 		$cid = intval($cid);
 		$result2 = e107::getDB()->gen("SELECT cid, title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE parentid='".$cid."' ORDER BY title");
@@ -500,7 +550,7 @@
 				$title2 = e107::getParser()->toHTML($row2['title'], "", "TITLE");
 				$cdescription2 = stripslashes($row2['cdescription']); 
 				$text .= "<td><span class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?&amp;l_op=viewlink&amp;cid=".$cid2."\"><b>".$title2."</b></a></span>";
-				$this->categorynewlinkgraphic($cid2);
+				$text .= $this->categorynewlinkgraphic($cid2);
 				if ($cdescription2) {
 					$text .= " <span class=\"content\">".$cdescription2."</span><br>";
 				} else {
@@ -539,7 +589,7 @@
 		$orderbyTrans = $this->convertorderbytrans($orderby);
 		$text .= "<div class='center'><span class=\"content\">"._SORTLINKSBY.": "
 		._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
-		._DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
+		.LAN_DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
 		._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
 		._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
 		."<br><b>"._SITESSORTED.": ".$orderbyTrans."</b></span></div><br><br>";
@@ -567,17 +617,17 @@
 				$totalcomments = $row4['totalcomments'];
 				$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
  
-				if (ADMIN) {
+				if (ADMIN) {  //TODO add prefs, change path
 					$text .= "<a  target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"". LAN_EDIT."\"></a>&nbsp;&nbsp;";
 				} else {
 					$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
-				$this->newlinkgraphic($time);
-				$this->popgraphic($hits);
+				$text .= $this->newlinkgraphic($time);
+				$text .= $this->popgraphic($hits);
 				/* INSERT code for *editor review* here */
 				$text .= "<br>";
-				$text .= ""._DESCRIPTION.": ".$description."<br>";
+				$text .= LAN._DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
@@ -595,7 +645,7 @@
 						$text .= " "._RATING.": ".$linkratingsummary." ("._VOTES.": ".$totalvotes.")";
 					}
 				$text .= "<br>";
-					if (getperms('0')) {
+					if (ADMIN) {  //TODO add prefs, change path
 						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | ";
 					}
 				    $text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATESITE."</a>";
@@ -730,11 +780,11 @@
 					$text .= "<form action=\"".WEB_LINKS_FRONTFILE."\" method=\"post\">"
 					._LINKID.": <b>".$lid."</b></div><br><br><br>"
 					._LINKTITLE.":<br><input type=\"text\" class='form-control tbox' name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br><br>"
-					._URL.":<br><input type=\"text\" class='form-control tbox' name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
-					._DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
+					.LAN_URL.":<br><input type=\"text\" class='form-control tbox' name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
+					.LAN_DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
 					$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
 					."<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">"
-					._CATEGORY.": <select class='form-control tbox' name=\"cat\"  >";
+					.LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\"  >";
 					$result2 = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
 						while($row2 = e107::getDB()->fetch($result2)) {   
 							$cid2 = $row2['cid'];
@@ -1008,17 +1058,17 @@
 						$totalcomments = $row['totalcomments'];
 						$linkratingsummary = number_format($linkratingsummary, $mainvotedecimal);
 						$title = str_replace($unquery, "<b>".$unquery."</b>", $title);
-						if (ADMIN) {
+						if (ADMIN) {  //TODO add prefs, change path
 							$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\"><img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"".LAN_EDIT."\"></a>&nbsp;&nbsp;";
 						} else {
 							$text .= "<img src=\"".WEB_LINKS_APP_ABS."/images/lwin.gif\" border=\"0\" alt=\"\">&nbsp;&nbsp;";
 						}
 						$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
-						$this->newlinkgraphic($time);
-						$this->popgraphic($hits);
+						$text .= $this->newlinkgraphic($time);
+						$text .= $this->popgraphic($hits);
 						$text .= "<br>";
 						$description = str_replace($unquery, "<b>".$unquery."</b>", $description);
-						$text .= _DESCRIPTION.": ".$description."<br>";
+						$text .= LAN_DESCRIPTION.": ".$description."<br>";
 						setlocale (LC_TIME, $locale);
 						//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 						preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);				
@@ -1050,7 +1100,7 @@
 						$title3 = stripslashes(check_html($row4['title'], "nohtml"));
 						$parentid3 = $row4['parentid'];
 							if ($parentid3>0) $title3 = $this->getparent($parentid3,$title3);
-								$text .= _CATEGORY.": ".$title3."<br><br>";
+								$text .= LAN_CATEGORY.": ".$title3."<br><br>";
 								$x++;
 					}
 				$text .= "</span>";
@@ -1236,8 +1286,7 @@
 			} else {
 				$ratinguser = $anonymous;
 			}
-            
-            print_a($ratinguser);
+ 
 		/*$result = e107::getDB()->gen("SELECT title FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
 			while ($row = e107::getDB()->fetch($result)) {
 				$title = stripslashes(check_html($row['title'], "nohtml"));
@@ -1399,7 +1448,7 @@
 				."<tr>"
 				."<td colspan=\"3\">"
 				."<span class=\"content\">";
-					if (ADMIN) {
+					if (ADMIN) {  //TODO add prefs, change path
 						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
                         <img src=\"".WEB_LINKS_APP_ABS."\"/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
 					}

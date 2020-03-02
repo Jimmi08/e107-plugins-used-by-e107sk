@@ -35,7 +35,7 @@ $plugin_index = e107::getParser()->replaceConstants($plugin_index,'full');
 
 define("WEB_LINKS_INDEX",  	$plugin_index);
  
-define("UN_FILENAME_ADMIN", 		e_PLUGIN.'web_links/admin/index.php');
+define("UN_FILENAME_ADMIN", 		e_PLUGIN_ABS.'web_links/admin/index.php');
 define("UN_FILENAME_ADMIN_FOLDER",	e_PLUGIN.'web_links/admin/');
  
  

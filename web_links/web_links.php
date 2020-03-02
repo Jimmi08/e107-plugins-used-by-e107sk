@@ -60,7 +60,7 @@ foreach($qry_tmp as $tmp) {
 	}
 }
 extract($par);
-  
+ 
 //process $_POST parameters for rating,
 //process $_POST parameters for searching ,
 //process $_POST parameters for moderate ,
@@ -81,8 +81,7 @@ if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) {
     $l_op = 'addrating';
 //	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 }
-  
-  
+ 
 switch($l_op) {
 
 	case "AddLink":

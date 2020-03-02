@@ -60,7 +60,7 @@ class web_links_ui extends e_admin_ui
 		{	
 			$this->postFiliterMarkup = $this->AddButton();
  
-			$rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid = 0 ", true);
+			$rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "*", "WHERE parentid = 0 ", true);
 			$values[0] = '_NONE';
 			foreach($rows AS $row) 
 			{
@@ -70,7 +70,7 @@ class web_links_ui extends e_admin_ui
             
             $values = array();
             
-            $rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid != 0 ", true);
+            $rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "*", "WHERE parentid != 0 ", true);
 			$values[0] = '_NONE';
 			foreach($rows AS $row) 
 			{
@@ -93,10 +93,10 @@ class web_links_ui extends e_admin_ui
        
        public function beforeCreate($new_data)
 	   {
-         print_a($new_data);
+ 
          $sql = e107::getDb();
          //check if link exists
-         $url = $new_data['url'];    print_a($url);
+         $url = $new_data['url'];    
          $numrows = $sql->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
          if ($numrows > 0) {
             e107::getMessage()->addError(_ERRORURLEXISTWL);
