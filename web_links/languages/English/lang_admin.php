@@ -168,5 +168,6 @@ define("_WAITINGCONT","Waiting for you are");
 define("LAN_MAINTENANCE","Maintenance");
 
 define("_GOBACK","Go Back");
+define("_ANONYMOUSNAME","Anonymous Default Name");
 
  

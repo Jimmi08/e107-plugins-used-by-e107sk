@@ -210,4 +210,6 @@ define("_GOBACK","[ <a href=\"javascript:history.go(-1)\">Back</a> ]");
 define("_NOTE","Note:");
 define("_VOTES","Votes");
 define("_COMMENTS","Comments");
+define("_ANONYMOUSNAME","Anonymous Default Name");
+
 ?>

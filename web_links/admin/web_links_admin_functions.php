@@ -277,6 +277,8 @@ function LinksListBrokenLinks() {
     $sql = e107::getDb();
     $tp = e107::getParser();
     
+    $anonymous        = $this->plugPrefs['xanonymous']; 
+    
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._BROKENLINKS;
     $content .= OpenTable();
 	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
@@ -500,7 +502,7 @@ function LinksEditBrokenLinks($lid) {
 	.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\"><br>";
 	$content .="<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 	$content .="<input type=\"hidden\" name=\"hits\" value=\"".$hits."\">";
-	$content .=_CATEGORY.": <select name=\"cat\">";
+	$content .=_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 	$result = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
 		foreach($result AS $row) {
 			$cid2 = $row['cid'];
@@ -525,7 +527,7 @@ function LinksEditBrokenLinks($lid) {
 function LinksModLink($lid) {     
     $sql = e107::getDb();
  
-	global $anonymous;    
+	$anonymous        = $this->plugPrefs['xanonymous'];    
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._MODLINK;    
 	$lid = intval($lid);
 	$result = $sql->retrieve("SELECT cid, title, url, description, name, email, hits FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'", true);
@@ -552,7 +554,7 @@ function LinksModLink($lid) {
 		.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"50\" maxlength=\"100\" value=\"".$email."\"><br>"
 		._HITS.": <input type=\"text\" name=\"hits\" value=\"".$hits."\" size=\"12\" maxlength=\"11\"><br>";
 		$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
-		.LAN_CATEGORY.": <select name=\"cat\">";
+		.LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 		$result2 = $sql->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
 			while($row2 = $sql->fetch($result2)) {
 				$cid2 = $row2['cid'];
@@ -893,7 +895,7 @@ function links() {
 				$content .= "<input type=\"hidden\" name=\"new\" value=\"1\">";
 				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
-				$content .=  _CATEGORY.": <select name=\"cat\">";
+				$content .=  _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 				$result5 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
                     foreach($result5 AS $row5) {
 						$cid2 = $row5['cid'];
@@ -949,7 +951,7 @@ $content .= "<br>";
 			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
 			."<font class=\"option\"><b>"._MODCATEGORY."</b></font><br><br>";
 			$result11 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
-			$content .= _CATEGORY.": <select name=\"cat\">";
+			$content .= _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
                 foreach($result11 AS $row11) {
 					$cid2 = $row11['cid'];
 					$ctitle2 = stripslashes($row11['title']);
@@ -991,7 +993,7 @@ $content .= "<br>";
 			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
 			."<font class=\"option\"><b>"._EZTRANSFERLINKS."</b></font><br><br>"
 			._CATEGORY.": "
-			."<select name=\"cidfrom\">";
+			."<select class='form-control tbox' name=\"cidfrom\">";
 			$result14 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
             foreach($result14 AS $row14) {
  
@@ -1005,7 +1007,7 @@ $content .= "<br>";
 			$content .= "</select><br>"
 			._IN."&nbsp;"._CATEGORY.": ";
 			$result15 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
-			$content .= "<select name=\"cidto\">";
+			$content .= "<select class='form-control tbox' name=\"cidto\">";
 				foreach($result15 AS $row15) {
 					$cid2 = intval($row15['cid']);
 					$ctitle2 = stripslashes($row15['title']);

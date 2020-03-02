@@ -31,7 +31,7 @@ $truecomments = $totalvotesDB;
 		$ratinguserDB = $vrow['ratinguser'];
 		$ratingcommentsDB = stripslashes(check_html($vrow['ratingcomments'], "nohtml"));
 		if ($ratingcommentsDB=="") $truecomments--;
-			if ($ratinguserDB==$anonymous) {  print_a($anonymous) ;
+			if ($ratinguserDB==$anonymous) {   
 				$anonvotes++;
 				$anonvoteval += $ratingDB;
 			}

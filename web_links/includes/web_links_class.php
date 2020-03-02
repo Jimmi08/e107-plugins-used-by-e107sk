@@ -32,7 +32,7 @@
 			."<form method=\"post\" action=\"".WEB_LINKS_FRONTFILE."?l_op=Add\">"
 			._PAGETITLE.": <input type=\"text\" name=\"title\" size=\"50\" maxlength=\"100\"><br>"
 			._PAGEURL.": <input type=\"text\" name=\"url\" size=\"50\" maxlength=\"100\" value=\"http://\"><br>";
-			$text .= _CATEGORY.": <select name=\"cat\">";
+			$text .= _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 			$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid,title");
 				while ($row = e107::getDB()->fetch($result)) {
 					$cid2 = $row['cid'];
@@ -700,9 +700,10 @@
 	
     public function modifylinkrequest($lid)
 	{
-		global  $user,   $anonymous;
+		global  $user ;
 
-		$blockunregmodify = $this->plugPrefs['blockunregmodify'];
+		$blockunregmodify   = $this->plugPrefs['blockunregmodify'];
+        $anonymous          = $this->plugPrefs['xanonymous']; 
 			if(USER) {
 				$ratinguser = USERNAME;
 			} else {
@@ -733,7 +734,7 @@
 					._DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
 					$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
 					."<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">"
-					._CATEGORY.": <select name=\"cat\" class='form-control tbox' >";
+					._CATEGORY.": <select class='form-control tbox' name=\"cat\"  >";
 					$result2 = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
 						while($row2 = e107::getDB()->fetch($result2)) {   
 							$cid2 = $row2['cid'];
@@ -760,7 +761,10 @@
     }   	
     public function modifylinkrequestS($lid, $cat, $title, $url, $description, $modifysubmitter)
 	{
-		global   $user,  $anonymous, $blockunregmodify;
+		global   $user,  $blockunregmodify;
+        
+        
+        $anonymous          = $this->plugPrefs['xanonymous']; 
  
 			if(USER) {
 				$ratinguser = USERNAME;
@@ -1144,7 +1148,12 @@
     }		
     public function ratelink($lid)
 	{
-		global $cookie, $datetime, $anonymous, $user;
+		global $cookie, $datetime,  $user;
+        
+        $r_array = array('--',1,2,3,4,5,6,7,8,9,10);
+        $anonymous          = $this->plugPrefs['xanonymous']; 
+        
+        $frm = e107::getForm();
 		 
 		$text = $this->menu(1);
 		$text .= "<br>";
@@ -1182,21 +1191,10 @@
 		."<input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\">"
 		."<input type=\"hidden\" name=\"ratinguser\" value=\"".$auth_name."\">"
 		."<input type=\"hidden\" name=\"ratinghost_name\" value=\"".$ip."\">"
-		."<span class=\"content\">"._RATETHISSITE
-		."<select name=\"rating\">"  //TODO fix select look
-		."<option>--</option>"
-		."<option>10</option>"
-		."<option>9</option>"
-		."<option>8</option>"
-		."<option>7</option>"
-		."<option>6</option>"
-		."<option>5</option>"
-		."<option>4</option>"
-		."<option>3</option>"
-		."<option>2</option>"
-		."<option>1</option>"
-		."</select></span>"
-		." <span class=\"content\"><input class='button btn' type=\"submit\" value=\""._RATETHISSITE."\"></span>"
+		."<div class='form-check-inline'><div class='form-group'>" 
+        .$frm->select('rating', $r_array, '','',false)     
+        .$frm->submit( '', _RATETHISSITE ,'', array('class'=>'button btn'))   
+		."</div></div>"
 		."<br><br>";
 		// karma system, not banned users TODO
 		//$result = e107::getDB()->gen("SELECT karma FROM #".UN_TABLENAME_USERS." WHERE user_id='".intval($cookie[0])."'");
@@ -1221,11 +1219,12 @@
     
     public function addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments)
 	{
-		global  $cookie,  $anonymous;
+		global  $cookie ;
 
-		$anonwaitdays= $this->plugPrefs['anonwaitdays'];
-		$outsidewaitdays = $this->plugPrefs['outsidewaitdays'];
-
+		$anonwaitdays     = $this->plugPrefs['anonwaitdays'];
+		$outsidewaitdays  = $this->plugPrefs['outsidewaitdays'];
+        $anonymous        = $this->plugPrefs['xanonymous']; 
+        
 		$passtest = "yes";
  
 		$ratinglid = intval($ratinglid);
@@ -1237,6 +1236,8 @@
 			} else {
 				$ratinguser = $anonymous;
 			}
+            
+            print_a($ratinguser);
 		/*$result = e107::getDB()->gen("SELECT title FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$ratinglid."'");
 			while ($row = e107::getDB()->fetch($result)) {
 				$title = stripslashes(check_html($row['title'], "nohtml"));
@@ -1458,7 +1459,7 @@
 		<tr><td>
 		<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">
 		<tr><td valign=\"top\">
-			<select name=\"rating\">
+			<div class='form-group'><select class='form-control tbox' name=\"rating\">
 			<option selected>--</option>
 			<option>10</option>
 			<option>9</option>
@@ -1470,7 +1471,7 @@
 			<option>3</option>
 			<option>2</option>
 			<option>1</option>
-			</select>
+			</select>   </div>
 		</td><td valign=\"top\">
 			<input type=\"hidden\" name=\"ratinglid\" value=\"".$lid."\">
 			<input type=\"hidden\" name=\"ratinguser\" value=\"outside\">
@@ -1563,13 +1564,14 @@
     }  
     public function viewlinkdetails($lid)
 	{
-		global  $bgcolor1, $bgcolor2, $bgcolor3, $anonymous ;
+		global  $bgcolor1, $bgcolor2, $bgcolor3 ;
 
 		$useoutsidevoting = $this->plugPrefs['useoutsidevoting'];
 		$anonweight = $this->plugPrefs['anonweight'];
 		$outsideweight = $this->plugPrefs['outsideweight'];
 		$detailvotedecimal = $this->plugPrefs['detailvotedecimal'];
-
+        $anonymous        = $this->plugPrefs['xanonymous']; 
+        
 		$text =$this->menu(1);
 		$lid = intval($lid);
 		$voteresult = e107::getDB()->retrieve("SELECT rating, ratinguser, ratingcomments FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."'", true);
@@ -1797,16 +1799,16 @@
 				."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 				."</tr>"
 				."<tr>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[1]." "._LVOTES." (".$avvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[1]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[2]." "._LVOTES." (".$avvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[2]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[3]." "._LVOTES." (".$avvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[3]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[4]." "._LVOTES." (".$avvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[4]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[5]." "._LVOTES." (".$avvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[5]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[6]." "._LVOTES." (".$avvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[6]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[7]." "._LVOTES." (".$avvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[7]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[8]." "._LVOTES." (".$avvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[8]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[9]." "._LVOTES." (".$avvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[9]."\"></td>"
-				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[10]." "._LVOTES." (".$avvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[10]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[1]." "._LVOTES." (".$avvpercent[1]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[1]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[2]." "._LVOTES." (".$avvpercent[2]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[2]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[3]." "._LVOTES." (".$avvpercent[3]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[3]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[4]." "._LVOTES." (".$avvpercent[4]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[4]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[5]." "._LVOTES." (".$avvpercent[5]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[5]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[6]." "._LVOTES." (".$avvpercent[6]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[6]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[7]." "._LVOTES." (".$avvpercent[7]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[7]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[8]." "._LVOTES." (".$avvpercent[8]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[8]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[9]." "._LVOTES." (".$avvpercent[9]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[9]."\"></td>"
+				."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"".$avv[10]." "._LVOTES." (".$avvpercent[10]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$avvchartheight[10]."\"></td>"
 				."</tr>"
 				."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 				."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
@@ -1842,16 +1844,16 @@
 						."<td valign=\"top\" align=\"center\" colspan=\"10\" bgcolor=\"".$bgcolor2."\"><span class=\"content\">"._BREAKDOWNBYVAL."</span></td>"
 						."</tr>"
 						."<tr>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[1] "._LVOTES." (".$ovvpercent[1]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[1]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[2] "._LVOTES." (".$ovvpercent[2]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[2]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[3] "._LVOTES." (".$ovvpercent[3]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[3]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[4] "._LVOTES." (".$ovvpercent[4]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[4]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[5] "._LVOTES." (".$ovvpercent[5]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[5]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[6] "._LVOTES." (".$ovvpercent[6]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[6]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[7] "._LVOTES." (".$ovvpercent[7]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[7]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[8] "._LVOTES." (".$ovvpercent[8]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[8]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[9] "._LVOTES." (".$ovvpercent[9]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[9]."\"></td>"
-						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[10] "._LVOTES." (".$ovvpercent[10]."% "._LTOTALVOTES.")\" src=\"images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[10]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[1] "._LVOTES." (".$ovvpercent[1]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[1]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[2] "._LVOTES." (".$ovvpercent[2]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[2]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[3] "._LVOTES." (".$ovvpercent[3]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[3]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[4] "._LVOTES." (".$ovvpercent[4]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[4]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[5] "._LVOTES." (".$ovvpercent[5]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[5]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[6] "._LVOTES." (".$ovvpercent[6]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[6]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[7] "._LVOTES." (".$ovvpercent[7]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[7]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[8] "._LVOTES." (".$ovvpercent[8]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[8]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[9] "._LVOTES." (".$ovvpercent[9]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[9]."\"></td>"
+						."<td bgcolor=\"".$bgcolor1."\" valign=\"bottom\"><img border=\"0\" alt=\"$ovv[10] "._LVOTES." (".$ovvpercent[10]."% "._LTOTALVOTES.")\" src=\"".WEB_LINKS_APP_ABS."images/blackpixel.gif\" width=\"15\" height=\"".$ovvchartheight[10]."\"></td>"
 						."</tr>"
 						."<tr><td colspan=\"10\" bgcolor=\"".$bgcolor2."\">"
 						."<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" width=\"200\"><tr>"
