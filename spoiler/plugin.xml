@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="spoiler" lan="LAN_001" version="1.0" date="2018-07-02" compatibility="2.0" installRequired="true" >
+	<author name="hups" url="https://www.e107.sk/" />
+	<summary lan="">Simple plugin for adding spoiler bbcode </summary>
+	<description lan="">Text marked as spoiler is displayed only after clicking on spoiler button</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>spoiler</word>
+		<word>content</word>
+	</keywords>
+	<category>misc</category>
+	<copyright>GPL</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="/images/icon.png" iconSmall="/images/icon_16.png" 
+		icon128="/images/icon.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='text_showspoiler'></pref>
+		<pref name='text_hidespoiler'></pref>
+		<pref name='text_forspoiler_parm '></pref>
+		<pref name='text_forspoiler'></pref>
+	</pluginPrefs>
+</e107Plugin>

@@ -1,0 +1,6 @@
+.button { 
+background-image:url(images/button.png);
+}
+.button, .button:hover { 
+border:1px solid #A5ACB2;
+}
