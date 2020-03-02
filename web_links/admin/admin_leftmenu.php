@@ -124,12 +124,13 @@ class leftmenu_adminArea extends e_admin_dispatcher
 		     ),
   	 
 		);
-
+            
 		if($num > 0) 
-		{
-			$this->adminMenu['Links/index']['badge']['type'] = 'danger';
+		{   
+            $this->adminMenu['Links']['badge']['type'] = 'danger';            
+			$this->adminMenu['links_newlink/list']['badge']['type'] = 'danger';
 		}
-
+              
 		if($modreql > 0) 
 		{
 			$this->adminMenu['LinksListModRequests']['badge']['type'] = 'danger';
@@ -141,7 +142,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 
 		}
 
- 
+        
 	}
  
 }

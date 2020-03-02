@@ -81,7 +81,7 @@ define("_SUBCATEGORY","Sub-Category");
 define("_OWNER","Owner");
 define("_ACCEPT","Accept");
 define("_ERRORTHECATEGORY","ERROR: The Category");
-define("_ALREADYEXIST","already exist!");
+define("_ALREADYEXIST","already exists!");
 define("_ERRORTHESUBCATEGORY","ERROR: The Sub-Category");
 define("_EDITORIALADDED","Editorial added to the Database");
 define("_EDITORIALMODIFIED","Editorial Modified");

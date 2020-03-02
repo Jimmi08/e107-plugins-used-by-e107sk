@@ -886,7 +886,7 @@
     }   
     public function Add($title, $url, $auth_name, $cat, $description, $email)
 	{
-		 
+       
 		$user_addlink = $this->plugPrefs['user_addlink'];
 		$links_anonaddlinklock = e107::getPlugConfig('web_links')->getPref('links_anonaddlinklock');
 
@@ -951,20 +951,25 @@
 				$email = e107::getParser()->toDb($email);
 				$cat[0] = intval($cat[0]);
 				$cat[1] = intval($cat[1]);
-				$num_result = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_NEWLINK." WHERE title='".addslashes($title)."' OR url='".addslashes($url)."' OR description='".addslashes($description)."'");
+				$num_result = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_NEWLINK." WHERE title='".$title."' OR url='".$url."' OR description='".addslashes($description)."'");
 				$num_row = e107::getDB()->fetch($num_result);
  
-				$num_new = $num_row['numrows'];
-					if ($num_new == 0) {
-						if((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
-							e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_NEWLINK." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".addslashes($title)."', '".addslashes($url)."', '".addslashes($description)."', '".addslashes($auth_name)."', '".addslashes($email)."', '".addslashes($submitter)."')");
-						}
+				$num_new = $num_row['numrows'];     
+				if ($num_new == 0) {
+					if((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+						e107::getDB()->gen("INSERT INTO #".UN_TABLENAME_LINKS_NEWLINK." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".$title."', '".$url."', '".addslashes($description)."', '".addslashes($auth_name)."', '".addslashes($email)."', '".addslashes($submitter)."')");
 					}
-				
-		$text =$this->menu(1);
+                    $message = _LINKRECEIVED;
+				}
+                else {
+                     //duplicate
+                     $message = _ERRORTHELINK._ALREADYEXIST;
+                }
+
+		        $text =$this->menu(1);
 				$text .= "<br>";
 				$text .= $this->plugTemplates['OPEN_TABLE'];
-				$text .= "<div class='text-center'><b>"._LINKRECEIVED."</b><br>";
+				$text .= "<div class='text-center'><b>".$message."</b><br>";
 				if ($email != "") {
 					$text .= _EMAILWHENADD;
 				} else {

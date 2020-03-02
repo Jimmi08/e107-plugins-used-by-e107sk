@@ -78,6 +78,8 @@ define("_LINKNODESC","ERROR: You need to type a DESCRIPTION for your URL!");
 define("_LINKRECEIVED","We received your Link submission. Thanks!");
 define("_EMAILWHENADD","After link validation you will receive confirmation email.");
 define("_CHECKFORIT","Please do not email us. Your web link will be checked and validate as soon as possible.");
+define("_ERRORTHELINK","ERROR: The link (title, url or description) ");
+define("_ALREADYEXIST","already exists!");
 define("_NEWLINKS","New Links");
 define("_TOTALNEWLINKS","Total New Links");
 define("_LASTWEEK","Last Week");
