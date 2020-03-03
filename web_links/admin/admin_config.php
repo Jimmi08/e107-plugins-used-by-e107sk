@@ -49,7 +49,7 @@ class links_prefs_ui extends e_admin_ui
 		protected $fields 			= array ();			
 		protected $fieldpref 		= array();
 		
-	//	protected $preftabs        = array('General', 'Other' );
+    	protected $preftabs        = array(LAN_SETTINGS );
 		protected $prefs = array(
 			'xanonymous'		=> array(
 				'title'=> _ANONYMOUSNAME, 
@@ -165,7 +165,34 @@ class links_prefs_ui extends e_admin_ui
 				'type'=>'boolean', 
 				'data' => 'int', 
 				'help'=>'Let registered users to add new link?'),
+
 		); 
+        
+        function init() {
+        
+         //Don't confuse other users 
+         if(UnNuke_Support == 1 ) {          
+             $this->preftabs[1] = "UnNuke Support";
+             $this->prefs['use_unnuke']	= array(
+				'title'=> 'Use UnNuke Tables?', 
+				'tab'=>1, 
+				'type'=>'boolean', 
+				'data' => 'int', 
+				'help'=>'If yes, UnNuke prefixes are used for tables. Those tables have to already exists and they have e107 prefix too.  ');            
+             $this->prefs['unnuke_prefix']	= array(
+				'title'=> 'UnNuke Table prefix ', 
+				'tab'=>1, 
+				'type'=>'text', 
+				'data' => 'str', 
+				'help'=>'UnNuke prefix with _ (for example: unnuke_) !');
+             $this->prefs['unnuke_user_prefix']	= array(
+				'title'=> 'UnNuke User Table prefix ', 
+				'tab'=>1, 
+				'type'=>'text', 
+				'data' => 'str', 
+				'help'=>'UnNuke User prefix with _ (for example: unnuke_) !');
+           }
+        }
 			
 }
 				

@@ -1,8 +1,18 @@
 <?php
 if (!defined('e107_INIT')) { exit; }
+ 
+//Way how to use the same database
+$prefix = '';
+$user_prefix =  '';
 
-$prefix = '' ;
+if(e107::getPlugConfig('web_links')->getPref('use_unnuke')) {
+   $prefix = varset(e107::getPlugConfig('web_links')->getPref('unnuke_prefix'), '');
+   $user_prefix = varset(e107::getPlugConfig('web_links')->getPref('unnuke_user_prefix'), '');
+}
+
+
 // example e107_unnuke_links_links  $prefix = unnuke_,  + # = e107 table 
+// e107_ has prefix always with _ 
 
 define("UN_TABLENAME_LINKS_CATEGORIES", $prefix."links_categories");
 define("UN_TABLENAME_LINKS_CATEGORIES", $prefix."links_categories");
@@ -13,7 +23,7 @@ define("UN_TABLENAME_LINKS_NEWLINK", 	$prefix."links_newlink");
 define("UN_TABLENAME_LINKS_VOTEDATA", 	$prefix."links_votedata");
 
 //use e107 users
-define("UN_TABLENAME_USERS", 	$prefix."user AS user" );
+define("UN_TABLENAME_USERS", 	$user_prefix."user AS user" );
 
 define ("UN_TABLENAME_USERNAME",  "user.user_name");  // Do not change the aliasing (the "author." part)!
 define ("UN_TABLENAME_USERNAME_ALIAS",  "user.user_name AS username");  // Do not change the aliasing (the "author." part)!
