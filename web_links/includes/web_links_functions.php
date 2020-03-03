@@ -81,7 +81,7 @@ trait WebLinksTrait
 
 	function popgraphic($hits) {
 		$popular = e107::getPlugConfig('web_links')->getPref('popular');
-		if ($hits<=$popular) {
+		if ($hits>=$popular) {
 			$text = "&nbsp;<img src=\"".WEB_LINKS_APP_ABS."/images/pop.gif\" alt=\""._POPULAR."\">";
 		}
 		return $text;
