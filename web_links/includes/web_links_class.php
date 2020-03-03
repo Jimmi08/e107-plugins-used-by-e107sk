@@ -227,7 +227,7 @@
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">".$title."</a>";
 				$text .= $this->newlinkgraphic($time);
 				$text .= $this->popgraphic($hits);
-				$text .= "<br>".LAN_DESCRIPTION.": ".$description."<br>";
+				$text .= "<br>"._DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				/* INSERT code for *editor review* here */
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
@@ -336,7 +336,7 @@
 				$text .= $this->newlinkgraphic($time);
 				$text .= $this->popgraphic($hits);
 				$text .=  "<br>";
-				$text .=  LAN_DESCRIPTION.": ".$description."<br>";
+				$text .=  _DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
@@ -441,7 +441,7 @@
 				$text .=$this->newlinkgraphic($time);
 				$text .=$this->popgraphic($hits);
 				$text .= "<br>";
-				$text .= LAN_DESCRIPTION.": ".$description."<br>";
+				$text .= _DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
@@ -590,7 +590,7 @@
 		$text .= "<hr noshade size=\"1\">";
 		$orderbyTrans = $this->convertorderbytrans($orderby);
 		$text .= "<div class='center'><span class=\"content\">"._SORTLINKSBY.": "
-		._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
+		.LAN_TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
 		.LAN_DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
 		._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
 		._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
@@ -626,6 +626,7 @@
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
 				$text .= $this->newlinkgraphic($time);
+                
 				$text .= $this->popgraphic($hits);
 				/* INSERT code for *editor review* here */
 				$text .= "<br>";
@@ -783,7 +784,7 @@
 					._LINKID.": <b>".$lid."</b></div><br><br><br>"
 					._LINKTITLE.":<br><input type=\"text\" class='form-control tbox' name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br><br>"
 					.LAN_URL.":<br><input type=\"text\" class='form-control tbox' name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\"><br><br>"
-					.LAN_DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
+					._DESCRIPTION.": <br><textarea name=\"description\" class='form-control tbox' id=\"weblinks_modrequest\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br><br>";
 					$text .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
 					."<input type=\"hidden\" name=\"modifysubmitter\" value=\"".$ratinguser."\">"
 					.LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\"  >";
@@ -1075,7 +1076,7 @@
 						$text .= $this->popgraphic($hits);
 						$text .= "<br>";
 						$description = str_replace($unquery, "<b>".$unquery."</b>", $description);
-						$text .= LAN_DESCRIPTION.": ".$description."<br>";
+						$text .= _DESCRIPTION.": ".$description."<br>";
 						setlocale (LC_TIME, $locale);
 						//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 						preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);				

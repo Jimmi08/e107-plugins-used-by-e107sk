@@ -37,7 +37,7 @@ define("_HITS","Hits");
 define("_THEREARE","There are");
 define("_NOMATCHES","No matches found to your query");
 define("_SCOMMENTS","Comments");
-//define("_DESCRIPTION","Description");
+define("_DESCRIPTION","Description");
 //define("_DATE","Date");
 define("_TO","To");
 define("_ADDLINK","Add Link");
