@@ -590,7 +590,7 @@
 		$text .= "<hr noshade size=\"1\">";
 		$orderbyTrans = $this->convertorderbytrans($orderby);
 		$text .= "<div class='center'><span class=\"content\">"._SORTLINKSBY.": "
-		._TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
+		.LAN_TITLE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=titleD\">D</a>) "
 		.LAN_DATE." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=dateD\">D</a>) "
 		._RATING." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=ratingD\">D</a>) "
 		._POPULARITY." (<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsA\">A</a>\<a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."&amp;orderby=hitsD\">D</a>)"
@@ -626,10 +626,11 @@
 				}
 				$text .= "<a href=\"".WEB_LINKS_FRONTFILE."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\"><b>".$title."</b></a>";
 				$text .= $this->newlinkgraphic($time);
+                
 				$text .= $this->popgraphic($hits);
 				/* INSERT code for *editor review* here */
 				$text .= "<br>";
-				$text .= LAN._DESCRIPTION.": ".$description."<br>";
+				$text .= LAN_DESCRIPTION.": ".$description."<br>";
 				setlocale (LC_TIME, $locale);
 				//eregx ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $time, $datetime);
 				preg_match("#([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#i", $time, $datetime);			
