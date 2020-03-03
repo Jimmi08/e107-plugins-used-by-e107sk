@@ -171,14 +171,15 @@ if(!class_exists("web_links_setup"))
 			if(e107::isInstalled('links_page')) {   
 				$links_categories = e107::getDB()->retrieve('links_categories', '*' , false, true);
 				$links_page_cat = e107::getDB()->retrieve('links_page_cat', '*' , false, true);
-				if(count($links_categories) != count($links_page_cat)) {
+                 
+				if(count($links_categories) < count($links_page_cat)) {
 					return true;
 				}
 
 				$links_links = e107::getDB()->retrieve('links_links', '*' , false, true);
 				$links_page = e107::getDB()->retrieve('links_page', '*' , false, true);
-				if(count($links_links) != count($links_page)) {
-					return true;
+				if(count($links_links) < count($links_page)) {
+				 	return true;
 				}
 			} 
 			return false;

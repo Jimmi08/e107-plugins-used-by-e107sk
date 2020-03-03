@@ -21,8 +21,9 @@
         $links_anonaddlinklock = $this->plugPrefs['links_anonaddlinklock'];
 		$user_addlink = $this->plugPrefs['user_addlink'];
         
-        $class_1 = '  ';
-        $class_2 = ' button btn btn-primary ';
+        $class_1 = varset($this->plugTemplates['FORM_ADD_LINK_CLASS'], '') ;
+        $class_2 = varset($this->plugTemplates['FORM_ADD_BUTTON_CLASS'], '') ; 
+        $class_3 = varset($this->plugTemplates['FORM_START_DIV_CLASS'], '') ; 
         
 		$mainlink = 1;
 		$text =$this->menu(1);
@@ -86,6 +87,7 @@
 			."<span class='big'>&middot;</span> "._SUBMITONCE."<br>"
 			."<span class='big'>&middot;</span> "._POSTPENDING."<br>"
 			."<span class='big'>&middot;</span> "._USERANDIP."<br>"
+            ."<div class='{$class_3}'> "
 			."<form class='{$class_1}' method=\"post\" action=\"".WEB_LINKS_FRONTFILE."?l_op=Add\">";
  
             foreach ($fields AS $fieldkey=>$field) {
@@ -96,9 +98,9 @@
             }
      
  
-			$text .= "<input type=\"hidden\" name=\"l_op\" value=\"Add\">"
+			$text .= "<div class='text-center'><input type=\"hidden\" name=\"l_op\" value=\"Add\">"
 			."<input type=\"submit\" class='{$class_2}' value=\""._ADDURL."\"> "._GOBACK."<br><br>"
-			."</form>";
+			."</form></div></div>";
 		}else {
 			$text .= "<div class='center'>"._LINKSNOTUSER1."<br>"
 			._LINKSNOTUSER2."<br><br>"
