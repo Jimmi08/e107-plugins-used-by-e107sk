@@ -49,7 +49,7 @@ $web_linksFront = new web_links_front;
 //process URL parameters, just copy, they knew what they did 
 $qry = str_replace('&amp;', '&', e_QUERY);
 $qry_tmp = explode('&', $qry);
-$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid', 'unquery' );  
+$supportedkeys = array('l_op',  'cid', 'orderby', 'tikerid', 'category', 'newlinkshowdays', 'ratenum', 'ratetype', 'lid', 'unquery', 'show', 'min' );  
           
 foreach($qry_tmp as $tmp) {
   $qry_lop = explode('=', $tmp);
@@ -108,7 +108,7 @@ switch($l_op) {
 		$web_linksFront->RandomLink();
 	break;
 	
-	case "viewlink":
+	case "viewlink":        
 		$web_linksFront->viewlink($cid, $min, $orderby, $show);
 	break;
 	
