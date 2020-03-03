@@ -150,7 +150,7 @@ define("_NONE","None");
 //fixes for doubled records with Downloads
 define("_ADDURLWL","Add new URL");
 
-define("_ERRORURLEXISTWL","ERROR: This URL address is alrady in the database!");
+define("_ERRORURLEXISTWL","ERROR: This URL address is already in the database!");
 define("_ERRORNOTITLEWL","ERROR: You must specify new name for URL!");
 define("_ERRORNOURLWL","ERROR: URL address has to be entered!");
 define("_ERRORNODESCRIPTIONWL","ERROR: Description has to be specified!");

@@ -31,7 +31,7 @@ class web_links_ui extends e_admin_ui
             'writeParms' => 'size=block-level', 'filter' => true ),
 			'url'                     => array (  'title' => _PAGEURL,  'type' => 'url',  'data' => 'str',   'readParms' => 'target=blank', 
             'writeParms' => 'size=block-level',),
-            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),
+            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => 'int', 'filter' => true,    'batch' => true,  'inline' => true ),
             'sid'                     => array (  'title' => _SUBCATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),               
 			'description'             => array (  'title' => _DESCRIPTION255,  'type' => 'textarea',  'data' => 'str',  
             'readParms' => 'expand=...&truncate=150&bb=1',  'writeParms' => 'size=block-level',),
@@ -116,7 +116,12 @@ class web_links_ui extends e_admin_ui
          if ($new_data['description']=="") {
             e107::getMessage()->addError(_ERRORNODESCRIPTIONWL);
             return false;
-         }         
+         }   
+         
+        
+		$new_data['date'] = date("Y-m-d H:i:s");
+		return $new_data;
+              
        }
        
 }  

@@ -502,7 +502,7 @@ function LinksEditBrokenLinks($lid) {
 	.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\"><br>";
 	$content .="<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 	$content .="<input type=\"hidden\" name=\"hits\" value=\"".$hits."\">";
-	$content .=_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
+	$content .=LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 	$result = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
 		foreach($result AS $row) {
 			$cid2 = $row['cid'];
@@ -839,7 +839,7 @@ function links() {
  
 	$content .= OpenTable();
  
-    $content .= "<div class='center'><a href=\"modules.php?name=Web_Links\"><img src=\"".e_PLUGIN."/Web_Links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+    $content .= "<div class='center'><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".e_PLUGIN."/web_links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
  
 	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
 	$row = $sql->fetch($result);
@@ -895,7 +895,7 @@ function links() {
 				$content .= "<input type=\"hidden\" name=\"new\" value=\"1\">";
 				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
 				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
-				$content .=  _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
+				$content .=  LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
 				$result5 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
                     foreach($result5 AS $row5) {
 						$cid2 = $row5['cid'];
@@ -921,7 +921,7 @@ function links() {
     $url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
     $content .= '
                   
-    <div class="row">                    
+                     
         <div class="row">                    
             <div class="col-md-3">                        
                 <div class="box-placeholder">                            
@@ -934,7 +934,7 @@ function links() {
                 </div>                    
             </div>                                      
         </div>                
-    </div>            
+              
  ';
  
 $content .= CloseTable();
@@ -944,29 +944,39 @@ $content .= "<br>";
 	// Modify Category
 	$result10 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
 	$row10 = $sql->fetch($result10);
- 
+            
 	$numrows = $row10['numrows'];
 		if ($numrows>0) {
 			$content .= OpenTable();
-			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-			."<font class=\"option\"><b>"._MODCATEGORY."</b></font><br><br>";
+			$content .= "<font class=\"option\"><b>"._MODCATEGORY."</b></font><br><br>";
 			$result11 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
-			$content .= _CATEGORY.": <select class='form-control tbox' name=\"cat\">";
+            $content .=  "<div class='row'>";
                 foreach($result11 AS $row11) {
 					$cid2 = $row11['cid'];
 					$ctitle2 = stripslashes($row11['title']);
 					$parentid2 = $row11['parentid'];
-						if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
-					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
-				}
+					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
+                    $query['mode'] = 'links_categories';
+                    $query['action'] = 'edit';
+                    $query['id'] = $cid2;
+                    $query = http_build_query($query,null, '&amp;');
+                    $editurl = UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?{$query}";
  
-			$content .= "</select>"
-			."<input type=\"hidden\" name=\"op\" value=\"LinksModCat\">"
-			."<input type=\"submit\" value=\""._MODIFY."\">"
-			."</form>";
+                    $content .= 
+                    '<div class="col-md-6">                        
+                        <div class="box-placeholder">                            
+                            <a href="'.$url01.'"  class="btn btn-default btn-block">'.$ctitle2.'</a>                        
+                        </div>                    
+                    </div>';
+				}
+
+            $content .= "</div>";
 			$content .= CloseTable();
 			$content .= "<br>";
 		}
+        
+        
+        
 	// Modify Links
 	$result12 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
 	$row12 = $sql->fetch($result12);
@@ -992,8 +1002,8 @@ $content .= "<br>";
 			$content .= OpenTable();
 			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
 			."<font class=\"option\"><b>"._EZTRANSFERLINKS."</b></font><br><br>"
-			._CATEGORY.": "
-			."<select class='form-control tbox' name=\"cidfrom\">";
+			.LAN_CATEGORY.": "
+			."<select class='form-control tbox' name=\"cidfrom\">";  
 			$result14 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
             foreach($result14 AS $row14) {
  
@@ -1001,11 +1011,11 @@ $content .= "<br>";
 					$ctitle2 = stripslashes($row14['title']);
 					$parentid2 = $row14['parentid'];
 					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
-					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
+					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";    
 				}
  
 			$content .= "</select><br>"
-			._IN."&nbsp;"._CATEGORY.": ";
+			._IN."&nbsp;".LAN_CATEGORY.": ";   
 			$result15 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
 			$content .= "<select class='form-control tbox' name=\"cidto\">";
 				foreach($result15 AS $row15) {
@@ -1199,65 +1209,57 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
 	$row = $sql->fetch($result);
  
+    $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._WLINKS;
 	$numrows = $row['numrows'];
 	if ($numrows>0) {
- 
-		$content .= OpenTable();
-		$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
-		$content .= CloseTable();
-		$content .= "<br>";
+
 		$content .= OpenTable();
 		$content .= "<br><div class='center'>"
 		."<font class=\"option\">"
-		."<b>"._ERRORURLEXISTWL."</b></font><br><br>"
-		._GOBACK."<br><br>";
-	   e107::getRender()->tablerender($caption, $content, 'web_links_index');
+		."<b>"._ERRORURLEXISTWL."</b></font><br><br>";
+        $content .= "[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
+	    e107::getRender()->tablerender($caption, $content, 'web_links_index');
+        require_once(e_ADMIN."footer.php");
+        exit;
 	 
 	} else {
 		/* Check if Title exist */
 		if ($title=="") {
- 
-			$content .= OpenTable();
-			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
-			$content .= CloseTable();
-			$content .= "<br>";
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
 			."<font class=\"option\">"
 			."<b>"._ERRORNOTITLEWL."</b></font><br><br>"
-			._GOBACK."<br><br>";
+			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
 			$content .= CloseTable();
-		     e107::getRender()->tablerender($caption, $content, 'web_links_index');
+		    e107::getRender()->tablerender($caption, $content, 'web_links_index');
+            require_once(e_ADMIN."footer.php");
+            exit;
 		}
 		/* Check if URL exist */
 		if ($url=="") {
- 
-			$content .= OpenTable();
-			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
-			$content .= CloseTable();
-			$content .= "<br>";
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
 			."<font class=\"option\">"
-			."<b>"._ERRORNOURLWL."</b></font><br><br>"
-			._GOBACK."<br><br>";
+			."<b>"._ERRORNOURLWL."</b></font><br><br>"    
+			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
+            
 			$content .= CloseTable();
-			 e107::getRender()->tablerender($caption, $content, 'web_links_index');
+			e107::getRender()->tablerender($caption, $content, 'web_links_index');
+            require_once(e_ADMIN."footer.php");
+            exit;
 		}
 		// Check if Description exist
 		if ($description=="") {
- 
-			$content .= OpenTable();
-			$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
-			$content .= CloseTable();
 			$content .= "<br>";
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
 			."<font class=\"option\">"
 			."<b>"._ERRORNODESCRIPTIONWL."</b></font><br><br>"
-			._GOBACK."<br><br>";
+			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
 			$content .= CloseTable();
-			 e107::getRender()->tablerender($caption, $content, 'web_links_index');
+			e107::getRender()->tablerender($caption, $content, 'web_links_index');
+            require_once(e_ADMIN."footer.php");
+            exit;
 		}
 	$cat = explode("-", $cat);
 		if ($cat[1] == "") {
@@ -1268,8 +1270,9 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 	$description = e107::getParser()->toDB($description);
 	$name = e107::getParser()->toDB($name);
 	$email = e107::getParser()->toDB($email);
-	$sql->gen("INSERT INTO #".UN_TABLENAME_LINKS_LINKS." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".$title."', '".$url."', '".$description."', now(), '".$name."', '".$email."', '0', '".$submitter."', '0', '0', '0')");
- 
+	$sql->gen("INSERT INTO #".UN_TABLENAME_LINKS_LINKS." VALUES (NULL, '".$cat[0]."', '".$cat[1]."', '".$title."', '".$url."', '".$description."', now(), 
+    '".$name."', '".$email."', '0', '".$submitter."', '0', '0', '0')");
+               
 	$content .= OpenTable();
 	$content .= "<br><div class='center'>";
 	$content .= "<font class=\"option\">";
@@ -1286,7 +1289,7 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
             //TODO NOTIFY
 		}
 	}
- 
+     e107::getRender()->tablerender($caption, $content, 'web_links_index');
     }
 }
  

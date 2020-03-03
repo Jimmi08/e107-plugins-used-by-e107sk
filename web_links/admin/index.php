@@ -73,7 +73,7 @@ extract($formvalues, $exType);
 if (isset($ratinglid) && isset ($ratinguser) && isset ($rating)) { 
 	$web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 }
- 
+
 switch ($op) {
 
 	case "Links":
@@ -172,6 +172,11 @@ switch ($op) {
 		LinksTransfer($cidfrom,$cidto);
 	break;
  
+	case "LinksAddLink":    
+		LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $email, $submitter);
+	break;
+
+
 }  
 
 $ns->tablerender($caption, $text);
