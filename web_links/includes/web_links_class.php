@@ -57,7 +57,7 @@
             $fields['cat']   =  array(
         				'title' => LAN_CATEGORY,
                         'type'  => 'dropdown',
-                        'writeParms' => array('placeholder'=>LAN_CATEGORY, 'size'=>30, 'maxlength'=>60, 'required'=> true,
+                        'writeParms' => array('placeholder'=>LAN_CATEGORY, 'size'=>5, 'maxlength'=>60, 'required'=> true,
                         'optArray' => $values ) 	
                 );
             $fields['description']   =  array(
