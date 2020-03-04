@@ -17,9 +17,9 @@ class web_links_ui extends e_admin_ui
 			
 		protected $pluginTitle		= _WEBLINKSADMIN;
 		protected $pluginName		= 'web_links';		
-		protected $table			= 'links_categories';
+		protected $table			= UN_TABLENAME_LINKS_CATEGORIES;
 		protected $pid				= 'cid';
-		protected $perPage			= 10; 
+		protected $perPage			= 30; 
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
 		protected $batchCopy		= true;

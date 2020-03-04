@@ -15,7 +15,6 @@ if(e107::getPlugConfig('web_links')->getPref('use_unnuke')) {
 // e107_ has prefix always with _ 
 
 define("UN_TABLENAME_LINKS_CATEGORIES", $prefix."links_categories");
-define("UN_TABLENAME_LINKS_CATEGORIES", $prefix."links_categories");
 define("UN_TABLENAME_LINKS_EDITORIALS", $prefix."links_editorials");
 define("UN_TABLENAME_LINKS_LINKS", 		$prefix."links_links");
 define("UN_TABLENAME_LINKS_MODREQUEST", $prefix."links_modrequest");

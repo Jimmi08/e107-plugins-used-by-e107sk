@@ -1948,9 +1948,11 @@
 		$text = $this->menu($mainlink);
 		$text .= "<br>";
 		$text .= $this->plugTemplates['OPEN_TABLE'];
-		$text .= "<div class='center'><span class=\"title\"><b>"._LINKSMAINCAT."</b></span></div><br>";
-		$text .= "<table border=\"0\" cellspacing=\"10\" cellpadding=\"0\" align=\"center\"><tr>";	
-
+        $text .= $this->plugTemplates['CENTER_START'];
+		$text .= "<span class=\"title\"><b>"._LINKSMAINCAT."</b></span>";   
+        $text .= $this->plugTemplates['CENTER_END'];
+        $text .= $this->plugTemplates['CATEGORY_TABLE_START']; 
+        $text .= $this->plugTemplates['CATEGORY_ROW_START']; 
 		$result = e107::getDB()->gen("SELECT cid, title, cdescription FROM #".UN_TABLENAME_LINKS_CATEGORIES."  WHERE parentid='0' ORDER BY title");
 		$rowresult = e107::getDB()->rows();
 		$count = 0;
@@ -1958,7 +1960,8 @@
 			$cid = $row['cid'];
 			$title = e107::getParser()->toHTML($row['title'], "", "TITLE");
 			$cdescription = e107::getParser()->toHTML($row['cdescription'], "", "DESCRIPTION");
-			$text .= "<td><span class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></span>";
+            $text .= $this->plugTemplates['CATEGORY_COLUMN_START'];
+			$text .= "<span class=\"option\"><span class='big'>&middot;</span> <a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\"><b>".$title."</b></a></span>";
 			$text .= $this->categorynewlinkgraphic($cid);
 			if ($cdescription) {
 				$text .= "<br><span class=\"content\">".$cdescription."</span><br>";
@@ -1974,24 +1977,33 @@
 				if ($space>0) {
 					$text .= ", ";
 				}
-				$text .= "<span class=\"content\"><a href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></span>";
+				$text .= "<span class=\"content\"><a class='card-link' href=\"".WEB_LINKS_FRONTFILE."?l_op=viewlink&amp;cid=".$cid."\">".$stitle."</a></span>";
 				$space++;
-			}
-			if ($count<1) {
-				$text .= "</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td>";
+			}     
+	
+            if ($count<1) {   
+                $text .= $this->plugTemplates['CATEGORY_COLUMN_END'];   
+                $text .= $this->plugTemplates['CATEGORY_COLUMN_CENTER'];      
 				$dum = 1;
 			}
 			$count++;
-			if ($count==2) {
-				$text .= "</td></tr><tr>";
+			if ($count==2) {      
+				$text .= $this->plugTemplates['CATEGORY_COLUMN_END']; 
+                $text .= $this->plugTemplates['CATEGORY_ROW_END'];
+                $text .= $this->plugTemplates['CATEGORY_ROW_START'];
 				$count = 0;
 				$dum = 0;
 			}
+           
 		}
-		if ($dum == 1) {
-			$text .= "</tr></table>";
-		} elseif ($dum == 0) {
-			$text .= "<td></td></tr></table>";
+        
+		if ($dum == 1) {    
+			$text .= $this->plugTemplates['CATEGORY_ROW_END'];
+            $text .= $this->plugTemplates['CATEGORY_TABLE_END']; 
+		} elseif ($dum == 0) {     
+			$text .= $this->plugTemplates['CATEGORY_COLUMN_EMPTY'];                       
+            $text .= $this->plugTemplates['CATEGORY_ROW_END'];
+            $text .= $this->plugTemplates['CATEGORY_TABLE_END']; 
 		}
 		$result3 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
 		$numrow = e107::getDB()->fetch($result3);
@@ -1999,7 +2011,9 @@
 		$result4 = e107::getDB()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
 		$catrow = e107::getDB()->fetch($result4);
 		$catnum = $catrow['numrows'];
-		$text .= "<br><br><center><span class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKS." "._AND." <b>".$catnum."</b> "._CATEGORIES." "._INDB."</span></center>";
+        $text .= $this->plugTemplates['CENTER_START'];
+		$text .= "<span class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKS." "._AND." <b>".$catnum."</b> "._CATEGORIES." "._INDB."</span>";
+        $text .= $this->plugTemplates['CENTER_END'];
 		$text .= $this->plugTemplates['CLOSE_TABLE'];		
 		 
 		$caption = ''; 
