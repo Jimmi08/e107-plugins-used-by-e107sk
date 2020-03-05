@@ -58,6 +58,40 @@ function CloseSectionBody() {
     return $text;
 }
 
+function OpenPanel() {
+ 
+    $text = '<div class="panel panel-default">';
+    return $text;
+}
+
+function ClosePanel() {
+ 
+    $text = '</div>';
+    return $text;
+}
+
+function OpenPanelHeading() {
+ 
+    $text = '<div class="panel-heading"><h4 class="panel-title">';
+    return $text;
+}
+function ClosePanelHeading() {
+ 
+    $text = '</h4></div>';
+    return $text;
+}
+
+function OpenPanelBody() {
+ 
+    $text = '<div class="panel-body">';
+    return $text;
+}
+function ClosePanelBody() {
+ 
+    $text = '</div>';
+    return $text;
+}
+
 /*********************************************************/
 /* Links Modified Web Links                              */
 /*********************************************************/
@@ -575,8 +609,9 @@ function LinksModLink($lid) {
 	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
 	$content .= CloseTable();
 	$content .= "<br>";
-	$content .= OpenTable();
-	$content .= "<div class='center'><font class=\"option\"><b>"._MODLINK."</b></font></div><br><br>";
+	$content .= OpenTable().OpenPanel().OpenPanelHeading();
+	$content .= "<span class=\"option \"><b>"._MODLINK."</b></span>";
+    $content .= ClosePanelHeading().OpenPanelBody();
     foreach($result AS $row) {
 		$cid = $row['cid'];
 		$title = stripslashes($row['title']);
@@ -585,16 +620,55 @@ function LinksModLink($lid) {
 		$name = $row['name'];
 		$email = $row['email'];
 		$hits = $row['hits'];
-		$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
-		._LINKID.": <b>".$lid."</b><br>"
-		._PAGETITLE.": <input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br>"
-		._PAGEURL.": <input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a href=\"index.php?url=".$url."\">"._VISIT."</a> ]<br>"
-		.LAN_DESCRIPTION.":<br><textarea name=\"description\" id=\"weblinks_link_edit\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br>"
-		.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"50\" maxlength=\"100\" value=\"".$name."\"><br>"
-		.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"50\" maxlength=\"100\" value=\"".$email."\"><br>"
-		._HITS.": <input type=\"text\" name=\"hits\" value=\"".$hits."\" size=\"12\" maxlength=\"11\"><br>";
-		$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
-		.LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
+		$content .= "<form class=\"form-horizontal\" action=\"".UN_FILENAME_ADMIN."\" method=\"post\">";
+        $content .= '<div class="form-group  "> 
+                    <label class="control-label col-sm-3"><b>'._LINKID.'</b></label>
+                    <div class="col-sm-9">
+                     <label class="control-label"> <b>'.$lid.' </b>
+                    </div>
+                    </div>';
+       $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._PAGETITLE.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\">
+                    </div>
+                    </div>";
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._PAGEURL.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control form-control-inline\" type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a class=\"btn btn-warning\" href=\"index.php?url=".$url2."\" target=\"_blank\">"._VISIT."</a> ]
+                    </div>
+                    </div>";               
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_DESCRIPTION.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <textarea class=\"form-control\" name=\"description\" id=\"weblinks_waiting\"  >".un_htmlentities($description, ENT_QUOTES)."</textarea>
+                    </div>
+                    </div>";        
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_NAME.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"name\" size=\"20\" maxlength=\"100\" value=\"".$name."\">
+                    </div>
+                    </div>"; 
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_EMAIL.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\">
+                    </div>
+                    </div>"; 
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._HITS.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\"  type=\"text\" name=\"hits\" value=\"".$hits."\" size=\"12\" maxlength=\"11\">
+                    </div>
+                    </div>";                           
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_CATEGORY.": </b>: </label>
+                    <div class=\"col-sm-9\">
+                    ";                     
+                    
+		$content .= "<select  class='form-control form-control-inline' name=\"cat\">";
 		$result2 = $sql->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title");
 			while($row2 = $sql->fetch($result2)) {
 				$cid2 = $row2['cid'];
@@ -610,9 +684,11 @@ function LinksModLink($lid) {
 			}
  
 		$content .= "</select>"
+        ."<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">"
 		."<input type=\"hidden\" name=\"op\" value=\"LinksModLinkS\">"
-		."<input type=\"submit\" value=\""._MODIFY."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</form><br>";
-		$content .= CloseTable();   
+		."<input class='btn btn-success' type=\"submit\" value=\""._MODIFY."\">
+         [ <a class='btn btn-default' href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</div></div></form><br>";
+		$content .= ClosePanelBody().CloseTable();   
 		$content .= "<br>";    
 		/* Modify or Add Editorial */
 		$resulted2 = $sql->retrieve("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM #".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'", true);
@@ -650,7 +726,7 @@ function LinksModLink($lid) {
 				}
 			}
  
-		$content .= CloseTable();    
+		$content .=  CloseTable();    
 		$content .= "<br>";
 		$content .= OpenTable();       
 		/* Show Comments */
