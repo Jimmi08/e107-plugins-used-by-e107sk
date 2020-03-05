@@ -688,21 +688,34 @@ function LinksModLink($lid) {
 		."<input type=\"hidden\" name=\"op\" value=\"LinksModLinkS\">"
 		."<input class='btn btn-success' type=\"submit\" value=\""._MODIFY."\">
          [ <a class='btn btn-default' href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</div></div></form><br>";
-		$content .= ClosePanelBody().CloseTable();   
+		$content .= ClosePanelBody().ClosePanel();   
 		$content .= "<br>";    
 		/* Modify or Add Editorial */
 		$resulted2 = $sql->retrieve("SELECT adminid, editorialtimestamp, editorialtext, editorialtitle FROM #".UN_TABLENAME_LINKS_EDITORIALS." WHERE linkid='".$lid."'", true);
 		$recordexist = count($resulted2);    
                 
-		$content .= OpenTable();  
+		$content .=  OpenPanel().OpenPanelHeading();  
 		/* if returns 'bad query' status 0 (add editorial) */
 			if ($recordexist == 0) {
-				$content .= "<div class='center'><font class=\"option\"><b>"._ADDEDITORIAL."</b></font></div><br><br>"
-				."<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
-				."<input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">"
-				._EDITORIALTITLE.":<br><input type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\"><br>"
-				._EDITORIALTEXT.":<br><textarea name=\"editorialtext\" id=\"weblinks_editorial_new\" cols=\"70\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea><br>"
-				."</select><input type=\"hidden\" name=\"op\" value=\"LinksAddEditorial\"><input type=\"submit\" value=\"Add\">";
+				$content .= "<span class=\"option\"><b>"._ADDEDITORIAL."</b></span>";
+                $content .= ClosePanelHeading().OpenPanelBody();
+				$content .= "<form class='form-horizontal' action=\"".UN_FILENAME_ADMIN."\" method=\"post\">";
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._EDITORIALTITLE.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\">
+                    </div>
+                    </div>";               
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._EDITORIALTEXT.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <textarea class=\"form-control\" name=\"editorialtext\" id=\"weblinks_editorial_new\" cols=\"70\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea>
+                    </div>
+                    </div>";  
+                    
+				$content .=  "<input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">"
+				."<input type=\"hidden\" name=\"op\" value=\"LinksAddEditorial\">
+                <input class='btn btn-success'  type=\"submit\" value=\"Add\">";
 			} else {
 				/* if returns 'cool' then status 1 (modify editorial) */
                 foreach($resulted2 AS $row3) {
@@ -715,18 +728,45 @@ function LinksModLink($lid) {
 					$date_array = explode("-", $editorialtime); 
 					$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
 					$formatted_date = date("F j, Y", $timestamp);         	
-					$content .= "<div class='center'><font class=\"option\"><b>"._WLMODEDITORIAL."</b></font></div><br><br>"
-					."<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
-					._AUTHOR.": ".$adminid."<br>"
-					._DATEWRITTEN.": ".$formatted_date."<br><br>"
-					."<input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">"
-					._EDITORIALTITLE.":<br><input type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\"><br>"
-					._EDITORIALTEXT.":<br><textarea name=\"editorialtext\" cols=\"70\" id=\"weblinks_editorial_edit\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea><br>"
-					."</select><input type=\"hidden\" name=\"op\" value=\"LinksModEditorial\"><input type=\"submit\" value=\""._MODIFY."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelEditorial&amp;linkid=".$lid."\">".LAN_DELETE."</a> ]";
+					$content .= "<span class=\"option\"><b>"._WLMODEDITORIAL."</b></span>";
+                    $content .= ClosePanelHeading().OpenPanelBody();
+                    $adminid = $row3['adminid']; 
+                    $userData = e107::user($adminid);
+                    $adminname = $userData['user_name'];
+					$content .= "<form class='form-horizontal'  action=\"".UN_FILENAME_ADMIN."\" method=\"post\">";
+                    $content .= '<div class="form-group  "> 
+                    <label class="control-label col-sm-3"><b>'._AUTHOR.'</b></label>
+                    <div class="col-sm-9">
+                     <label class="control-label"> <b>'.$adminid.' - '.$adminname.' </b>
+                    </div>
+                    </div>';
+                    $content .= '<div class="form-group  "> 
+                    <label class="control-label col-sm-3"><b>'._DATEWRITTEN.'</b></label>
+                    <div class="col-sm-9">
+                     <label class="control-label"> <b>'.$formatted_date.' </b>
+                    </div>
+                    </div>';                   
+				
+                    $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._EDITORIALTITLE.": </b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"editorialtitle\" value=\"".$editorialtitle."\" size=\"50\" maxlength=\"100\">
+                    </div>
+                    </div>"; 
+               	     $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._EDITORIALTEXT.": </b></label>
+                    <div class=\"col-sm-9\">
+                    <textarea class=\"form-control\" name=\"editorialtext\" cols=\"70\" id=\"weblinks_editorial_edit\" rows=\"15\">".un_htmlentities($editorialtext, ENT_QUOTES)."</textarea>
+                    </div>
+                    </div>"; 
+					$content .= "<input type=\"hidden\" name=\"op\" value=\"LinksModEditorial\">
+                    <input type=\"hidden\" name=\"linkid\" value=\"".$lid."\">
+                    <input class='btn btn-success' type=\"submit\" value=\""._MODIFY."\"> 
+                    [ <a class='btn btn-default' href=\"".UN_FILENAME_ADMIN."?op=LinksDelEditorial&amp;linkid=".$lid."\">".LAN_DELETE."</a> ]";
 				}
 			}
- 
-		$content .=  CloseTable();    
+        $content .= "</form>";    
+		$content .=  ClosePanelBody().CloseTable();    
 		$content .= "<br>";
 		$content .= OpenTable();       
 		/* Show Comments */

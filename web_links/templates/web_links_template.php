@@ -32,5 +32,5 @@ $WEB_LINKS_TEMPLATE['CATEGORY_COLUMN_END'] = "</div></div></div>";
 $WEB_LINKS_TEMPLATE['CATEGORY_COLUMN_CENTER'] = " ";
 $WEB_LINKS_TEMPLATE['CATEGORY_ROW_END'] = " ";
 $WEB_LINKS_TEMPLATE['CATEGORY_TABLE_END'] = "</div> ";
-$WEB_LINKS_TEMPLATE['CENTER_START'] = " <div class='d-flex justify-content-center'>";
+$WEB_LINKS_TEMPLATE['CENTER_START'] = " <div class='d-flex justify-content-center pb-3'>";
 $WEB_LINKS_TEMPLATE['CENTER_END'] = " </div>";
