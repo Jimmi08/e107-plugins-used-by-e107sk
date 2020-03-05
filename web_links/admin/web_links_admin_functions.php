@@ -22,7 +22,7 @@ function CloseTable() {
 
 function OpenSection() {
  
-    $text = '<div class="panel-group" id="section"><div class="panel panel-default">';
+    $text = '<div class="panel-group id="accordion">';
     return $text;
 }
 
@@ -32,11 +32,12 @@ function CloseSection() {
     return $text;
 }
 
-function OpenSectionHeader($id='') {
- 
-    $text = "<div class=\"panel-heading\">
+function OpenSectionHeader($id='', $collapsed = 'collapsed') {
+    $text = '<div class="panel panel-default">';
+    $text .= "<div class=\"panel-heading\" role=\"tab\" id=\"heading{$id}\" >
     <h4 class=\"panel-title\">
-    <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse{$id}\">";
+    <a class=\"accordion-toggle {$collapsed}\" data-toggle=\"collapse\" data-parent=\"#accordion\" 
+    href=\"#collapse{$id}\" aria-expanded=\"false\"   aria-controls=\"collapse{$id}\" >";
     return $text;
 }
 function CloseSectionHeader() {
@@ -47,13 +48,13 @@ function CloseSectionHeader() {
 
 function OpenSectionBody($id='') {
  
-    $text = "<div id=\"collapse{$id}\" class=\"panel-collapse collapse in\">
+    $text = "<div id=\"collapse{$id}\" class=\"panel-collapse collapse \" aria-labelledby=\"heading{$id}\">
     <div class=\"panel-body\">";
     return $text;
 }
 function CloseSectionBody() {
  
-    $text = '</div></div>';
+    $text = '</div></div></div>';
     return $text;
 }
 
@@ -902,13 +903,14 @@ function links() {
 	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
 	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</font></div>";
 	$content .= CloseTable();
-	$content .= "<br>";
+    $content .= "<br>";
+    $content .= OpenSection();
 	/* List Links waiting for validation */
 	$result4 = $sql->retrieve("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM #".UN_TABLENAME_LINKS_NEWLINK." ORDER BY lid", true);
 	$numrows = count($result4);
 	if ($numrows>0) {
-		$content .= OpenSection().OpenSectionHeader('LinksAddLink');
-		$content .= "<span class=\"option\"><b>"._LINKSWAITINGVAL."</b></span><span class=\"label label-danger\">{$numrows}</span>";        
+		$content .= OpenSectionHeader('LinksAddLink');
+		$content .= "<span class=\"option\"><b>"._LINKSWAITINGVAL."</b></span> <span class=\"label label-danger\">{$numrows}</span>";        
 		$content .= CloseSectionHeader();
         $content .= OpenSectionBody('LinksAddLink');
         foreach($result4 AS $row4) {
@@ -996,12 +998,13 @@ function links() {
     				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
     				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";                
                     $content .= "<input type=\"hidden\" name=\"op\" value=\"LinksAddLink\"> 
-                    </form>";
+                    </form>";     
 			}
-    $content .= CloseSectionBody();
-	$content .= CloseSection();
+        $content .= CloseSectionBody();
 	$content .= "<br>";
 	}
+	    
+    $content .= OpenTable();
     $url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";
     $url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
     $content .= '
@@ -1020,11 +1023,11 @@ function links() {
             </div>                                      
         </div>                
               
- ';
+    ';
  
-$content .= CloseTable();
-$content .= "<br>";
-		
+    $content .= CloseTable();
+    $content .= "<br>";
+		       
 
 	// Modify Category
 	$result10 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
@@ -1032,8 +1035,10 @@ $content .= "<br>";
             
 	$numrows = $row10['numrows'];
 		if ($numrows>0) {
-			$content .= OpenTable();
-			$content .= "<font class=\"option\"><b>"._MODCATEGORY."</b></font><br><br>";
+			$content .= OpenTable().OpenSectionHeader('LinksModCat'); 
+			$content .= "<span class=\"option\"><b>"._MODCATEGORY."</b></span> <span class=\"label label-danger\">{$numrows}</span>";
+    		$content .= CloseSectionHeader();
+            $content .= OpenSectionBody('LinksModCat');
 			$result11 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
             $content .=  "<div class='row'>";
                 foreach($result11 AS $row11) {
@@ -1056,11 +1061,12 @@ $content .= "<br>";
 				}
 
             $content .= "</div>";
+            $content .= CloseSectionBody();
 			$content .= CloseTable();
 			$content .= "<br>";
 		}
         
-        
+       
         
 	// Modify Links
 	$result12 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
@@ -1069,12 +1075,21 @@ $content .= "<br>";
 	$numrows = $row12['numrows'];
 		if ($numrows>0) {
 			$content .= OpenTable();
-			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-			."<font class=\"option\"><b>"._MODLINK."</b></font><br><br>"
-			._LINKID.": <input type=\"text\" name=\"lid\" size=\"12\" maxlength=\"11\">&nbsp;&nbsp;"
-			."<input type=\"hidden\" name=\"op\" value=\"LinksModLink\">"
-			."<input type=\"submit\" value=\""._MODIFY."\">"
+            $content .= OpenSectionHeader('LinksModLink');
+            $content .= "<span class=\"option\"><b>"._MODLINK."</b></span>";
+            $content .= CloseSectionHeader();
+            $content .= OpenSectionBody('LinksModLink');
+			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">";
+            $content .= "<div class=\"form-group\">
+            <label class=\"control-label col-sm-3\"><b>"._LINKID."</b></label>
+            <div class=\"col-sm-9\">
+              <input class=\"form-control form-control-inline \" type=\"text\"  name=\"lid\" size=\"12\" maxlength=\"11\">
+              <input class=\"btn btn-primary\" type=\"submit\" value=\""._MODIFY."\">
+            </div>
+            </div>" 
+            ."<input type=\"hidden\" name=\"op\" value=\"LinksModLink\">"
 			."</form>";
+            $content .= CloseSectionBody();
 			$content .= CloseTable();
 			$content .= "<br>";
 		}
@@ -1085,10 +1100,13 @@ $content .= "<br>";
 	$numrows = $row13['numrows'];
 		if ($numrows>0) {
 			$content .= OpenTable();
-			$content .= "<form method=\"post\" action=\"".UN_FILENAME_ADMIN."\">"
-			."<font class=\"option\"><b>"._EZTRANSFERLINKS."</b></font><br><br>"
-			.LAN_CATEGORY.": "
-			."<select class='form-control tbox' name=\"cidfrom\">";  
+            $content .= OpenSectionHeader('LinksTransfer');			
+            $content .= "<span class=\"option\"><b>"._EZTRANSFERLINKS."</b></span>";
+            $content .= CloseSectionHeader();
+            $content .= OpenSectionBody('LinksTransfer');
+            $content .= "<form class='form-horizontal' method=\"post\" action=\"".UN_FILENAME_ADMIN."\">";
+			$content .= LAN_CATEGORY.": "
+			."<select class='form-control form-control-inline' name=\"cidfrom\">";  
 			$result14 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
             foreach($result14 AS $row14) {
  
@@ -1099,10 +1117,10 @@ $content .= "<br>";
 					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";    
 				}
  
-			$content .= "</select><br>"
+			$content .= "</select> "
 			._IN."&nbsp;".LAN_CATEGORY.": ";   
 			$result15 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY parentid, title", true);
-			$content .= "<select class='form-control tbox' name=\"cidto\">";
+			$content .= "<select class='form-control form-control-inline' name=\"cidto\">";
 				foreach($result15 AS $row15) {
 					$cid2 = intval($row15['cid']);
 					$ctitle2 = stripslashes($row15['title']);
@@ -1111,14 +1129,15 @@ $content .= "<br>";
 					$content .= "<option value=\"".$cid2."\">".$ctitle2."</option>";
 				}
  
-			$content .= "</select><br>"
+			$content .= "</select> "
 			."<input type=\"hidden\" name=\"op\" value=\"LinksTransfer\">"
-			."<input type=\"submit\" value=\""._EZTRANSFER."\"><br>"
+			."<input class=\"btn btn-primary\" type=\"submit\" value=\""._EZTRANSFER."\"><br>"
 			."</form>";
+            $content .= CloseSectionBody();
 			$content .= CloseTable();
 			$content .= "<br>";
 		}
- 
+    $content .= CloseSection(); 
     e107::getRender()->tablerender($caption, $content, 'web_links_index');
 }
 
