@@ -8,13 +8,52 @@ if (!defined('e107_INIT'))
 
 function OpenTable() {
  
-    $text = '<table><tbody>';
+    $text = '<div>';
     return $text;
 }
 
 function CloseTable() {
  
-    $text = '</tbody></table>';
+    $text = '</div>';
+    return $text;
+}
+
+/* You can't use templates */
+
+function OpenSection() {
+ 
+    $text = '<div class="panel-group" id="section"><div class="panel panel-default">';
+    return $text;
+}
+
+function CloseSection() {
+ 
+    $text = '</div>';
+    return $text;
+}
+
+function OpenSectionHeader($id='') {
+ 
+    $text = "<div class=\"panel-heading\">
+    <h4 class=\"panel-title\">
+    <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse{$id}\">";
+    return $text;
+}
+function CloseSectionHeader() {
+ 
+    $text = '</a></h4></div>';
+    return $text;
+}
+
+function OpenSectionBody($id='') {
+ 
+    $text = "<div id=\"collapse{$id}\" class=\"panel-collapse collapse in\">
+    <div class=\"panel-body\">";
+    return $text;
+}
+function CloseSectionBody() {
+ 
+    $text = '</div></div>';
     return $text;
 }
 
@@ -868,9 +907,11 @@ function links() {
 	$result4 = $sql->retrieve("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM #".UN_TABLENAME_LINKS_NEWLINK." ORDER BY lid", true);
 	$numrows = count($result4);
 	if ($numrows>0) {
-		$content .= OpenTable();
-		$content .= "<div class='center'><font class=\"option\"><b>"._LINKSWAITINGVAL."</b></font></div><br><br>";        
-		foreach($result4 AS $row4) {
+		$content .= OpenSection().OpenSectionHeader('LinksAddLink');
+		$content .= "<span class=\"option\"><b>"._LINKSWAITINGVAL."</b></span><span class=\"label label-danger\">{$numrows}</span>";        
+		$content .= CloseSectionHeader();
+        $content .= OpenSectionBody('LinksAddLink');
+        foreach($result4 AS $row4) {
 				$lid = $row4['lid'];
 				$cid = $row4['cid'];
 				$sid = $row4['sid'];
@@ -884,18 +925,54 @@ function links() {
 					if ($submitter == "") {
 						$submitter = _NONE;
 					}
-				$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\">"
-				."<b>"._LINKID.": ".$lid."</b><br><br>"
-				._SUBMITTER.":  ".$submitter."<br>"
-				._PAGETITLE.": <input type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\"><br>"
-				._PAGEURL.": <input type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a href=\"index.php?url=".$url2."\" target=\"_blank\">"._VISIT."</a> ]<br>"
-				.LAN_DESCRIPTION.": <br><textarea name=\"description\" id=\"weblinks_waiting\" cols=\"70\" rows=\"15\">".un_htmlentities($description, ENT_QUOTES)."</textarea><br>"
-				.LAN_NAME.": <input type=\"text\" name=\"name\" size=\"20\" maxlength=\"100\" value=\"".$name."\">&nbsp;&nbsp;"
-				.LAN_EMAIL.": <input type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\"><br>";
-				$content .= "<input type=\"hidden\" name=\"new\" value=\"1\">";
-				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
-				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
-				$content .=  LAN_CATEGORY.": <select class='form-control tbox' name=\"cat\">";
+				$content .= "<form action=\"".UN_FILENAME_ADMIN."\" method=\"post\" class=\"form-horizontal col-lg-12\" >";
+                $content .= '<div class="form-group  note note-success"> 
+                    <label class="control-label col-sm-3"><b>'._LINKID.'</b></label>
+                    <div class="col-sm-9">
+                     <label class="control-label"> <b>'.$lid.' </b>
+                    </div>
+                    </div>';
+                $content .= '<div class="form-group">
+                    <label class="control-label col-sm-3"><b>'._SUBMITTER.'</b></label>
+                    <div class="col-sm-9">
+                     <label class="control-label"> <b>'.$submitter.' </b>
+                    </div>
+                    </div>';
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._PAGETITLE."</b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"title\" value=\"".$title."\" size=\"50\" maxlength=\"100\">
+                    </div>
+                    </div>";
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>"._PAGEURL."</b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control form-control-inline\" type=\"text\" name=\"url\" value=\"".$url."\" size=\"50\" maxlength=\"100\">&nbsp;[ <a class=\"btn btn-warning\" href=\"index.php?url=".$url2."\" target=\"_blank\">"._VISIT."</a> ]
+                    </div>
+                    </div>";               
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_DESCRIPTION."</b></label>
+                    <div class=\"col-sm-9\">
+                     <textarea class=\"form-control\" name=\"description\" id=\"weblinks_waiting\"  >".un_htmlentities($description, ENT_QUOTES)."</textarea>
+                    </div>
+                    </div>";        
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_NAME."</b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"name\" size=\"20\" maxlength=\"100\" value=\"".$name."\">
+                    </div>
+                    </div>"; 
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_EMAIL."</b></label>
+                    <div class=\"col-sm-9\">
+                     <input class=\"form-control\" type=\"text\" name=\"email\" size=\"20\" maxlength=\"100\" value=\"".$email."\">
+                    </div>
+                    </div>";                      
+                $content .= "<div class=\"form-group\">
+                    <label class=\"control-label col-sm-3\"><b>".LAN_CATEGORY."</b>: </label>
+                    <div class=\"col-sm-9\">
+                    "; 
+				$content .= "<select class='form-control form-control-inline' name=\"cat\">";
 				$result5 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
                     foreach($result5 AS $row5) {
 						$cid2 = $row5['cid'];
@@ -909,12 +986,20 @@ function links() {
 							if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
 						$content .= "<option value=\"".$cid2."\" ".$sel.">".$ctitle2."</option>";
 					}
- 
+					$content .= "</select>";
+                    $content .= "<input class='btn btn-success' type=\"submit\" value=\""._ADD."\"> 
+                    <a class='btn btn-default' href=\"".UN_FILENAME_ADMIN."?op=LinksDelNew&amp;lid=".$lid."\">".LAN_DELETE."</a> 
+                    </div>
+                    </div>";
 					$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";
-					$content .= "</select><input type=\"hidden\" name=\"op\" value=\"LinksAddLink\"><input type=\"submit\" value=\""._ADD."\"> [ <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelNew&amp;lid=".$lid."\">".LAN_DELETE."</a> ]</form><br><hr noshade><br>";
+    				$content .= "<input type=\"hidden\" name=\"new\" value=\"1\">";
+    				$content .= "<input type=\"hidden\" name=\"lid\" value=\"".$lid."\">";
+    				$content .= "<input type=\"hidden\" name=\"submitter\" value=\"".$submitter."\">";                
+                    $content .= "<input type=\"hidden\" name=\"op\" value=\"LinksAddLink\"> 
+                    </form>";
 			}
- 
-	$content .= CloseTable();
+    $content .= CloseSectionBody();
+	$content .= CloseSection();
 	$content .= "<br>";
 	}
     $url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";

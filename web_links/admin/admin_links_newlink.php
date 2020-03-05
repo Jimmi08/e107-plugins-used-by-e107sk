@@ -18,7 +18,7 @@ class web_links_ui extends e_admin_ui
 			
 		protected $pluginTitle		= '';
 		protected $pluginName		= 'web_links';
-	//	protected $eventName		= 'web_links-links_newlink'; // remove comment to enable event triggers in admin. 		
+		//	protected $eventName		= 'web_links-links_newlink'; // remove comment to enable event triggers in admin. 		
 		protected $table			= 'links_newlink';
 		protected $pid				= 'lid';
 		protected $perPage			= 10; 
@@ -26,13 +26,13 @@ class web_links_ui extends e_admin_ui
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
 
-	//	protected $sortField		= 'somefield_order';
-	//	protected $sortParent      = 'somefield_parent';
-	//	protected $treePrefix      = 'somefield_title';
+		//	protected $sortField		= 'somefield_order';
+		//	protected $sortParent      = 'somefield_parent';
+		//	protected $treePrefix      = 'somefield_title';
 
-	//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
-		
-	//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
+		//	protected $tabs				= array('Tabl 1','Tab 2'); // Use 'tab'=>0  OR 'tab'=>1 in the $fields below to enable. 
+			
+		//	protected $listQry      	= "SELECT * FROM `#tableName` WHERE field != '' "; // Example Custom Query. LEFT JOINS allowed. Should be without any Order or Limit.
 	
 		protected $listOrder		= 'lid DESC';
 	
@@ -59,7 +59,7 @@ class web_links_ui extends e_admin_ui
 			
             'email'                   => array (  'title' => LAN_EMAIL,  'type' => 'email',  'data' => 'str',  'inline' => true,),
 
-			'options'                 => array (  'title' => LAN_OPTIONS,  'type' => null,  'data' => null,  'forced' => true,  'fieldpref' => '1',),
+			'options'                 => array (  'title' => LAN_OPTIONS,  'type' => 'method',  'data' => null,  'forced' => true,  'fieldpref' => '1',),
 		);		
 		
 		protected $fieldpref = array('title', 'name');
@@ -105,6 +105,33 @@ class web_links_ui extends e_admin_ui
 
 class web_links_form_ui extends e_admin_form_ui
 {
+	/**
+	 * Override the default Options field.
+	*
+	* @param $parms
+	* @param $value
+	* @param $id
+	* @param $attributes
+	*
+	* @return string
+	*/
+	function options($parms, $value, $id, $attributes)
+	{
+	$text = '';
+	if($attributes['mode'] == 'read')
+	{
+
+		//approve button, prepared, not used, too complicated
+		$approve = '';
+
+		$text = "<div class='btn-group'>";
+		$text .= $approve;
+		$text .= $this->renderValue('options',$value,$att,$id);
+		//or here
+		$text .= "</div>"; 
+	} 
+	return $text;
+	} 
 
 }		
 		

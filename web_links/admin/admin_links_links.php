@@ -16,9 +16,9 @@ class web_links_ui extends e_admin_ui
 			
 		protected $pluginTitle		= '';
 		protected $pluginName		= 'web_links';		
-		protected $table			= 'links_links';
+		protected $table			= UN_TABLENAME_LINKS_LINKS;
 		protected $pid				= 'lid';
-		protected $perPage			= 10; 
+		protected $perPage			= 30; 
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
 		protected $batchCopy		= true;
@@ -36,7 +36,8 @@ class web_links_ui extends e_admin_ui
 			'description'             => array (  'title' => _DESCRIPTION255,  'type' => 'textarea',  'data' => 'str',  
             'readParms' => 'expand=...&truncate=150&bb=1',  'writeParms' => 'size=block-level',),
 			'name'                    => array (  'title' => LAN_NAME,  'type' => 'text',  'data' => 'str',  'inline' => true,   'nosort' => true,),
-			'email'                   => array (  'title' => LAN_EMAIL,  'type' => 'email',  'data' => 'str',  'inline' => true,),        
+			'email'                   => array (  'title' => LAN_EMAIL,  'type' => 'email',  'data' => 'str',  'inline' => true,),  
+            'date'                    => array (  'title' => LAN_DATE,  'type' => false,  'data' => 'str'   ),        
 			'options'                 => array (  'title' => LAN_OPTIONS,  'type' => null,  'data' => null,  'forced' => true, ),
 		);		
 		
@@ -123,7 +124,16 @@ class web_links_ui extends e_admin_ui
 		return $new_data;
               
        }
-       
+		public function beforeUpdate($new_data, $old_data, $id)
+		{
+		    $new_data['date'] = $old_data['date'];
+            if($new_data['date'] == "0000-00-00 00:00:00" OR $new_data['date'] == '' ) {
+               $new_data['date'] = date("Y-m-d H:i:s");
+            }
+ 
+            return $new_data;
+ 
+		}     
 }  
 
 

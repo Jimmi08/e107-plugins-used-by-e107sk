@@ -52,14 +52,6 @@ The plugin generates a liddle calculation which has to be figured out by the use
 ![img](https://www.e107sk.com/img/redirection_for_e107.jpg)
 
 
-## Links Page plugin for e107
-
-Full credit for this plugin belongs to e107 core developers.
-
-![img](https://www.e107sk.com/img/linkspage_for_e107.png)
-
-
-
 ## JM Gsitemap plugin for e107
 
 This plugin is not a replacement of core plugin; no core changes are needed.
@@ -167,6 +159,19 @@ In progress
 This plugin is originally tagcloud plugin by Jezzy101.
 But because there is core plugin with this name, plugin name (and everything else) will be tags
 Working version with name tagcloud for version 2.1.3 is under fixed versions in Old plugin repository
+
+## Web Links plugin for e107
+
+Old Nuke plugin ported for e107. 
+
+Sort web links to other websites to categories, insert description and other useful information to every web link.
+
+See screenshots: https://github.com/Jimmi08/e107-free-plugins-by-e107sk/issues/4
+
+In active development. 
+
+
+
 
 
 

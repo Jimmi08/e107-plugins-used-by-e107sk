@@ -36,6 +36,27 @@ if(!getperms("P") || !e107::isInstalled('web_links'))
 require_once("admin_leftmenu.php");
 
 new leftmenu_adminArea();
+
+$css = '
+.form-control-inline {
+    min-width: 0;
+    width: auto;
+    display: inline;
+}
+.panel-heading .accordion-toggle:after {
+    
+    font-family: "Glyphicons Halflings";   
+    content: "\e114";    
+    float: right;        
+    color: grey;         /
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    content: "\e080";     
+}
+';
+
+e107::css('inline', $css);
+
 require_once(e_ADMIN."header.php"); 
   
 // load UnNuke core functions TODO replace with e107 stuff
