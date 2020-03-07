@@ -1465,7 +1465,7 @@
 				$x++;
 			}
 		$text .= "</table><br><br><div class='center'>";
-		$text .=$this->linkfooter($lid);
+		$text .=  $this->linkfooter($lid);
 		$text .= "</div>";
 		$text .= $this->plugTemplates['CLOSE_TABLE'];
  
