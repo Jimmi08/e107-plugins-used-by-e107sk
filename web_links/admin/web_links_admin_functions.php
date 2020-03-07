@@ -862,7 +862,7 @@ function LinksModLink($lid) {
 		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEOUTVOTES." ".$sitename."<br></font></div></td></tr>";
 		$x=0;
 		$colorswitch="#dddddd";
-            foreach($result8 AS $row) { 
+            foreach($result8 AS $row8) { 
 				$ratingdbid = $row8['ratingdbid'];
 				$rating = $row8['rating'];
 				$ratinghostname = $row8['ratinghostname'];
