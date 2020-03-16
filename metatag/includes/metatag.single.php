@@ -56,7 +56,7 @@ function metatag_entity_single_signup_detect()
 
     return false;
 }
-
+                           
 
 function metatag_entity_single_fpw_detect()
 {
@@ -113,3 +113,13 @@ function metatag_single_token_signup_url()
     return e_SIGNUP;
 }
 
+/**
+ * Returns with Forgotten password URL.
+ * quick fix
+ */
+ 
+function metatag_single_token_fpw_url()
+{
+	 
+    return "fpw.php";
+}
