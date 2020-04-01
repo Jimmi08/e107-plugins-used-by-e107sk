@@ -97,6 +97,7 @@ switch ($eplug_prefs['jmcontactus_map_type']) {
  
  
 define("e_PAGETITLE", $contactinfo["title"]);
+define("e_PAGE", "contact.php");
 require_once(HEADERF);
  
 // Contact post

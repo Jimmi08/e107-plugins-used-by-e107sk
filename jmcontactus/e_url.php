@@ -19,7 +19,7 @@ if (!defined('e107_INIT')) { exit; }
 
 // v2.x Standard  - Simple mod-rewrite module. 
 
-define("e_PAGE", "contact.php");
+
 
 class jmcontactus_url // plugin-folder + '_url'
 {
