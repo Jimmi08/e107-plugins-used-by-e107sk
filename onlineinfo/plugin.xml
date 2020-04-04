@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Online Info" lan="Online Info" version="2.3.4" date="2019-09-19" compatibility="2.2.0" installRequired="true" >
+	<author name="TheMadMonk/Jimako" url="https://www.e107.sk/" />
+	<summary lan="">Online Info Plugin Updated for version 2</summary>
+	<description lan="">Attempt to update onlineinfo plugin</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>online</word>
+		<word>menu</word>
+	</keywords>
+	<category>content</category>
+	<copyright>GPL</copyright>
+	<adminLinks>
+		<link url="admin/admin_config.php" description="" icon="/images/logo.png" iconSmall="/images/logo.png" icon128="/images/logo.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='onlineinfo_caption'>[Welcome User]</pref>
+		<pref name='onlineinfo_width'>95%</pref>
+		<pref name='onlineinfo_showpmmsg'>1</pref>
+		<pref name='onlineinfo_rememberbuttons'>1</pref>
+		<pref name='onlineinfo_fontsize'>12</pref>
+		<pref name='onlineinfo_sound'>none</pref>
+		<pref name='onlineinfo_deleteme'>0</pref>
+		<pref name='onlineinfo_logindiag'>0</pref>
+		<pref name='onlineinfo_turnoffavatar'>0</pref>
+	</pluginPrefs>
+</e107Plugin>
