@@ -26,35 +26,57 @@ function createcanurl($table, $id, $return = false) {
   $backslash = e107::getPref('jm_canonical', 'backslash');
 
   if($table == 'pcontent')  {
+    $plugindir = e_PLUGIN."content/";
+    require_once($plugindir."handlers/content_class.php"); 
+    $aa = new content; 
     $query = "SELECT *  FROM #{$table} WHERE content_id=" . $id . " LIMIT 1";    
     if($rows = $sql->retrieve($query, true) ) {
-       $contentrow = $rows[0];
-       
-       $title = $contentrow['content_heading'];
-        $contentrow['content_sef'] = eHelper::title2sef($title,'dashl');
- 	 
-      // parent = 0 main categories 
+            $contentrow = $rows[0];
+             
+             // parent = 0 main categories 
 			if($contentrow['content_parent'] == 0){
-				$contentrow['content_query'] = "?cat.".$contentrow['content_id'];
-				$url = e107::url("content", "content", $contentrow, "full");
+                $contentrow['content_query'] = "?cat.".$contentrow['content_id'];
+                $contentrow['content_sef'] = eHelper::title2sef($contentrow['content_heading'],'dashl');
+                $contentrow['content_sef_parent'] = $contentrow['content_sef'];
+                $title =  $contentrow['content_heading'];
+  				$url = e107::url("content", 'mainparent',  $contentrow, "full");
+             
 			}else{
-			   // parent = 0.X  subcategories 
-				if(strpos($contentrow['content_parent'], ".")){          
-					//$newid = substr($contentrow['content_parent'],2); naco to tu bolo?
-					$contentrow['content_query'] = "?cat.".$contentrow['content_id'];
-					$url = e107::url("jm_content", "documentation", $contentrow, "full");
-					if($return)  {return $url;}
-				}else{
-				  //it's content , canonical url is category url     
+			   
+				if(strpos($contentrow['content_parent'], ".")){     
+                    $array	 	= $aa -> getCategoryTree("", 0, TRUE);
+                    $arr = $array;   
+                    
+                    $row['content_id']  = $parent = $contentrow['content_id'];
+                    $count = count($arr[$parent]);
+                    $row['content_mainparent'] = $arr[$parent][0];
+                    $row['content_mainparent_title'] = $arr[$parent][1];
+                    $row['content_parent'] = $contentrow['content_parent'];
+                    $row['content_parent_title'] = $arr[$parent][$count-1];
+       
+                    for($i=3;$i<count($arr[$parent]);$i+=2) {
+                         $row['content_heading'] .=  " ".$arr[$parent][$i];
+                    }
+               
+                    $title =  $row['content_mainparent_title'] .' '. $row['content_heading'];
+                    $url = $aa->getSefUrl($row);
+                    
+                    if($return)  {return array($url, $title) ;}
+  	                
+                }else{
+                
+                
+				   //it's content , canonical url is category url     
 					//$contentrow['content_query'] = "?content.".$contentrow['content_id'];
 					//$url = e107::url("content", "content", $contentrow, "full");
  
-          $url = createcanurl("pcontent", $contentrow['content_parent'], true );
-
+                    $tmp = createcanurl("pcontent", $contentrow['content_parent'], true );
+                    $url = $tmp[0];
+                    $title = $tmp[1] ." ".$contentrow['content_heading'] ;
 		     
 				}
 			} 
-     // $url = e107::url("content", "content", $contentrow, "full");  
+      
     }
   } 
   elseif ( $table == 'download' ) {
@@ -152,7 +174,7 @@ function createcanurl($table, $id, $return = false) {
      } 
   } 
      
-        
+       
   if($url) {
   	$insert = array(
   		"can_id" => NULL,
@@ -161,7 +183,10 @@ function createcanurl($table, $id, $return = false) {
   		'can_title' => $title,
   		'can_url' => $url
   	);
-  	if ($result = $sql->insert("canonical", $insert));
+    
+
+   $result = e107::getDB()->insert("canonical", $insert  ) ;
+   return $result;
   }
 }
 

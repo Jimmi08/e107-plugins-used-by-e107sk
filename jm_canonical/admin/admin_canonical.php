@@ -191,7 +191,7 @@ class jm_canonical_ui extends e_admin_ui
 		$this->fields[$this->jmtableid]  =   array ( 'title' => 'Record ID', 'data' => 'int', 'width' => '5%', 'help' => '',   'tab'=>0,  'readParms' =>  array ( ),
 		 'writeParms' =>  array ( )); 
      
-    $this->fields[$this->jmtabletitle]  =  array ( 'title' => 'Record title', 'type' => 'text', 'data' => 'str', 'width' => 'auto',    'tab'=>0,
+    $this->fields[$this->jmtabletitle]  =  array ( 'title' => 'Record title', 'type' => 'text', 'data' => 'str', 'width' => 'auto',    'tab'=>0,    'filter'=>true,
       'help' => '', 'readParms' =>  array ( ), 'writeParms' =>  array ( ),  'class' => 'left', 'thclass' => 'left',  );  
  
 		$this->fields['can_url'] = array('title' => 'Canonical URL' ,'width' => 'auto', 'type'=>'method', 

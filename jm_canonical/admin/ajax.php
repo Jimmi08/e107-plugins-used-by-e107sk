@@ -14,7 +14,7 @@ if ($_POST['func'] == 'DELETEcanurl') {
 }
 
 if ($_POST['func'] == 'CREATEcanurl') {
-  
+ 
 	createcanurl($_POST['sTable'], $_POST['sID']);
 	echo "Canonical URL created.";
 	die;
@@ -24,7 +24,7 @@ if ($_POST['func'] == 'CREATEcanurl') {
 
 
 if ($_POST['func'] == 'GENERATEcanurl') {
-  
+                             
   $table =  $_POST['sTable'];
   $idName = $_POST['sIdName'];
   if($records = e107::getDb()->retrieve($table, $idName, true, true) ) {
@@ -37,6 +37,7 @@ if ($_POST['func'] == 'GENERATEcanurl') {
         //do nothing
       }
       else {
+            
         	createcanurl($table, $id);
           ++$count;
 	        //echo "Canonical URL for table: {$table} and ID:  {$id} created.<br>";
@@ -100,14 +101,14 @@ if ($_POST['func'] == 'MOVEALLcanurl') {
   
   $table =  $_POST['sTable'];
   $idName = $_POST['sIdName'];
-  print_a($table);    print_a($idName );
+ 
   if($records = e107::getDb()->retrieve($table, '*', "  canru_redirect = 1 ", true)) {
     
     $count = 0;  
     foreach($records as $row)  {
       //check if CU exists
       $id = $row[$idName];
-      print_a($table); print_a($id);
+      
     	movecanurl($table, $id);
       ++$count;
  
