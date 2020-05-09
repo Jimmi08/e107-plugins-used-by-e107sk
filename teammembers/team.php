@@ -57,11 +57,11 @@ else {
 //breadcrumbs
 	$breadcrumb = array();
 
-	$breadcrumb[] = array('text' => 'Náš tím', 'url' => e107::url('teammembers', 'index')); // @see e_url.php
+	$breadcrumb[] = array('text' => 'Our team', 'url' => e107::url('teammembers', 'index')); // @see e_url.php
 
 	if(!empty($_GET['uid'])) // @see e_url 'other' redirect.
 	{
-		$breadcrumb[] = array('text' => 'Maklér', 'url' => null); // Use null to omit link for current page.
+		$breadcrumb[] = array('text' => 'Agent', 'url' => null); // Use null to omit link for current page.
 	}
     
     e107::breadcrumb($breadcrumb); // assign values to the Magic Shortcode:  {---BREADCRUMB---}
@@ -137,8 +137,9 @@ else {
             
             $pagination .=  $tp->simpleParse($tmpl['nav_next'], $var);
       }
+      $pagination .= $tmpl['end'];  
   }
-  $pagination .= $tmpl['end'];       
+     
   $tablerender = varset($template['tablerender'],'teammembers'); 
   e107::getRender()->tablerender(LP_TEAMMEMBERS_LINK, $start.$text.$end.$pagination, $tablerender);   
  }

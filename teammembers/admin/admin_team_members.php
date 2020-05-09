@@ -130,8 +130,7 @@ class team_members_ui extends e_admin_ui
 		public function beforeCreate($new_data,$old_data)
 		{
 		   $new_data['date'] = time();
-		   $new_data['last_updated'] = time();
-			 $new_data = $this->processGlyph($new_data);	
+		   $new_data['last_updated'] = time();	
             return $new_data;
 		}
 	
@@ -151,8 +150,7 @@ class team_members_ui extends e_admin_ui
 		public function beforeUpdate($new_data, $old_data, $id)
 		{
 		    $new_data['last_updated'] = time();
-		    $new_data = $this->processGlyph($new_data);
-            
+ 
         	return $new_data;
 		}
 
@@ -175,121 +173,7 @@ class team_members_ui extends e_admin_ui
 			return array('caption'=>$caption,'text'=> $text);
 
 		}
-        
-        /*
-		private function processGlyph($new_data)
-		{
-			foreach($new_data['links_multi'] as $key=>$row)
-			{
-				if(!empty($row['icon']) && strpos($row['icon'],".glyph")===false)
-				{
-					$new_data['links_multi'][$key]['icon'] = $row['icon'].".glyph";
-				}
-
-			}
-
-			return $new_data;
-
-		}
-        */
-        
-			
-	/*	
-		// optional - a custom page.  
-		public function customPage()
-		{
-			$text = 'Hello World!';
-			$otherField  = $this->getController()->getFieldVar('other_field_name');
-			return $text;
-			
-		}
-        
-        
-		
-
-	
-	 // Handle batch options as defined in team_members_form_ui::links_multi;  'handle' + action + field + 'Batch'
-	 // @important $fields['links_multi']['batch'] must be true for this method to be detected. 
-	 // @param $selected
-	 // @param $type
-	function handleListLinksMultiBatch($selected, $type)
-	{
-
-		$ids = implode(',', $selected);
-
-		switch($type)
-		{
-			case 'custombatch_1':
-				// do something
-				e107::getMessage()->addSuccess('Executed custombatch_1');
-				break;
-
-			case 'custombatch_2':
-				// do something
-				e107::getMessage()->addSuccess('Executed custombatch_2');
-				break;
-
-		}
-
-
-	}
-
-	
-	 // Handle filter options as defined in team_members_form_ui::links_multi;  'handle' + action + field + 'Filter'
-	 // @important $fields['links_multi']['filter'] must be true for this method to be detected. 
-	 // @param $selected
-	 // @param $type
-	function handleListLinksMultiFilter($type)
-	{
-
-		$this->listOrder = 'links_multi ASC';
-	
-		switch($type)
-		{
-			case 'customfilter_1':
-				// return ' links_multi != 'something' '; 
-				e107::getMessage()->addSuccess('Executed customfilter_1');
-				break;
-
-			case 'customfilter_2':
-				// return ' links_multi != 'something' '; 
-				e107::getMessage()->addSuccess('Executed customfilter_2');
-				break;
-
-		}
-
-
-	}
-	
-		
-		
-	*/
  
-				
-	/**
-	 * Display a warning if there is a mismatch with the SEF Url.
-	 * @param $new_data
-	 */
-	/*
-	private function checkSEFSimilarity($new_data)
-	{
-		if(e_LANGUAGE === 'Japanese' || e_LANGUAGE === 'Korean')
-		{
-			return null;
-		}
-
-
-		$expectedSEF = eHelper::title2sef($new_data['title']);
-		similar_text($expectedSEF,$new_data['sef'],$percSimilar);
-
-		if($percSimilar < 60)
-		{
-			e107::getMessage()->addWarning(LAN_NEWS_108); // The SEF URL is unlike the title of your news item.
-		}
-
-
-	}
-    */
 }  
 
 class team_members_form_ui extends e_admin_form_ui
