@@ -18,18 +18,18 @@ require_once(HEADERF); 					// render the header (everything before the main con
  
 include("init.php");
  
-$uid = isset($_GET['uid']) && isNumber($_GET['uid']) ? $_GET['uid'] : false;
+$uid = isset($_GET['uid']) && is_int((int) $_GET['uid']) ? $_GET['uid'] : false;
  
 $tp = e107::getParser();
-
-
-if($uid) { 
  
-    $agent = TeamMembers::find_by_id($uid);
-    $sc 		= TeamMembers::batch_shortcodes();
- 	  $breadcrumb = array();
+if($uid) {     
+ 
+    $agent   	= TeamMembers::find_by_id($uid);   
+	$sc 	 	= TeamMembers::batch_shortcodes();
+	$templates = TeamMembers::templates();
+ 	$breadcrumb = array();
 
-    $breadcrumb[] = array('text' => 'Náš tím', 'url' => e107::url('teammembers', 'index')); // @see e_url.php
+    $breadcrumb[] = array('text' => 'Our Team', 'url' => e107::url('teammembers', 'index')); // @see e_url.php
 
     if(!empty($_GET['uid'])) // @see e_url 'other' redirect.
     {
@@ -42,7 +42,7 @@ if($uid) {
     $data["oddeven"] = '';
     $data["url"] =  $url ;  
     $sc->setVars($data);     
-    $template = e107::getTemplate("teammembers", "teammembers", "view", true,  true);  
+    $template = $templates['view_'];  
     $text  = $tp->parseTemplate($template['item'], true, $sc);
     $start = $tp->parseTemplate($template['start'], true, $sc);
     $end = $tp->parseTemplate($template['end'], true, $sc);
@@ -54,7 +54,7 @@ if($uid) {
 
 }    
 else { 
-//breadcrumbs
+	//breadcrumbs
 	$breadcrumb = array();
 
 	$breadcrumb[] = array('text' => 'Our team', 'url' => e107::url('teammembers', 'index')); // @see e_url.php
@@ -66,52 +66,52 @@ else {
     
     e107::breadcrumb($breadcrumb); // assign values to the Magic Shortcode:  {---BREADCRUMB---}
  
-  // PAGINATION
-  $current_page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
-  $items_per_page = 40;
-  $items_total_count = TeamMembers::count_all();
-  $paginate_offset = ($current_page -1 ) * $items_per_page; 
+	// PAGINATION
+	$current_page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
+	$items_per_page = 1;
+	
+	$paginate_offset = ($current_page -1 ) * $items_per_page; 
   
-  $parms  = "tmpl_prefix=bootstrap&total={$items_total_count}&amount={$items_per_page}&current={$current_page}&url=" . e_SELF . "?page=[FROM]";
+	// doesn't work correctly
+	// $parms  = "tmpl_prefix=bootstrap&total={$items_total_count}&amount={$items_per_page}&current={$current_page}&url=" . e_SELF . "?page=[FROM]";
   
-  //all agents
-  $query = "SELECT * FROM #team_members ";
-  $query .= "LIMIT {$items_per_page} ";
-  $query .= "OFFSET {$paginate_offset}";
-  
-  $agents_all = TeamMembers::find_by_query($query);
+	//all agents
+	$query = "SELECT * FROM #team_members ";
+	$query .= "LIMIT {$items_per_page} ";
+	$query .= "OFFSET {$paginate_offset}";
+	
+	$agents_all = TeamMembers::find_by_query($query);
 
-  $paginate = new Paginate($current_page, $items_per_page, $items_total_count); 
+	
+	
+	$sc = TeamMembers::batch_shortcodes();
+	$items_total_count = TeamMembers::count_all(); 
+	$paginate = new PaginateTeamMembers($current_page, $items_per_page, $items_total_count); 
  
-  $sc = TeamMembers::batch_shortcodes();
-  $items_total_count = TeamMembers::count_all();
-  
-  $template = e107::getTemplate("teammembers", "teammembers", "list", true,  true);       
-    
-   
+	$templates 	=  TeamMembers::templates();
+	$template 	= $templates['list_'];
+
 	foreach ($agents_all as $row):     
         
-    $data = (array) $row;
-    $data["oddeven"] = $count % 2 ? "even" : "odd" ;
+    	$data = (array) $row;
+    	$data["oddeven"] = $count % 2 ? "even" : "odd" ;
 
-    $sc->setVars($data);
+   		$sc->setVars($data);
 
-    $text  .= $tp->parseTemplate($template['item'], true, $sc );
+    	$text  .= $tp->parseTemplate($template['item'], true, $sc );
 
-    $count++;
-  endforeach; 
+    	$count++;
+ 	endforeach; 
     
-  // e107 way is not correct see issue #4024
+  	// e107 way is not correct see issue #4024
 	// $pagination  = $tp->parseTemplate("{NEXTPREV={$parms}}"); 
 
-  $start = $tp->parseTemplate($template['start'], true, $sc);
-  $end = $tp->parseTemplate($template['end'], true, $sc);
-   
-	 
-	$tmpl = e107::getTemplate("teammembers", "teammembers", "pagination", true,  true);  
-     
+  	$start = $tp->parseTemplate($template['start'], true, $sc);
+  	$end = $tp->parseTemplate($template['end'], true, $sc);
  
-  if($paginate->page_total() > 1) {
+	$tmpl = $templates["pagination"];  
+   
+  	if($paginate->page_total() > 1) {
       $pagination = $tmpl['start'];
       if($paginate->has_previous()) {
         $var['url'] = e_SELF."?page=".$paginate->previous();
@@ -138,12 +138,12 @@ else {
             $pagination .=  $tp->simpleParse($tmpl['nav_next'], $var);
       }
       $pagination .= $tmpl['end'];  
-  }
+  	}
      
-  $tablerender = varset($template['tablerender'],'teammembers'); 
-  e107::getRender()->tablerender(LP_TEAMMEMBERS_LINK, $start.$text.$end.$pagination, $tablerender);   
+  	$tablerender = varset($template['tablerender'],'teammembers'); 
+  	e107::getRender()->tablerender(LP_TEAMMEMBERS_LINK, $start.$text.$end.$pagination, $tablerender);   
  }
 
 require_once(FOOTERF);					// render the footer (everything after the main content area)
 exit; 
-?>
+ 

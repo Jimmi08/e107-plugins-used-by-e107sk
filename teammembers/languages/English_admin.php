@@ -24,7 +24,7 @@ defined("LP_TEAMMEMBERS_NAME") 	 ? null : define("LP_TEAMMEMBERS_NAME", "Teammem
 
 /* Admin menu */
 define("LP_TM_MANAGE_MEMBERS", "Manage team members");
- define("LP_TM_ADD_MEMBER", "Add new member");
+define("LP_TM_ADD_MEMBER", "Add new member");
 
 /* Edit member */
 define("LP_TM_TAB_BASIC_INFO", "Basic Info");
@@ -39,5 +39,8 @@ define("LP_TM_PHONE_NUMBER", "Phone");
 define("LP_TM_SUMMARY", "Summary / Short Description");
 define("LP_TM_BIO", "Bio / Description");
 define("LP_TM_STATUS", "Status");
+
+define("LP_TM_MENU_01", "Tablestyle code");
+
  
 ?>

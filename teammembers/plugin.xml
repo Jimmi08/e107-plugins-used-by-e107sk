@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="Team Members" lan="LP_TEAMMEMBERS_NAME" version="1.0" date="2019-11-24" compatibility="2.0" installRequired="true" >
+<e107Plugin name="Team Members" lan="LP_TEAMMEMBERS_NAME" version="1.0.1" date="2020-05-13" compatibility="2.3" installRequired="true" >
 	<author name="Jimako " url="https://www.e107sk.com/" />
 	<summary lan="">Company Team Members</summary>
 	<description lan="">Company Team Members</description>

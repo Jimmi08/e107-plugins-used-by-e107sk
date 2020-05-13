@@ -125,7 +125,7 @@ class plugin_teammembers_team_members_shortcodes extends e_shortcode
       $tpl = varset($parm['template'], "social_links"); 
       $links = e107::unserialize($this->var['links_multi']);
       
-	    $template = e107::getTemplate("teammembers", "teammembers", $tpl );
+	    $template = e107::getTemplate("teammembers", "team_members", $tpl );
         $start  = $template['start'];
         $end  = $template['end'];
         $text = '';
@@ -168,7 +168,7 @@ class plugin_teammembers_team_members_shortcodes extends e_shortcode
        //$this->var['facts_multi'];
        
        	$links = e107::unserialize($this->var['facts_multi']);
-	    $template = e107::getTemplate("teammembers", "teammembers", "facts");
+	    $template = e107::getTemplate("teammembers", "team_members", "facts", true,  true);  
         $start  = $template['start'];
         $end  = $template['end'];
         $text = '';
