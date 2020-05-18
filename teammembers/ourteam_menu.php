@@ -25,13 +25,20 @@ if(isset($parm['caption'][e_LANGUAGE]))
 {
 	$caption = $parm['caption'][e_LANGUAGE];
 }
-else $caption = $parm['caption']; 
+else $caption = $parm['caption'];
+
+if(isset($parm['subtitle'][e_LANGUAGE]))
+{
+	$subtitle = $parm['subtitle'][e_LANGUAGE];
+}
+else $subtitle = $parm['subtitle']; 
+
 
 $count = (int) $parm['count'];
 ($count > 0 ) ? ($count ) : ($count =  4);
 
 $template_key =  ($parm['template'] == '') ? ('list_') : ($parm['template']);
-$tablestyle = (empty($parm['tablestyle'])) ? ('') : ($parm['tablestyle']);
+
 
 e107::lan("teammembers");
 $tp = e107::getParser();
@@ -60,5 +67,18 @@ $start = $tp->parseTemplate($template['start'], true, $sc);
 $end = $tp->parseTemplate($template['end'], true, $sc);
 $text =  $start.$text.$end;
 
-$style =  e107::getParser()->parseTemplate($parm['tablestyle']);     
-e107::getRender()->tablerender($caption, $text, $tablestyle );
+/* tablestyle variability */
+$default_tablestyle =  (empty($template['tablestyle'])) ? 'teammembers' : ($template['tablestyle']);   
+$tablestyle = (empty($parm['tablestyle'])) ? ($default_tablestyle) : ($parm['tablestyle']);
+
+ 
+/* caption variability */
+if(isset($template['caption']) && isset($caption)){
+  
+  $var['MENU_TITLE'] = $caption;
+  $var['MENU_SUBTITLE'] = $subtitle;
+  $caption = e107::getParser()->simpleParse($template['caption'], $var);
+
+}
+   
+e107::getRender()->tablerender($caption, $text, $tablestyle);

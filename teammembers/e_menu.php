@@ -29,8 +29,8 @@ class teammembers_menu
         $sql = e107::getDb();
 		$fields = array();
 
-		//see TeamMembers::templates();
-        $templates = e107::getLayouts('teammembers', 'team_members', 'front', null, false, false);
+		//see TeamMembers::templates();  Allow merge? 
+        $templates = e107::getLayouts('teammembers', 'team_members', 'front', null, true, false);
 
         switch($menu)
       	{
@@ -42,7 +42,8 @@ class teammembers_menu
 					} 
 				}
 				$fields['caption']      = array('title'=> LAN_CAPTION, 'type'=>'text', 'multilan'=>true, 'writeParms'=>array('size'=>'xxlarge'));	
-				$fields['count']        = array('title'=> LAN_LIMIT, 'tab'=>1, 'type'=>'text', 'writeParms'=>array('pattern'=>'[0-9]*', 'size'=>'mini'));   
+                $fields['subtitle']     = array('title'=> LAN_TITLE, 'type'=>'text', 'multilan'=>true, 'writeParms'=>array('size'=>'xxlarge'));	
+				$fields['count']        = array('title'=> LAN_LIMIT, 'type'=>'number', 'writeParms'=>array('pattern'=>'[0-9]*', 'size'=>'mini'));   
 				$fields['template']     = array('title'=> LAN_TEMPLATE,  'type'=>'dropdown', 'writeParms'=>array('optArray'=>$template, 'default'=>'blank'), 'help'=>'');
 				$fields['tablestyle']   = array('title'=> LP_TM_MENU_01, 'type'=>'text', 'writeParms'=>array('size'=>'xxlarge')); 
 				return $fields;
