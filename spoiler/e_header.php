@@ -17,7 +17,7 @@ if (!defined('e107_INIT')) { exit; }
 if(USER_AREA) // prevents inclusion of JS/CSS/meta in the admin area.
 {
 	 
-	e107::css('spoiler', 'src/css/spoiler.css');    // loads e107_plugins/spoiler/css/spoiler.css on every page
+	e107::css('spoiler', 'css/spoiler.css');    // loads e107_plugins/spoiler/css/spoiler.css on every page
  
 }
 

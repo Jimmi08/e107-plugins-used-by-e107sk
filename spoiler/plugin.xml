@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="spoiler" lan="LAN_001" version="1.0" date="2018-07-02" compatibility="2.0" installRequired="true" >
-	<author name="hups" url="https://www.e107.sk/" />
+<e107Plugin name="spoiler" lan="LAN_001" version="1.0.1" date="2020-05-20" compatibility="2.0" installRequired="true" >
+	<author name="hups" url="https://www.e107sk.com/" />
 	<summary lan="">Simple plugin for adding spoiler bbcode </summary>
 	<description lan="">Text marked as spoiler is displayed only after clicking on spoiler button</description>
 	<keywords>
