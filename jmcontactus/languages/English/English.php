@@ -82,7 +82,7 @@ define("CUP_INFO_01", "Page Title");
 define("CUP_INFO_02", "Information");
 define("CUP_INFO_MAP", "Google Map Adress");
 define("CUP_INFO_MAP_ZOOM", "Google Map Zoom");
-define("CUP_INFO_ADDRESS", "Enter an Address...");
+define("CUP_INFO_ADDRESS", "Enter an Address... Save your Google Maps   Api Key at first to use the autocomplete option");
 define("CUP_INFO_SAVE", "Save");
 define("CUP_INFO_SAVEMSG", "Information Successfully Saved");
 define("CUP_INFO_ERRORMSG", "Error Saving Information");
