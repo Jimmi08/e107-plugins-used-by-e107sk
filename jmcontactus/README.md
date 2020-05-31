@@ -5,6 +5,7 @@ This plugin is courtesy of the original author - Spinning Planet. They permitted
 
 ## Version 1.2.2
 - UPDATED google map adress and zoom moved from fb to prefs
+- UPDATED recaptcha - use it only if it is active, installation is not enough
 
 ## Version 1.2.1
 

@@ -23,7 +23,7 @@ class plugin_jmcontactus_jmcontactus_shortcodes extends e_shortcode
 	// ------------------------------------------------
 	// {FORM_NAME_IMGCODE}
 	function sc_form_name_imgcode() {    
-	if (e107::isInstalled('recaptcha'))  { 
+	if (e107::isInstalled('recaptcha') && e107::pref('recaptcha', 'active'))  { 
 			return '';
 		}
 		else {
