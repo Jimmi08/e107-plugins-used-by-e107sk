@@ -31,13 +31,7 @@ class jmcontactus_admin_adminArea extends e_admin_dispatcher
 			'ui' 			=> 'jmcontactus_form_prefs_ui',
 			'uipath' 		=> null
 		),
-		'as'	=> array(
-			'controller' 	=> 'as_prefs_ui',
-			'path' 			=> null,
-			'ui' 			=> 'jmcontactus_form_prefs_ui',
-			'uipath' 		=> null
-		),		
-
+ 
 	);
   
  

@@ -242,17 +242,7 @@ function buildformfield($type, $id, $parameters = '',  $value = null)
 
 	if($type === "email") 
 	{
-		$sk = e107::getPlugConfig('jmcontactus')->getPref();
-
-		if($sk['use_honey-pot']) 
-		{ 
-			$text = '<input class="jmas_email" id="email" name="email" type="email" value="'.$value.'">';
-			$text .= '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
-		}
-		else 
-		{
-			$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
-		} 
+		$text = '<input class="form-control" id="'.$id.'" name="'.$id.'" type="text" value="'.$value.'">';
 		return $text;
 	}
 

@@ -6,6 +6,8 @@ This plugin is courtesy of the original author - Spinning Planet. They permitted
 ## Version 1.2.2
 - UPDATED google map adress and zoom moved from fb to prefs
 - UPDATED recaptcha - use it only if it is active, installation is not enough
+- UPDATED bootstrap3 default template, removed not used public css 
+- REMOVED temp AS solution, it is doesn't use type email, so it is useless
 
 ## Version 1.2.1
 

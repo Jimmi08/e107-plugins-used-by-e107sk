@@ -61,30 +61,7 @@ class jmcontactus_prefs_ui extends e_admin_ui
 	}
 
 }
-
-class as_prefs_ui extends e_admin_ui
-{
-
-	protected $pluginTitle = CUP_SETTINGS_00;
-	protected $pluginName = 'jmcontactus';
-	protected $table = '';
-	protected $pid = '';
-	protected $listOrder = ' DESC';
-	protected $fields = NULL;
-	protected $fieldpref = array();
-
-	//	protected $preftabs        = array('General', 'Other' );
-	protected $prefs = array(
-		'use_honey-pot' => array('title' => 'AS test', 'type' => 'boolean', 'help' => ''),
-	);
-
-	public function init()
-	{
-
-	}
-
-}
-
+ 
 class jmcontactus_form_prefs_ui extends e_admin_form_ui
 {
 

@@ -27,16 +27,16 @@ $sc_style['FORM_FIELD_IMGCODE_ERROR']['pre'] = "<div class='label label-danger'>
 $sc_style['FORM_FIELD_IMGCODE_ERROR']['post'] = "</div>";
 
 // Contact Information
-$CONTACTUS_INFO_BEFORE ="<div id='spcu_top' class='row'>";
-
+$CONTACTUS_INFO_BEFORE ="<div class='row form-group'>";
+ 
 if ($eplug_prefs['jmcontactus_map_type'] != 'nomap')
 {
 	// With Google Map
 	$CONTACTUS_INFO = "
-		<div id='spcu_info' class='col-sm-4 col-xs-12'>
+		<div  class='col-sm-4 col-xs-12'>
 			{CONTACT_INFO}
 		</div>
-		<div id='spcu_map' class='col-sm-8 col-xs-12'>
+		<div  class='col-sm-8 col-xs-12'>
 			{CONTACT_MAP}
 		</div>
 	";
@@ -45,7 +45,7 @@ else
 {
 	// Without Google Map
 	$CONTACTUS_INFO = "
-		<div id='spcu_info' class='col-sm-12'>
+		<div  class='col-sm-12'>
 			{CONTACT_INFO}
 		</div>
 	";
@@ -55,7 +55,7 @@ $CONTACTUS_INFO_AFTER = "</div>";
 //Contact Form
 $CONTACTUS_FORM_BEFORE = "
 <div class='well'>
-	<div class='row'>
+	<div class='row form-group'>
 		<div class='col-sm-4 col-xs-12'>";
 
 $CONTACTUS_FORM_ROWS = "
@@ -75,7 +75,7 @@ $CONTACTUS_FORM_MESSAGE = "
 
 $CONTACTUS_FORM_AFTER = "
 	</div>
-	<div class='row'>
+	<div class='row form-group'>
 		<div class='col-xs-12'>
 			<div class='form-group'>
 				<label class='control-label' for='code_verify'>{FORM_NAME_IMGCODE}</label>
@@ -83,7 +83,7 @@ $CONTACTUS_FORM_AFTER = "
 			</div>
 		</div>	
 	</div>
-	<div class='row'>
+	<div class='row form-group'>
 		<div class='col-xs-12 text-center'>
 			<div class='text-right'>
 				{FORM_SUBMIT_BUTTON}
