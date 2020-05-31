@@ -2,6 +2,17 @@
 
 This plugin is courtesy of the original author - Spinning Planet. They permitted me to update their old premium ContactUs plugin for the new version. 
 
+
+## Version 1.2.2
+- UPDATED google map adress and zoom moved from fb to prefs
+
+## Version 1.2.1
+
+- FIXED required fields
+- FIXED recaptcha
+- UPDATED date field
+- UPDATED textarea field
+
 ## Version 1.2.0 
   At this state, you can with this plugin:
 - replace  core contact.php page 
@@ -20,14 +31,7 @@ Plans for the future:
 fully replace ContentPage plugin
 
 Use it only on your own risk. 
-
-## Version 1.2.1
-
-- FIXED required fields
-- FIXED recaptcha
-- UPDATED date field
-- UPDATED textarea field
-
+ 
 
 ##### Versioning Guidlines
 

@@ -33,7 +33,7 @@ $sc_style['FORM_FIELD_ERROR']['post'] = "</div>";
 
 $sc_style['FORM_FIELD_IMGCODE_ERROR']['pre'] = "<div class='label label-danger'>";
 $sc_style['FORM_FIELD_IMGCODE_ERROR']['post'] = "</div>";
-
+ 
 // Contact Information
 $CONTACTUS_INFO_BEFORE =
 "<div id='spcu_top' class='row'>

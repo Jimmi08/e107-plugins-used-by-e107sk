@@ -54,7 +54,7 @@ if (isset($_POST['update_info']))
 {
 	if (isset($_POST['id'])) 
 	{
-		if ($sql->update(strtolower($pname . "_info"), "title='" . $tp->toDB($_POST[$pname . "_title"]) . "', googlemap='" . $tp->toDB($_POST[$pname . "_googlemap"]) . "', googlemap_zoom='" . $tp->toDB($_POST[$pname . "_googlemap_zoom"]) . "', info='" . $tp->toDB($_POST[$pname . "_info"]) . "' WHERE id=" . intval($_POST['id']))) 
+		if ($sql->update(strtolower($pname . "_info"), "title='" . $tp->toDB($_POST[$pname . "_title"]) . "', info='" . $tp->toDB($_POST[$pname . "_info"]) . "' WHERE id=" . intval($_POST['id']))) 
 		{
 			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'});" );
 		} else 
@@ -62,7 +62,7 @@ if (isset($_POST['update_info']))
 			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_ERRORMSG) . "', {type: 'danger'});" );
 		}
 	} else {
-		if ($sql->insert(strtolower($pname . "_info"), "0, '" . $tp->toDB($_POST[$pname . "_title"]) . "', '" . $tp->toDB($_POST[$pname . "_info"]) . "', '" . $tp->toDB($_POST[$pname . "_googlemap"]) . "', '" . $tp->toDB($_POST[$pname . "_googlemap_zoom"]) . "'")) {
+		if ($sql->insert(strtolower($pname . "_info"), "0, '" . $tp->toDB($_POST[$pname . "_title"]) . "', '" . $tp->toDB($_POST[$pname . "_info"]) . "'")) {
 			e107::js('footer-inline',  "$.bootstrapGrowl('" . $tp->toJS(CUP_INFO_SAVEMSG) . "', {type: 'success'})" );
 		} else 
 		{
@@ -98,16 +98,8 @@ $text .= "<div class='col-md-6'><div class='emailfrom_name'>" . $frm->text($pnam
 // Information
 $text .= "<div class='form-group'><label class='control-label col-md-2' for='jmcontactus_info'>" . CUP_INFO_02 . "</label>";
 $text .= "<div class='col-md-6'><div class='emailfrom_name'>" . $frm->textarea($pname . "_info", $tp->toHTML($fi["info"]), "20", "10", "size=200&class=form-control", true) . "</div></div></div>";
-		
-// Google Map
-$text .= "<div class='form-group'><label class='control-label col-md-2' for='jmcontactus_googlemap'>" . CUP_INFO_MAP . "</label>";
 
-//	$text .= "<div class='col-md-6'><div class='emailfrom_name'>".$frm->form_text($pname."_googlemap", "40", $tp->toHTML($fi["googlemap"]), "200", "form-control", "", "", "placeholder='".CUP_INFO_ADDRESS."'")."</div></div></div>";
-$text .= "<div class='col-md-6'><div class='emailfrom_name'>" . $frm->text($pname . "_googlemap", $tp->toHTML($fi["googlemap"]), "200", "size=40&class=form-control&placeholder=" . CUP_INFO_ADDRESS) . "</div></div></div>";	
-
-// Google Map Zoom
-$text .= "<div class='form-group'><label class='control-label col-md-2' for='jmcontactus_googlemap_zoom'>" . CUP_INFO_MAP_ZOOM . "</label>";
-$text .= "<div class='col-md-6'><div class='emailfrom_name'>" . $frm->text($pname . "_googlemap_zoom", $tp->toHTML($fi["googlemap_zoom"]), "200", "size=40&class=form-control") . "</div></div></div>";
+ 
 		
 // Button
 $text .= "<div class='form-group'><div class='col-md-6 col-md-offset-2'>";

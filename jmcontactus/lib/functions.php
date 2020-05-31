@@ -203,7 +203,7 @@ function checkimgcode($usercode, $gencode)
 		if (!e107::getSecureImg()->verify_code($gencode, $usercode))
 		{
 			$error_count++;
-			return $gencode.$usercode.CU_POST_RECAPTCHA_ERROR_MESSAGE;
+			return CU_POST_RECAPTCHA_ERROR_MESSAGE;
 		}
 	}
 }

@@ -8,9 +8,7 @@ CREATE TABLE `jmcontactus_messages` (
 CREATE TABLE `jmcontactus_info` (
   `id` int(10) UNSIGNED NOT NULL  auto_increment,
   `title` varchar(255) NOT NULL DEFAULT '',
-  `info` text NOT NULL,
-  `googlemap` varchar(255) NOT NULL DEFAULT '',
-  `googlemap_zoom` int(11) NOT NULL DEFAULT '15',
+  `info` text NOT NULL
 	PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 CREATE TABLE `jmcontactus_form` (

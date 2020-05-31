@@ -126,8 +126,8 @@ class plugin_jmcontactus_jmcontactus_shortcodes extends e_shortcode
 				$mapmarker = varset($this->eplug_prefs['jmcontactus_mapmarker'], '{e_PLUGIN}jmcontactus/img/marker.png');
 				$mapmarker = e107::getParser()->replaceConstants($mapmarker, 'full');    
 
-				$contactadress = $this->var["googlemap"]; 
-				$mapzoom = $this->var["googlemap_zoom"]; 
+				$contactadress = $this->eplug_prefs['jmcontactus_googlemap']; 
+				$mapzoom = $this->eplug_prefs['jmcontactus_googlemap_zoom']; 
 
 				$text = '<!-- Google Maps -->
                 <section class="section no-top-padding">

@@ -80,7 +80,7 @@ define("CUP_SETTINGS_OPT2", "No");
 define("CUP_INFO_00", CUP_MENU." - Information");
 define("CUP_INFO_01", "Page Title");
 define("CUP_INFO_02", "Information");
-define("CUP_INFO_MAP", "Google Map");
+define("CUP_INFO_MAP", "Google Map Adress");
 define("CUP_INFO_MAP_ZOOM", "Google Map Zoom");
 define("CUP_INFO_ADDRESS", "Enter an Address...");
 define("CUP_INFO_SAVE", "Save");

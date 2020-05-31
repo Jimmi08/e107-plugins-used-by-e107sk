@@ -39,7 +39,7 @@ $error_count = 0;
 $contactus_shortcodes = e107::getScBatch('jmcontactus',true, 'jmcontactus');
 
 $eplug_prefs = e107::getPlugConfig('jmcontactus')->getPref();        
-
+            
 if(is_readable(THEME."templates/jmcontactus/jmcontactus_template.php")) {
 	require_once(THEME."templates/jmcontactus/jmcontactus_template.php");
 }
@@ -71,13 +71,13 @@ switch ($eplug_prefs['jmcontactus_map_type']) {
 		$googlemapsapikey = trim($eplug_prefs['jmcontactus_googlemapsapikey']);
 		e107::js("url", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places", 'jquery');
 		$settings = array(
-			'googlemap_address' =>  $contactinfo["googlemap"],
-		  	'googlemap_zoom' => $contactinfo["googlemap_zoom"]
+			'googlemap_address' =>  $eplug_prefs["jmcontactus_googlemap"],
+		  	'googlemap_zoom' => $eplug_prefs["jmcontactus_googlemap_zoom"]
 		);  
 
 		$code = "
-		var googlemap_address = '{$contactinfo["googlemap"]}';
-		var googlemap_zoom = {$contactinfo["googlemap_zoom"]} ";
+		var googlemap_address = '{$eplug_prefs["jmcontactus_googlemap"]}';
+		var googlemap_zoom = {$eplug_prefs["jmcontactus_googlemap_zoom"]} ";
 	  
 	   e107::js("footer", e_PLUGIN."jmcontactus/js/googlemap.js" );    
 	   e107::js("footer-inline", $code);	 

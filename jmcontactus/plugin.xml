@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="Contact Us" lan="LAN_CP_NAME" version="1.2.0" date="2020-02-26" compatibility="2.0" installRequired="true" >
-	<author name="Jimako" url="https://www.e107.sk/" />
+<e107Plugin name="Contact Us" lan="LAN_CP_NAME" version="1.2.1" date="2020-05-31" compatibility="2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107sk.com/" />
 	<summary lan="">Contact Us plugin by Spinning Planet - courtesy of original author</summary>
 	<description lan="">Contact Us plugin by Spinning Planet - courtesy of original author. A Plugin that replaces the core e107 contact page. This plugin will store all message sent through the contact form. Also has a simple interface to edit Contact Information</description>
 	<keywords>
@@ -25,5 +25,7 @@
 		<pref name='jmcontactus_settings_showform'>1</pref>
 		<pref name='jmcontactus_thankyou_msg'>Thank you for taking the time to contact us, we will contact you soon</pref>
 		<pref name='jmcontactus_googlemapsapikey'></pref>
+		<pref name='jmcontactus_googlemap'></pref>
+		<pref name='jmcontactus_googlemap_zoom'>15</pref>
 	</pluginPrefs>
 </e107Plugin>
