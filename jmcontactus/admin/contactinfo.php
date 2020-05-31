@@ -30,13 +30,6 @@ $caption = CUP_INFO_00;
 // just not load this everywhere
 if (e_PAGE == "contactinfo.php") 
 {
-	// to avoid console error if something is wrong
-	$googlemapsapikey = e107::pref('jmcontactus', 'jmcontactus_googlemapsapikey');
-	$googlemapsapikey = trim($googlemapsapikey);
-	if ($googlemapsapikey) {
-		e107::js("footer", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places" );
-		e107::js('footer', e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
-	}
 	e107::js('jmcontactus',  "js/bootstrap-growl.min.js", 'jquery');
 	e107::js('footer',  e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
 }

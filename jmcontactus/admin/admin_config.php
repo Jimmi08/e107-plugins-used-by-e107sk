@@ -9,6 +9,8 @@ if (!getperms('P'))
 	exit;
 }
 
+
+
 require_once "admin_leftmenu.php";
 
 class jmcontactus_prefs_ui extends e_admin_ui
@@ -49,7 +51,13 @@ class jmcontactus_prefs_ui extends e_admin_ui
 
 	public function init()
 	{
-
+		$pname = 'jmcontactus';
+		$googlemapsapikey = e107::pref('jmcontactus', 'jmcontactus_googlemapsapikey');
+		$googlemapsapikey = trim($googlemapsapikey);
+		if ($googlemapsapikey) {
+			e107::js("footer", "https://maps.google.com/maps/api/js?key={$googlemapsapikey}&libraries=places" );
+			e107::js('footer', e_PLUGIN . $pname . "/js/contact-admin.js", 'jquery');
+		}
 	}
 
 }
