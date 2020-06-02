@@ -35,7 +35,7 @@ class jmcoremenu_adminArea extends e_admin_dispatcher
 	protected $adminMenu = array( 
 	'main/prefs' 		=> array('caption'=> 	LAN_JM_CORE_MENU_LAN_06,    'perm' => 'P', 'url'=>'admin_adminlook.php'),
 	'tools/opt1' 		=> array('header' => 	LAN_JM_CORE_MENU_LAN_01),
-	'main/onepage' 		=> array('caption'=> 	LAN_JM_CORE_MENU_LAN_02, 	'perm' => '0', 'url'=>'admin_onepage.php'),	
+//	'main/onepage' 		=> array('caption'=> 	LAN_JM_CORE_MENU_LAN_02, 	'perm' => '0', 'url'=>'admin_onepage.php'),	
  	
 	'tools/opt2' 		=> array('header' => 	LAN_JM_CORE_MENU_LAN_03),
 	'tools/exportForm' 	=> array('caption'=> 	LAN_JM_CORE_MENU_LAN_04, 	'perm' => '0', 'url'=>'admin_tools.php'),   

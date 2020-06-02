@@ -379,6 +379,8 @@ if (ADMIN_AREA) {
                } 
     '; */
 
+
+
 }
 
 
@@ -399,8 +401,22 @@ if (ADMIN_AREA) {
 	";
     e107::js('footer-inline', $js); 
    */  
-  $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
+
  
+
+  $inline_script = "
+  $(document).ready(function() {
+    $('ul.nav.nav-admin.navbar-nav.navbar-right:first').remove();
+    $('#core-infopanel-news ').remove();
+    $('#menu-area-07').parent().removeClass('col-sm-6').addClass('col-sm-12').parent().removeClass('row-flex') ;
+    $('#menu-area-02').remove();
+ 	});	
+  ";
+  
+  e107::js('footer-inline', $inline_script); 
+  
+    $removetooltips  = e107::pref('jmcore','adminlook_removetooltips', true);
+    
   if($removetooltips) { 
     $js2 = "
   	$(document).ready(function() {
