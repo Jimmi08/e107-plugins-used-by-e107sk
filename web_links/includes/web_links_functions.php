@@ -24,7 +24,7 @@ trait WebLinksTrait
 			if ($mainlink>0) {
 				$text .="<a href=\"".WEB_LINKS_FRONTFILE."\">"._LINKSMAIN."</a> | ";
 			}
-			if (((getperms("P")) && $user_addlink == 1) || $links_anonaddlinklock != 1) {
+			if (((getperms("P")) && $this->user_addlink == 1) || $this->links_anonaddlinklock != 1) {
 				$text .="<a href=\"".WEB_LINKS_FRONTFILE."?l_op=AddLink\">"._ADDLINK."</a>"
 				." | ";
 			}
@@ -321,7 +321,6 @@ trait WebLinksTrait
 		$text = "<font class=\"content\">[ <a href=\"".WEB_LINKS_INDEX."?l_op=visit&amp;lid=".$lid."\" target=\"_blank\">"._VISITTHISSITE."</a> | 
         <a href=\"".WEB_LINKS_FRONTFILE."?l_op=ratelink&amp;lid=".$lid."\">"._RATETHISSITE."</a> ]</font><br><br>";
 		$text .= $this->linkfooterchild($lid);
-		return $text;
 	}
 
 	function convertorderbyin($orderby) {

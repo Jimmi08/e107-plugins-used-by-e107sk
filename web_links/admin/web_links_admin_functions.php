@@ -18,6 +18,46 @@ function CloseTable() {
     return $text;
 }
 
+function AdminHeader() {
+
+	$content  = OpenTable(); 
+	$content .= "<div class='center'><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".e_PLUGIN."/web_links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
+	
+	
+	$result = e107::getDb()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
+	$row = e107::getDb()->fetch($result);
+	
+	$numrows = $row['numrows'];
+	$content .= "<span class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKSINDB."</span></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+	$result2 = e107::getDb()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");
+	$row2 = e107::getDb()->fetch($result2);
+	
+	$totalbrokenlinks = $row2['numrows'];
+	$result3 = e107::getDb()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='0'");
+	$row3 = e107::getDb()->fetch($result3);
+	
+	$totalmodrequests = $row3['numrows'];
+	$content .= OpenTable();
+	
+	$url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
+	$url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";
+
+	$content .= "<div class='center'>
+	<span class=\"content\">[ 
+	  <a href='".$url01."'>"._ADDNEWLINK."</a> | "
+	."<a href='".$url02."'>"._ADD_CATEGORY."</a> | " 	
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksCleanVotes\">"._CLEANLINKSDB."</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks\">"._BROKENLINKSREP." (".$totalbrokenlinks.")</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
+	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</span></div>";
+	$content .= CloseTable();
+	$content .= "<br>";
+
+	return $content;
+}
+
 /* You can't use templates */
 
 function OpenSection() {
@@ -121,23 +161,23 @@ function LinksLinkCheck() {
  	$sql = e107::getDb();
  
 	$content .= OpenTable();
-	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></span></div>";
 	$content .= CloseTable();
 	$content .= "<br>";
     $content .=	OpenTable();
-	$content .= "<div class='center'><font class=\"option\"><b>"._LINKVALIDATION."</b></font></div><br>"
+	$content .= "<div class='center'><span class=\"option\"><b>"._LINKVALIDATION."</b></span></div><br>"
 	."<table width=\"100%\" align=\"center\"><tr><td colspan=\"2\" align=\"center\">"
 	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksValidate&amp;cid=0&amp;sid=0\">"._CHECKALLLINKS."</a><br><br></td></tr>"
-	."<tr><td valign=\"top\"><div class='center'><b>"._CHECKCATEGORIES."</b><br>"._INCLUDESUBCATEGORIES."<br><br><font class=\"tiny\">";
+	."<tr><td valign=\"top\"><div class='center'><b>"._CHECKCATEGORIES."</b><br>"._INCLUDESUBCATEGORIES."<br><br><span class=\"tiny\">";
 	$result = $sql->retrieve("SELECT cid, title FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
         foreach($result AS $row) {
 			$cid = $row['cid'];
 			$title = $row['title'];
 			$transfertitle = str_replace (" ", "_", $title);
-			$content .="<a href=\"".UN_FILENAME_ADMIN."?op=LinksValidate&amp;cid=".$cid."&amp;sid=0&amp;ttitle=".$transfertitle."\">".$title."</a><br>";
+			$content .="<a href=\"".UN_FILENAME_ADMIN."?op=LinksValidate&amp;cid=".$cid."&amp;sid=0&amp;title=".$transfertitle."\">".$ttitle."</a><br>";
 		}
  
-	$content .= "</font></div></td></tr></table>";
+	$content .= "</span></div></td></tr></table>";
 	$content .= CloseTable();
     e107::getRender()->tablerender($caption, $content, 'web_links_index');
 }
@@ -151,7 +191,7 @@ function LinksValidate() {
       - it doesn't return code to display reason and it uses get_headers without @
     */
 	$content = OpenTable();
-	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></span></div>";
 	$content .= CloseTable();
 	$content .= "<br>";
 	$content .= OpenTable();
@@ -160,7 +200,7 @@ function LinksValidate() {
 	$ttitle = stripslashes(check_html($ttitle, "nohtml"));
 	$transfertitle = str_replace ("_", "", $ttitle);
 	/* Check ALL Links */
-	$content .="<table width=\"100%\" border=\"0\">";
+	$content .="<table class='table adminlist table-striped' id='LinksValidate'>";
 		if ($cid==0 && $sid==0) {
 			$content .="<tr><td colspan=\"3\"><div class='center'><b>"._CHECKALLLINKS."</b><br>"._BEPATIENT."</div><br><br></td></tr>";
 			$result = $sql->retrieve("SELECT lid, title, url FROM #".UN_TABLENAME_LINKS_LINKS." ORDER BY title", true);
@@ -176,7 +216,7 @@ function LinksValidate() {
 			$result = $sql->retrieve("SELECT lid, title, url FROM #".UN_TABLENAME_LINKS_LINKS." WHERE sid='".$sid."' ORDER BY title", true);
 		}
 	       $content .= "<tr><td bgcolor=\"$bgcolor2\" align=\"center\"><b>".LAN_STATUS."</b></td>
-           <td bgcolor=\"".$bgcolor2."\" width=\"100%\"><b>"._LINKTITLE."</b></td><td bgcolor=\"".$bgcolor2."\" align=\"center\"><b>".LAN_OPTIONS."</b></td></tr>";
+           <td bgcolor=\"".$bgcolor2."\"><b>"._LINKTITLE."</b></td><td bgcolor=\"".$bgcolor2."\" align=\"center\"><b>".LAN_OPTIONS."</b></td></tr>";
         foreach($result AS $row) {
 			$lid = $row['lid'];
 			$title = stripslashes($row['title']);
@@ -191,13 +231,13 @@ function LinksValidate() {
             if ($fp == '200' ) { 
 				$content .="<tr><td align=\"center\">&nbsp;&nbsp;"._OK."&nbsp;&nbsp;</td>"
 				."<td>&nbsp;&nbsp;<a href=\"".$url."\" target=\"_blank\">".$title."</a>&nbsp;&nbsp;</td>"
-				."<td align=\"center\"><font class=\"content\">&nbsp;&nbsp;"._NONE."&nbsp;&nbsp;</font>"
+				."<td align=\"center\"><span class=\"content\">&nbsp;&nbsp;"._NONE."&nbsp;&nbsp;</span>"
 				."</td></tr>";
 		    } 
             else{ 
 				$content .="<tr><td align=\"center\"><b>&nbsp;&nbsp;"._FAILED."&nbsp;&nbsp;</b></td>"
 				."<td>&nbsp;&nbsp;<a href=\"".$url."\" target=\"_blank\">".$title."</a>&nbsp;&nbsp;".$code." </td>"
-				."<td align=\"center\"><font class=\"content\">&nbsp;&nbsp;[ <a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]&nbsp;&nbsp;</font>"
+				."<td align=\"center\"><span class=\"content\">&nbsp;&nbsp;[ <a href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">".LAN_EDIT."</a> | <a href=\"".UN_FILENAME_ADMIN."?op=LinksDelLink&amp;lid=".$lid."\">".LAN_DELETE."</a> ]&nbsp;&nbsp;</span>"
 				."</td></tr>";
 			}		
 		}
@@ -339,7 +379,7 @@ function LinksCleanVotes() {
   
 	$content .= OpenTable();
 	$content .= "<br><div class='center'>"
-	."<font class=\"option\">"
+	."<span class=\"option\">"
 	._LINKVOTEDCLEANED."<br><br>"
 	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
 	$content .= CloseTable();
@@ -355,19 +395,19 @@ function LinksListBrokenLinks() {
     
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._BROKENLINKS;
     $content .= OpenTable();
-	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></span></div>";
     $content .= CloseTable();
 	$content .= "<br>";
     $content .= OpenTable();
 	$result = $sql->retrieve("SELECT requestid, lid, modifysubmitter FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1' ORDER BY requestid", true);
      
 	$totalbrokenlinks = count($result);
-	$content .= "<div class='center'><font class=\"option\"><b>"._USERREPBROKEN." (".$totalbrokenlinks.")</b></font></div><br><br><div class='center'>"
+	$content .= "<div class='center'><span class=\"option\"><b>"._USERREPBROKEN." (".$totalbrokenlinks.")</b></span></div><br><br><div class='center'>"
 	._IGNOREINFO."<br>"
 	._DELETEINFO."</div><br><br><br>"
 	."<table align=\"center\" width=\"450\">";
 		if ($totalbrokenlinks==0) {
-			$content .= "<div class='center'><font class=\"option\">"._NOREPORTEDBROKEN."</font></div><br><br><br>";
+			$content .= "<div class='center'><span class=\"option\">"._NOREPORTEDBROKEN."</span></div><br><br><br>";
 		} else {
 			$colorswitch = $bgcolor2;
 			$content .= "<tr>"
@@ -437,7 +477,7 @@ function LinksListModRequests() {
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '. _USERMODREQUEST;
     
     $content .= OpenTable();
-    $content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></div>";
+    $content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></div>";
     $content .= CloseTable();
 
     $content .= "<br>";
@@ -446,7 +486,7 @@ function LinksListModRequests() {
     WHERE brokenlink='0' ORDER BY requestid", true);
      
     $totalmodrequests = count($result);
-    $content .= "<div class='center'><font class=\"option\"><b>"._USERMODREQUEST." (".$totalmodrequests.")</b></div><br><br><br>";
+    $content .= "<div class='center'><span class=\"option\"><b>"._USERMODREQUEST." (".$totalmodrequests.")</b></div><br><br><br>";
     $content .= "<table width=\"95%\"><tr><td>";
       foreach($result AS $row) {
  
@@ -546,7 +586,7 @@ function LinksEditBrokenLinks($lid) {
     
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._EZBROKENLINKS;
 	$content = OpenTable();
-	$content .="<div class='center'><font class=\"option\"><b>"._EZBROKENLINKS."</b></font></div><br><br>";
+	$content .="<div class='center'><span class=\"option\"><b>"._EZBROKENLINKS."</b></span></div><br><br>";
 	$lid = intval($lid);
 	$result = $sql->retrieve("SELECT requestid, lid, cid, title, url, description, modifysubmitter FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1' AND lid='".$lid."'", true);
 	$row = $result[0];
@@ -606,7 +646,7 @@ function LinksModLink($lid) {
 	$lid = intval($lid);
 	$result = $sql->retrieve("SELECT cid, title, url, description, name, email, hits FROM #".UN_TABLENAME_LINKS_LINKS." WHERE lid='".$lid."'", true);
 	$content = OpenTable();
-	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></span></div>";
 	$content .= CloseTable();
 	$content .= "<br>";
 	$content .= OpenTable().OpenPanel().OpenPanelHeading();
@@ -776,7 +816,7 @@ function LinksModLink($lid) {
 		$content .= "<table width=\"100%\">";    
 		$content .= "<tr><td colspan=\"7\"><b>"._WEBLINKCOMMENTS." ("._WEBLINKCOMMENTSTOTAL." ".$totalcomments.")</b><br><br></td></tr>";    
 		$content .= "<tr><td width=\"20\" colspan=\"1\"><b>"._WEBLINKCOMMENTSUSER."  </b></td><td colspan=\"5\"><b>"._WEBLINKCOMMENTSUSERCOM."  </b></td><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
-		if ($totalcomments == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKCOMMENTNOCOM."<br></font></div></td></tr>";
+		if ($totalcomments == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><span color=\"#cccccc\">"._WEBLINKCOMMENTNOCOM."<br></span></div></td></tr>";
 		$x=0;
 		$colorswitch = "#dddddd";
             foreach($result4 AS $row4) {
@@ -800,8 +840,8 @@ function LinksModLink($lid) {
         WHERE ratinglid = '".$lid."' AND ratinguser <> 'outside' AND ratinguser <> '".$anonymous."' ORDER BY ratingtimestamp DESC", true);
 		$totalvotes = count($result5);
 		$content .= "<tr><td colspan=\"7\"><br><br><b>"._WEBLINKREGUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
-		$content .= "<tr><td><b>"._WEBLINKCOMMENTSUSER."  </b></td><td><b>"._WEBLINKVOTESIPADDR."  </b></td><td><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEAVGRATING."  </b></td><td><b>"._WEBLINKVOTETOTALRATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></font></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
-		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEREGVOTES."<br></font></div></td></tr>";
+		$content .= "<tr><td><b>"._WEBLINKCOMMENTSUSER."  </b></td><td><b>"._WEBLINKVOTESIPADDR."  </b></td><td><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEAVGRATING."  </b></td><td><b>"._WEBLINKVOTETOTALRATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></span></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><span color=\"#cccccc\">"._WEBLINKVOTEREGVOTES."<br></span></div></td></tr>";
 		$x=0;
 		$colorswitch="#dddddd";
 			foreach($result5 AS $row5) {
@@ -823,7 +863,7 @@ function LinksModLink($lid) {
                 foreach($result6 AS $row6)    {  $useravgrating = $useravgrating + $rating2;     }
 				$useravgrating = $useravgrating / $usertotalcomments;
 				$useravgrating = number_format($useravgrating, 1);
-				$content .= "<tr><td bgcolor=\"".$colorswitch."\">".$ratinguser."</td><td bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$useravgrating."</td><td bgcolor=\"".$colorswitch."\">".$usertotalcomments."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";
+				$content .= "<tr><td bgcolor=\"".$colorswitch."\">".$ratinguser."</td><td bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$useravgrating."</td><td bgcolor=\"".$colorswitch."\">".$usertotalcomments."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </span></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";
 				$x++;
 				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
 			}
@@ -833,8 +873,8 @@ function LinksModLink($lid) {
         WHERE ratinglid = '".$lid."' AND ratinguser = '".$anonymous."' ORDER BY ratingtimestamp DESC", true);
 		$totalvotes = count($result7);
 		$content .= "<tr><td colspan=\"7\"><b><br><br>"._WEBLINKUNREGUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
-		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></font></td><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
-		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEUNREGVOTES."<br></font></div></td></tr>";
+		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></span></td><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><span color=\"#cccccc\">"._WEBLINKVOTEUNREGVOTES."<br></span></div></td></tr>";
 		$x=0;
 		$colorswitch="#dddddd";
             foreach($result7 AS $row7) { 
@@ -848,7 +888,7 @@ function LinksModLink($lid) {
 				$date_array = explode("-", $ratingtime); 
 				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
 				$formatted_date = date("F j, Y", $timestamp); 
-				$content .= "<td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
+				$content .= "<td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </span></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
 				$x++;
 				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
 			}
@@ -858,8 +898,8 @@ function LinksModLink($lid) {
         WHERE ratinglid = '".$lid."' AND ratinguser = 'outside' ORDER BY ratingtimestamp DESC", true );
 		$totalvotes = count($result8);
 		$content .= "<tr><td colspan=\"7\"><b><br><br>"._WEBLINKUNOUTUSERVOTES." ("._WEBLINKTOTALVOTES." ".$totalvotes.")</b><br><br></td></tr>";
-		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></font></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
-		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><font color=\"#cccccc\">"._WEBLINKVOTEOUTVOTES." ".$sitename."<br></font></div></td></tr>";
+		$content .= "<tr><td colspan=\"2\"><b>"._WEBLINKVOTESIPADDR."  </b></td><td colspan=\"3\"><b>"._WEBLINKVOTERATING."  </b></td><td><b>"._WEBLINKVOTEDATE."  </b></td></span></b><td><b><div class='center'>"._WEBLINKCOMMENTSUSERDEL."</div></b></td></tr>";
+		if ($totalvotes == 0) $content .= "<tr><td colspan=\"7\"><div class='center'><span color=\"#cccccc\">"._WEBLINKVOTEOUTVOTES." ".$sitename."<br></span></div></td></tr>";
 		$x=0;
 		$colorswitch="#dddddd";
             foreach($result8 AS $row8) { 
@@ -873,7 +913,7 @@ function LinksModLink($lid) {
 				$date_array = explode("-", $ratingtime); 
 				$timestamp = mktime(0, 0, 0, $date_array['1'], $date_array['2'], $date_array['0']); 
 				$formatted_date = date("F j, Y", $timestamp); 
-				$content .= "<tr><td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </font></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
+				$content .= "<tr><td colspan=\"2\" bgcolor=\"".$colorswitch."\">".$ratinghostname."</td><td colspan=\"3\" bgcolor=\"".$colorswitch."\">".$rating."</td><td bgcolor=\"".$colorswitch."\">".$formatted_date."  </span></b></td><td bgcolor=\"".$colorswitch."\"><div class='center'><b><a href=\"".UN_FILENAME_ADMIN."?op=LinksDelVote&amp;lid=".$lid."&amp;rid=".$ratingdbid."\">X</a></b></div></td></tr><br>";           
 				$x++;
 				if ($colorswitch=="#dddddd") { $colorswitch="#ffffff"; } else { $colorswitch="#dddddd"; }
 			}
@@ -925,7 +965,7 @@ function LinksAddEditorial($linkid, $editorialtitle, $editorialtext) {
  
 	$content .= OpenTable();
 	$content .= "<div class='center'><br>"
-	."<font class=\"option\">"
+	."<span class=\"option\">"
 	._EDITORIALADDED."<br><br>"
 	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
 	$content .= $linkid."  ".$adminid.", ".$editorialtitle.", ".$editorialtext;
@@ -943,7 +983,7 @@ function LinksModEditorial($linkid, $editorialtitle, $editorialtext) {
  
 	$content .= OpenTable();
 	$content .= "<br><div class='center'>"
-	."<font class=\"option\">"
+	."<span class=\"option\">"
 	._EDITORIALMODIFIED."<br><br>"
 	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
 	$content .= CloseTable();
@@ -957,7 +997,7 @@ function LinksDelEditorial($linkid) {
  
 	$content .= OpenTable();
 	$content .= "<br><div class='center'>"
-	."<font class=\"option\">"
+	."<span class=\"option\">"
 	._EDITORIALREMOVED."<br><br>"
 	."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]<br><br>";
 	$content .= CloseTable();
@@ -993,33 +1033,8 @@ function links() {
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._WLINKS;
 	$sql = e107::getDb();
  
-	$content .= OpenTable();
- 
-    $content .= "<div class='center'><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".e_PLUGIN."/web_links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
- 
-	$result = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
-	$row = $sql->fetch($result);
- 
-	$numrows = $row['numrows'];
-	$content .= "<font class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKSINDB."</font></div>";
-	$content .= CloseTable();
-	$content .= "<br>";
-	/* Temporarily 'homeless' links functions (to be revised in admin.php breakup) */
-	$result2 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");
-	$row2 = $sql->fetch($result2);
- 
-	$totalbrokenlinks = $row2['numrows'];
-	$result3 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='0'");
-	$row3 = $sql->fetch($result3);
- 
-	$totalmodrequests = $row3['numrows'];
-	$content .= OpenTable();
-	$content .= "<div class='center'><font class=\"content\">[ <a href=\"".UN_FILENAME_ADMIN."?op=LinksCleanVotes\">"._CLEANLINKSDB."</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks\">"._BROKENLINKSREP." (".$totalbrokenlinks.")</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</font></div>";
-	$content .= CloseTable();
-    $content .= "<br>";
+	$content  = AdminHeader();
+  
     $content .= OpenSection();
 	/* List Links waiting for validation */
 	$result4 = $sql->retrieve("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM #".UN_TABLENAME_LINKS_NEWLINK." ORDER BY lid", true);
@@ -1121,27 +1136,7 @@ function links() {
 	}
 	    
     $content .= OpenTable();
-    $url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";
-    $url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
-    $content .= '
-                  
-                     
-        <div class="row">                    
-            <div class="col-md-3">                        
-                <div class="box-placeholder">                            
-                    <a href="'.$url01.'"  class="btn btn-primary btn-block">'._ADD_CATEGORY.'</a>                        
-                </div>                    
-            </div> 
-            <div class="col-md-3">                        
-                <div class="box-placeholder">                            
-                    <a href="'.$url02.'"  class="btn btn-primary btn-block">'._ADDNEWLINK.'</a>                        
-                </div>                    
-            </div>                                      
-        </div>                
-              
-    ';
- 
-    $content .= CloseTable();
+     
     $content .= "<br>";
 		       
 
@@ -1352,11 +1347,11 @@ function LinksModCat($cat) {
 	$sql = e107::getDb();
  
 	$content .= OpenTable();
-	$content .= "<div class='center'><font class=\"title\"><b>"._WEBLINKSADMIN."</b></font></div>";
+	$content .= "<div class='center'><span class=\"title\"><b>"._WEBLINKSADMIN."</b></span></div>";
 	$content .= CloseTable();
 	$content .= "<br>";
 	$content .= OpenTable();
-	$content .= "<div class='center'><font class=\"option\"><b>"._MODCATEGORY."</b></font></div><br><br>";
+	$content .= "<div class='center'><span class=\"option\"><b>"._MODCATEGORY."</b></span></div><br><br>";
 	$cat = explode("-", $cat);
 		if ($cat[1] == "") {
 			$cat[1] = 0;
@@ -1410,7 +1405,7 @@ function LinksAddSubCat($cid, $title, $cdescription) {
  
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>";
-			$content .= "<font class=\"option\">"
+			$content .= "<span class=\"option\">"
 			."<b>"._ERRORTHESUBCATEGORY." ".$title." "._ALREADYEXIST."</b><br><br>"
 			._GOBACK."<br><br>";
  
@@ -1435,8 +1430,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 
 		$content .= OpenTable();
 		$content .= "<br><div class='center'>"
-		."<font class=\"option\">"
-		."<b>"._ERRORURLEXISTWL."</b></font><br><br>";
+		."<span class=\"option\">"
+		."<b>"._ERRORURLEXISTWL."</b></span><br><br>";
         $content .= "[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
 	    e107::getRender()->tablerender($caption, $content, 'web_links_index');
         require_once(e_ADMIN."footer.php");
@@ -1447,8 +1442,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 		if ($title=="") {
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
-			."<font class=\"option\">"
-			."<b>"._ERRORNOTITLEWL."</b></font><br><br>"
+			."<span class=\"option\">"
+			."<b>"._ERRORNOTITLEWL."</b></span><br><br>"
 			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
 			$content .= CloseTable();
 		    e107::getRender()->tablerender($caption, $content, 'web_links_index');
@@ -1459,8 +1454,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 		if ($url=="") {
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
-			."<font class=\"option\">"
-			."<b>"._ERRORNOURLWL."</b></font><br><br>"    
+			."<span class=\"option\">"
+			."<b>"._ERRORNOURLWL."</b></span><br><br>"    
 			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
             
 			$content .= CloseTable();
@@ -1473,8 +1468,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
 			$content .= "<br>";
 			$content .= OpenTable();
 			$content .= "<br><div class='center'>"
-			."<font class=\"option\">"
-			."<b>"._ERRORNODESCRIPTIONWL."</b></font><br><br>"
+			."<span class=\"option\">"
+			."<b>"._ERRORNODESCRIPTIONWL."</b></span><br><br>"
 			."[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._GOBACK."</a> ]</div><br><br>";
 			$content .= CloseTable();
 			e107::getRender()->tablerender($caption, $content, 'web_links_index');
@@ -1495,8 +1490,8 @@ function LinksAddLink($new, $lid, $title, $url, $cat, $description, $name, $emai
                
 	$content .= OpenTable();
 	$content .= "<br><div class='center'>";
-	$content .= "<font class=\"option\">";
-	$content .= _NEWLINKADDED."</font><br><br>";
+	$content .= "<span class=\"option\">";
+	$content .= _NEWLINKADDED."</span><br><br>";
 	$content .= "[ <a href=\"".UN_FILENAME_ADMIN."?op=Links\">"._WEBLINKSADMIN."</a> ]</div><br><br>";
 	$content .= CloseTable();
 	if ($new==1) {

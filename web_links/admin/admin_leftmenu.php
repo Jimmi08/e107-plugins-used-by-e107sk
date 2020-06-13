@@ -2,12 +2,13 @@
 if (!defined('e107_INIT')) { exit; }
 
 require_once("../../../class2.php");
-
-
-e107::lan("web_links" , "lang_admin");
  
 
 //load constants for front+admin
+require_once("admin.class.php");
+
+e107::lan("web_links" , true);
+
 require_once(e_PLUGIN.'web_links/web_links_defines.php');
 require_once(e_PLUGIN.'web_links/admin/web_links_admin_functions.php');
 
@@ -63,7 +64,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 		$brokenl = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");		 
 		$modreql = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='0'");
 
-
+ 
 		$this->adminMenu = array( 
 			'main/prefs' 				=> array(
 				'caption'=> LAN_PREFS,
@@ -81,7 +82,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
             'Links'=> array(
 				'caption'=> _WEBLINKSADMIN, 
 				'perm' => '0', 
-                'badge'=>array('value'=>$links, 'type'=>'default'),
+                'badge'=>array('value'=>$links['numrows'], 'type'=>'default'),
 				'uri'=>'index.php?op=Links',
 		     ),                
                 
@@ -91,7 +92,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'links_newlink/list'		=> array(
 				'caption'=> _LINKSWAITINGVAL, 
 				'perm' => 'P', 
-                'badge'=>array('value'=>$num, 'type'=>'default'),
+                'badge'=>array('value'=>$num['numrows'], 'type'=>'default'),
                 'url'=>'admin_links_newlink.php'),
  
                 
@@ -99,13 +100,13 @@ class leftmenu_adminArea extends e_admin_dispatcher
 				'caption'=> _LINKMODREQUEST, 
 				'perm' => 'P', 
 				'uri'=>'index.php?op=LinksListModRequests',
-				'badge'=>array('value'=>$modreql, 'type'=>'default'),
+				'badge'=>array('value'=>$modreql['numrows'], 'type'=>'default'),
 			),
 			'LinksListBrokenLinks'=> array(
 				'caption'=> _BROKENLINKSREP, 
 				'perm' => 'P', 
 				'uri'=>'index.php?op=LinksListBrokenLinks',
-				'badge'=>array('value'=>$brokenl, 'type'=>'default'),
+				'badge'=>array('value'=>$brokenl['numrows'], 'type'=>'default'),
 			),  
             
 			'tools/opt2' 				=> array(
@@ -142,6 +143,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 
 		}
 
+		 
         
 	}
  

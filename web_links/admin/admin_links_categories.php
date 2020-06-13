@@ -12,7 +12,7 @@ if (!getperms('P'))
 require_once("admin_leftmenu.php");
  
             	
-class web_links_ui extends e_admin_ui
+class web_links_ui extends plugin_admin_ui
 {
 			
 		protected $pluginTitle		= _WEBLINKSADMIN;
@@ -98,9 +98,8 @@ class web_links_form_ui extends e_admin_form_ui
 new leftmenu_adminArea();
 
 require_once(e_ADMIN."auth.php");
+e107::getRender()->tablerender('', AdminHeader());
 e107::getAdminUI()->runPage();
- 
-
 require_once(e_ADMIN."footer.php");
 exit;
 
