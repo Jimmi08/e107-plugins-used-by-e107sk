@@ -1135,47 +1135,7 @@ function links() {
     $content .= OpenTable();
      
     $content .= "<br>";
-		       
-
-	// Modify Category
-	$result10 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);
-	$row10 = $sql->fetch($result10);
-            
-	$numrows = $row10['numrows'];
-		if ($numrows>0) {
-			$content .= OpenTable().OpenSectionHeader('LinksModCat'); 
-			$content .= "<span class=\"option\"><b>"._MODCATEGORY."</b></span> <span class=\"label label-danger\">{$numrows}</span>";
-    		$content .= CloseSectionHeader();
-            $content .= OpenSectionBody('LinksModCat');
-			$result11 = $sql->retrieve("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." ORDER BY title", true);
-            $content .=  "<div class='row'>";
-                foreach($result11 AS $row11) {
-					$cid2 = $row11['cid'];
-					$ctitle2 = stripslashes($row11['title']);
-					$parentid2 = $row11['parentid'];
-					if ($parentid2 != 0) $ctitle2 = getparent($parentid2,$ctitle2);
-                    $query['mode'] = 'links_categories';
-                    $query['action'] = 'edit';
-                    $query['id'] = $cid2;
-                    $query = http_build_query($query,null, '&amp;');
-                    $editurl = UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?{$query}";
- 
-                    $content .= 
-                    '<div class="col-md-6">                        
-                        <div class="box-placeholder">                            
-                            <a href="'.$url01.'"  class="btn btn-default btn-block">'.$ctitle2.'</a>                        
-                        </div>                    
-                    </div>';
-				}
-
-            $content .= "</div>";
-            $content .= CloseSectionBody();
-			$content .= CloseTable();
-			$content .= "<br>";
-		}
-        
-       
-        
+   
 	// Modify Links
 	$result12 = $sql->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS);
 	$row12 = $sql->fetch($result12);

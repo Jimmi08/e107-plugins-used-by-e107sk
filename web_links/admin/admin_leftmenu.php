@@ -64,7 +64,10 @@ class leftmenu_adminArea extends e_admin_dispatcher
 		$brokenl = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");		 
 		$modreql = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='0'");
 
- 
+		$result10 = $db->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_CATEGORIES);     
+		$numrows = $result10['numrows'];
+   
+
 		$this->adminMenu = array( 
 			'main/prefs' 				=> array(
 				'caption'=> LAN_PREFS,
@@ -77,6 +80,7 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			'links_categories/list'		=> array(
 				'caption'=> _ALLCATEGORIES, 
 				'perm' => 'P', 
+				'badge'=>array('value'=>$numrows, 'type'=>'default'),
                 'url'=>'admin_links_categories.php'),
                 
             'Links'=> array(
@@ -142,6 +146,8 @@ class leftmenu_adminArea extends e_admin_dispatcher
 			$this->adminMenu['LinksListBrokenLinks']['badge']['type'] = 'danger';
 
 		}
+
+		
 
 		 
         
