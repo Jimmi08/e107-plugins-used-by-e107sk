@@ -26,12 +26,18 @@ e107::lan("web_links" , "lang_admin");
 
 class plugin_admin_ui extends e_admin_ui
 {
-	protected $pluginName = 'web_links';
-	protected $pluginTitle		= _WEBLINKSADMIN;
+	protected $pluginName   = 'web_links';
+	protected $pluginTitle	=  _WEBLINKSADMIN;
 
-	
 	protected $perPage = 30;
 
+	public function __construct($request, $response, $params = array()) {
+
+		e107::getRender()->tablerender($caption, AdminHeader() );
+		 
+		parent::__construct($request, $response, $params = array());
+	}
+	 
 	public function helpPage()
 	{
 		$ns = e107::getRender();
@@ -41,7 +47,7 @@ class plugin_admin_ui extends e_admin_ui
 		$ns->tablerender('',$text);	
 		
 	}
-
+ 
 	public function renderHelp()
 	{
 		$tp = e107::getParser();

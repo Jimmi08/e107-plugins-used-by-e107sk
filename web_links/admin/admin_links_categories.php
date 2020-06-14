@@ -15,7 +15,7 @@ require_once("admin_leftmenu.php");
 class web_links_ui extends plugin_admin_ui
 {
 			
-		protected $pluginTitle		= _WEBLINKSADMIN;
+		 
 		protected $pluginName		= 'web_links';		
 		protected $table			= UN_TABLENAME_LINKS_CATEGORIES;
 		protected $pid				= 'cid';
@@ -43,27 +43,9 @@ class web_links_ui extends plugin_admin_ui
 		);		
 		
 		protected $fieldpref = array('cid', 'title', 'cdescription', 'parentid');
-		
-        
-		public function __construct($request, $response, $params = array()) {
 
-			//$action = $this->getRequest()->getAction();
-			$action = $_GET['action'];
-			$this->pluginTitle = _WEBLINKSADMIN;
-
-			if($action == 'create') 
-			{
-				$this->pluginTitle .= ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._ADD_CATEGORY;
-			}
-
-			parent::__construct($request, $response, $params = array());
-		}
-        
-	
 		public function init()
 		{
-         
-            $this->postFiliterMarkup = $this->AddButton();
 			// Example Drop-down array from database.
 			$rows = e107::getDb()->retrieve("links_categories", "*", "WHERE parentid = 0 ", true);
 			$values[0] = _TOPLEVEL;
@@ -73,20 +55,7 @@ class web_links_ui extends plugin_admin_ui
 			}
         	$this->fields['parentid']['writeParms']['optArray'] = $values ; 
 		}
-
   
-        function AddButton()
-		{
-			$mode = $this->getRequest()->getMode();	
-	 
-			$text .= "</fieldset></form><div class='e-container'>
-			<table id='.$pid.' style='".ADMIN_WIDTH."' class='table adminlist table-striped'>";
-			$text .=  
-			'<a href="'.e_SELF.'?mode='.$mode.'&action=create"  
-			class="btn batch e-hide-if-js btn-success"><span>'._ADD_CATEGORY.'</span></a>';
-			$text .= "</td></tr></table></div><form><fieldset>";
-			return $text;
-	    }  
 }  
 
 class web_links_form_ui extends e_admin_form_ui
@@ -98,7 +67,7 @@ class web_links_form_ui extends e_admin_form_ui
 new leftmenu_adminArea();
 
 require_once(e_ADMIN."auth.php");
-e107::getRender()->tablerender('', AdminHeader());
+
 e107::getAdminUI()->runPage();
 require_once(e_ADMIN."footer.php");
 exit;

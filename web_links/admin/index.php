@@ -57,8 +57,10 @@ $css = '
 
 e107::css('inline', $css);
 
+e107::getRender()->tablerender($caption, AdminHeader() ); 
+
 require_once(e_ADMIN."header.php"); 
-  
+
 // load UnNuke core functions TODO replace with e107 stuff
 require_once(e_PLUGIN.'web_links/includes/web_links_core.php');
  

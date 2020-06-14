@@ -18,9 +18,10 @@ function CloseTable() {
     return $text;
 }
 
+
 function AdminHeader() {
 
-	$content  = OpenTable(); 
+	$content  = '<div class="big-header">'; 
 	$content .= "<div class='center'><a href=\"".WEB_LINKS_FRONTFILE."\"><img src=\"".e_PLUGIN."/web_links/images/link-logo.gif\" border=\"0\" alt=\"\"></a><br><br>";
 	
 	
@@ -29,7 +30,7 @@ function AdminHeader() {
 	
 	$numrows = $row['numrows'];
 	$content .= "<span class=\"content\">"._THEREARE." <b>".$numrows."</b> "._LINKSINDB."</span></div>";
-	$content .= CloseTable();
+	 
 	$content .= "<br>";
 	$result2 = e107::getDb()->gen("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_MODREQUEST." WHERE brokenlink='1'");
 	$row2 = e107::getDb()->fetch($result2);
@@ -39,22 +40,20 @@ function AdminHeader() {
 	$row3 = e107::getDb()->fetch($result3);
 	
 	$totalmodrequests = $row3['numrows'];
-	$content .= OpenTable();
+ 
 	
 	$url01 =  UN_FILENAME_ADMIN_FOLDER."admin_links_links.php?mode=links_categories&action=create";
 	$url02 =  UN_FILENAME_ADMIN_FOLDER."admin_links_categories.php?mode=links_categories&action=create";
 
 	$content .= "<div class='center'>
 	<span class=\"content\">[ 
-	  <a href='".$url01."'>"._ADDNEWLINK."</a> | "
-	."<a href='".$url02."'>"._ADD_CATEGORY."</a> | " 	
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksCleanVotes\">"._CLEANLINKSDB."</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks\">"._BROKENLINKSREP." (".$totalbrokenlinks.")</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
-	."<a href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</span></div>";
+	  <a class='btn btn-success' href='".$url01."'>"._ADDNEWLINK."</a> | "
+	."<a class='btn btn-success' href='".$url02."'>"._ADD_CATEGORY."</a> | " 	
+	."<a class='btn btn-success' href=\"".UN_FILENAME_ADMIN."?op=LinksCleanVotes\">"._CLEANLINKSDB."</a> | "
+	."<a class='btn btn-success' href=\"".UN_FILENAME_ADMIN."?op=LinksListBrokenLinks\">"._BROKENLINKSREP." (".$totalbrokenlinks.")</a> | "
+	."<a class='btn btn-success' href=\"".UN_FILENAME_ADMIN."?op=LinksListModRequests\">"._LINKMODREQUEST." (".$totalmodrequests.")</a> | "
+	."<a class='btn btn-success' href=\"".UN_FILENAME_ADMIN."?op=LinksLinkCheck\">"._VALIDATELINKS."</a> ]</span></div>";
 	$content .= CloseTable();
-	$content .= "<br>";
-
 	return $content;
 }
 
@@ -1032,9 +1031,7 @@ function LinksIgnoreBrokenLinks($lid) {
 function links() {
     $caption = _WEBLINKSADMIN. ' <span class="fa fa-angle-double-right e-breadcrumb"></span> '._WLINKS;
 	$sql = e107::getDb();
- 
-	$content  = AdminHeader();
-  
+
     $content .= OpenSection();
 	/* List Links waiting for validation */
 	$result4 = $sql->retrieve("SELECT lid, cid, sid, title, url, description, name, email, submitter FROM #".UN_TABLENAME_LINKS_NEWLINK." ORDER BY lid", true);
