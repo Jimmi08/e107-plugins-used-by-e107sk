@@ -1,13 +1,14 @@
 <?php
 if (!defined('e107_INIT')) { exit; }
 
+$plugPref =  e107::pref('onlineinfo');
 
 if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
-
+      
 
 	if(check_class($extraclass)){
-
-	if($extrahide==1){
+          
+	if($extrahide==1){  
 
 	         $text .= '<div id="counter-title" style="cursor:hand; font-size: '.$onlineinfomenufsize.'px; text-align:left; vertical-align: middle; width:'.$onlineinfomenuwidth.'; font-weight: bold;" title="'.ONLINEINFO_LOGIN_MENU_L42.'">&nbsp;'.ONLINEINFO_LOGIN_MENU_L42.'</div>';
 	         $text .= '<div id="counter" class="switchgroup1" style="display:none">';
@@ -18,8 +19,8 @@ if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
 				<div style="text-align:left">';
 			}
 
-
-		if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
+     
+		if (isset($pref['statActivate']) && $pref['statActivate'] == true) {         
 			$pageName = preg_replace('/(\?.*)|(\_.*)|(\.php)/', '', basename (e_SELF));
 			//$logfile = e_PLUGIN.'log/logs/logp_'.date('z.Y', time()).'.php';
       
@@ -44,9 +45,9 @@ if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
         require_once(e_PLUGIN."log/consolidate.php");
         $lgc = new logConsolidate;    
                 
-				if($sql -> db_Select("logstats", "*", "log_id='statTotal' OR log_id='statUnique' OR log_id='pageTotal'"))
+				if($sql -> select("logstats", "*", "log_id='statTotal' OR log_id='statUnique' OR log_id='pageTotal'"))
 				{
-					while($row = $sql -> db_Fetch())
+					while($row = $sql -> fetch())
 					{
 						if($row['log_id'] == 'statTotal')
 						{
@@ -80,26 +81,28 @@ if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
 
 			unset($dbPageInfo);
 
-
-				if((MEMBERS_ONLINE + GUESTS_ONLINE) > ($pref['most_members_online'] + $pref['most_guests_online'])){
-							$pref['most_members_online'] = MEMBERS_ONLINE;
-							$pref['most_guests_online'] = GUESTS_ONLINE;
-							$pref['most_online_datestamp'] = time();
-							save_prefs();
-              e107::getPlugConfig('onlineinfo')->setPref($pref)->save();
-						}
+          
+				if((MEMBERS_ONLINE + GUESTS_ONLINE) > ($plugPref['most_members_online'] + $plugPref['most_guests_online'])){     
+							$plugPref['most_members_online'] = MEMBERS_ONLINE;
+							$plugPref['most_guests_online'] = GUESTS_ONLINE;
+							$plugPref['most_online_datestamp'] = time();       
+						 
+              e107::getPlugConfig('onlineinfo')->setPref($plugPref)->save();
+			 		}
+                        
+                     	    
 						if(!is_object($gen)){
 							$gen = new convert;
 						}
-
-						$datestamp = $gen->convert_date($pref['most_online_datestamp'], '');
-						
+                  
+						$datestamp = $gen->convert_date($plugPref['most_online_datestamp'], '');
+				
 						$text .= '<br /><div class="smalltext" style="margin-left:5px; text-align:left; width:'.$onlineinfomenuwidth.'; font-weight: bold;">'.ONLINE_EL8.': '.($pref['most_members_online'] + $pref['most_guests_online']).'</div><div class="smalltext" style="margin-left:5px; text-align:left; width:'.$onlineinfomenuwidth.';">('.ONLINE_EL2.$pref['most_members_online'].', '.ONLINE_EL1.$pref['most_guests_online'].')</div><div class="smalltext" style="margin-left:5px; text-align:left; width:'.$onlineinfomenuwidth.';">'.ONLINE_EL9.' '.$datestamp.'</div><br />';
-						$total_members = $sql -> db_Count("user");
+					 	$total_members = $sql -> count("user");
 
 
 				$text .='</div>';
-
+         
 		}
 		else
 		{
@@ -109,8 +112,8 @@ if (isset($pref['statActivate']) && $pref['statActivate'] == true) {
 				<br /></div>';
 
 			}
-		}
-	}
+		}      
+	}     
 
 
 }else
