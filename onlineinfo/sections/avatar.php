@@ -35,7 +35,11 @@ unset($avatarimage);
     	}
  
       // put here new plugins
-			$avatardata .= '<img src="'.$bulletimage.'" alt="bullet" /> <a href="'.e_BASE.'usersettings.php">'.ONLINEINFO_LOGIN_MENU_L12.'</a><br /><img src="'.$bulletimage.'" alt="bullet" /> <a href="'.e_BASE.'user.php?id.'.USERID.'">'.ONLINEINFO_LOGIN_MENU_L13.'</a><br /><img src="'.$bulletimage.'" alt="bullet" /> <a href="'.e_BASE.'index.php?logout">'.ONLINEINFO_LOGIN_MENU_L8.'</a>';
+            $link1 =  e107::getUrl()->create('user/myprofile/edit',array('id'=>USERID));
+            $link2 = e107::getUrl()->create('user/profile/view',array('user_id'=>USERID, 'user_name'=>USERNAME));
+			$avatardata .= '<img src="'.$bulletimage.'" alt="bullet" /> <a href="'.$link1.'">'.ONLINEINFO_LOGIN_MENU_L12.'</a><br /><img src="'.$bulletimage.'" alt="bullet" /> 
+            
+            <a href="'.$link2.'">'.ONLINEINFO_LOGIN_MENU_L13.'</a><br /><img src="'.$bulletimage.'" alt="bullet" /> <a href="'.e_BASE.'index.php?logout">'.ONLINEINFO_LOGIN_MENU_L8.'</a>';
 			if(!$sql -> select("online", "*", "online_ip='".$ip."' AND online_user_id='0' ")){
 				$sql -> delete("online", "online_ip='".$ip."' AND online_user_id='0' ");
 			}
@@ -57,5 +61,5 @@ unset($avatarimage);
 		</tr></table>
 		<br /></div>';
 
-}
+}   
 ?>

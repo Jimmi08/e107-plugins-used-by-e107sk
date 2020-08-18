@@ -334,4 +334,4 @@ define("ONLINELASTSEEN_9", "Mitglied");
 define("ONLINELASTSEEN_10", "Forum Moderator");
 define("ONLINELASTSEEN_11", "Heutige Besucher");
 
-?>
+define("ONLINEINFO_DAY", "Today for you is: ");

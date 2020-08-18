@@ -8,19 +8,19 @@
 +---------------------------------------------------------------+
 */
 
-define("ONLINEINFO_LOGIN_MENU_L1", "Username: ");
-define("ONLINEINFO_LOGIN_MENU_L2", "Password: ");
-define("ONLINEINFO_LOGIN_MENU_L3", "Signup");
-define("ONLINEINFO_LOGIN_MENU_L4", "Forgot password?");
-define("ONLINEINFO_LOGIN_MENU_L5", "Welcome");
-define("ONLINEINFO_LOGIN_MENU_L6", "Remember me");
+define("ONLINEINFO_LOGIN_MENU_L1", "Užív.meno: ");
+define("ONLINEINFO_LOGIN_MENU_L2", "Heslo: ");
+define("ONLINEINFO_LOGIN_MENU_L3", "Registrovať");
+define("ONLINEINFO_LOGIN_MENU_L4", "Zabudnuté heslo?");
+define("ONLINEINFO_LOGIN_MENU_L5", "Vitajte");
+define("ONLINEINFO_LOGIN_MENU_L6", "Zapamätať si ma");
 define("ONLINEINFO_LOGIN_MENU_L7", "Unique user id not recognised (possible corrupted cookie).<br />Please <a href=\"index.php?logout\">click here</a> to destroy cookie.");
-define("ONLINEINFO_LOGIN_MENU_L8", "Logout");
+define("ONLINEINFO_LOGIN_MENU_L8", "Odhlásiť sa");
 define("ONLINEINFO_LOGIN_MENU_L9", "Login Error");
 define("ONLINEINFO_LOGIN_MENU_L10", "The maintenance flag is true - this means normal visitors are being redirected to sitedown.php. To reset the flag go to admin/maintenance.");
-define("ONLINEINFO_LOGIN_MENU_L11", "Admin");
-define("ONLINEINFO_LOGIN_MENU_L12", "Settings");
-define("ONLINEINFO_LOGIN_MENU_L13", "Profile");
+define("ONLINEINFO_LOGIN_MENU_L11", "Administrácia");
+define("ONLINEINFO_LOGIN_MENU_L12", "Nastavenia");
+define("ONLINEINFO_LOGIN_MENU_L13", "Profil");
 define("ONLINEINFO_LOGIN_MENU_L14", "new news item");
 define("ONLINEINFO_LOGIN_MENU_L15", "new news items");
 define("ONLINEINFO_LOGIN_MENU_L16", "new chatbox post");
@@ -31,24 +31,24 @@ define("ONLINEINFO_LOGIN_MENU_L20", "new forum post");
 define("ONLINEINFO_LOGIN_MENU_L21", "new forum posts");
 define("ONLINEINFO_LOGIN_MENU_L22", "new site member");
 define("ONLINEINFO_LOGIN_MENU_L23", "new site members");
-define("ONLINEINFO_LOGIN_MENU_L24", "Click here to see whats new");
+define("ONLINEINFO_LOGIN_MENU_L24", "Zobraziť novinky");
 define("ONLINEINFO_LOGIN_MENU_L25", "new picture");
 define("ONLINEINFO_LOGIN_MENU_L26", "new pictures");
-define("ONLINEINFO_LOGIN_MENU_L27", "Since last time, there's been");
+define("ONLINEINFO_LOGIN_MENU_L27", "Od vašej poslednej návštevy pribudlo:");
 define("ONLINEINFO_LOGIN_MENU_L28", "Login");
-define("ONLINEINFO_LOGIN_MENU_L29", "Private Msgs");
-define("ONLINEINFO_LOGIN_MENU_L30", "Currently Online");
-define("ONLINEINFO_LOGIN_MENU_L31", "Last Visitors");
+define("ONLINEINFO_LOGIN_MENU_L29", "Súkromné správy");
+define("ONLINEINFO_LOGIN_MENU_L30", "Aktuálne online");
+define("ONLINEINFO_LOGIN_MENU_L31", "Poslední návštevníci");
 define("ONLINEINFO_LOGIN_MENU_L32", "new download");
 define("ONLINEINFO_LOGIN_MENU_L33", "new downloads");
 define("ONLINEINFO_LOGIN_MENU_L34", "new picture");
 define("ONLINEINFO_LOGIN_MENU_L35", "new pictures");
-define("ONLINEINFO_LOGIN_MENU_L36", "Members: ");
-define("ONLINEINFO_LOGIN_MENU_L37", "Guests: ");
-define("ONLINEINFO_LOGIN_MENU_L38", "Extra Information");
-define("ONLINEINFO_LOGIN_MENU_L39", "Latest changes");
+define("ONLINEINFO_LOGIN_MENU_L36", "Členovia: ");
+define("ONLINEINFO_LOGIN_MENU_L37", "Hostia: ");
+define("ONLINEINFO_LOGIN_MENU_L38", "Ďalšie informácie");
+define("ONLINEINFO_LOGIN_MENU_L39", "Posledné zmeny");
 define("ONLINEINFO_LOGIN_MENU_L40", "Top Forum Posters");
-define("ONLINEINFO_LOGIN_MENU_L41", "Top Visitors");
+define("ONLINEINFO_LOGIN_MENU_L41", "Top návštevníci");
 define("ONLINEINFO_LOGIN_MENU_L42", "Hit Counter");
 define("ONLINEINFO_LOGIN_MENU_L43", "Online");
 define("ONLINEINFO_LOGIN_MENU_L44", "No visitors yet");
@@ -63,7 +63,7 @@ define("ONLINEINFO_LOGIN_MENU_L52", "Posted Comments");
 
 
 define("ONLINEINFO_LOGIN_MENU_L55", "Top Forum Starters");
-define("ONLINEINFO_LOGIN_MENU_L56", "Guests");
+define("ONLINEINFO_LOGIN_MENU_L56", "Hostia");
 define("ONLINEINFO_LOGIN_MENU_L57", "Top Forum Replier");
 define("ONLINEINFO_LOGIN_MENU_L58", "new content post");
 define("ONLINEINFO_LOGIN_MENU_L59", "new content posts");
@@ -133,17 +133,17 @@ define("ONLINEINFO_LOGIN_MENU_L122", "new suggestions");
 define("ONLINEINFO_LOGIN_MENU_L123", "Chatbox 2");
 define("ONLINEINFO_LOGIN_MENU_L124", "User&acute;s IP Address");
 
-define("ONLINE_EL1", "Guests: ");
-define("ONLINE_EL2", "Members: ");
-define("ONLINE_EL3", "On this page: ");
+define("ONLINE_EL1", "Hostia: ");
+define("ONLINE_EL2", "Členovia: ");
+define("ONLINE_EL3", "Na tejto stránke: ");
 define("ONLINE_EL4", "Online");
-define("ONLINE_EL5", "There are ");
-define("ONLINE_EL6", "Newest member");
+define("ONLINE_EL5", "Celkovo registrovaných ");
+define("ONLINE_EL6", "Najnovší člen");
 define("ONLINE_EL7", "'s in");
-define("ONLINE_EL8", "Most online at once");
+define("ONLINE_EL8", "Max naraz online");
 define("ONLINE_EL9", "on");
-define("ONLINE_EL10", " members");
-define("ONLINE_EL11", "No guests online");
+define("ONLINE_EL10", " členov");
+define("ONLINE_EL11", "Žiadni hostia online");
 define("ONLINE_EL12", "News Comment");
 define("ONLINE_EL13", "news");
 define("ONLINE_EL14", "forum");
@@ -154,9 +154,9 @@ define("ONLINEINFO_BDAY_L0", "today");
 define("ONLINEINFO_BDAY_L1", "");
 define("ONLINEINFO_BDAY_L2", "No Birthdays Found");
 define("ONLINEINFO_BDAY_L3", "Members Birthdays");
-define("ONLINEINFO_BDAY_L4", "Birthdays");
-define("ONLINEINFO_BDAY_L5", "Next birthdays");
-define("ONLINEINFO_BDAY_L6", "No birthdays today");
+define("ONLINEINFO_BDAY_L4", "Narodeniny");
+define("ONLINEINFO_BDAY_L5", "Najbližšie narodeniny má");
+define("ONLINEINFO_BDAY_L6", "Dnes nemá nikto narodeniny");
 
 
 
@@ -272,29 +272,29 @@ define("ADLAN_LAT_8", "There are unmoderated administrator messages");
 define("E_16_NEWS", "<img src='".e_PLUGIN_ABS."/onlineinfo/admin_images/news_16.png'>");
 define("E_16_UPLOADS", "<img src='".e_PLUGIN_ABS."/onlineinfo/admin_images/uploads_16.png'>");
 
-define("AMIGO_TITULO", "My Buddies");
-define("AMIGO_NUEVO", "Add");
-define("AMIGO_1", "You have no Buddies selected");
-define("AMIGO_3", "Deleted");
-define("AMIGO_4", "User Added");
-define("AMIGO_5", "Already on Buddy List");
-define("AMIGO_6", "It isn't at your list");
-define("AMIGO_7", "Can't delete");
-define("AMIGO_8", "Can't add");
+define("AMIGO_TITULO", "Moji kamoši:");
+define("AMIGO_NUEVO", "Pridať");
+define("AMIGO_1", "Ešte ste si nepridali žiadnych kamarátov");
+define("AMIGO_3", "Zmazať");
+define("AMIGO_4", "Užívateľ pridaný");
+define("AMIGO_5", "Už ho máte v zozname kamošov");
+define("AMIGO_6", "Nie je na vašom zozname");
+define("AMIGO_7", "Nedá sa vymazať");
+define("AMIGO_8", "Nedá sa pridať");
 define("AMIGO_10", "Empty=None, Some word=Users like selection *word*");
-define("AMIGO_11", "Insert the user as your Buddy");
-define("AMIGO_12", "Search");
-define("AMIGO_13", "Add");
+define("AMIGO_11", "Pridajte užívateľa ako svojho kamoša");
+define("AMIGO_12", "Hľadať");
+define("AMIGO_13", "Pridať");
 define("AMIGO_14", "Online");
 define("AMIGO_15", "Offline");
-define("AMIGO_16", "Send PM");
-define("AMIGO_17", "Delete Buddy");
-define("AMIGO_18", "Last visit: ");
-define("AMIGO_20", "Click to see a Buddies list available");
-define("AMIGO_21", "Add a new Buddy");
-define("AMIGO_22", "Buddies Online");
-define("AMIGO_23", "My Buddies List");
-define("AMIGO_24", "On Buddies List");
+define("AMIGO_16", "Poslať SS");
+define("AMIGO_17", "Vymazať kamoša");
+define("AMIGO_18", "Posledná návšteva: ");
+define("AMIGO_20", "Kliknite na zoznam dostupných kamošov");
+define("AMIGO_21", "Pridať nového kamoša");
+define("AMIGO_22", "Kamoši online");
+define("AMIGO_23", "Môj zoznam kamošov");
+define("AMIGO_24", "Moji kamoši online");
 
 define("TOPMEMBERPLUGIN_1", "User");
 define("TOPMEMBERPLUGIN_2", "Rating");
@@ -306,12 +306,12 @@ define("OI_FLASHCHAT_2", "Enter Live Chat");
 define("OI_FLASHCHAT_3", "You need to allow Pop-ups to log out correctly from Live Chat.");
 
 
-define("ONLINENOW_1", "Head Administrator");
-define("ONLINENOW_3", "Members");
-define("ONLINENOW_4", "Guests");
+define("ONLINENOW_1", "Hlavný admin");
+define("ONLINENOW_3", "Členovia");
+define("ONLINENOW_4", "Hostia");
 define("ONLINENOW_7", "User Colour Key");
-define("ONLINENOW_8", "Administrator");
-define("ONLINENOW_9", "Member");
+define("ONLINENOW_8", "Administrátor");
+define("ONLINENOW_9", "Člen");
 define("ONLINENOW_10", "Forum Moderator");
 
 define("ONLINEINFO_LIST_BIKE1", "Bike Profile");
@@ -319,12 +319,16 @@ define("ONLINEINFO_LIST_CAR1", "Car Profile");
 
 define("ONLINELASTSEEN_1", "Last Seen");
 define("ONLINELASTSEEN_2", "Total members that have visited today: ");
-define("ONLINELASTSEEN_3", "They are: ");
-define("ONLINELASTSEEN_4", "Head Administrator");
-define("ONLINELASTSEEN_7", "Colour Key");
-define("ONLINELASTSEEN_8", "Administrator");
-define("ONLINELASTSEEN_9", "Member");
+define("ONLINELASTSEEN_3", "Teraz sú tu: ");
+define("ONLINELASTSEEN_4", "Hlavný admin");
+define("ONLINELASTSEEN_7", "Farba");
+define("ONLINELASTSEEN_8", "Administrátor");
+define("ONLINELASTSEEN_9", "Člen");
 define("ONLINELASTSEEN_10", "Forum Moderator");
-define("ONLINELASTSEEN_11", "Members on Today");
+define("ONLINELASTSEEN_11", "Dnes prítomní členovia");
 
-define("ONLINEINFO_DAY", "Today for you is: ");
+define("ONLINEINFO_DAY", "Váš aktuálny čas: ");
+
+
+
+ 

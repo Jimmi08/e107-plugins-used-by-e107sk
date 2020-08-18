@@ -1,6 +1,6 @@
 <?php
 if (!defined('e107_INIT')) { exit; }
-	
+    
 if(check_class($orderclass))
 {
     
@@ -35,23 +35,23 @@ toppoststarter
 toppostreplier
 topratedmember
 counter
-*/                                  
+*/                          
 	    
 			if($extrarow['cache']  == "updated")  { 
-			  require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-			}
+			//  require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
+			}   
 			elseif($extrarow['cache']  == "birthday")  {     
-		    require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-			}
+		     require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
+			} 
 			elseif($extrarow['cache']  == "lastvisitors")  {     
-			  require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
+		     require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
 			}
 			elseif($extrarow['cache']  == "topvisits")  {     
 			  require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
 			}
 			elseif($extrarow['cache']  == "toppost")  {     
 			 require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-			}			
+			}	 	
 			elseif($extrarow['cache']  == "toppoststarter")  {     
 			 require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
 			}
@@ -60,15 +60,15 @@ counter
 			}
 			elseif($extrarow['cache']  == "topratedmember")  {     
 		   require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-			}
+			}       
 			elseif($extrarow['cache']  == "counter")  {     
 			 require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-			}
+			} 
       //     
 		  else {           print_a($extrarow['cache']); 
         // require_once(e_PLUGIN.'onlineinfo/extrainfo/'.$extrarow['cache'].'.php');
-      }
-		}
+      }      
+		}       
      
 		if($orderhide==1){ $text .='<br/></div>';}
 

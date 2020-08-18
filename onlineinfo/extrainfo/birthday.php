@@ -110,8 +110,9 @@ if(check_class($extraclass) && e107::isInstalled('birthday')) {
 							{
 								$bavatar = "";
 							}
-							
-							$hbtext.= "<tr><td>" . $bavatar . "</td><td style='text-align:left; font-size: 14px; font-weight:bold;'><a href='" . e_BASE . "user.php?id." . $user_id . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></td></tr>";
+							$uparams = array('id' => $user_id, 'name' => $user_name);
+                            $link = e107::getUrl()->create('user/profile/view', $uparams);
+							$hbtext.= "<tr><td>" . $bavatar . "</td><td style='text-align:left; font-size: 14px; font-weight:bold;'><a href='" . $link . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></td></tr>";
 	 
  
 					
@@ -168,8 +169,9 @@ if(check_class($extraclass) && e107::isInstalled('birthday')) {
 						{
 							$bavatar = "";
 						}
-						
-						$hbtext.= "<tr><td>" . $bavatar . "</td><td style='text-align:left; font-size: 14px; font-weight:bold;'><a href='" . e_BASE . "user.php?id." . $user_id . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></td></tr>";
+					    $uparams = array('id' => $user_id, 'name' => $user_name);
+                        $link = e107::getUrl()->create('user/profile/view', $uparams);	
+						$hbtext.= "<tr><td>" . $bavatar . "</td><td style='text-align:left; font-size: 14px; font-weight:bold;'><a href='" . $link . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></td></tr>";
  
 						 
 					}
@@ -189,14 +191,16 @@ if(check_class($extraclass) && e107::isInstalled('birthday')) {
 					
 							$x++;
 						}
+                        $uparams = array('id' => $user_id, 'name' => $user_name);
+                        $link = e107::getUrl()->create('user/profile/view', $uparams);
 					
 						if ($plugPref['onlineinfo_formatbdays'] == "1")
 						{
-							$nbtext.= "<div style='margin-left:5px; text-align:left; width:" . $onlineinfomenuwidth . ";'>" . $onlineinfo_birthday_datepart[2] . "/" . $onlineinfo_birthday_datepart[1] . " <a title='" . $onlineinfo_birthday_datepart[2] . "." . $onlineinfo_birthday_datepart[1] . "." . $onlineinfo_birthday_datepart[0] . "' href='" . e_BASE . "user.php?id." . $user_id . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></div>";
+							$nbtext.= "<div style='margin-left:5px; text-align:left; width:" . $onlineinfomenuwidth . ";'>" . $onlineinfo_birthday_datepart[2] . "/" . $onlineinfo_birthday_datepart[1] . " <a title='" . $onlineinfo_birthday_datepart[2] . "." . $onlineinfo_birthday_datepart[1] . "." . $onlineinfo_birthday_datepart[0] . "' href='" . $link . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></div>";
 						}
 						else
 						{
-							$nbtext.= "<div style='margin-left:5px; text-align:left; width:" . $onlineinfomenuwidth . ";'>" . $onlineinfo_birthday_datepart[1] . "/" . $onlineinfo_birthday_datepart[2] . " <a title='" . $onlineinfo_birthday_datepart[2] . "." . $onlineinfo_birthday_datepart[1] . "." . $onlineinfo_birthday_datepart[0] . "' href='" . e_BASE . "user.php?id." . $user_id . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></div>";
+							$nbtext.= "<div style='margin-left:5px; text-align:left; width:" . $onlineinfomenuwidth . ";'>" . $onlineinfo_birthday_datepart[1] . "/" . $onlineinfo_birthday_datepart[2] . " <a title='" . $onlineinfo_birthday_datepart[2] . "." . $onlineinfo_birthday_datepart[1] . "." . $onlineinfo_birthday_datepart[0] . "' href='" . $link . "' " . getuserclassinfo($user_id) . ">" . $user_name . " (" . $onlineinfo_birthday_age . ")</a></div>";
 						}
 					}
 	

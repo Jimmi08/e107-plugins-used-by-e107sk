@@ -175,7 +175,7 @@ if (check_class($extraclass))
 			ORDER BY tp.post_datestamp DESC LIMIT 0,".intval($plugPref ['onlineinfo_forumnum']);
       
               
-		$new_forum = $sql->db_Select_gen($qry);
+		$new_forum = $sql->gen($qry);
 
 
 		if (!$new_forum)
@@ -192,7 +192,7 @@ if (check_class($extraclass))
 			$newmembers = " AND user_id NOT IN (" . $sitemembersread . ")";
 		}
 
-		$new_users = $sql->db_Count("user", "(*)", "WHERE user_join>'" . $lvisit . "' " . $newmembers . "");
+		$new_users = $sql->count("user", "(*)", "WHERE user_join>'" . $lvisit . "' " . $newmembers . "");
 		if (!$new_users)
 		{
 			$new_users = ONLINEINFO_COUNTER_L9;
@@ -209,7 +209,7 @@ if (check_class($extraclass))
 
 		$script = "SELECT * FROM " . $plugPref['onlineinfo_smfprefix'] . "messages WHERE posterTime >='" . $lvisit . "'" . $newsmf;
 		$onlineinfo_smf_sql = new db;
-		$onlineinfo_getsmfinfo = $onlineinfo_smf_sql->db_Select_gen($script);
+		$onlineinfo_getsmfinfo = $onlineinfo_smf_sql->gen($script);
 		if (!$onlineinfo_getsmfinfo)
 		{
 			$onlineinfo_getsmfinfo = ONLINEINFO_COUNTER_L9;
@@ -226,7 +226,7 @@ if (check_class($extraclass))
 
 		$script = "SELECT * FROM " . $plugPref['onlineinfo_ibfprefix'] . "posts WHERE post_date >='" . $lvisit . "'" . $newibf;
 		$onlineinfo_ipb_sql = new db;
-		$onlineinfo_getipbinfo = $onlineinfo_ipb_sql->db_Select_gen($script);
+		$onlineinfo_getipbinfo = $onlineinfo_ipb_sql->gen($script);
 		if (!$onlineinfo_getipbinfo)
 		{
 			$onlineinfo_getipbinfo = ONLINEINFO_COUNTER_L9;

@@ -135,9 +135,10 @@ if (check_class($orderclass))
 
 				$oid = $user_id;
 				$oname = $user_name;
-        $online_location_page = $tp->html_truncate(basename($online_location) , 10, "...");
+                $online_location_page = $tp->html_truncate(basename($online_location) , 10, "...");
   
- 
+                $uparams = array('id' => $oid, 'name' => $oname);
+                $link = e107::getUrl()->create('user/profile/view', $uparams);
 		//		$online_location_page = getpage($online_location_page);
         
         
@@ -163,8 +164,9 @@ if (check_class($orderclass))
 				}
 				else
 				{
-					$text.= '>' . $AVATAR . '</td>
-					<td valign="middle" align="left" style="font-size:' . $pref["onlineinfo_usernamefontsize"] . 'px"><a href="' . e_BASE . 'user.php?id.' . $oid . '" ' . getuserclassinfo($oid) . '>' . $oname . '</a>' . $online_eloc . ' <a href="' . $online_location . '">' . $online_location_page . '</a></td></tr>';
+					
+                    $text.= '>' . $AVATAR . '</td>
+					<td valign="middle" align="left" style="font-size:' . $pref["onlineinfo_usernamefontsize"] . 'px"><a href="' . $link . '" ' . getuserclassinfo($oid) . '>' . $oname . '</a>' . $online_eloc . ' <a href="' . $online_location . '">' . $online_location_page . '</a></td></tr>';
 				}
 
 				if ($pref['onlineinfo_showicons'] == 1)
@@ -174,11 +176,11 @@ if (check_class($orderclass))
 					{
 						if (USERID != $oid)
 						{
-							$text.= '<a href="' . e_PLUGIN . 'pm/pm.php?send.' . $oid . '"><img src="' . e_PLUGIN_ABS . 'onlineinfo/images/icon_pm.png"  alt="' . ONLINEINFO_LOGIN_MENU_L70 . '" style="vertical-align:middle;border:0;" /></a>&nbsp;&nbsp;';
+							$text.= '<a href="' . $link . '"><img src="' . e_PLUGIN_ABS . 'onlineinfo/images/icon_pm.png"  alt="' . ONLINEINFO_LOGIN_MENU_L70 . '" style="vertical-align:middle;border:0;" /></a>&nbsp;&nbsp;';
 						}
 					}
 
-					$text.= '<a href="' . e_BASE . 'user.php?id.' . $oid . '"><img src="' . e_PLUGIN_ABS . 'onlineinfo/images/profile.png"  alt="' . ONLINEINFO_LOGIN_MENU_L69 . '" style="vertical-align:middle;border:0;" /></a>&nbsp;&nbsp;';
+					$text.= '<a href="' . $link . '"><img src="' . e_PLUGIN_ABS . 'onlineinfo/images/profile.png"  alt="' . ONLINEINFO_LOGIN_MENU_L69 . '" style="vertical-align:middle;border:0;" /></a>&nbsp;&nbsp;';
 					if ($pref['onlineinfo_amigo'] != '255')
 					{
 						if (USERID != $oid)
@@ -919,7 +921,9 @@ if (check_class($orderclass))
 			extract($row);
 			$user_id = $row['user_id'];
 			$user_name = $row['user_name'];
-			$user[$c] = '<a href="' . e_BASE . 'user.php?id.' . $user_id . '" ' . getuserclassinfo($user_id) . '>' . $user_name . '</a>';
+            $uparams = array('id' => $user_id, 'name' => $user_name);
+            $link = e107::getUrl()->create('user/profile/view', $uparams);
+			$user[$c] = '<a href="' . $link . '" ' . getuserclassinfo($user_id) . '>' . $user_name . '</a>';
 			$c++;
 		}
 

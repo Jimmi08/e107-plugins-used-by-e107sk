@@ -327,5 +327,4 @@ define("ONLINELASTSEEN_9", "Membri");
 define("ONLINELASTSEEN_10", "Forum Moderatore");
 define("ONLINELASTSEEN_11", "Membri inlinea oggi");
 
-
-?>
+define("ONLINEINFO_DAY", "Today for you is: ");

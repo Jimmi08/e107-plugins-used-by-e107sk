@@ -49,16 +49,25 @@ e107::css('header', $inlinecss);
 e107::js("footer", e_PLUGIN_ABS."onlineinfo/switchcontent.js", "jquery");
 e107::js("footer", e_PLUGIN_ABS."onlineinfo/online.js", "jquery");
 
-
 $text.= '<div id="onlineinfodhtmltooltip"></div> ';
-
 
 $onlineinfomenuwidth=$plugPref['onlineinfo_width'];
 $onlineinfomenucolour=$plugPref['onlineinfo_flashtext_colour'];
 $onlineinfomenufsize=$plugPref['onlineinfo_fontsize'];
 
-$text.='
-<script type="text/javascript">
+
+
+$code =" 
+		var showhide=new switchcontent('switchgroup1', 'div') //Limit scanning of switch contents to just div elements
+		showhide.setStatus('<img src=\"".e_PLUGIN_ABS."onlineinfo/images/minus.gif\" width=\"11px\" alt=\"\" /> ', '<img src=\"".e_PLUGIN_ABS."onlineinfo/images/plus.gif\" width=\"11px\" alt=\"\" /> ')
+		// showhide.setColor('#FFFFFF','#EAAE10')
+		showhide.collapsePrevious(false) //Allow more than 1 content to be open simultanously
+		showhide.setPersist(".$plugPref['onlineinfo_rememberbuttons'].")
+		showhide.init() ";
+  
+
+$code.='
+ 
 var flashlinks=new Array()
 function changelinkcolor(){
 for (i=0; i< flashlinks.length; i++){
@@ -102,9 +111,18 @@ else if (window.attachEvent)
 window.attachEvent("onload", init)
 else if (document.all)
 window.onload=init
-
-</script>
+ 
 ';
+
+
+e107::js("footer-inline", $code , "jquery"); 
+    
+
+
+
+
+
+
 
 $n=0;
 $suspended=0;
@@ -129,10 +147,10 @@ if ($data)
 	$n++;
 }
 
-if ($suspended==0){
+if ($suspended==0) {
 
 	global $eMenuActive, $e107, $tp, $use_imagecode;
-	require_once (e_PLUGIN . "onlineinfo/login_menu_shortcodes.php");
+ 
 	
 	$ip = $e107->getip();
 	$bullet = (defined("BULLET") ? "<img src='" . e_THEME_ABS . "images/" . BULLET . "' alt='' style='vertical-align: middle;' />" : "<img src='" . THEME_ABS . "images/bullet2.gif' alt='bullet' style='vertical-align: middle;' />");
@@ -210,7 +228,7 @@ if ($suspended==0){
 		 
 		 $orderhide=$orderrow['cache_hide'];
 		 $orderclass=$orderrow['cache_userclass'];
-     /* avatar.php
+            /* avatar.php
 			pm.php
 			currentlyonline.php
 			fc.php
@@ -219,7 +237,7 @@ if ($suspended==0){
        
 			if($orderrow['cache']  == "fc.php")  { /*do nothing */ }
 			elseif($orderrow['cache']  == "avatar.php")  {     
-			   require_once(e_PLUGIN."onlineinfo/sections/".$orderrow['cache']);
+			    require_once(e_PLUGIN."onlineinfo/sections/".$orderrow['cache']);
 			}
 			elseif($orderrow['cache']  == "pm.php")  {     
 			   require_once(e_PLUGIN."onlineinfo/sections/".$orderrow['cache']);
@@ -246,31 +264,9 @@ if ($suspended==0){
   
   if ($plugPref['onlineinfo_logindiag'] == 0)
     {
-    	if (!$LOGIN_MENU_FORM)
-    	{
-    		if (file_exists(THEME . "login_menu_template.php"))
-    		{
-    			require_once (THEME . "login_menu_template.php");
-    
-    		}
-    		else
-    		{
-    			require_once (e_PLUGIN . "onlineinfo/login_menu_template.php");
-          
-    		}
-    	}
-     
-    	$text.= '<form method="post" action="' . e_SELF . (e_QUERY ? '?' . e_QUERY : '') . '">';
-    	$text.= $tp->parseTemplate($LOGIN_MENU_FORM, true, $login_menu_shortcodes);
-    	$text.= '</form>';
-    	if (file_exists(THEME . 'images/login_menu.png'))
-    	{
-    		$caption = '<img src="' . THEME_ABS . 'images/login_menu.png" alt="" />' . LOGIN_MENU_L5;
-    	}
-    	else
-    	{
-    		$caption = LOGIN_MENU_L5;
-    	}
+        $login_box = "{MENU: path=login_menu/login}"; 
+        $text = e107::getParser()->parseTemplate($login_box); 
+        echo  $text;
     }
 
   }
@@ -280,17 +276,9 @@ if ($suspended==0){
   
   
  	$text.=colourkey(1);
+      /*
 
-	$text.="
-	        <script type='text/javascript'>
-			var showhide=new switchcontent('switchgroup1', 'div') //Limit scanning of switch contents to just div elements
-			showhide.setStatus('<img src=\"".e_PLUGIN_ABS."onlineinfo/images/minus.gif\" width=\"11px\" alt=\"\" /> ', '<img src=\"".e_PLUGIN_ABS."onlineinfo/images/plus.gif\" width=\"11px\" alt=\"\" /> ')
-			// showhide.setColor('#FFFFFF','#EAAE10')
-			showhide.collapsePrevious(false) //Allow more than 1 content to be open simultanously
-			showhide.setPersist(".$plugPref['onlineinfo_rememberbuttons'].")
-			showhide.init()
-	</script>";
-
+         */
 }
  	
 
@@ -304,13 +292,19 @@ if (USER == true || ADMIN == true) {
   {
       $caption = $plugPref['onlineinfo_caption'];
   }
+  e107::getRender()->tablerender($caption, $text);
 }
 else {
-  $caption = ONLINEINFO_LOGIN_MENU_L5;
+   if(($plugPref['onlineinfo_logindiag'] == 0)) {
+		 
+		 
+   }
 }
 
+ 
+	
+ 
 
-e107::getRender()->tablerender($caption, $text);
 
 
 

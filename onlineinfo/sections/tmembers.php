@@ -50,7 +50,7 @@ if (check_class($orderclass))
 		$membersfound.= $u[$a];
 		$membersfound.= ($a < $c - 1) ? ", " : "";
 	}
-  $text .= '<br>Today for you is: '.  date('r');
+  $text .= '<br>'.ONLINEINFO_DAY.  date('r');
 	if ($orderhide == 1)
 	{
 		$text.= "<div id='tmember-title' style='cursor:hand; text-align:left; font-size: " . $onlineinfomenufsize . "px; vertical-align: middle; width:" . $onlineinfomenuwidth . "; font-weight:bold;' title='" . ONLINELASTSEEN_11 . " (" . $memberstoday . ")";
