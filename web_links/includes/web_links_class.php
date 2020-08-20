@@ -1407,8 +1407,9 @@
 
 		$ttitle = stripslashes(check_html($row['title'], "nohtml"));
 		$text .= "<br>";
-		$result = e107::getDB()->gen("SELECT ratinguser, rating, ratingcomments, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."' AND ratingcomments <> '' ORDER BY ratingtimestamp DESC");
-		$totalcomments = count(e107::getDB()->rows($result));
+		$result = e107::getDB()->retrieve("SELECT ratinguser, rating, ratingcomments, ratingtimestamp FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinglid = '".$lid."' AND ratingcomments <> '' ORDER BY ratingtimestamp DESC", true );
+	
+        $totalcomments = count($result);            
 		$displaytitle = $ttitle;
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$text .= "<div class='center'><span class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></span><br><br>";
@@ -1416,7 +1417,7 @@
 		$text .= "<br><br><br>"._TOTALOF." ".$totalcomments." "._COMMENTS."</span></div><br>"
 		."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"450\">";
 		$x=0;
-			while($row = e107::getDB()->fetch($result)) {
+		foreach($result AS $row) {
 				$ratinguser = $row['ratinguser'];
 				$rating = $row['rating'];
 				$ratingcomments = $row['ratingcomments'];
@@ -1428,15 +1429,18 @@
 				$timestamp = mktime(0, 0, 0, $date_array["1"], $date_array["2"], $date_array["0"]);
 				$formatted_date = date("F j, Y", $timestamp);
 				/* Individual user information */
-				$result2 = e107::getDB()->gen("SELECT rating FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinguser = '".$ratinguser."'");
-				$usertotalcomments = count(e107::getDB()->rows($result2));
-				$useravgrating = 0;
-				while($row2 = e107::getDB()->fetch($result2)) $useravgrating = $useravgrating + $row2['rating'];
- 
+				$result2 = e107::getDB()->retrieve("SELECT rating FROM #".UN_TABLENAME_LINKS_VOTEDATA." WHERE ratinguser = '".$ratinguser."'", true);
+                 
+				$usertotalcomments = count($result2);
+                 
+				$useravgrating = 0;  
+				foreach ($result2  AS $row2) {
+                  $useravgrating = $useravgrating + $row2['rating'];
+                }
 				$useravgrating = $useravgrating / $usertotalcomments;
 				$useravgrating = number_format($useravgrating, 1);
 				$text .= "<tr><td bgcolor=\"".$bgcolor2."\">"
-				."<span class=\"content\"><b> "._USER.": </b><a href=\"modules.php?name=".UN_DIR_YOURACOUNT."&amp;op=userinfo&amp;username=".$ratinguser."\">".$ratinguser."</a></span>"
+				."<span class=\"content\"><b> "._USER.": </b>".$ratinguser." </span>"
 				."</td>"
 				."<td bgcolor=\"".$bgcolor2."\">"
 				."<span class=\"content\"><b>"._RATING.": </b>".$rating."</span>"
@@ -1458,7 +1462,7 @@
 				."<span class=\"content\">";
 					if (ADMIN) {  //TODO add prefs, change path
 						$text .= "<a target='_blank' href=\"".UN_FILENAME_ADMIN."?op=LinksModLink&amp;lid=".$lid."\">
-                        <img src=\"".WEB_LINKS_APP_ABS."\"/images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
+                        <img src=\"".WEB_LINKS_APP_ABS."images/editicon.gif\" border=\"0\" alt=\""._EDITTHISLINK."\"></a>";
 					}
 				$text .= " ".$ratingcomments."</span>"
 				."<br><br><br></td></tr>";

@@ -35,7 +35,7 @@
   * of the License, or (at your option) any later version.
 **/
 
-
+         
 if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
@@ -163,7 +163,7 @@ switch($l_op) {
         $web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 	break;
 	
-	case "viewlinkcomments":
+	case "viewlinkcomments":   
 		$web_linksFront->viewlinkcomments($lid);
 	break;
 	
