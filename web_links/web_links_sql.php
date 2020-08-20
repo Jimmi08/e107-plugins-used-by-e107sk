@@ -6,7 +6,7 @@ CREATE TABLE `links_categories` (
   `parentid` int(11) NOT NULL default '0',
   PRIMARY KEY  (`cid`),
   KEY `cid` (`cid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `links_editorials` (
@@ -39,7 +39,7 @@ CREATE TABLE `links_links` (
   KEY `lid` (`lid`),
   KEY `cid` (`cid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `links_modrequest` (
@@ -54,7 +54,7 @@ CREATE TABLE `links_modrequest` (
   `brokenlink` int(3) NOT NULL default '0',
   PRIMARY KEY  (`requestid`),
   UNIQUE KEY `requestid` (`requestid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `links_newlink` (
@@ -71,7 +71,7 @@ CREATE TABLE `links_newlink` (
   KEY `lid` (`lid`),
   KEY `cid` (`cid`),
   KEY `sid` (`sid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;
 
 
 CREATE TABLE `links_votedata` (
@@ -84,4 +84,4 @@ CREATE TABLE `links_votedata` (
   `ratingtimestamp` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`ratingdbid`),
   KEY `ratingdbid` (`ratingdbid`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM;

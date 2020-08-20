@@ -47,6 +47,7 @@ define("_WEBLINKS","Web Links");
 define("_ADD","Add");
 define("_MODIFY","Modify");
 define("_LINKSINDB","Links in our Database");
+define("_LINKSCATINDB","Links Categories in our Database");
 define("_LINKSWAITINGVAL","Links Waiting for Validation");
 define("_SUBMITTER","Submitter");
 define("_VISIT","Visit");
