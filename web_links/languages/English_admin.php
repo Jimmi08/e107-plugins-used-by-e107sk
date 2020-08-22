@@ -34,3 +34,5 @@ define("LAN_MAINTENANCE","Maintenance");
 define("_GOBACK","Go Back");
 define("_ANONYMOUSNAME","Anonymous Default Name");
 
+define("_LINKSCATINDB","Links Categories in our Database");
+
