@@ -20,15 +20,11 @@
   * of the License, or (at your option) any later version.
 **/
 
-global $anonwaitdays,  $outsidewaitdays;
-
-if (!defined(("_WEBLINKS"))) { define("_WEBLINKS","Web Links"); }  
-
-define("_URL","URL");
+;define("_URL","URL");
 define("_PREVIOUS","Previous Page");
 define("_NEXT","Next Page");
 define("_YOURNAME","Your Name");
-//define("_CATEGORY","Category");
+define("_CATEGORY","Category");
 define("_CATEGORIES","Categories");
 define("_LVOTES","votes");
 define("_TOTALVOTES","Total Votes:");
@@ -37,8 +33,8 @@ define("_HITS","Hits");
 define("_THEREARE","There are");
 define("_NOMATCHES","No matches found to your query");
 define("_SCOMMENTS","Comments");
-//define("_DESCRIPTION","Description");
-//define("_DATE","Date");
+define("_DESCRIPTION","Description");
+define("_DATE","Date");
 define("_TO","To");
 define("_ADDLINK","Add Link");
 define("_NEW","New");
@@ -70,7 +66,7 @@ define("_LINKSNOTUSER4","Why do we require registration for access to certain fe
 define("_LINKSNOTUSER5","So we can offer you only the highest quality content,");
 define("_LINKSNOTUSER6","each item is individually reviewed and approved by our staff.");
 define("_LINKSNOTUSER7","We hope to offer you only valuable information.");
-define("_LINKSNOTUSER8","<a href='".e_SIGNUP."'>Register for an Account</a>");
+define("_LINKSNOTUSER8","<a href=\"modules.php?name=".UN_DIR_YOURACOUNT."\">Register for an Account</a>");
 define("_LINKALREADYEXT","ERROR: This URL is already listed in the Database!");
 define("_LINKNOTITLE","ERROR: You need to type a TITLE for your URL!");
 define("_LINKNOURL","ERROR: You need to type a URL for your URL!");
@@ -78,8 +74,6 @@ define("_LINKNODESC","ERROR: You need to type a DESCRIPTION for your URL!");
 define("_LINKRECEIVED","We received your Link submission. Thanks!");
 define("_EMAILWHENADD","After link validation you will receive confirmation email.");
 define("_CHECKFORIT","Please do not email us. Your web link will be checked and validate as soon as possible.");
-define("_ERRORTHELINK","ERROR: The link (title, url or description) ");
-define("_ALREADYEXIST","already exists!");
 define("_NEWLINKS","New Links");
 define("_TOTALNEWLINKS","Total New Links");
 define("_LASTWEEK","Last Week");
@@ -95,7 +89,7 @@ define("_RATING","Rating");
 define("_RATESITE","Rate this Site");
 define("_DETAILS","Details");
 define("_BESTRATED","Best Rated Links - Top");
-//define("_OF","of");
+define("_OF","of");
 define("_TRATEDLINKS","total rated links");
 define("_TVOTESREQ","minimum votes required");
 define("_SHOWTOP","Show Top");
@@ -173,7 +167,7 @@ define("_LINKVOTE","Vote!");
 define("_HTMLCODE3","Using this form will allow users to rate your resource directly from your site and the rating will be recorded here. The above form is disabled, but the following source code will work if you simply cut and paste it into your web page. The source code is shown below:");
 define("_PROMOTE05","Thanks! and good luck with your ratings!");
 define("_STAFF","Staff");
-define("_THANKSBROKEN","Thank you for your help to keep our database up-to-date. Click on link bellow to confirm it.");
+define("_THANKSBROKEN","Thank you for your help to keep our database up-to-date.");
 define("_THANKSFORINFO","Thanks for the information.");
 define("_LOOKTOREQUEST","We will process your request as soon as possible.");
 define("_ONLYREGUSERSMODIFY","Only registered users can suggest links modifications. Please <a href=\"modules.php?name=".UN_DIR_YOURACOUNT."\">register or login</a>.");
@@ -186,14 +180,14 @@ define("_RETURNTO","Return to");
 define("_RATENOTE1","Please do not vote for the same link more than once.");
 define("_RATENOTE2","The scale is 1 - 10, with 1 being poor and 10 being excellent.");
 define("_RATENOTE3","Please be objective. If everybody vote for 1 or 10 the rating does not have sense.");
-define("_RATENOTE4","You can view a list of the <a href=\"[x]?l_op=TopRated\">Top Rated Resources</a>.");
+define("_RATENOTE4","You can view a list of the <a href=\"modules.php?name=Web_Links&amp;l_op=TopRated\">Top Rated Resources</a>.");
 define("_RATENOTE5","Please do not vote if the website is yours.");
 define("_YOUAREREGGED","You are a registered user and are logged in.");
 define("_FEELFREE2ADD","Feel free to add a comment about this site.");
 define("_YOUARENOTREGGED","You are not a registered user or you have not logged in.");
 define("_IFYOUWEREREG","If you were registered you could make comments on this website.");
- 
-//define("_TITLE","Title");
+define("_WEBLINKS","Web Links");
+define("_TITLE","Title");
 define("_MODIFY","Modify");
 define("_COMPLETEVOTE1","Your vote is appreciated.");
 define("_COMPLETEVOTE2","You have already voted for this resource in the past $anonwaitdays day(s).");
@@ -207,12 +201,5 @@ define("_LINKSDATESTRING","%d-%b-%Y");
 define("_SCOMMENTSVL","Your comment");
 define("_SEARCHWL","Search");
 define("_NEWLINKS2","new link(s)");
-
-define("_GOBACK","[ <a href=\"javascript:history.go(-1)\">Back</a> ]");
-define("_NOTE","Note:");
-define("_VOTES","Votes");
-define("_COMMENTS","Comments");
-define("_ANONYMOUSNAME","Anonymous Default Name");
-define("_NONE","None");
 
 ?>

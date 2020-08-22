@@ -1,19 +1,12 @@
-<?php    
+<?php
 /*
-* e107 website system
-*
-* Copyright (C) 2008-2013 e107 Inc (e107.org)
-* Released under the terms and conditions of the
-* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
-*
-* e107 Web Links Plugin
-*
-* #######################################
-* #     e107 website system plugin      #
-* #     by Jimako                    	 #
-* #     https://www.e107sk.com          #
-* #######################################
-*/ 
+ * e107 website system
+ *
+ * Copyright (C) 2008-2013 e107 Inc (e107.org)
+ * Released under the terms and conditions of the
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
+ *
+*/
 
 /**
   * UNITED-NUKE CMS: Just Manage!
@@ -23,9 +16,6 @@
   * 2002 - 2005, (c) Jiri Stavinoha
   * http://united-nuke.openland.cz/weblog/
   *
-  * Translation to English language
-  * http://axlsystems.amjawa.com/ - 2005, (c) Roman Vosicky
-  *  
   * Portions of this software are based on PHP-Nuke
   * http://phpnuke.org - 2002, (c) Francisco Burzi
   *
@@ -35,13 +25,13 @@
   * of the License, or (at your option) any later version.
 **/
 
-         
+
 if (!defined('e107_INIT'))
 {
 	require_once("../../class2.php");
 }
 
-e107::lan("web_links" , "lang_front");
+e107::lan("web_links" , "lang_".strtolower(e_LANGUAGE));
 
 define(e_PAGE, "web_links.php");
 define(e_PAGENAME, "- "._WEBLINKS);
@@ -163,7 +153,7 @@ switch($l_op) {
         $web_linksFront->addrating($ratinglid, $ratinguser, $rating, $ratinghost_name, $ratingcomments);
 	break;
 	
-	case "viewlinkcomments":   
+	case "viewlinkcomments":
 		$web_linksFront->viewlinkcomments($lid);
 	break;
 	

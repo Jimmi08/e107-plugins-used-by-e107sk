@@ -104,12 +104,7 @@ class web_links_ui extends plugin_admin_ui
  
          $sql = e107::getDb();
          //check if link exists
-         $url = $new_data['url'];    
-         $numrows = $sql->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'");
-         if ($numrows > 0) {
-            e107::getMessage()->addError(_ERRORURLEXISTWL);
-            return false;
-         }
+
          /* Check if Title exist */
          if ($new_data['title']=="") {
             e107::getMessage()->addError(_ERRORNOTITLEWL);
@@ -126,7 +121,19 @@ class web_links_ui extends plugin_admin_ui
             return false;
          }   
          
+         $url = $new_data['url'];   
+         $result = $sql->retrieve("SELECT COUNT(*) AS numrows FROM #".UN_TABLENAME_LINKS_LINKS." WHERE url='".addslashes($url)."'"  );   
+ 
+         if(is_array($result))  {
+           $numrows = $result['numrows'];
+         }
+         else  $numrows = $result; 
         
+         if ($numrows > 0) {
+            e107::getMessage()->addError(_ERRORURLEXISTWL);
+            return false;
+         }
+               
 		$new_data['date'] = date("Y-m-d H:i:s");
 		return $new_data;
               

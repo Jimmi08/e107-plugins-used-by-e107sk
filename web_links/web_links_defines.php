@@ -1,19 +1,12 @@
-<?php    
+<?php
 /*
-* e107 website system
-*
-* Copyright (C) 2008-2013 e107 Inc (e107.org)
-* Released under the terms and conditions of the
-* GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
-*
-* e107 Web Links Plugin
-*
-* #######################################
-* #     e107 website system plugin      #
-* #     by Jimako                    	 #
-* #     https://www.e107sk.com          #
-* #######################################
-*/ 
+ * e107 website system
+ *
+ * Copyright (C) 2008-2013 e107 Inc (e107.org)
+ * Released under the terms and conditions of the
+ * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
+ *
+*/
 
 /**
   * UNITED-NUKE CMS: Just Manage!
@@ -23,9 +16,6 @@
   * 2002 - 2005, (c) Jiri Stavinoha
   * http://united-nuke.openland.cz/weblog/
   *
-  * Translation to English language
-  * http://axlsystems.amjawa.com/ - 2005, (c) Roman Vosicky
-  *  
   * Portions of this software are based on PHP-Nuke
   * http://phpnuke.org - 2002, (c) Francisco Burzi
   *
@@ -35,35 +25,30 @@
   * of the License, or (at your option) any later version.
 **/
 
+
 if (!defined('e107_INIT')) { exit; }
  
-//Way how to use the same database
-$prefix = '';
-$user_prefix =  '';
-
-if(e107::getPlugConfig('web_links')->getPref('use_unnuke')) {
-   $prefix = varset(e107::getPlugConfig('web_links')->getPref('unnuke_prefix'), '');
-   $user_prefix = varset(e107::getPlugConfig('web_links')->getPref('unnuke_user_prefix'), '');
+if(e107::isInstalled('unnuke') OR e107::isInstalled('unnuke_admin') OR e107::isInstalled('unnuke_front') ) {
+  // do nothing
 }
-
-
-// example e107_unnuke_links_links  $prefix = unnuke_,  + # = e107 table 
-// e107_ has prefix always with _ 
-
-define("UN_TABLENAME_LINKS_CATEGORIES", $prefix."links_categories");
-define("UN_TABLENAME_LINKS_EDITORIALS", $prefix."links_editorials");
-define("UN_TABLENAME_LINKS_LINKS", 		$prefix."links_links");
-define("UN_TABLENAME_LINKS_MODREQUEST", $prefix."links_modrequest");
-define("UN_TABLENAME_LINKS_NEWLINK", 	$prefix."links_newlink");
-define("UN_TABLENAME_LINKS_VOTEDATA", 	$prefix."links_votedata");
-
-//use e107 users
-define("UN_TABLENAME_USERS", 	$user_prefix."user AS user" );
-
-define ("UN_TABLENAME_USERNAME",  "user.user_name");  // Do not change the aliasing (the "author." part)!
-define ("UN_TABLENAME_USERNAME_ALIAS",  "user.user_name AS username");  // Do not change the aliasing (the "author." part)!
-define ("UN_TABLENAME_USEREMAIL", "user.user_email");  // Do not change the aliasing (the "author." part)!
-define ("UN_TABLENAME_USEREMAIL_ALIAS", "user.user_email AS user_email");  // Do not change the aliasing (the "author." part)!
+else {
+  // use e107 tables
+  define("UN_TABLENAME_LINKS_CATEGORIES",  "links_categories");
+  define("UN_TABLENAME_LINKS_EDITORIALS",  "links_editorials");
+  define("UN_TABLENAME_LINKS_LINKS", 		 "links_links");
+  define("UN_TABLENAME_LINKS_MODREQUEST",  "links_modrequest");
+  define("UN_TABLENAME_LINKS_NEWLINK", 	 "links_newlink");
+  define("UN_TABLENAME_LINKS_VOTEDATA", 	 "links_votedata");
+  
+  define("UN_TABLENAME_USERS_ALIAS",  "user AS user" );
+  define("UN_TABLEFIELD_USERNAME",  "user.user_name");   
+  define("UN_TABLEFIELD_USERNAME_ALIAS",  "user.user_name AS username");   
+  define("UN_TABLEFIELD_USEREMAIL", "user.user_email");   
+  define("UN_TTABLEFIELD_USEREMAIL_ALIAS", "user.user_email AS user_email");   
+ 
+}
+ 
+ 
 
 define("WEB_LINKS_APP", 		e_PLUGIN.'web_links/');
 define("WEB_LINKS_APP_ABS", 	e_PLUGIN_ABS.'web_links/');

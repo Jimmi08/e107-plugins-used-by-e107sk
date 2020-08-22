@@ -39,12 +39,13 @@
 if (!defined('e107_INIT')) {exit;}
 
 require_once "../../../class2.php";
+ 
+e107::plugLan("web_links" , "lang_".e_LANGUAGE."_admin");
+e107::plugLan("web_links" , true);
 
 //load constants for front+admin
 require_once "admin.class.php";
-
-e107::lan("web_links", true);
-
+ 
 require_once e_PLUGIN . 'web_links/web_links_defines.php';
 require_once e_PLUGIN . 'web_links/admin/web_links_admin_functions.php';
 

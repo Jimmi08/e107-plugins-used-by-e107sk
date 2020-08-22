@@ -474,7 +474,7 @@ function LinksListBrokenLinks()
             $modifysubmitter = $row['modifysubmitter'];
             $row2 = $sql->retrieve("SELECT title, url, submitter FROM #" . UN_TABLENAME_LINKS_LINKS . " WHERE lid='" . $lid . "'", true);
             if ($modifysubmitter != $anonymous) {
-                $row3 = $sql->retrieve("SELECT " . UN_TABLENAME_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS . " WHERE " . UN_TABLENAME_USERNAME . "='" . $modifysubmitter . "'");
+                $row3 = $sql->retrieve("SELECT " . UN_TABLENAME_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS_ALIAS_ALIAS . " WHERE " . UN_TABLEFIELD_USERNAME . "='" . $modifysubmitter . "'");
                 $email = stripslashes($row3);
             }
 
@@ -482,7 +482,7 @@ function LinksListBrokenLinks()
             $url = $row2[0]['url'];
             //$url2 = urlencode($url);
             $owner = $row2[0]['submitter'];
-            $row4 = $sql->retrieve("SELECT " . UN_TABLENAME_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS . " WHERE " . UN_TABLENAME_USERNAME . "='" . $owner . "'");
+            $row4 = $sql->retrieve("SELECT " . UN_TABLEFIELD_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS_ALIAS . " WHERE " . UN_TABLEFIELD_USERNAME . "='" . $owner . "'");
             $owneremail = stripslashes($row4);
             //$url = urlencode($url);
             $content .= "<tr>"
@@ -566,8 +566,8 @@ function LinksListModRequests()
 
         $row3 = $sql->retrieve("SELECT title FROM #" . UN_TABLENAME_LINKS_CATEGORIES . " WHERE cid='" . $cid . "'");
         $row5 = $sql->retrieve("SELECT title FROM #" . UN_TABLENAME_LINKS_CATEGORIES . " WHERE cid='" . $origcid . "'");
-        $row7 = $sql->retrieve("SELECT " . UN_TABLENAME_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS . " WHERE " . UN_TABLENAME_USERNAME . "='" . $modifysubmitter . "'");
-        $row8 = $sql->retrieve("SELECT " . UN_TABLENAME_USEREMAIL_ALIAS . " FROM #" . UN_TABLENAME_USERS . " WHERE " . UN_TABLENAME_USERNAME . "='" . $owner . "'");
+        $row7 = $sql->retrieve("SELECT " . UN_TABLEFIELD_USERNAME_ALIAS . " FROM #" . UN_TABLENAME_USERS_ALIAS_ALIAS . " WHERE " . UN_TABLEFIELD_USERNAME . "='" . $modifysubmitter . "'");
+        $row8 = $sql->retrieve("SELECT " . UN_TABLEFIELD_USERNAME_ALIAS . " FROM #" . UN_TABLENAME_USERS_ALIAS_ALIAS . " WHERE " . UN_TABLEFIELD_USERNAME . "='" . $owner . "'");
         $cidtitle = stripslashes($row3);
         $origcidtitle = stripslashes($row5);
         $modifysubmitteremail = $row7['user_email'];

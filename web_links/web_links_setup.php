@@ -1,4 +1,4 @@
-<?php    
+<?php
 /*
 * e107 website system
 *
@@ -6,75 +6,130 @@
 * Released under the terms and conditions of the
 * GNU General Public License (http://www.gnu.org/licenses/gpl.txt)
 *
-* e107 Web Links Plugin
-*
-* #######################################
-* #     e107 website system plugin      #
-* #     by Jimako                    	 #
-* #     https://www.e107sk.com          #
-* #######################################
-*/ 
+* Custom install/uninstall/update routines for jmtheme plugin
+**
+*/
 
-/**
-  * UNITED-NUKE CMS: Just Manage!
-  * http://united-nuke.openland.cz/
-  * http://united-nuke.openland.cz/forums/
-  *
-  * 2002 - 2005, (c) Jiri Stavinoha
-  * http://united-nuke.openland.cz/weblog/
-  *
-  * Translation to English language
-  * http://axlsystems.amjawa.com/ - 2005, (c) Roman Vosicky
-  *  
-  * Portions of this software are based on PHP-Nuke
-  * http://phpnuke.org - 2002, (c) Francisco Burzi
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU General Public License
-  * as published by the Free Software Foundation; either version 2
-  * of the License, or (at your option) any later version.
-**/
+//load constants for front+admin
+require_once(e_PLUGIN.'web_links/web_links_defines.php');	
 
- 
 if(!class_exists("web_links_setup"))
 {
 	//never don't relay on plugin version in database if there are database changes!
 	class web_links_setup
 	{
         var $pluginname = 'web_links';
+        
+        
+        /**
+		 * For inserting default database content during install after table has been created by the jmcontactus_sql.php file.
+		 */
+		public function install_post($var)
+		{
+			$sql = e107::getDb();
+			$mes = e107::getMessage();
+			$options = array();
+			$eplug_folder = "web_links";
+
+            $eplug_tables = array( 
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_CATEGORIES." (
+              `cid` int(11) NOT NULL auto_increment,
+              `title` varchar(50) NOT NULL default '',
+              `cdescription` text NOT NULL,
+              `parentid` int(11) NOT NULL default '0',
+              PRIMARY KEY  (`cid`),
+              KEY `cid` (`cid`)
+            ) ENGINE=MyISAM;",
+			
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_EDITORIALS." (
+              `linkid` int(11) NOT NULL default '0',
+              `adminid` varchar(60) NOT NULL default '',
+              `editorialtimestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+              `editorialtext` text NOT NULL,
+              `editorialtitle` varchar(100) NOT NULL default '',
+              PRIMARY KEY  (`linkid`),
+              KEY `linkid` (`linkid`)
+            ) ENGINE=MyISAM;",
+
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_LINKS." (
+              `lid` int(11) NOT NULL auto_increment,
+              `cid` int(11) NOT NULL default '0',
+              `sid` int(11) NOT NULL default '0',
+              `title` varchar(100) NOT NULL default '',
+              `url` varchar(100) NOT NULL default '',
+              `description` text NOT NULL,
+              `date` datetime default NULL,
+              `name` varchar(100) NOT NULL default '',
+              `email` varchar(100) NOT NULL default '',
+              `hits` int(11) NOT NULL default '0',
+              `submitter` varchar(60) NOT NULL default '',
+              `linkratingsummary` double(6,4) NOT NULL default '0.0000',
+              `totalvotes` int(11) NOT NULL default '0',
+              `totalcomments` int(11) NOT NULL default '0',
+              PRIMARY KEY  (`lid`),
+              KEY `lid` (`lid`),
+              KEY `cid` (`cid`),
+              KEY `sid` (`sid`)
+            ) ENGINE=MyISAM;",	
+
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_MODREQUEST." (
+              `requestid` int(11) NOT NULL auto_increment,
+              `lid` int(11) NOT NULL default '0',
+              `cid` int(11) NOT NULL default '0',
+              `sid` int(11) NOT NULL default '0',
+              `title` varchar(100) NOT NULL default '',
+              `url` varchar(100) NOT NULL default '',
+              `description` text NOT NULL,
+              `modifysubmitter` varchar(60) NOT NULL default '',
+              `brokenlink` int(3) NOT NULL default '0',
+              PRIMARY KEY  (`requestid`),
+              UNIQUE KEY `requestid` (`requestid`)
+            ) ENGINE=MyISAM;",
+            
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_NEWLINK." (
+              `lid` int(11) NOT NULL auto_increment,
+              `cid` int(11) NOT NULL default '0',
+              `sid` int(11) NOT NULL default '0',
+              `title` varchar(100) NOT NULL default '',
+              `url` varchar(100) NOT NULL default '',
+              `description` text NOT NULL,
+              `name` varchar(100) NOT NULL default '',
+              `email` varchar(100) NOT NULL default '',
+              `submitter` varchar(60) NOT NULL default '',
+              PRIMARY KEY  (`lid`),
+              KEY `lid` (`lid`),
+              KEY `cid` (`cid`),
+              KEY `sid` (`sid`)
+            ) ENGINE=MyISAM;",
+            
+            
+            "CREATE TABLE ".MPREFIX.UN_TABLENAME_LINKS_VOTEDATA." (
+              `ratingdbid` int(11) NOT NULL auto_increment,
+              `ratinglid` int(11) NOT NULL default '0',
+              `ratinguser` varchar(60) NOT NULL default '',
+              `rating` int(11) NOT NULL default '0',
+              `ratinghostname` varchar(60) NOT NULL default '',
+              `ratingcomments` text NOT NULL,
+              `ratingtimestamp` datetime NOT NULL default '0000-00-00 00:00:00',
+              PRIMARY KEY  (`ratingdbid`),
+              KEY `ratingdbid` (`ratingdbid`)
+            ) ENGINE=MyISAM;",
+            
+          
+            );		
+			foreach ($eplug_tables as $table_query)
+			{
+				e107::getDB()->gen($table_query);
+			}
+		}
+        
 		
 		function upgrade_post($var)
 		{
 			// TODO Add pref for this - for now just way how get data
 			if(e107::isInstalled('links_page')) 
 			{ 
-				/* unnuke
-				CREATE TABLE `links_categories` (
-					`cid` int(11) NOT NULL auto_increment,
-					`title` varchar(50) NOT NULL default '',
-					`cdescription` text NOT NULL,
-					`parentid` int(11) NOT NULL default '0',
-					PRIMARY KEY  (`cid`),
-					KEY `cid` (`cid`)
-					) ENGINE=MyISAM AUTO_INCREMENT=1 ; 
-				*/
-
-				/* e107
-				CREATE TABLE links_page_cat (
-					link_category_id int(10) unsigned NOT NULL auto_increment,
-					link_category_name varchar(100) NOT NULL default '',
-					link_category_description varchar(250) NOT NULL default '',
-					link_category_icon varchar(100) NOT NULL default '',
-					link_category_order int(10) unsigned NOT NULL default '0',
-					link_category_class varchar(100) NOT NULL default '0',
-					link_category_datestamp int(10) unsigned NOT NULL default '0',
-					link_category_sef varchar(100) NOT NULL default '',
-					PRIMARY KEY  (link_category_id)
-				) ENGINE=MyISAM;
-				*/
-				
-				 
-				$links_page_cat = e107::getDB()->retrieve('links_page_cat', '*' , false, true);
+ 				$links_page_cat = e107::getDB()->retrieve('links_page_cat', '*' , false, true);
 				 
 				foreach($links_page_cat AS $links_category) 
 				{
@@ -88,57 +143,6 @@ if(!class_exists("web_links_setup"))
 
 					e107::getDB()->insert("links_categories", $insert);
 				}
-
-				/* Note: differences */
-				/* link_category_sef, */
-				/* link_category_class,  */
-				/* link_category_order, */
-				/* link_category_icon,  */ 
-
-
-				/* LINKS */
-				/* e107 
-				CREATE TABLE links_page (
-					link_id int(10) unsigned NOT NULL auto_increment,
-					link_name varchar(100) NOT NULL default '',
-					link_url varchar(200) NOT NULL default '',
-					link_description text NOT NULL,
-					link_button varchar(100) NOT NULL default '',
-					link_category tinyint(3) unsigned NOT NULL default '0',
-					link_order int(10) unsigned NOT NULL default '0',
-					link_refer int(10) unsigned NOT NULL default '0',
-					link_open tinyint(1) unsigned NOT NULL default '0',
-					link_class tinyint(3) unsigned NOT NULL default '0',
-					link_datestamp int(10) unsigned NOT NULL default '0',
-					link_author varchar(255) NOT NULL default '',
-					link_active tinyint(1) unsigned NOT NULL default '0',    
-					PRIMARY KEY  (link_id)
-				  ) ENGINE=MyISAM;
-				*/
-
-				/* unnuke 
-				CREATE TABLE `links_links` (
-					`lid` int(11) NOT NULL auto_increment,
-					`cid` int(11) NOT NULL default '0',
-					`sid` int(11) NOT NULL default '0',
-					`title` varchar(100) NOT NULL default '',
-					`url` varchar(100) NOT NULL default '',
-					`description` text NOT NULL,
-					`date` datetime default NULL,
-					`name` varchar(100) NOT NULL default '',
-					`email` varchar(100) NOT NULL default '',
-					`hits` int(11) NOT NULL default '0',
-					`submitter` varchar(60) NOT NULL default '',
-					`linkratingsummary` double(6,4) NOT NULL default '0.0000',
-					`totalvotes` int(11) NOT NULL default '0',
-					`totalcomments` int(11) NOT NULL default '0',
-					PRIMARY KEY  (`lid`),
-					KEY `lid` (`lid`),
-					KEY `cid` (`cid`),
-					KEY `sid` (`sid`)
-				  ) ENGINE=MyISAM AUTO_INCREMENT=1 ;
-
-				*/ 
  
 				$links_pages = e107::getDB()->retrieve('links_page', '*' , false, true);
 				 
@@ -165,23 +169,7 @@ if(!class_exists("web_links_setup"))
 					);
 
 					e107::getDB()->insert("links_links", $insert, true);
-
-				/* Note: differences */
-				/* link_button, */
-				/* link_open,  */
-				/* link_class, */
-				/* link_active,  */ 
-
-				/* TODO:
-					decide what to do with date and what is the purpose of other not familiar fields
-					'name'
-					'email'
-					'hits'
-					'submitter'
-					'linkratingsummary' 
-					'totalvotes'
-					'totalcomments'
-				*/
+ 
 				}	
 			}
 		}

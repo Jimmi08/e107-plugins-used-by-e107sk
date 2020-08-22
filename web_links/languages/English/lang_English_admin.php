@@ -26,7 +26,7 @@
 //define("_FUNCTIONS","Functions");
 //define("_YES","Yes");
 //define("_NO","No");
-//define("_CATEGORY","Category");
+define("_CATEGORY","Category");
 //define("_SAVECHANGES","Save Changes");
 define("_OK","Ok!");
 define("_HELLO","Hello");
@@ -41,22 +41,19 @@ define("_PAGEURL","Page URL");
 define("_ADDURL","Add this URL");
 define("_LINKID","Link ID");
 define("_WEBLINKS","Web Links");
- 
 //define("_TITLE","Title");
 //define("_STATUS","Status");
 define("_ADD","Add");
 define("_MODIFY","Modify");
 define("_LINKSINDB","Links in our Database");
-define("_LINKSCATINDB","Links Categories in our Database");
 define("_LINKSWAITINGVAL","Links Waiting for Validation");
 define("_SUBMITTER","Submitter");
 define("_VISIT","Visit");
 define("_CLEANLINKSDB","Clean Links Votes");
-define("_LINKVOTEDCLEANED","Links Votes Cleaned");
 define("_BROKENLINKSREP","Broken Links Reports");
 define("_LINKMODREQUEST","Link Modification Requests");
-//define("_ADDMAINCATEGORY","Add a MAIN Category");
-//define("_ADDSUBCATEGORY","Add a SUB-Category");
+define("_ADDMAINCATEGORY","Add a MAIN Category");
+define("_ADDSUBCATEGORY","Add a SUB-Category");
 define("_IN","in");
 define("_ADDNEWLINK","Add a New Link");
 define("_DESCRIPTION255","Description: (255 characters max)");
@@ -82,7 +79,7 @@ define("_SUBCATEGORY","Sub-Category");
 define("_OWNER","Owner");
 define("_ACCEPT","Accept");
 define("_ERRORTHECATEGORY","ERROR: The Category");
-define("_ALREADYEXIST","already exists!");
+define("_ALREADYEXIST","already exist!");
 define("_ERRORTHESUBCATEGORY","ERROR: The Sub-Category");
 define("_EDITORIALADDED","Editorial added to the Database");
 define("_EDITORIALMODIFIED","Editorial Modified");
@@ -112,12 +109,12 @@ define("_EZTHEREIS","There is");
 define("_EZSUBCAT","sub-categories");
 define("_EZATTACHEDTOCAT","under this category");
 define("_EZBROKENLINKS","Broken Links");
-define("_LINKAPPROVEDMSG", "Gratulujeme! Odkaz, kterï¿½ jste vloï¿½il do naï¿½ï¿½ databï¿½ze, byl prï¿½vï¿½ schvï¿½l","");
+define("_LINKAPPROVEDMSG", "Gratulujeme! Odkaz, který jste vlo¾il do na¹í databáze, byl právì schvál","");
 
 define("_OWNERISADMIN","Administration");
 
 //added
-define("_WEBLINKCOMMENTS","Web Links Comments");
+define("_WEBLINKCOMMENTS","wEB lINKS cOMMENTS");
 define("_WEBLINKCOMMENTSTOTAL","Total comments:");
 define("_WEBLINKCOMMENTSUSER","User");
 define("_WEBLINKCOMMENTSUSERCOM","Comment");
@@ -145,8 +142,6 @@ define("_WEBLINKVOTEOUTVOTES","So far nobody from outside rated this link");
 define("_WLMODEDITORIAL","Modify editorial");
 
 define("_LINKS","links");
-define("_FUNCTIONS","Functions");
-define("_NONE","None");
 
 //fixes for doubled records with Downloads
 define("_ADDURLWL","Add new URL");
@@ -156,19 +151,4 @@ define("_ERRORNOTITLEWL","ERROR: You must specify new name for URL!");
 define("_ERRORNOURLWL","ERROR: URL address has to be entered!");
 define("_ERRORNODESCRIPTIONWL","ERROR: Description has to be specified!");
 
-
-define("_ALLCATEGORIES","All Categories");
-define("_PARENT_CATEGORY","Parent Category");
-define("_TOPLEVEL","Main Category");
-define("_ADD_CATEGORY","Add New Category");
-
-define("_WLINKS","Links");
-define("_MODREQLINKS","Edit links");
-define("_BROKENLINKS","Broken links");
-define("_WAITINGCONT","Waiting for you are");
-define("LAN_MAINTENANCE","Maintenance");
-
-define("_GOBACK","Go Back");
-define("_ANONYMOUSNAME","Anonymous Default Name");
-
- 
+?>

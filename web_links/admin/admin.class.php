@@ -40,8 +40,8 @@ if (!getperms('P')) {
     e107::redirect('admin');
     exit;
 }
+ 
 
-e107::lan("web_links", "lang_admin");
 
 class plugin_admin_ui extends e_admin_ui
 {
