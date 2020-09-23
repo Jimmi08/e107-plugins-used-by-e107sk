@@ -70,14 +70,7 @@ The very simple plugin for adding ads to e107 site
 
 
 ## e107 jPlayer plugin (jPlayer jQuery plugin)
-
-
-
-## Birthday plugin for e107
-
-This is updated version of Birthday menu plugin by Father Barry for e107 v2 version
-
-Full credit for this plugin belongs to Father Barry.
+ 
 
 
 ## Calendar menu plugin for e107
