@@ -79,14 +79,18 @@ function AdminHeader()
     $url01 = UN_FILENAME_ADMIN_FOLDER . "admin_links_links.php?mode=links_categories&action=create";
     $url02 = UN_FILENAME_ADMIN_FOLDER . "admin_links_categories.php?mode=links_categories&action=create";
 
-    $content = e107::getNav()->renderAdminButton($url01, "<b>" . _ADDNEWLINK . "</b><br>" . $content1 . " ", _ADDNEWLINK, "P", '', "div");
-    $content .= e107::getNav()->renderAdminButton($url02, "<b>" . _ADD_CATEGORY . "</b><br>" . $content2 . " ", _ADD_CATEGORY, "P", '', "div");
+    $the_icon = E_32_CREATE;
+    $content1 = '';
+    $content2 = '';
+    
+    $content = e107::getNav()->renderAdminButton($url01, "<b>" . _ADDNEWLINK . "</b><br>" . $content1 . " ", _ADDNEWLINK, "P", $the_icon, "div");
+    $content .= e107::getNav()->renderAdminButton($url02, "<b>" . _ADD_CATEGORY . "</b><br>" . $content2 . " ", _ADD_CATEGORY, "P", $the_icon, "div");
 
-    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksListBrokenLinks", _BROKENLINKSREP . " (" . $totalbrokenlinks . ")", _BROKENLINKSREP, "P", '', "div");
-    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksListBrokenLinks", _LINKMODREQUEST . " (" . $totalmodrequests . ")", _LINKMODREQUEST, "P", '', "div");
+    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksListBrokenLinks", "<b>" ._BROKENLINKSREP . " </b>  (" . $totalbrokenlinks . ")", _BROKENLINKSREP, "P", E_32_CAT_CONT, "div");
+    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksListBrokenLinks", "<b>" ._LINKMODREQUEST . " </b>  (" . $totalmodrequests . ")", _LINKMODREQUEST, "P", E_32_INSPECT, "div");
 
-    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksCleanVotes", "<b>" . _CLEANLINKSDB . "</b><br>" . LAN_MAINTENANCE, _CLEANLINKSDB, "P", '', "div");
-    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksLinkCheck", "<b>" . _VALIDATELINKS . "</b><br>" . LAN_MAINTENANCE, _VALIDATELINKS, "0", '', "div");
+    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksCleanVotes", "<b>" . _CLEANLINKSDB . "</b> (" . LAN_MAINTENANCE. ")", _CLEANLINKSDB, "P", ADMIN_DELETE_ICON, "div");
+    $content .= e107::getNav()->renderAdminButton(UN_FILENAME_ADMIN . "?op=LinksLinkCheck", "<b>" . _VALIDATELINKS . "</b> ("  . LAN_MAINTENANCE.")", _VALIDATELINKS, "0", E_32_TRUE, "div");
 
     return $content;
 }

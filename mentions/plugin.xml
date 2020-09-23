@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Mentions" lan="LAN_MENTIONS_PLUGIN_NAME" version="1.6.4" date="2018-04-04" compatibility="2.0" installRequired="true" >
+	<author name="Arun S. Sekher" url="https://github.com/arunshekher" />
+	<summary lan="LAN_MENTIONS_PLUGIN_SUMMARY">A user @mention plugin</summary>
+	<description lan="LAN_MENTIONS_PLUGIN_DESCRIPTION">It provides Twitter or GitHub like '@username' mention functionality for e107.</description>
+	<copyright>Copyright Arun S. Sekher, Licensed under AGPL (https://www.gnu.org/licenses/agpl-3.0)</copyright>
+	<category>users</category>
+	<keywords>
+		<word>mentions</word>
+		<word>user</word>
+		<word>notification</word>
+	</keywords>
+	<adminLinks>
+		<link url="admin_config.php" description="LAN_MENTIONS_PLUGIN_CONFIGURE" icon="images/mentions_32.png" iconSmall="images/mentions_16.png" icon128="images/mentions_128.png" primary="true" >LAN_CONGIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name="mentions_active">1</pref>
+		<pref name="mentions_contexts">1</pref>
+		<pref name="use_global_path">0</pref>
+		<pref name="atwho_min_char">2</pref>
+        <pref name="atwho_max_char">15</pref>
+        <pref name="atwho_item_limit">5</pref>
+        <pref name="atwho_highlight_first">1</pref>
+		<pref name="atwho_avatar">0</pref>
+		<pref name="notify_chatbox_mentions">0</pref>
+		<pref name="notify_comment_mentions">1</pref>
+		<pref name="notify_forum_mentions">1</pref>
+		<pref name="email_subject_line">You were mentioned by {MENTIONER}</pref>
+		<pref name="max_emails">10</pref>
+		<pref name="avatar_size">32</pref>
+		<pref name="avatar_border">circle</pref>
+	</pluginPrefs>
+</e107Plugin>

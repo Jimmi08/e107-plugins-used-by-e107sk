@@ -44,7 +44,7 @@ e107::plugLan("web_links" , "lang_".e_LANGUAGE."_admin");
 e107::plugLan("web_links" , true);
 
 //load constants for front+admin
-require_once "admin.class.php";
+require_once "admin.class.php";               
  
 require_once e_PLUGIN . 'web_links/web_links_defines.php';
 require_once e_PLUGIN . 'web_links/admin/web_links_admin_functions.php';

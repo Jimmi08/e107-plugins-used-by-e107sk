@@ -1,0 +1,12 @@
+array (
+  'email_subject' => 'You were mentioned by Jimako',
+  'send_html' => true,
+  'email_body' => '
+<div>
+	<p>Hello Kizi,</p>
+	<p>Jimako mentioned you in a <a href="https://www.e107sk.com/e107_plugins/chatbox_menu/chat.php">chatbox</a> post on <span>Friday 18 October 2019 - 22:32:00</span>.</p>
+</div>',
+  'template' => 'default',
+  'e107_header' => '2',
+  'extra_header' => 'X-e107-Plugin : Mentions-Plugin-v',
+)

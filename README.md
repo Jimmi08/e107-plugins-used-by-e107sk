@@ -68,7 +68,7 @@ Smartsupp Live Chat integration plugin for e107 v2 Boostrap CMS
 
 The very simple plugin for adding ads to e107 site
  
- 
+
 ## Calendar menu plugin for e107
 
 Full credit for this plugin belongs to e107 core developers.
@@ -78,13 +78,6 @@ Full credit for this plugin belongs to e107 core developers.
 
 Full credit for this plugin belongs to septor.
 
-
-## Team Members plugin for e107
-
-The plugin for company team members. Originally for real estate agents. 
-
-Warning!  This is only backup or prelease for inspiration.
- 
 
 
 ## Class Membership plugin for e107
@@ -118,13 +111,6 @@ Note: wait for 2.3 release
 
 In progress.
 
-## Testimonials plugin for e107
-
-Full credit for this plugin belongs to lonalore. But his version is focused on users, I needed something for clients. 
-
-In progress.
-
-Original source: https://github.com/lonalore/testimonials
 
 ## Metatag plugin for e107
 

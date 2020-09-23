@@ -41,6 +41,8 @@ if (!defined('e107_INIT'))
 	exit;
 }
 
+e107::plugLan("web_links" , "lang_".e_LANGUAGE);
+
 trait WebLinksTrait
 {
 

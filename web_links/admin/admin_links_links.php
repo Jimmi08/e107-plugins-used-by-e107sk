@@ -57,16 +57,15 @@ class web_links_ui extends plugin_admin_ui
 		protected $listOrder		= 'lid DESC';
 	    //   'date'  'hits' 'submitter'   'linkratingsummary'  'totalvotes'    'totalcomments'
 		protected $fields 		= array (
-			'checkboxes'              => array (  'title' => '',  'type' => null,  'data' => null,  'forced' => true,  'toggle' => 'e-multiselect' ),
+			'checkboxes'              => array (  'title' => '',  'type' => null,  'data' => null,  'forced' => true,  'toggle' => 'e-multiselect' ),    
 			'lid'                     => array ( 'title' => LAN_ID, 'data' => 'int', 'type'=>'number', 'forced'=> TRUE, 'readonly'=>TRUE),
 			'title'                   => array (  'title' => _PAGETITLE,  'type' => 'text',  'data' => 'str',  
             'writeParms' => 'size=block-level', 'filter' => true ),
 			'url'                     => array (  'title' => _PAGEURL,  'type' => 'url',  'data' => 'str',   'readParms' => 'target=blank', 
             'writeParms' => 'size=block-level',),
-            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => 'int', 'filter' => true,    'batch' => true,  'inline' => true ),
-            'sid'                     => array (  'title' => _SUBCATEGORY,  'type' => 'dropdown',  'data' => 'int',  'batch' => true,  'inline' => true ),               
+            'cid'                     => array (  'title' => LAN_CATEGORY,  'type' => 'dropdown',  'data' => false, 'filter' => true,    'batch' => true,  'inline' => true ),               
 			'description'             => array (  'title' => _DESCRIPTION255,  'type' => 'textarea',  'data' => 'str',  
-            'readParms' => 'expand=...&truncate=150&bb=1',  'writeParms' => 'size=block-level',),
+              'writeParms' => 'size=block-level',),
 			'name'                    => array (  'title' => LAN_NAME,  'type' => 'text',  'data' => 'str',  'inline' => true,   'nosort' => true,),
 			'email'                   => array (  'title' => LAN_EMAIL,  'type' => 'email',  'data' => 'str',  'inline' => true,),  
             'date'                    => array (  'title' => LAN_DATE,  'type' => false,  'data' => 'str'   ),        
@@ -79,26 +78,36 @@ class web_links_ui extends plugin_admin_ui
 		public function init()
 		{	
  
-			$rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "*", "WHERE parentid = 0 ", true);
-			$values[0] = '_NONE';
-			foreach($rows AS $row) 
-			{
-				$values[$row['cid']] = $row['title'];
+            $rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "cid, title, parentid", "WHERE TRUE ORDER BY parentid,title ",  true);
+            $values[0] = 'LAN_NONE';
+            foreach($rows AS $row) 
+			{   $ctitle2 = e107::getParser()->toHTML($row['title'], "", "TITLE");
+                $parentid2 = $row['parentid'];
+				if ($parentid2 != 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
+				$values[$row['cid']] = $ctitle2;
 			}
-			$this->fields['cid']['writeParms']['optArray'] = $values ;   
             
-            $values = array();
-            
-            $rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "*", "WHERE parentid != 0 ", true);
-			$values[0] = '_NONE';
-			foreach($rows AS $row) 
-			{
-				$values[$row['cid']] = $row['title'];
-			}
-        	$this->fields['sid']['writeParms']['optArray'] = $values ; 
+        	$this->fields['cid']['writeParms']['optArray'] = $values ; 
 		}
+        
  
-       
+    	function getparent($parentid,$title) {
+    
+    		$parentid = intval($parentid);
+    		$result = e107::getDB()->gen("SELECT cid, title, parentid FROM #".UN_TABLENAME_LINKS_CATEGORIES." WHERE cid='".$parentid."'");
+    		$row = e107::getDB()->fetch($result);
+    		 
+    		$cid = $row['cid'];
+    		$ptitle = e107::getParser()->toHTML($row['title'], "", "TITLE");
+    		$pparentid = $row['parentid'];
+    
+    		if(!empty($ptitle) && $ptitle != $title) $title = $ptitle."/".$title;
+    		if ($pparentid != 0) {
+    			$title = $this->getparent($pparentid,$title);
+    		}
+    		return $title;
+    	}
+           
        public function beforeCreate($new_data)
 	   {
  
@@ -144,7 +153,7 @@ class web_links_ui extends plugin_admin_ui
             if($new_data['date'] == "0000-00-00 00:00:00" OR $new_data['date'] == '' ) {
                $new_data['date'] = date("Y-m-d H:i:s");
             }
- 
+           
             return $new_data;
  
 		}     

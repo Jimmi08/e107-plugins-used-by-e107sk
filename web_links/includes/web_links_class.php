@@ -34,9 +34,9 @@
 		if ((USER && $user_addlink == 1) || $links_anonaddlinklock != 1) {
         
             $rows = e107::getDb()->retrieve(UN_TABLENAME_LINKS_CATEGORIES, "cid, title, parentid", "WHERE TRUE ORDER BY parentid,title ",  true);
-            $values[0] = '_NONE';
+            $values[0] = 'LAN_NONE';
             foreach($rows AS $row) 
-			{   $ctitle2 = stripslashes(check_html($row['title'], "nohtml"));
+			{   $ctitle2 = e107::getParser()->toHTML($row['title'], "", "TITLE");
                 $parentid2 = $row['parentid'];
 				if ($parentid2 != 0) $ctitle2 = $this->getparent($parentid2,$ctitle2);
 				$values[$row['cid']] = $ctitle2;

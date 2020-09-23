@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="User Class Badges Plugin" lan="LAN_PLUGIN__BLANK_NAME" version="1.0" date="2019-02-03" compatibility="2.0" installRequired="true" >
+	<author name="e107 Inc." url="http://e107.org" />
+	<summary lan="">A Blank Plugin to help you get started in plugin development</summary>
+	<description lan="">A Blank Plugin to help you get started in plugin development. More details can be added here.</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>empty</word>
+		<word>template</word>
+	</keywords>
+	<category>misc</category>
+	<copyright>https://www.e107.sk/</copyright>
+	<adminLinks>
+		<link url="admin_config.php" description="" icon="" iconSmall="" icon128="" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='auto_view_template'>0</pref>
+        <pref name='auto_list_template'>0</pref> 
+	</pluginPrefs>
+</e107Plugin>

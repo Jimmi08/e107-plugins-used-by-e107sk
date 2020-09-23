@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Yandex Turbo Pages" lan="LAN_PLUGIN_YTP_NAME" version="2.2.3dev" date="2019-03-12" compatibility="2.2.0" installRequired="true" >
+	<author name="Jimako" url="https://www.e107.sk" />
+	<summary lan="LAN_PLUGIN_YTP_SUMMARY">Turbo Pages support in RSS channel</summary>
+	<description lan="LAN_PLUGIN_YTP_DESCRIPTION">This technology allow mobile visitors to view accelerated pages as well as specially optimized pages</description>
+	<keywords>
+		<word>content</word>
+		<word>seo</word>
+		<word>yandex</word>
+	</keywords>
+	<category>misc</category>
+	<copyright>https://www.e107.sk</copyright>
+	<adminLinks>
+		<link url="admin/admin_config.php" description="LAN_CONFIGURE" icon="images/icon32.jpg" iconSmall="images/icon16.jpg" icon128="images/icon128.jpg" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name='yandex_turbo_active'>1</pref>
+		<pref name='ytp_pages_active'>0</pref>
+		<pref name='ytp_pages_summarylimit'>100</pref>
+		<pref name='ytp_pages_navigation'>0</pref>
+		<pref name='ytp_pages_navigation_data'>1</pref>
+	</pluginPrefs>
+</e107Plugin>
