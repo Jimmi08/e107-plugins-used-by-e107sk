@@ -67,12 +67,8 @@ Smartsupp Live Chat integration plugin for e107 v2 Boostrap CMS
 ## Google Adsense Ads for CMS e107
 
 The very simple plugin for adding ads to e107 site
-
-
-## e107 jPlayer plugin (jPlayer jQuery plugin)
  
-
-
+ 
 ## Calendar menu plugin for e107
 
 Full credit for this plugin belongs to e107 core developers.
