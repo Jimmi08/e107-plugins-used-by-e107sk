@@ -1,0 +1,37 @@
+.table .table {
+    background-color:  initial;
+}
+
+.tab-content {
+    background-color: initial;
+}
+
+
+.admin-main-content div.block > .caption {
+    padding: 15px;
+    margin-top: 0;
+    font-size: 25px;
+    font-weight: 300;
+    border-bottom: 5px solid #e5e5e5 !important;
+} 
+
+thead tr,
+.navbar {
+background-image: none;
+}
+ 
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+	background-color: initial;
+}
+
+optgroup {
+    background-color: initial;
+}
+
+
+
+table.adminlist tbody  .even {
+				background-color: #eeeeee;
+ 
+ }

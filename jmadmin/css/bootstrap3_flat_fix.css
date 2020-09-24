@@ -1,0 +1,45 @@
+.form-control,
+.form-control:focus,
+.has-success .form-control,
+.has-success .form-control:focus,
+.has-warning .form-control,
+.has-warning .form-control:focus,
+.has-error .form-control
+.has-error .form-control:focus,
+.btn.active, .btn:active,
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn,
+.btn-link, .btn-link.active, .btn-link:active, .btn-link[disabled], fieldset[disabled] .btn-link,
+.dropdown-menu,
+.btn-group.open .dropdown-toggle.btn-link,
+.navbar-collapse,
+.navbar-form,
+.progress,
+.progress-bar,
+.panel,
+.well,
+.modal-content,
+.popover {  
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.plupload_button.active, .plupload_button:active, button.button.active, button.button:active, input.button.active, input.button:active,
+.plupload_button.disabled, .plupload_button[disabled], button.button.disabled, button.button[disabled], fieldset[disabled] .plupload_button, fieldset[disabled] button.button, fieldset[disabled] input.button, input.button.disabled, input.button[disabled] 
+{
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+input:invalid:focus, select:invalid:focus, textarea:invalid:focus, 
+.breadcrumb, .darkwell, .form-control, .hero-unit, .progress, .uneditable-input, code, input[type=date], input[type=time], input[type=datetime-local], input[type=month], input[type=text], input[type=password], input[type=datetime], input[type=week], input[type=email], input[type=url], input[type=tel], input[type=color], input[type=number], input[type=search], pre, select, textarea {
+	box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.close,
+.carousel-caption, .carousel-control,
+.navbar,
+.btn, .btn:hover, button.button, input.button,
+h1, h2, h3, h4, h5, h6   {
+ text-shadow: none!important
+}
