@@ -48,7 +48,9 @@ $recaptchaSecretKey = e107::pref('recaptcha', 'secretkey');
 		static function hiddeninput()
 		{	 
 			$frm = e107::getForm();	
-			return $frm->hidden("rand_num", 'google' );
+            $element = '<div class="g-recaptcha"  ></div> ';
+            $element .= $frm->hidden("rand_num", 'google' );
+			return $element;
 		}
 		
 		static function verify($code, $other)
@@ -104,7 +106,7 @@ $recaptchaSecretKey = e107::pref('recaptcha', 'secretkey');
 	 }  
 	 
 		/* remove original captcha */
-	  e107::getOverride()->replace('secure_image::r_image',     'e107recaptcha::input');
+	  e107::getOverride()->replace('secure_image::r_image',     'e107recaptcha::blank');
 		e107::getOverride()->replace('secure_image::renderInput', 'e107recaptcha::hiddeninput');
 		e107::getOverride()->replace('secure_image::invalidCode', 'e107recaptcha::invalid');
 	 	e107::getOverride()->replace('secure_image::renderLabel', 'e107recaptcha::blank');

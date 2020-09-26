@@ -73,6 +73,7 @@ class recaptcha_ui extends e_admin_ui
 	//	protected $preftabs        = array('General', 'Other' );
 		protected $prefs = array(
 			'active'		=> array('title'=> 'Active', 'tab'=>0, 'type'=>'bool', 'data' => 'int', 'help'=>''),
+            'hidefrommembers'		=> array('title'=> 'Hide from Members', 'tab'=>0, 'type'=>'bool', 'data' => 'int', 'help'=>''),
 			'sitekey'		=> array('title'=> 'Site Key', 'tab'=>0, 'type'=>'text', 'data' => 'str', 'help'=>'', 'writeParms' => array('size'=>'block-level')),
 			'secretkey'		=> array('title'=> 'Secret Key', 'tab'=>0, 'type'=>'text', 'data' => 'str', 'help'=>'', 'writeParms' => array('size'=>'block-level')),
 		); 

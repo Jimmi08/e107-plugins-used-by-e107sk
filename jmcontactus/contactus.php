@@ -105,7 +105,9 @@ if ($_POST["Submit"]) {
 	foreach($_POST as $k => $p) {
 		$p_vars[$k] = $p;
 	}
-
+   if (e107::isInstalled('recaptcha') && e107::pref('recaptcha', 'active'))  {  
+        $p_vars['code_verify'] =  $p_vars['g-recaptcha-response'];
+   }
 	//cachevars('contactform_post', $p_vars);
 	e107::setRegistry('core/cachedvars/contactform_post', $p_vars);
 }

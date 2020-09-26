@@ -321,7 +321,7 @@ function buildformfield($type, $id, $parameters = '',  $value = null)
 		if (e107::isInstalled('recaptcha') && e107::pref('recaptcha', 'active'))  
 		{   
 			$recaptchaSiteKey = e107::pref('recaptcha', 'sitekey'); 
-			$imgcode = '<div class="g-recaptcha" data-sitekey="'.$recaptchaSiteKey.'"  ></div> ';
+			$imgcode = e107::getParser()->parseTemplate('{RECAPTCHA}');
 		}
 		else 
 		{   

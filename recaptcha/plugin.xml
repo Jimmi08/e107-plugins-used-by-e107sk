@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="NoCaptcha ReCaptcha" lan="" version="1.2.1" date="2018-08-29" compatibility="2.0" installRequired="true" >
+<e107Plugin name="NoCaptcha ReCaptcha" lan="" version="1.3.0" date="2019-12-27" compatibility="2.0" installRequired="true" >
 	<author name="Jimako" url="https://www.e107.sk/" />
 	<summary lan="">Google ReCaptcha for e107. </summary>
 	<description lan="">A drop-in replacement for the e107 captcha, making your site more use-friendly and secure.</description>
@@ -15,6 +15,7 @@
 	</adminLinks>
 	<pluginPrefs>
 		<pref name='active'>1</pref>
+		<pref name='hidefrommembers'>1</pref>
 		<pref name='sitekey'>Your Site Key</pref>
 		<pref name='secretkey'>Your Secret Key</pref>
 	</pluginPrefs>
