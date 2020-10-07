@@ -69,6 +69,15 @@ if (ADMIN_AREA) {
 		//if KA Admin
 			if(true) {  
 				$css .= " 
+                @media (min-width: 1200px) {
+                  .col-lg-2 {
+                    width: 20%;
+                  }
+                  .col-lg-10 {
+                    width: 80%;
+                  }
+                }
+                
 				@media all and (max-width: 1150px)  {
 				.dropdown-menu {
 					width: 100%;
@@ -141,8 +150,13 @@ if (ADMIN_AREA) {
 
 	 /* 6 */
 	$adminlook_kadmin  = varset($settings['adminlook_kadmin'], true); 
+    
+    $inline_script .= "  
+     $('table.adminlist').wrap('<div class=\"table-responsive\"></div>');
+     $('#admin-ui-list-filter .form-inline').removeClass('span8 col-md-8').addClass('col-md-12');
+    ";
 	
-	if($adminlook_kadmin) { 
+    if($adminlook_kadmin) { 
 
 
 		if(e107::getPref('admincss') == "css/bootstrap-dark.min.css") { 
@@ -164,16 +178,15 @@ if (ADMIN_AREA) {
 		.table select {
 			height: 42px;
 		}
-
-		.admin-main-content .btn {
-			padding: 10px;
-		}
-
+ 
 		.admin-main-content div.block > .caption {
 			background: ".$settings['kadmin_white_bg'].";
 		} 
  
-
+        #etrigger-filter {
+          background: ".$settings['kadmin_primary_bg'].";
+        }
+        
 		.btn-default {
 			border-radius: 0px !important;
 		}
@@ -212,6 +225,7 @@ if (ADMIN_AREA) {
 			transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
 		}
 
+
 		";
 
 		$kadmin_dark_text =  $settings['kadmin_dark_text'];
@@ -230,6 +244,32 @@ if (ADMIN_AREA) {
 				color: ".$kadmin_dark_text.";
 			}
  
+            /* main navigation */
+            
+            .nav-admin.navbar-left li a {
+                padding-top: 10px;
+                padding-bottom: 10px;
+                
+            } 
+            
+            .nav-admin.navbar-left ul.dropdown-menu   {   
+                padding: 0px;
+            }            
+            .nav-admin.navbar-left ul.dropdown-menu li {   
+                border-bottom: 2px solid ".$kadmin_primary_bg.";
+            }
+            
+            .dropdown-menu>li.active  {
+                color: ".$kadmin_primary_text.";
+                background-color: ".$kadmin_primary_bg.";   
+            }
+
+            .dropdown-menu>li>a:focus, 
+            .dropdown-menu>li>a:hover {
+                color: ".$kadmin_primary_text_hover.";
+                background-color: ".$kadmin_primary_bg_hover.";
+                border-bottom: 2px solid ".$kadmin_primary_bg.";
+            }
 
 			/* Left menu */
 			.admin-left-panel {
@@ -324,7 +364,7 @@ if (ADMIN_AREA) {
 				color: ".$kadmin_primary_text_hover."; 
 			}
 			.admin-main-content .btn-default {
-				background: ".$kadmin_light_bg.";
+				background: ".$kadmin_primary_bg.";
 			}
               
           	.admin-left-panel .btn-default {
@@ -391,6 +431,7 @@ if (ADMIN_AREA) {
 				color: ".$kadmin_primary_text."; 
 			}
 			
+            .table-responsive>.table,
 			table {
 				background-color: ".$kadmin_light_bg.";
 			}
