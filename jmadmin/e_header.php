@@ -268,7 +268,6 @@ if (ADMIN_AREA) {
             .dropdown-menu>li>a:hover {
                 color: ".$kadmin_primary_text_hover.";
                 background-color: ".$kadmin_primary_bg_hover.";
-                border-bottom: 2px solid ".$kadmin_primary_bg.";
             }
 
 			/* Left menu */
