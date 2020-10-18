@@ -324,6 +324,10 @@ if (ADMIN_AREA) {
 				background: transparent; 
 				color: ".$kadmin_dark_text.";  
 			}
+            
+            .admin-right-panel .modal-content {
+                background: white; 
+            }
 
 			.nav-pills li.active a {
 				background: ".$kadmin_primary_bg.";
