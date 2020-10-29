@@ -15,6 +15,9 @@ https://github.com/e107inc/e107/issues/4217 Wrong comment avatar + Reason  (test
 
 https://github.com/e107inc/e107/issues/3780 How to delete all posts/comments by a user?  
 
+Adding export option for comment content
+
+
 
 
  

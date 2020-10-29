@@ -67,7 +67,8 @@ class comments_admin_ui extends e_admin_ui
 		protected $pid = "comment_id";
 		protected $perPage = 10;
 		protected $batchDelete = true;
-		
+		protected $batchExport = true;
+        
 		//TODO - finish 'user' type, set 'data' to all editable fields, set 'noedit' for all non-editable fields
     	protected $fields = array(
 			'checkboxes'			=> array('title'=> '',				'type' => null, 			'width' =>'5%', 'forced'=> TRUE, 'thclass'=>'center', 'class'=>'center'),
