@@ -18,7 +18,7 @@ if (!defined('e107_INIT'))
 {
 	exit;
 }
-
+ e107::coreLan('date'); 
 	/**
 	 * @todo upgrade prefs usage and use e_menu.php instead of config.php
 	 */
@@ -110,4 +110,3 @@ if(empty($title))
 e107::getRender()->tablerender(defset($title, $title), $text, 'comment_menu');
 
 
-?>
