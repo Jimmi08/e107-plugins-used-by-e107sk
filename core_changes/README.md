@@ -19,6 +19,6 @@ Adding export option for comment content
 
 Adding option to change parent comment (fix wrong nesting)
 
-
+Changing number of records/page in admin area
 
  

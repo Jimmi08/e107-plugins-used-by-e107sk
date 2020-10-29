@@ -65,7 +65,7 @@ class comments_admin_ui extends e_admin_ui
 		//protected $editQry = "SELECT * FROM #comments WHERE comment_id = {ID}";
 		
 		protected $pid = "comment_id";
-		protected $perPage = 10;
+		protected $perPage = 100;
 		protected $batchDelete = true;
 		protected $batchExport = true;
         
