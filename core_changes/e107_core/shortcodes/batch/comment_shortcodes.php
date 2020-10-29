@@ -118,9 +118,10 @@ class comment_shortcodes extends e_shortcode
 		//	$text = $tp->parseTemplate("{USER_AVATAR=".$this->var['user_id']."}");
 
 		// Posting a new comment (check that it is not an existing comment by anonymous user) - #3813 & 3829
-		if($this->var['comment_author_id'] != '0' && USERID)
+		//if($this->var['comment_author_id'] != '0' && USERID)
+        if($this->var['comment_author_id'] > '0' && USERID)
 		{
-			$userdata = e107::user(USERID); 
+			$userdata = e107::user($this->var['comment_author_id']); 
 			$this->var = array_merge($this->var, $userdata); 
 		}
 

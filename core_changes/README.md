@@ -10,3 +10,7 @@ https://github.com/e107inc/e107/issues/4241 comment rendering ads some code to b
 https://github.com/e107inc/e107/issues/4261 comments - not able to edit comment subject 
 
 https://github.com/e107inc/e107/issues/4249 problem with LANDT_XAGO in comment menu 
+
+https://github.com/e107inc/e107/issues/4217 Wrong comment avatar + Reason  (tested with only registered users)
+
+ 
