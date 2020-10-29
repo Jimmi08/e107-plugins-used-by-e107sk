@@ -20,8 +20,8 @@ class core_news_sef_url extends eUrlConfig
 				'legacy' 		=> '{e_BASE}news.php', 	// [optional] default empty; if it's a legacy module (no single entry point support) - URL to the entry point script; override per rule is allowed
 				'format'		=> 'path', 				// get|path - notify core for the current URL format, if set to 'get' rules will be ignored
 				'defaultRoute'	=> 'list/items', 		// [optional] default empty; route (no leading module) used when module is found with no additional controller/action information e.g. /news/
-				'urlSuffix' 	=> '',
-				'allowMain' 	=> true,
+				'urlSuffix' 	=> '.html',
+				'allowMain' 	=> true,   
 				
 				### default vars mapping (create URL), override per rule is allowed
 				'mapVars' 		=> array(  
@@ -99,11 +99,11 @@ class core_news_sef_url extends eUrlConfig
 				### View news item - kinda catch all - very bad performance when News is chosen as default namespace - two additional DB queries on every site call!
 				## Leading category name - uncomment to enable
 				//'<category:{sefsecure}>/<name:{sefsecure}>' => array('view/item', 'mapVars' => array('category_sef' => 'category', 'news_sef' => 'name', 'news_id' => 'id'), 'legacyQuery' => 'extend.{name}', 'parseCallback' => 'itemIdByTitle'),
-				'View/<id:{number}>/<category:{sefsecure}>/<name:{sefsecure}>' => array('view/item', 'mapVars' => array('category_sef' => 'category', 'news_sef' => 'name', 'news_id' => 'id'), 'legacyQuery' => 'extend.{id}'),
+			 	'View/<id:{number}>/<category:{sefsecure}>_<name:{sefsecure}>' => array('view/item', 'mapVars' => array('category_sef' => 'category', 'news_sef' => 'name', 'news_id' => 'id'), 'legacyQuery' => 'extend.{id}'),
 				// Base location as item view - fallback if category sef is missing
 				//'<name:{sefsecure}>' 						=> array('view/item', 'mapVars' => array('news_id' => 'id', 'news_sef' => 'name'), 'legacyQuery' => 'extend.{name}', 'parseCallback' => 'itemIdByTitle'),
 				// fallback if news sef is missing
-				'View/<id:{number}>/<name:{sefsecure}>' 		=> array('view/item', 'mapVars' => array('news_id' => 'id', 'news_sef' => 'name'), 'legacyQuery' => 'extend.{id}'),
+		    	'View/<id:{number}>/<name:{sefsecure}>' 		=> array('view/item', 'mapVars' => array('news_id' => 'id', 'news_sef' => 'name'), 'legacyQuery' => 'extend.{id}'),
 				
 				'View/<id:{number}>' 		=> array('view/item', 'mapVars' => array('news_id' => 'id'), 'legacyQuery' => 'extend.{id}'),
 				
