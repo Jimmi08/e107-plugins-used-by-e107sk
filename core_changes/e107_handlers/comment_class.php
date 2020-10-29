@@ -295,7 +295,7 @@ class comment
 		//	$text .= (!$pref['nested_comments']) ? "<input type='hidden' name='subject' value='".$tp->toForm($subject)."'  />\n" : "";
 	
 			$text .= "
-			<input type='hidden' name='subject' value='".$tp->toForm($subject)."'  />
+ 
 			<input type='hidden' name='e-token' value='".e_TOKEN."' />
 			<input type='hidden' name='table' value='".$table."' />
 			<input type='hidden' name='itemid' value='".$itemid."' />
