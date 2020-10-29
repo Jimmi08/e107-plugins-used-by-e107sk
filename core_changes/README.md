@@ -17,6 +17,7 @@ https://github.com/e107inc/e107/issues/3780 How to delete all posts/comments by 
 
 Adding export option for comment content
 
+Adding option to change parent comment (fix wrong nesting)
 
 
 
