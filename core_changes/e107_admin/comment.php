@@ -79,7 +79,7 @@ class comments_admin_ui extends e_admin_ui
 			'comment_item_id' 		=> array('title'=> LAN_ITEM,		'type' => 'text',	'readonly'=>2, 'data'=>'int',		'width' => '5%'),
          	'comment_subject' 		=> array('title'=> LAN_SUBJECT,		'type' => 'text',			'width' => 'auto', 'thclass' => 'left first', 'writeParms'=>array('size'=>'xxlarge')), // Display name
          	'comment_comment' 		=> array('title'=> LAN_COMMENTS,		'type' => 'textarea',			'width' => '30%', 'readParms' => 'expand=...&truncate=50&bb=1', 'writeParms'=>'size=xxlarge'), // Display name
-		 	'comment_author_id' 	=> array('title'=> LAN_AUTHOR,		'type' => 'user',			'data' => 'int',	'width' => 'auto', 'writeParms' => 'nameField=comment_author_name'),	// User id
+		 	'comment_author_id' 	=> array('title'=> LAN_AUTHOR,		'type' => 'user',	'filter' => 'true',			'data' => 'int',	'width' => 'auto', 'writeParms' => 'nameField=comment_author_name'),	// User id
          	'comment_author_name' 	=> array('title'=> LAN_USER,	'type' => 'text',			'width' => 'auto', 'readParms'=>'idField=comment_author_id&link=1', 'noedit' => true, 'forceSave' => true),	// User name
          	'u.user_name' 			=> array('title'=> LAN_SYSTEM_USER,	'type' => 'user',			'width' => 'auto', 'readParms'=>'idField=comment_author_id&link=1', 'noedit' => true),	// User name
 		    'comment_datestamp' 	=> array('title'=> LAN_DATESTAMP,	'type' => 'datestamp',		'width' => 'auto'),	// User date
