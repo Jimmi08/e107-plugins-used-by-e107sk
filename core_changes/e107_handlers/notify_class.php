@@ -333,6 +333,20 @@ class notify
 		{
 			$message .= $key.': '.$value.'<br />';
 		}
+        
+        $theIP = $_SERVER["REMOTE_ADDR"]." (". gethostbyaddr($_SERVER['REMOTE_ADDR']).")";
+
+        /* 1.0.4  way */
+      	$message = "<br /><br /><table style='width:70%'>
+      	<tr><td>User ID:</td><td>".$data['user_id']."</td></tr>
+      	<tr><td>Username:</td><td>".$data['user_name']."</td></tr>
+      	<tr><td>Admin:</td><td>".($data['user_admin'] ? "Yes" : "No")."</td></tr>
+        <tr><td>IP:</td><td>".$theIP."</td></tr>
+      	<tr><td>URL:</td><td>".$_SERVER["SCRIPT_NAME"]."</td></tr>
+      	<tr><td>Referer:</td><td>".$_SERVER["HTTP_REFERER"]."</td></tr>
+      	<tr><td>UserAgent:</td><td>".$_SERVER["HTTP_USER_AGENT"]."</td></tr>
+        <tr><td>Time:</td><td>".date("r")."</td></tr>";
+
 
 		$user = !empty($data['user_name']) ? " (".$data['user_name'].")" : "";
 

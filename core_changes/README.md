@@ -21,4 +21,6 @@ Adding option to change parent comment (fix wrong nesting)
 
 Changing number of records/page in admin area
 
+User login notification ála 1.0.4 (asked on gitter, no answer)
+
  
