@@ -114,6 +114,7 @@ class download
 			$this->qry['action'] 	= (string) $_GET['action'];
 			$this->qry['view'] 		= varset($_GET['view']) ? intval($_GET['view']) : $this->qry['view'];
 			$this->qry['id']		= intval($_GET['id']);
+            $this->qry['sef']		= $tp->toDb($_GET['sef'], true);
 			$this->qry['order'] 	= vartrue($_GET['order']) && in_array("download_".$_GET['order'],$this->orderOptions) ? $_GET['order'] : $this->qry['order'];
 			$this->qry['sort'] 		= (varset($_GET['sort']) == 'asc') ? "asc" : 'desc';	
 			$this->qry['from']		= varset($_GET['from'],0);
@@ -397,6 +398,7 @@ class download
 		SELECT d.*, dc.* FROM #download AS d
 		LEFT JOIN #download_category AS dc ON d.download_category = dc.download_category_id
 		WHERE d.download_id = {$this->qry['id']}
+        AND d.download_sef = {$this->qry['sef']}
 		  AND download_active > 0
 		LIMIT 1";
 
@@ -521,11 +523,13 @@ class download
 	    $query = "
 			SELECT d.*, dc.* FROM #download AS d
 			LEFT JOIN #download_category AS dc ON d.download_category = dc.download_category_id
-			WHERE d.download_id = {$this->qry['id']} AND d.download_active > 0
+			WHERE d.download_id = {$this->qry['id']} 
+            AND d.download_sef LIKE '{$this->qry['sef']}' 
+            AND d.download_active > 0
 			AND d.download_visible IN (".USERCLASS_LIST.")
 			AND dc.download_category_class IN (".USERCLASS_LIST.")
 			LIMIT 1";
-
+     
 		if(!$sql->gen($query))
 		{
 			return null;
@@ -583,6 +587,7 @@ class download
 		if(empty($count))
 		{
 			return $ns->tablerender(LAN_PLUGIN_DOWNLOAD_NAME, "<div style='text-align:center'>".LAN_NO_RECORDS_FOUND."</div>", 'download-view', true);
+            
 		}
 
 		$sc->breadcrumb();

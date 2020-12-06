@@ -10,31 +10,17 @@ e107::lan('download','download');
 
 $log = e107::getAdminLog(); 
 $id = FALSE;
+ 
 
-
-
-if (!is_numeric(e_QUERY) && empty($_GET['id'])) 
+if (empty($_GET['id'])) 
 {
-	if ($sql->select('download', 'download_id', "download_url='".$tp->toDB(e_QUERY)."'")) 
-	{
-		$row = $sql->fetch();
-		$type = 'file';
-		$id = $row['download_id'];
-	} 
-	elseif((strpos(e_QUERY, "http://") === 0) || (strpos(e_QUERY, "ftp://") === 0) || (strpos(e_QUERY, "https://") === 0)) 
-	{
-		header("location: ".e_QUERY);
-		exit();
-	} 
-	elseif(file_exists(e_DOWNLOAD.e_QUERY)) 		// 1 - should we allow this?
-	{
-		e107::getFile()->send(e_DOWNLOAD.e_QUERY);
-		exit();
-	}
+    exit();
 }
 
-
-
+if (empty($_GET['sef'])) 
+{
+    exit();
+}
 
 if(strstr(e_QUERY, "mirror")) 
 {	// Download from mirror
@@ -82,7 +68,8 @@ if(strstr(e_QUERY, "mirror"))
 		exit;
 	}
 }
-
+ 
+ 
 $tmp = explode(".", e_QUERY);
 if (!$tmp[1] || strstr(e_QUERY, "pub_")) 
 {
@@ -96,16 +83,17 @@ else
 	$type = "image";
 }
 
-if(vartrue($_GET['id'])) // SEF URL 
+if(vartrue($_GET['id']) ) // SEF URL 
 {
 	$id = intval($_GET['id']);	
+    $mask = $tp->toDB($_GET['sef'], true) ;
 	$type = 'file';
 }
 
 
 
 if (preg_match("#.*\.[a-z,A-Z]{3,4}#", e_QUERY)) 
-{
+{                                              
 	if(strstr(e_QUERY, "pub_"))
 	{
 		$bid = str_replace("pub_", "", e_QUERY);
@@ -118,7 +106,7 @@ if (preg_match("#.*\.[a-z,A-Z]{3,4}#", e_QUERY))
 	}
 	if (file_exists(e_DOWNLOAD.e_QUERY)) 
 	{
-		e107::getFile()->send(e_DOWNLOAD.e_QUERY);
+    	e107::getFile()->send(e_DOWNLOAD.e_QUERY);
 		exit();
 	}
 	$log->addError("Line".__LINE__.": Couldn't find ".e_DOWNLOAD.e_QUERY);
@@ -131,7 +119,9 @@ if (preg_match("#.*\.[a-z,A-Z]{3,4}#", e_QUERY))
 
 if ($type == "file")
 {
-	$qry = "SELECT d.*, dc.download_category_class FROM #download as d LEFT JOIN #download_category AS dc ON dc.download_category_id = d.download_category WHERE d.download_id = {$id}";
+	$qry = "SELECT d.*, dc.download_category_class FROM #download as d LEFT JOIN #download_category AS dc ON dc.download_category_id = d.download_category 
+    WHERE d.download_id = {$id} AND d.download_sef LIKE '{$mask}'  ";
+    
 	if ($sql->gen($qry)) 
 	{
 		$row = $sql->fetch();
@@ -192,7 +182,7 @@ if ($type == "file")
 				header("Location: ".decorate_download_location($gaddress));
 				exit();
 			}
-
+            
 			// increment download count
 			$sql->update("download", "download_requested = download_requested + 1 WHERE download_id = '{$id}'");
 			$user_id = USER ? USERID : 0;
@@ -222,10 +212,11 @@ if ($type == "file")
 				exit();
 			} 
 			else 
-			{
+			{   
 				if (file_exists(e_DOWNLOAD.$download_url)) 
 				{
-					e107::getFile()->send(e_DOWNLOAD.$download_url);
+				 
+                    e107::getFile()->send(e_DOWNLOAD.$download_url);
 					exit();
 				} 
 				elseif(file_exists($download_url)) 
@@ -287,7 +278,8 @@ if ($type == "file")
 	require_once(HEADERF);
 	$ns -> tablerender(LAN_ERROR, "<div style='text-align:center'>".LAN_FILE_NOT_FOUND."<br /><br /><a href='javascript:history.back(1)'>".LAN_BACK."</a></div>");
 	require_once(FOOTERF);
-	exit();
+	die;
+    exit();
 }
 
 $sql->select($table, "*", "{$table}_id = '{$id}'");
