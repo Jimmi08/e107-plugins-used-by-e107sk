@@ -65,15 +65,13 @@ class comments_admin_ui extends e_admin_ui
 		//protected $editQry = "SELECT * FROM #comments WHERE comment_id = {ID}";
 		
 		protected $pid = "comment_id";
-		protected $perPage = 100;
+		protected $perPage = 10;
 		protected $batchDelete = true;
-		protected $batchExport = true;
-        
+		
 		//TODO - finish 'user' type, set 'data' to all editable fields, set 'noedit' for all non-editable fields
     	protected $fields = array(
 			'checkboxes'			=> array('title'=> '',				'type' => null, 			'width' =>'5%', 'forced'=> TRUE, 'thclass'=>'center', 'class'=>'center'),
 			'comment_id'			=> array('title'=> LAN_ID,			'type' => 'number',			'width' =>'5%', 'forced'=> TRUE),
-            'comment_pid'			=> array('title'=> LAN_PARENT,		'type' => 'number',	    'inline'=>true,    'data'=> 'int',	 ),
             'comment_blocked' 		=> array('title'=> LAN_STATUS,		'type' => 'method',	 	'inline'=>false, /*'writeParms' => array("approved","blocked","pending"), */'data'=> 'int', 'thclass' => 'center', 'class'=>'status center', 'filter' => true, 'batch' => true,	'width' => 'auto'),	 	// Photo
 	
 	   		'comment_type' 			=> array('title'=> LAN_TYPE,			'type' => 'method',			'width' => '10%',  'filter'=>TRUE),	
@@ -81,8 +79,8 @@ class comments_admin_ui extends e_admin_ui
 			'comment_item_id' 		=> array('title'=> LAN_ITEM,		'type' => 'text',	'readonly'=>2, 'data'=>'int',		'width' => '5%'),
          	'comment_subject' 		=> array('title'=> LAN_SUBJECT,		'type' => 'text',			'width' => 'auto', 'thclass' => 'left first', 'writeParms'=>array('size'=>'xxlarge')), // Display name
          	'comment_comment' 		=> array('title'=> LAN_COMMENTS,		'type' => 'textarea',			'width' => '30%', 'readParms' => 'expand=...&truncate=50&bb=1', 'writeParms'=>'size=xxlarge'), // Display name
-		 	'comment_author_id' 	=> array('title'=> LAN_AUTHOR,		'type' => 'user',	'filter' => 'true',			'data' => 'int',	'width' => 'auto', 'writeParms' => 'nameField=comment_author_name'),	// User id
-         	'comment_author_name' 	=> array('title'=> LAN_USER,	'type' => 'text',			'width' => 'auto', 'readParms'=>'idField=comment_author_id&link=1', 'noedit' => true, 'forceSave' => true),	// User name
+		 	'comment_author_id' 	=> array('title'=> LAN_AUTHOR,		'type' => 'method',			'data' => 'int',	'width' => 'auto', 'writeParms' => 'nameField=comment_author_name'),	// User id
+         	'comment_author_name' 	=> array('title'=> LAN_USER,	'type' => 'text',	'nolist'=>true,		'width' => 'auto', 'readParms'=>'idField=comment_author_id&link=1', 'noedit' => true, 'forceSave' => true),	// User name
          	'u.user_name' 			=> array('title'=> LAN_SYSTEM_USER,	'type' => 'user',			'width' => 'auto', 'readParms'=>'idField=comment_author_id&link=1', 'noedit' => true),	// User name
 		    'comment_datestamp' 	=> array('title'=> LAN_DATESTAMP,	'type' => 'datestamp',		'width' => 'auto'),	// User date
       		'comment_ip' 			=> array('title'=> LAN_IP,			'type' => 'ip',			'width' => '10%', 'thclass' => 'center' ),	 // Real name (no real vetting)
@@ -90,7 +88,7 @@ class comments_admin_ui extends e_admin_ui
 			'options' 				=> array('title'=> LAN_OPTIONS,		'type' => null,				'forced'=>TRUE, 'width' => '10%', 'thclass' => 'center last', 'class' => 'center')
 		);
 		//required (but should be optional) - default column user prefs 
-		protected $fieldpref = array('checkboxes', 'comment_id', 'comment_item_id', 'comment_author_id', 'comment_author_name', 'comment_subject', 'comment_comment', 'comment_type', 'options');
+		protected $fieldpref = array('checkboxes', 'comment_id', 'comment_item_id', 'comment_author_id', 'comment_author_name', 'user_name', 'comment_subject', 'comment_comment', 'comment_type', 'options');
 		
 		
 		// optional, if $pluginName == 'core', core prefs will be used, else e107::getPluginConfig($pluginName);
@@ -153,10 +151,9 @@ class comments_admin_ui extends e_admin_ui
 		public function beforeUpdate($new_data, $old_data, $id)
 		{
 
-			if(is_numeric($new_data['comment_author_name']) && !empty($new_data['comment_author_name']))
+			if(is_numeric($new_data['comment_author_id']) && !empty($new_data['comment_author_id']))
 			{
-				$userData = e107::user($new_data['comment_author_name']);
-				$new_data['comment_author_id'] = $new_data['comment_author_name'];
+				$userData = e107::user($new_data['comment_author_id']);
 				$new_data['comment_author_name'] = $userData['user_name'];
 			}
 
@@ -311,6 +308,31 @@ class comments_admin_form_ui extends e_admin_form_ui
 		}
 				
 		
+	}
+
+	function comment_author_id($curVal,$mode, $parms) // not really necessary since we can use 'dropdown' - but just an example of a custom function.
+	{
+		switch ($mode)
+		{
+			case "read":
+				return $this->getController()->getFieldVar('comment_author_name');
+				break;
+
+			case "write":
+
+				if(empty($curVal))
+				{
+					$value = $this->getController()->getFieldVar('comment_author_name');
+					return $this->text('comment_author_name', $value);
+				}
+				
+				return $this->userpicker('comment_author_id', $curVal);
+				break;
+
+			default:
+				// code to be executed if n is different from all labels;
+		}
+
 	}
 
 
