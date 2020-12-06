@@ -24,8 +24,8 @@ function metatag_entity_single_contact_detect()
     //	return true;
     //}
     //
-
-    if(e_PAGE == 'contact.php' OR e_CURRENT_PLUGIN == 'contact')  
+   
+    if(e_PAGE == 'contact.php' OR e_PAGE == 'contactus.php')  
     {                    
     return true;
     }
