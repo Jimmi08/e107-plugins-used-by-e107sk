@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<e107Plugin name="Nofollow" lan="LAN_NOFOLLOW_PLUGIN_TITLE" version="1.4.4" date="2018-04-04" compatibility="2.0" installRequired="true" >
+	<author name="Arun S. Sekher" url="https://github.com/arunshekher" />
+	<summary lan="">An SEO oriented plugin aimed to discourage back-link building SPAM in e107 powered websites.</summary>
+	<description lan="">An SEO oriented plugin aimed to dampen back-link building SPAM posts by inserting rel=nofollow attribute to URLs. Options to selectively exclude pages and domains.</description>
+	<keywords>
+		<word>enhancement</word>
+		<word>nofollow</word>
+		<word>seo</word>
+	</keywords>
+	<category>tools</category>
+	<copyright></copyright>
+	<adminLinks>
+		<link url="admin_config.php" description=""  icon='images/nofollow_32.png' iconSmall='images/nofollow_16.png' icon128="images/nofollow_128.png" primary="true" >LAN_CONFIGURE</link>
+	</adminLinks>
+	<pluginPrefs>
+		<pref name="active">1</pref>
+		<pref name="ignore_pages"></pref>
+		<pref name="ignore_domains"></pref>
+		<pref name="parse_method">regexHtmlParse_Nofollow</pref>
+		<pref name="filter_context">1</pref>
+		<pref name="use_global_path">0</pref>
+	</pluginPrefs>
+</e107Plugin>

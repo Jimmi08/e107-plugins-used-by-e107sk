@@ -1414,7 +1414,7 @@
 		$text .= $this->plugTemplates['OPEN_TABLE'];
 		$text .= "<div class='center'><span class=\"option\"><b>"._LINKPROFILE.": ".un_htmlentities($displaytitle)."</b></span><br><br>";
 		$text .= $this->linkinfomenu($lid);
-		$text .= "<br><br><br>"._TOTALOF." ".$totalcomments." "._COMMENTS."</span></div><br>"
+		$text .= "<br><br><br>"._TOTALOF." ".$totalcomments." ".LAN_COMMENTS."</span></div><br>"
 		."<table align=\"center\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"450\">";
 		$x=0;
 		foreach($result AS $row) {
