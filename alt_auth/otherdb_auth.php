@@ -86,7 +86,7 @@ class auth_login extends alt_auth_base
 
 		try
 		{
-			$dbh = new PDO($dsn, $this->conf['otherdb_username'], $this->conf['otherdb_password'], array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+			$dbh = new PDO($dsn, $this->conf['otherdb_username'], $this->conf['otherdb_password']);
 		}
 		catch (PDOException $e)
 		{
@@ -202,4 +202,4 @@ class auth_login extends alt_auth_base
 	}
 }
 
- 
+
