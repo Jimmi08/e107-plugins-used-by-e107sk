@@ -26,10 +26,10 @@ $formClass = ($pluginPrefs['form_class']  ? 'class="'.$pluginPrefs['form_class']
  
 if(USER_AREA) {
 	if (strpos(e_SIGNUP, e_PAGE) !== false) 
-	{            
+	{          
 	  //if (e_PAGE==e_SIGNUP) 
 		if (isset($_POST['human']) and !isset($_POST['newver']))
-		{
+		{                  
 			$coppa = $_POST["coppa"];
 			$first = $_POST["first"];
 			$operator = $_POST["operator"];
@@ -39,10 +39,10 @@ if(USER_AREA) {
 			$deinergebnis = $_POST["deinergebnis"];
 			if ($ergebnis!=$deinergebnis)
 			{
-				$SIGNUP_BEGIN = substr ("{SIGNUP_FORM_OPEN}", 18);
+				$SIGNUP_BEGINx = substr ("{SIGNUP_FORM_OPEN}", 18);
 				$SIGNUP_BODY = substr ("{SIGNUP_FORM_CLOSE}", 19);
-				
-				$SIGNUP_BEGIN = "
+		  
+				$SIGNUP_BEGINx .= "
 					<h3 class='center'>
 						<br />
 						".SS_FAIL."
@@ -56,10 +56,11 @@ if(USER_AREA) {
 					</center>
 					 
 				";
+                
 			}
 		}
 		elseif (isset($_POST['human']) and isset($_POST['newver']))
-		{
+		{        
 			$coppa = $_POST["coppa"];
 			$first = $_POST["first"];
 			$operator = $_POST["operator"];
@@ -69,10 +70,10 @@ if(USER_AREA) {
 			$deinergebnis = $_POST["deinergebnis"];
 			if ($ergebnis!=$deinergebnis)
 			{
-				$SIGNUP_BEGIN = substr ("{SIGNUP_FORM_OPEN}", 18);
+				$SIGNUP_BEGINx = substr ("{SIGNUP_FORM_OPEN}", 18);
 				$SIGNUP_BODY = substr ("{SIGNUP_FORM_CLOSE}", 19);
 				
-				$SIGNUP_BEGIN = "
+				$SIGNUP_BEGINx .= "
 					<h3 class='center'>
 						<br />
 						".SS_FAIL."
@@ -90,7 +91,7 @@ if(USER_AREA) {
 			}
 		}
 		elseif (isset($_POST['newver']))
-		{
+		{                
 			$coppa = $_POST["coppa"];
 			$first = mt_rand(10,99);
 			$operator = mt_rand(0,1);
@@ -98,10 +99,10 @@ if(USER_AREA) {
 			if ($operator == 0) {$var="+";}
 			elseif ($operator == 1) {$var="-";}
 			
-			$SIGNUP_BEGIN = substr ("{SIGNUP_FORM_OPEN}", 18);
+			$SIGNUP_BEGINx  = substr ("{SIGNUP_FORM_OPEN}", 18);
 			$SIGNUP_BODY = substr ("{SIGNUP_FORM_CLOSE}", 19);
 			
-			$SIGNUP_BEGIN = "
+			$SIGNUP_BEGINx = "
 				<h3 class='center'>
 					<br />
 					".SS_REQUEST."
@@ -142,11 +143,11 @@ if(USER_AREA) {
 			$second = mt_rand(1,9);
 			if ($operator == 0) {$var="+";}
 			elseif ($operator == 1) {$var="-";}
-	
-			$SIGNUP_BEGIN = substr ("{SIGNUP_FORM_OPEN}", 18);
-			$SIGNUP_BODY = substr ("{SIGNUP_FORM_CLOSE}", 19);
+ 
+			$SIGNUP_BEGINx  = substr ("{SIGNUP_FORM_OPEN}", 18);
+		 	$SIGNUP_BODY =  "{SIGNUP_FORM_CLOSE}{SIGNUP_XUP}";
 			
-			$SIGNUP_BEGIN .= "
+			$SIGNUP_BEGINx .= "
 				<h3 class='center'>
 					<br />
 					".SS_REQUEST."
@@ -175,12 +176,14 @@ if(USER_AREA) {
 					</table>
 				</form>
 				<br /><br /> 
-			";
+			";      
 		}
- 
-    
-		$SIGNUP_TEMPLATE['start'] = $SIGNUP_BEGIN;
+        
+        
+        $SIGNUP_BEGIN =  $SIGNUP_BEGINx.' {SIGNUP_ADMINOPTIONS} {SIGNUP_SIGNUP_TEXT}';
+             
+		$SIGNUP_TEMPLATE['start'] = $SIGNUP_BEGINx;
  
 	}
 }
-?>
+ 

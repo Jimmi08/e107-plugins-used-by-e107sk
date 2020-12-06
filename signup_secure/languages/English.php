@@ -12,7 +12,8 @@ define("SS_FAIL", "Your result was not correct. Please try again.");
 define("SS_BACK", "Back");
 define("SS_REQUEST", "To prove that you are an human beeing figure out the following small calculation.");
 define("SS_SEND", "Send my result");
- 
+define("SS_INQ", "Supported by ");
+
 define("SS_README", "
 <p>With this Plugin you defend your website from spam bots which join your site automaticly and post dozens of links to other sites.</p>
 <p>The plugin alone can not defend your page perfectly. Here are some advices what you can do to make your page more secure:</p>
@@ -25,6 +26,12 @@ define("SS_README", "
 </ol>
 <p>
 <br /><br />
+<b>Version 1.4:</b>
+<ol>
+  <li>Fixed for version e107 2.3.0</li>
+</ol>
+<br /><br />
+
 <b>Version 1.3:</b>
 <ol>
   <li>Updated to be compatible with version 2</li>
@@ -49,4 +56,4 @@ Thanks a thousand times to C6Dave for the auxiliary evidence!</p>
 <br /><br />
 </p>
 ");
-?>
+ 
