@@ -94,7 +94,8 @@ abstract class NoFollow
 	 */
 	protected function setExcludePages()
 	{
-		$this->excludePages =
+		
+        $this->excludePages =
 			$this->nlStringToArray($this->Prefs['ignore_pages']);
 		return $this;
 	}
@@ -110,9 +111,14 @@ abstract class NoFollow
 	 */
 	protected function nlStringToArray($inputString)
 	{
-		$str = str_replace(["\r\n", "\n\r"], "|", $inputString);
-
-		return explode("|", $str);
+		
+        if(empty($inputString)) {
+          return array();
+        }
+        $str = str_replace(["\r\n", "\n\r"], "|", $inputString);
+         
+		 return explode("|", $str);
+      
 	}
 
 
@@ -423,8 +429,9 @@ abstract class NoFollow
 	protected function isExcludePage()
 	{
 		$current_page = e_REQUEST_URI; //$_SERVER['REQUEST_URI']
-		if (count($this->excludePages) > 0) {
+		if (count($this->excludePages) > 0) {        
 			foreach ($this->excludePages as $xpage) {
+            
 				if (strpos($current_page, $xpage) !== false) {
 					return true;
 				}
