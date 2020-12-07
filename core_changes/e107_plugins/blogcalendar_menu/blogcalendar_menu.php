@@ -193,7 +193,7 @@ if(false === $cached)
 	{
 					
 		$month_selector = "<div class='forumheader' style='text-align: center; margin-bottom: 2px;'>";
-		$month_selector .= "<select name='activate' onchange='urljump(this.options[selectedIndex].value)' class='tbox'>";
+		$month_selector .= "<select name='activate' onchange='urljump(this.options[selectedIndex].value)' class='tbox btn btn-primary'>";
 		
 		foreach($month_links as $index => $val) 
 		{

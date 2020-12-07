@@ -71,7 +71,7 @@ $end_year = $cur_year;
 // build the yearselector
 // ----------------------
 $year_selector = "<div class='forumheader' style='text-align: center; margin-bottom: 2px;'>";
-$year_selector .= "".BLOGCAL_ARCHIV1.": <select name='activate' onchange='urljump(this.options[selectedIndex].value)' class='tbox'>\n";
+$year_selector .= "".BLOGCAL_ARCHIV1.": <select name='activate' onchange='urljump(this.options[selectedIndex].value)' class='tbox btn-primary'>\n";
 
 for($i = $start_year; $i <= $end_year; $i++) 
 {
@@ -108,10 +108,21 @@ $year_selector .= "</select>\n</div>";
 // create the archive display
 // --------------------------
 $newline = 0;
-$archive = "<div style='text-align:center'>
+
+
+
+
+$archive .= "<div class='row mb-4'>";
+$archive .= "<div class='col-md-12 text-center'>{$year_selector}";
+$archive .= "</div>";
+$archive .= "</div>";
+/*              
+$archive = "<div style='table-responsive text-align:center'>
 		<table class='table' border='0' cellspacing='7'>
 		<tr>";
 $archive .= "<td colspan='{$months_per_row}'>{$year_selector}</td></tr><tr>";
+$archive .= "</tr></table></div>";
+ 
 for($i = 1; $i <= 12; $i++) 
 {
 	if (++$newline == $months_per_row + 1)
@@ -149,7 +160,23 @@ for($i = 1; $i <= 12; $i++)
 	}
 	$archive .= "<div>".calendar($req_day, $i, $req_year, $day_links[$i], $pref['blogcal_ws'])."</div></td>\n";
 }
-$archive .= "</tr></table></div>";
+
+                */
+
+$archive .= "<div class='row'>";
+for($i = 1; $i <= 12; $i++) 
+{
+	if (($req_year == $cur_year) && ($i == $cur_month)) 
+	{
+		$req_day = $cur_day;
+	} 
+	else 
+	{
+		$req_day = "";
+	}
+	$archive .= "<div class='col-lg-4 col-md-6 col-sm-12'> ".calendar($req_day, $i, $req_year, $day_links[$i], $pref['blogcal_ws'])."</div> ";
+}
+$archive .= "</div>";
 
 $ns->tablerender(BLOGCAL_L2 ."&nbsp;$req_year", $archive);
 	
