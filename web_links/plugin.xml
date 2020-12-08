@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<e107Plugin name="Web Links" lan="_WEBLINKS" version="1.2.0" date="2020-09-24" compatibility="2.0" installRequired="true" >
+<e107Plugin name="Web Links" lan="LAN_UN_LINKS_WEBLINKS" version="2.0.0" date="2020-12-08" compatibility="2.3.0" installRequired="true" >
 	<author name="Jimako" url="https://www.e107sk.com/" />
-	<summary lan="">Web Links Module from United Nuke ported for e107</summary>
-	<description lan="">Plugins uses tables and functionality from UN Nuke</description>
+	<summary lan="LAN_UN_MAT_WEBLINKS">Sort web links to other websites to categories, insert description and other useful information to every web link.</summary>
+	<description lan="LAN_UN_MAT_WEBLINKS">Sort web links to other websites to categories, insert description and other useful information to every web link.e</description>
 	<keywords>
 		<word>information</word>
 		<word>content</word>

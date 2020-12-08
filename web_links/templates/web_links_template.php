@@ -34,3 +34,13 @@ $WEB_LINKS_TEMPLATE['CATEGORY_ROW_END'] = " ";
 $WEB_LINKS_TEMPLATE['CATEGORY_TABLE_END'] = "</div> ";
 $WEB_LINKS_TEMPLATE['CENTER_START'] = " <div class='d-flex justify-content-center pb-3'>";
 $WEB_LINKS_TEMPLATE['CENTER_END'] = " </div>";
+
+//this is correct for html 5 specs */
+$WEB_LINKS_TEMPLATE['CATEGORY_INLINE_CSS'] = "";
+
+$WEB_LINKS_TEMPLATE['SUBCATEGORY_SEPARATOR'] = ", ";
+$WEB_LINKS_TEMPLATE['SUBCATEGORY_ITEM'] = "<span class=\"content\"><a class='card-link' href='{SUBCAT_LINK}'>{SUBCAT_TITLE}</a></span>";
+
+$WEB_LINKS_TEMPLATE['CATEGORY_ITEM'] = "<span class=\"option\"><span class='big'>&middot;</span> <a href='{CAT_LINK}'><b>{CAT_TITLE}</b></a></span>
+<br><span class=\"content\">{CAT_DESC}</span><br>
+";
