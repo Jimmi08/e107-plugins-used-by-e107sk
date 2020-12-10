@@ -55,13 +55,15 @@ $(document).ready(function() {
 	$(document).on('click', '.message_delete', function() {
 		var message = $(this);
 		var id = $(this).attr('id');
-		
+		var id_mes = '#'+id+'_message';
+ 
 		$('#modal-message-delete').modal('show');
 		
 		$('#modal-message-delete').on('click.messageDelete', '.btn-danger', function() {
 			$(message).closest('tr').fadeOut('slow');
-			ADMINajax({func : 'DELETEmessage', sID: id});
-			$('#modal-message-delete').modal('hide');
+            $(id_mes).fadeOut('slow');
+		 	ADMINajax({func : 'DELETEmessage', sID: id});
+		 	$('#modal-message-delete').modal('hide');
 		});
 	});
 	

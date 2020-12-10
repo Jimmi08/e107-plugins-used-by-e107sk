@@ -25,7 +25,7 @@ class download_ui extends e_admin_ui
 		protected $perPage			= 10; 
 		protected $batchDelete		= true;
 		protected $batchExport     = true;
-	//	protected $batchCopy		= true;
+        protected $batchCopy		= true;
 
 	//	protected $sortField		= 'somefield_order';
 	//	protected $sortParent      = 'somefield_parent';

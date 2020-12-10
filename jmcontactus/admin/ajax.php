@@ -2,10 +2,9 @@
  
 require_once('../../../class2.php');
 if (!defined('e107_INIT')) { exit; }
-
-
-include_lan(e_PLUGIN.'jmcontactus/languages/'.e_LANGUAGE.'.php');
-global $pref;
+ 
+e107::lan("jmcontactus" , e_LANGUAGE);
+ 
  
 require_once(e_PLUGIN."jmcontactus/lib/functions.php");
  

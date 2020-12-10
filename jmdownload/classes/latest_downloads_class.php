@@ -31,6 +31,8 @@ class latest_downloads_list
 
 	function getListData($limit = 5 )
 	{                            
+ 
+        $limit = ($limit == 0) ? $this->plugPrefs['menus_amount']  : $limit;
         $qry = " AND find_in_set(download_visible,'" . USERCLASS_LIST . "')  ";
 
 		$qry = "SELECT d.*,
@@ -40,7 +42,7 @@ class latest_downloads_list
 			WHERE 
 			d.download_active > '0' ".$qry."
 			ORDER BY download_datestamp DESC LIMIT 0,".intval($limit)." ";
-
+                                                                   
 		 	$downloads = e107::getDB()->retrieve($qry, true);
 
         return $downloads;

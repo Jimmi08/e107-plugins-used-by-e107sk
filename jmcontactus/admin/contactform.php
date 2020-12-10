@@ -46,7 +46,7 @@ if (isset($_POST['update_form']))
 	{   
 		if (is_numeric($k)) 
 		{
-			$req = ($k<=4) ? 1 : intval($_POST[$pname."_req"][$k]);
+			$req = ($k<=4) ? 1 : intval($_POST[$pname."_req"][$k]);  
 			$type = ($k>4) ? "type='".$tp->toDB($_POST[$pname."_type"][$k])."'," : "";
 			$vars = explode(",",$_POST[$pname."_vars"][$k]);
 			$sql->update(strtolower($pname."_form"), "name='".$tp->toDB($name)."', req=".$req.", ".$type." vars='".serialize($vars)."' WHERE id=".intval($k), true);

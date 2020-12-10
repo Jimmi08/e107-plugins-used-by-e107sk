@@ -101,7 +101,12 @@ if($rows = $sql->retrieve($query, true))
 				$msg .= "</tr>";
 			}
 		}
-		$msg .= "</tbody>";
+      	$msg .= "<tr>";
+		$msg .= "<td class='forumheader3 smalltext'><strong>IP:</strong></td>";
+		$msg .= "<td class='forumheader3 smalltext'>".$row['ip']."</td>";
+		$msg .= "<td class='forumheader3'>&nbsp;</td>";
+		$msg .= "</tr>";
+	    $msg .= "</tbody>";
     
 		$text .= "<tbody><tr class='e-expandit'>";
 		$text .= "<td class='fcaption' onclick='expandit(\"".$id."_message\");' colspan='2' style='cursor:pointer;'>View message from ".$email." on ".date("dS M Y h:ia",$row["date"])."</td>";
