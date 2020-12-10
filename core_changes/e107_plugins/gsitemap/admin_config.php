@@ -22,14 +22,16 @@ e107::lan('gsitemap',true);
 
 $gsm = new gsitemap;
 
+//todo Use ADMIN-UI
+
 
 class gsitemap
 {
 
-	var $message;
-	var $error; 
-	var $errortext;  
-    var $freq_list = array();
+	protected $message;
+	protected $error;
+	protected $errortext;
+    protected $freq_list = array();
 
 	//function gsitemap()
 	function __construct()
@@ -120,7 +122,7 @@ class gsitemap
 			$text = "
 			<form action='".e_SELF."?import' id='import' method='post'>
 			".GSLAN_39."<br /><br />"
-			.$frm->admin_button('import',LAN_YES,'submit')."
+			.$frm->admin_button('import',LAN_YES)."
 			</form>";
 			
 			$mes->addInfo($text);
@@ -255,9 +257,9 @@ class gsitemap
 				{
 					$sel = ($editArray['gsitemap_priority'] == number_format($i,1))? "selected='selected'" : "";
 					$text .= "<option value='".number_format($i,1)."' $sel>".number_format($i,1)."</option>\n";
-				};
+				}
 
-				$text.="</select></td>
+		$text.="</select></td>
 		</tr>
 		<tr>
 			<td>".LAN_ORDER."</td>
@@ -332,8 +334,8 @@ class gsitemap
 		// Inserting new record
 		else
 		{
-			$gmap['gsitemap_img'] = vartrue($_POST['gsitemap_img'], '');
-			$gmap['gsitemap_cat'] = vartrue($_POST['gsitemap_cat'], '');
+			$gmap['gsitemap_img'] = vartrue($_POST['gsitemap_img']);
+			$gmap['gsitemap_cat'] = vartrue($_POST['gsitemap_cat']);
 			
 			if($sql->insert('gsitemap', $gmap))
 			{
@@ -360,7 +362,7 @@ class gsitemap
 		if($sql->delete("gsitemap", "gsitemap_id='".$d_idt[0]."'"))
 		{
 			$this->message = LAN_DELETED;
-			$log->log_event('GSMAP_02', $this->message.': '.$d_idt[0], E_LOG_INFORMATIVE,'');
+			$log->log_event('GSMAP_02', $this->message.': '.$d_idt[0]);
 		}
 		else
 		{
@@ -381,7 +383,7 @@ class gsitemap
 		$mes 	= e107::getMessage();
 		
 		$existing = array(); 
-		$sql->select("gsitemap", "*");  
+		$sql->select("gsitemap");
 		while($row = $sql->fetch())
 		{
 			$existing[] = $row['gsitemap_name'];	
@@ -397,7 +399,12 @@ class gsitemap
 		{
 			if(!in_array($row['link_name'], $existing))
 			{
-				$importArray[] = array('name' => $row['link_name'], 'url' => $row['link_url'], 'type' => GSLAN_1);
+				$importArray[] = array(
+					'table' => 'links',
+					'id'    => $row['link_id'],
+					'name' => $row['link_name'],
+					'url' => $row['link_url'],
+					'type' => GSLAN_1);
 			}
 		}
 
@@ -415,7 +422,13 @@ class gsitemap
 			{
 				$route = ($row['page_chapter'] == 0) ? "page/view/other" : "page/view/index";
 				
-				$importArray[] = array('name' => $row['page_title'], 'url' => e107::getUrl()->create($route, $row, array('full'=>1, 'allow' => 'page_sef,page_title,page_id, chapter_sef, book_sef')), 'type' => "Page");
+				$importArray[] = array(
+					'table' => 'page',
+					'id'    => $row['page_id'],
+					'name' => $row['page_title'],
+					'url' => e107::getUrl()->create($route, $row, array('full'=>1, 'allow' => 'page_sef,page_title,page_id, chapter_sef, book_sef')),
+					'type' => "Page"
+					);
 			}
 		}
 
@@ -464,7 +477,7 @@ class gsitemap
 			$id = 'gs-'.$k;
 			$text .= "
 			<tr>
-				<td class='center'><input id='".$id."' type='checkbox' name='importid[]' value='".$ia['name']."^".$ia['url']."^".$ia['type']."' /></td>
+				<td class='center'><input id='".$id."' type='checkbox' name='importid[]' value='".$ia['name']."^".$ia['url']."^".$ia['type']."^".$ia['table']."^".$ia['id']."' /></td>
 				<td><label for='".$id."'>".$ia['type']."</label></td>
 				<td>".$ia['name']."</td>
 				<td><span class='smalltext'>".str_replace(SITEURL,"",$ia['url'])."</span></td>
@@ -502,12 +515,14 @@ class gsitemap
 		</table>
 		<div class='buttons-bar center'>
 		".
-			$frm->admin_button('import_links',GSLAN_18,'submit')."
+			$frm->admin_button('import_links',GSLAN_18)."
 		</div>
 		</form>
 		";
 
 		$ns->tablerender(GSLAN_7, $mes->render(). $text);
+
+		unset($PLUGINS_DIRECTORY);
 	}
 
 
@@ -517,19 +532,34 @@ class gsitemap
 		$sql 	= e107::getDb();
 		$tp 	= e107::getParser();
 		$log 	= e107::getAdminLog();
-		
+
+
 		foreach($_POST['importid'] as $import)
 		{
-			list($name, $url, $type) = explode("^", $import);
-			
-			$name 	= $tp->toDB($name);
-			$url 	= $tp->toDB($url);
-			
-			$sql->insert("gsitemap", "0, '$name', '$url', '".time()."', '".$_POST['import_freq']."', '".$_POST['import_priority']."', '$type', '0', '', '0' ");
+			list($name, $url, $type, $table, $id) = explode("^", $import);
+
+			$insert = array(
+				'gsitemap_id'       => 0,
+				'gsitemap_name'     => $tp->toDB($name),
+				'gsitemap_url'      => $tp->toDB($url),
+				'gsitemap_table'    => $tp->toDB($id),
+				'gsitemap_table_id' => (int) $id,
+				'gsitemap_lastmod'  => time(),
+				'gsitemap_freq'     => $_POST['import_freq'],
+				'gsitemap_priority' => $_POST['import_priority'],
+				'gsitemap_cat'      => $type,
+				'gsitemap_order'    => '0',
+				'gsitemap_img'      => '',
+				'gsitemap_active'   => '0',
+			);
+
+			$sql->insert("gsitemap", $insert);
+
+		//	$sql->insert("gsitemap", "0, '$name', '$url', '".time()."', '".$_POST['import_freq']."', '".$_POST['import_priority']."', '$type', '0', '', '0' ");
 		}
 
 		$this->message = count($_POST['importid'])." link(s) imported.";
-		$log->log_event('GSMAP_01',$this->message, E_LOG_INFORMATIVE,'');
+		$log->log_event('GSMAP_01',$this->message);
 	}
 
 
@@ -573,7 +603,7 @@ class gsitemap
 
 require_once(e_ADMIN."footer.php");
 
-
+// loaded automatically.
 function admin_config_adminmenu() 
 {
 	$action = (e_QUERY) ? e_QUERY : "list";

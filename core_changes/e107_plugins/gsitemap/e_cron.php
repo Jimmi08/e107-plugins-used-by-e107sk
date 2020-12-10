@@ -42,7 +42,6 @@ class gsitemap_cron // include plugin-folder in the name.
 	{
 	    // Whatever code you wish.
 	    e107::getMessage()->add("Executed dummy function within gsitemap/e_cron.php");
-	    return ;
 	}
 	
 	
