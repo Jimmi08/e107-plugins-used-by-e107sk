@@ -63,4 +63,13 @@ class news_gsitemap
 
 		return $import;
 	}
+    
+	function config()
+	{    
+       $config['news_category'] =  array('type' => LAN_NEWS_23);
+       $config['news'] =  array('type' => ADLAN_0);
+       
+       return $config;
+    }
+    
 }
