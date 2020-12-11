@@ -1,14 +1,13 @@
 # Our free plugins in one place
-Our free themes are supported on our forum [https://www.e107sk.com/forum](url)
 
-But this doesn't mean that they are actively developed.
+Our free plugins are supported on our forum [https://www.e107sk.com/forum](url)
+
+Other plugins without active development are here:
+https://github.com/Jimmi08/e107-plugins-by-e107sk
+
 
 Warning.  Any plugin with folder name jm_ is highly experimental. Only plugins with name jm are stable (no underscore).
 
-## Web links plugin for e107  
-
-For internal purpose. Porting UnNuke plugin for e107 for site that uses e107 with UnNuke database.
-Not sure now, if it is possible. 
 
 ## JM ContactUs plugin for e107  
 
@@ -26,13 +25,7 @@ This is for now replacement for:
 - adding Top Downloads menu (inspired and LANs used from old Top Downloads Menu Plugin by SecretR - not working any more )
 - adding Download Tracker (inspired by updated AACGC Download Tracker plugin by M@CH!N3 - not supported any more )
 
-
-## Yandex metrica plugin for e107
-
-The plugin for the using Yandex Metrica on your e107 site
-
-![img](https://www.e107sk.com/img/yandex_metrica_for_e107.png)
-
+  
 
 ## Basic redirection plugin for e107
 
@@ -52,40 +45,11 @@ The plugin generates a liddle calculation which has to be figured out by the use
 ![img](https://www.e107sk.com/img/redirection_for_e107.jpg)
 
 
-## JM Gsitemap plugin for e107
-
-This plugin is not a replacement of core plugin; no core changes are needed.
-
-![img](https://www.e107sk.com/media/img/0x0/2019-08/jmgsitemap_01.jpg)
-
-
-## Smartsuup plugin for e107
-
-Smartsupp Live Chat integration plugin for e107 v2 Boostrap CMS
-
-
 ## Google Adsense Ads for CMS e107
 
 The very simple plugin for adding ads to e107 site
  
-
-## Calendar menu plugin for e107
-
-Full credit for this plugin belongs to e107 core developers.
-
  
-## Survey plugin for e107
-
-Full credit for this plugin belongs to septor.
-
-
-
-## Class Membership plugin for e107
-
-Full credit for this plugin belongs to Father Barry.
-
-It is used for coloured badges of selected userclasses on e107sk.com and for display users by selected userclass.
-
 
 ## GDPR cookies plugin for e107
 
