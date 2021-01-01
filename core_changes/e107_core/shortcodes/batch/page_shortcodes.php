@@ -164,7 +164,7 @@ class cpage_shortcodes extends e_shortcode
 		$com 		= $this->var['comments'];
 		$comflag 	= $this->var['page_comment_flag'];
 
-		if(e107::getPref('comments_disabled') == 0 && !$comflag)
+	/*	if(e107::getPref('comments_disabled') == 0 && !$comflag)
 		{
 			if(defined('BOOTSTRAP') && BOOTSTRAP)
 			{
@@ -174,7 +174,7 @@ class cpage_shortcodes extends e_shortcode
 			{
 				return "<br /><div style='text-align:center'><b>".LAN_PAGE_17."</b></div>";
 			}
-		}
+		} */
 		
 		//if($parm && isset($com[$parm])) return $com[$parm];
 		if($comflag)
