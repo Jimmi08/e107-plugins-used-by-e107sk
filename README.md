@@ -104,6 +104,10 @@ See screenshots: https://github.com/Jimmi08/e107-free-plugins-by-e107sk/issues/4
 
 Version 2.0.1 2021-02-01 available
 
+https://github.com/Jimmi08/e107-plugins-used-by-e107sk/releases/tag/20200201
+
+
+
 
 
 
