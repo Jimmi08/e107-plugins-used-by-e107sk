@@ -94,15 +94,18 @@ This plugin is originally tagcloud plugin by Jezzy101.
 But because there is core plugin with this name, plugin name (and everything else) will be tags
 Working version with name tagcloud for version 2.1.3 is under fixed versions in Old plugin repository
 
-## Web Links plugin for e107
+## Web Links plugin for e107 2.0 
 
-Old Nuke plugin ported for e107. 
+one version for e107 and for e107 running with unnuke prefix tables
 
 Sort web links to other websites to categories, insert description and other useful information to every web link.
 
 See screenshots: https://github.com/Jimmi08/e107-free-plugins-by-e107sk/issues/4
 
-In active development. 
+Version 2.0.1 2021-02-01 available
+
+
+
 
 
 
