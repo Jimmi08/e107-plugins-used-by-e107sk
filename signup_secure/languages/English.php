@@ -10,7 +10,7 @@
 */
 define("SS_FAIL", "Your result was not correct. Please try again.");
 define("SS_BACK", "Back");
-define("SS_REQUEST", "To prove that you are an human beeing figure out the following small calculation.");
+define("SS_REQUEST", "To prove that you are an human being figure out the following small calculation.");
 define("SS_SEND", "Send my result");
 define("SS_INQ", "Supported by ");
 
