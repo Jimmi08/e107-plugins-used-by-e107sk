@@ -333,10 +333,12 @@ class notify
 		{
 			$message .= $key.': '.$value.'<br />';
 		}
-        
-        $theIP = $_SERVER["REMOTE_ADDR"]." (". gethostbyaddr($_SERVER['REMOTE_ADDR']).")";
 
+		$user = !empty($data['user_name']) ? " (".$data['user_name'].")" : "";
+        
         /* 1.0.4  way */
+        $theIP = $_SERVER["REMOTE_ADDR"]." (". gethostbyaddr($_SERVER['REMOTE_ADDR']).")";
+        
       	$message = "<br /><br /><table style='width:70%'>
       	<tr><td>User ID:</td><td>".$data['user_id']."</td></tr>
       	<tr><td>Username:</td><td>".$data['user_name']."</td></tr>
@@ -346,9 +348,6 @@ class notify
       	<tr><td>Referer:</td><td>".$_SERVER["HTTP_REFERER"]."</td></tr>
       	<tr><td>UserAgent:</td><td>".$_SERVER["HTTP_USER_AGENT"]."</td></tr>
         <tr><td>Time:</td><td>".date("r")."</td></tr>";
-
-
-		$user = !empty($data['user_name']) ? " (".$data['user_name'].")" : "";
 
 		$this->send('login', NT_LAN_LI_1 . $user, $message);
 	}

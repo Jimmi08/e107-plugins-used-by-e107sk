@@ -98,7 +98,7 @@ class cpage_shortcodes extends e_shortcode
 	
 	function sc_cpagesubtitle()
 	{
-		$subtitle = varset($this->var['sub_title']);
+		$subtitle = varset($this->var['page_subtitle']);
 		return $subtitle ? e107::getParser()->toHTML($subtitle, true, 'TITLE') : '';
 	}
 
@@ -174,7 +174,7 @@ class cpage_shortcodes extends e_shortcode
 			{
 				return "<br /><div style='text-align:center'><b>".LAN_PAGE_17."</b></div>";
 			}
-		} */
+		}  */
 		
 		//if($parm && isset($com[$parm])) return $com[$parm];
 		if($comflag)

@@ -63,7 +63,8 @@ class comment
 			
 		if (empty($COMMENTSTYLE) || !deftrue('THEME_LEGACY')) // v2.x
 		{		
-			require(e107::coreTemplatePath('comment'));	 // using require_once() could cause an empty template if the template is already loaded, for example, by the comment-menu al
+			//require(e107::coreTemplatePath('comment'));	 // using require_once() could cause an empty template if the template is already loaded, for example, by the comment-menu al
+			$COMMENT_TEMPLATE = e107::getCoreTemplate('comment');
 		}
 		elseif(!vartrue($COMMENT_TEMPLATE)) // BC template. 
 		{
@@ -151,14 +152,14 @@ class comment
 	/**
 	 * Display the comment editing form
 	 *
-	 * @param unknown_type $action
-	 * @param unknown_type $table
-	 * @param unknown_type $id
-	 * @param unknown_type $subject
-	 * @param unknown_type $content_type
-	 * @param unknown_type $return
-	 * @param unknown_type $rating
-	 * @return unknown
+	 * @param string $action
+	 * @param string $table
+	 * @param int $id
+	 * @param string $subject
+	 * @param mixed $content_type
+	 * @param bool $return
+	 * @param bool $rating
+	 * @return string
 	 */
 	function form_comment($action, $table, $id, $subject, $content_type, $return = FALSE, $rating = FALSE, $tablerender = TRUE,$pid = false)
 	{
@@ -168,7 +169,7 @@ class comment
 		$sql	= e107::getDb();
 		$tp	= e107::getParser();
 
-		if(vartrue($pref['comments_disabled']) || $this->engine != 'e107')
+		if(!empty($pref['comments_disabled']) || $this->engine != 'e107')
 		{
 			return null;
 		}
@@ -280,12 +281,13 @@ class comment
 				'eaction'	=> varset($eaction),
 				'rate'		=> $rating
 			);
-			
-			e107::getScBatch('comment')->setVars($data);
-			
-			e107::getScBatch('comment')->setMode('edit');
+
+			$sc = e107::getScBatch('comment');
+			$sc->setVars($data);
+			$sc->setMode('edit');
+			$sc->wrapper('comment/form');
 	
-			$text .= $tp->parseTemplate($this->template['form'], TRUE, e107::getScBatch('comment'));
+			$text .= $tp->parseTemplate($this->template['form'], true, $sc);
 			
 			$text .= "\n<div>\n"; // All Hidden Elements. 
 			
@@ -294,8 +296,8 @@ class comment
 			$text .=(isset($content_type) && $content_type ? "<input type='hidden' name='content_type' value='{$content_type}' />" : '');
 		//	$text .= (!$pref['nested_comments']) ? "<input type='hidden' name='subject' value='".$tp->toForm($subject)."'  />\n" : "";
 	
+            // fix editable subject <input type='hidden' name='subject' value='".$tp->toForm($subject)."'  /> 
 			$text .= "
- 
 			<input type='hidden' name='e-token' value='".e_TOKEN."' />
 			<input type='hidden' name='table' value='".$table."' />
 			<input type='hidden' name='itemid' value='".$itemid."' />
@@ -387,10 +389,10 @@ class comment
 	 * @param string $table
 	 * @param string $action
 	 * @param integer $id
-	 * @param interger $width
+	 * @param integer $width
 	 * @param string $subject
 	 * @param integer $addrating
-	 * @return html
+	 * @return string|null html
 	 */
 	function render_comment($row, $table, $action, $id, $width, $subject, $addrating = FALSE)
 	{
@@ -412,9 +414,9 @@ class comment
 		$sql 	= e107::getDb();
 		$pref 	= e107::getPref();
 		
-		if (vartrue($pref['comments_disabled']))
+		if (!empty($pref['comments_disabled']))
 		{
-			return;
+			return null;
 		}
 				
 		global $NEWIMAGE, $USERNAME, $RATING, $datestamp;
@@ -449,8 +451,10 @@ class comment
 		}	
 		
 		$row['rating_enabled'] = true; // Toggles rating shortcode. //TODO add pref
-		
-		e107::getScBatch('comment')->setVars($row);
+
+		$comment_shortcodes = e107::getScBatch('comment');
+		$comment_shortcodes->setVars($row);
+		$comment_shortcodes->wrapper('comment/item');
 		
 		
 		$COMMENT_TEMPLATE 					= $this->template; 
@@ -459,14 +463,14 @@ class comment
 	//	$COMMENT_TEMPLATE['ITEM_END']		= "\n</div><div class='clear_b'><!-- --></div>\n";
 		
 		//XXX Do NOT add to template - too important to allow for modification. 
-		$COMMENT_TEMPLATE['item_start'] 	= "\n\n<li id='{COMMENT_ITEMID}' class='media comment-box clearfix'>\n";
+		$COMMENT_TEMPLATE['item_start'] 	= "\n\n<li id='{COMMENT_ITEMID}' class='media comment-box d-flex clearfix'>\n";
 		$COMMENT_TEMPLATE['item_end']		= "\n</li>\n";
 		
 		if(defset('BOOTSTRAP') === 2 || defset('BOOTSTRAP') === true) // Convert Bootstrap3 to Bootstrap 2 when detected. 
 		{
 			$COMMENT_TEMPLATE['item'] = str_replace("row", "row-fluid", $COMMENT_TEMPLATE['item']);
 		}
-			
+
 
 		e107::getParser()->setThumbSize(100,100); // BC FIx.  Set a default image size, in case the template doesn't have one.
 
@@ -529,7 +533,7 @@ class comment
 		
 	//	$RATING = ($addrating == TRUE && $comrow['user_id'] ? $rater->composerating($thistable, $thisid, FALSE, $comrow['user_id']) : "");
 		
-		$comment_shortcodes = e107::getScBatch('comment');
+
 		
 		$text = $tp->parseTemplate($renderstyle, TRUE, $comment_shortcodes);
 			
@@ -579,7 +583,7 @@ class comment
 			$this->totalComments = $this->totalComments + $sub_total;
 		} // End (nested comment handling)
 		
-	
+		
 		
 		return $text;
 	}
@@ -733,7 +737,7 @@ class comment
 			$eaction = 'edit';
 			$editpid = $_GET['comment_id'];
 		}
-		elseif (strstr(e_QUERY, "edit"))
+		elseif (strpos(e_QUERY, "edit") !== false)
 		{
 			$eaction = "edit";
 			$tmp = explode(".", e_QUERY);
@@ -981,7 +985,7 @@ class comment
 	 *
 	 * @param unknown_type $table
 	 * @param unknown_type $id
-	 * @return unknown
+	 * @return int
 	 */
 	function count_comments($table, $id)
 	{
@@ -990,7 +994,8 @@ class comment
 
 		$type = $this->getCommentType($table);
 		$count_comments = $sql->count("comments", "(*)", "WHERE comment_item_id='".intval($id)."' AND comment_type='".$tp->toDB($type, true)."' ");
-		return $count_comments;
+
+		return (int) $count_comments;
 	}
 
 	/**
@@ -1153,7 +1158,7 @@ class comment
 		}
 		else
 		{
-			if(BOOTSTRAP)
+			if(defined('BOOTSTRAP') && BOOTSTRAP)
 			{
 				$comment = e107::getMessage()->addInfo(COMLAN_328)->render(); 
 			}
@@ -1253,7 +1258,7 @@ class comment
 		$type = $this->getCommentType($table);
 		$sort = vartrue($pref['comments_sort'],'desc');
 		
-		if(vartrue($pref['nested_comments']))
+		if(!empty($pref['nested_comments']))
 		{
 			$query = "SELECT c.*, u.*, ue.*, r.* FROM #comments AS c
 			LEFT JOIN #user AS u ON c.comment_author_id = u.user_id
@@ -1423,7 +1428,7 @@ class comment
 				return null;
 			}
 
-			$data = getcachedvars('e_comment');
+			$data = e107::getRegistry('e_comment');
 			if ($data !== FALSE)
 			{
 				return $data;
@@ -1464,7 +1469,7 @@ class comment
 					}
 				}
 				
-				cachevars('e_comment', $data);
+				e107::setRegistry('e_comment', $data);
 				return $data;
 			}
 		}
