@@ -33,7 +33,7 @@ define("LAN_JM_ADMIN_LAN_03", "Admin Look");
 
 define("LAN_JM_ADMIN_ADMINLOOK_LAN_01", "Switch from tooltips to small labels" );
 define("LAN_JM_ADMIN_ADMINLOOK_LAN_02", "It displays help tooltip on new line, not as tooltip only on hover. Good for testing your help strings ." );
-define("LAN_JM_ADMIN_ADMINLOOK_LAN_03", "Customized Admin Look for KAdmin version" );
+define("LAN_JM_ADMIN_ADMINLOOK_LAN_03", "Bootstrap3 Admin Light version similar KA admin" );
 define("LAN_JM_ADMIN_ADMINLOOK_LAN_04", "Attempt to overrride default look of KAdmin version, more contrast, more colors... If you set this off, setting bellow are ignored. " );
 define("LAN_JM_ADMIN_ADMINLOOK_LAN_05", "Primary color" );
 define("LAN_JM_ADMIN_ADMINLOOK_LAN_06", "Text color on primary color" );

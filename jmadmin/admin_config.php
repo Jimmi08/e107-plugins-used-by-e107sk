@@ -238,7 +238,7 @@ class adminlook_ui extends e_admin_ui
     		'
     			<ul class="list-unstyled text-center">
     				<li><b>Enhanced Admin Area</b></li>
-    				<li>Way how to customize KAdmin skin and a bit white label e107 dashboard</li>
+    				<li>Way how to customize bootstrap3 dark skin and white label e107 dashboard</li>
     				<li style="border-bottom: solid 1px dimgrey" class="divider">&nbsp;</li>
     				<li>
     					<h5>' . e107::getParser()->toGlyph('fa-heart') . '&nbsp;Thank the Developer!</h5>
